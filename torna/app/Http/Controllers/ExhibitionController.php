@@ -114,7 +114,9 @@ class ExhibitionController extends Controller
 
         foreach ($industries as $industry) {
             $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+            $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
         }
+        
         return view('AdminPages/IndustryDashboard', ['industries' => $industries]);
     }
 
@@ -129,8 +131,8 @@ class ExhibitionController extends Controller
 
         $industry = new Industry;
         $industry->industry_name = $request->industryName;
-        $industry->updated_date = Date::now()->toDateString();
-        $industry->updated_time = Date::now()->toTimeString();
+        $industry->created_date = Date::now()->toDateString();
+        $industry->created_time = Date::now()->toTimeString();
         $industry->flag = "show";
         $industry->save();
 
@@ -147,7 +149,15 @@ class ExhibitionController extends Controller
         $dec_id = EncryptionDecryptionHelper::encdecId($enc_id, $action);
 
         $industry = Industry::findOrFail($dec_id);
+        
 
+        $assignedIndCount = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+
+        if($assignedIndCount>0){
+            // Return a response indicating that it cannot be deleted
+        return response()->json(['message' => 'Cannot delete industry because it is assigned to a company'], 400);
+        }
+        
 
         $industry->flag = "deleted";
         $industry->save();
@@ -208,7 +218,7 @@ class ExhibitionController extends Controller
 
     public function activeExhibitions()
     {
-        $activeExs = ExhibitionDetail::where('active_status', 'Active')->where('flag', 'Show')->get();
+        $activeExs = ExhibitionDetail::where('active_status', 'Active')->where('flag', 'show')->get();
 
 
         // dd($activeExs);
@@ -252,7 +262,7 @@ class ExhibitionController extends Controller
 
     public function InactiveExhibitions()
     {
-        $inActiveExs = ExhibitionDetail::where('active_status', 'Inactive')->where('flag', 'Show')->get();
+        $inActiveExs = ExhibitionDetail::where('active_status', 'Inactive')->where('flag', 'show')->get();
 
 
 
@@ -278,7 +288,11 @@ class ExhibitionController extends Controller
 
         foreach ($documents as $document) {
             $document->encDocumentId = EncryptionDecryptionHelper::encdecId($document->tbl_doc_id, 'encrypt');
+            $document->document_content = base64_encode($document->document_attachment);
+            
         }
+       // dd($documents);
+        
         return view('ExhibitorPages/documents', ['documents' => $documents]);
     }
 
@@ -290,17 +304,19 @@ class ExhibitionController extends Controller
 
 
         // Get the logged-in user's ID from the session
-        $user_id = Session::get('user')->tbl_user_id;
-
+        $userDetails = Session::get('user');
+       // dd($userDetails);
+         $companyId = CompanyDetail::where('tbl_comp_id',$userDetails->tbl_comp_id)->value('tbl_comp_id');
         // Create a new instance of the ProductDetail model
         $product = new ProductDetail;
         // Assign values from the request
+        $product->tbl_comp_id = $companyId;
         $product->product_name = $request->productName;
-        $product->created_by = $user_id;
+        $product->created_by = $userDetails->tbl_user_id;
         $product->created_date = Date::now()->toDateString();
         $product->created_time = Date::now()->toTimeString();
-        $product->flag = 'Show'; // Assuming 'Show' is the default value for 'flag'
-
+        $product->flag = 'show'; // Assuming 'Show' is the default value for 'flag'
+        
         // Save the product details
         $product->save();
 
@@ -321,7 +337,7 @@ class ExhibitionController extends Controller
         $document->doc_name = $request->documentName;
         $document->created_date = Date::now()->toDateString();
         $document->created_time = Date::now()->toTimeString();
-        $document->flag = 'Show'; // Assuming default flag is Show
+        $document->flag = 'show'; // Assuming default flag is Show
 
         // Handle document attachment upload
         // if ($request->hasFile('document_attachment')) {
@@ -332,7 +348,7 @@ class ExhibitionController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
 
-
+            
             // Get the file contents as binary data
             $binaryData = file_get_contents($file->path());
 
@@ -361,7 +377,7 @@ class ExhibitionController extends Controller
 
         // $industry_name = $company->industry_name;
         // dd($industry_name);
-        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('industry', $company->industry_name)->where('flag', 'Show')->get();
+        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('industry', $company->industry_name)->where('flag', 'show')->get();
 
 
 
@@ -382,7 +398,7 @@ class ExhibitionController extends Controller
         $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
         // $industry_name = $company->industry_name;
         // dd($industry_name);
-        $pastcomingExs = ExhibitionDetail::where('active_status', 'Inactive')->where('industry', $company->industry_name)->where('flag', 'Show')->get();
+        $pastcomingExs = ExhibitionDetail::where('active_status', 'Inactive')->where('industry', $company->industry_name)->where('flag', 'show')->get();
         //dd($pastcomingExs);
 
 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('updated_date')->nullable();
             $table->string('updated_time', 45)->nullable();
             $table->string('active_status', 45)->default('Active');
-            $table->string('flag', 45)->default('Show');
+            $table->string('flag', 45)->default('show');
             $table->timestamps(); // Adds created_at and updated_at columns
         });
         

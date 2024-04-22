@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('comp_address')->nullable();
             $table->string('unique_name', 100);
             $table->string('company_name', 100);
+            Stable->string('industry_name',100);
             $table->string('contact_no', 100);
             $table->string('email', 100);
             $table->string('comp_website', 100)->nullable();
@@ -28,7 +29,7 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->date('updated_date')->nullable();
             $table->string('updated_time', 45)->nullable();
-            $table->string('flag', 45)->default('Show');
+            $table->string('flag', 45)->default('show');
             $table->timestamps();
         });
     }
