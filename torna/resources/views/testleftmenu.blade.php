@@ -1,5 +1,5 @@
 @extends('HomePages.LeftMenu') 
-
+<h1>HI</h1>
 <body>
 
     
