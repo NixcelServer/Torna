@@ -285,109 +285,100 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Product/Services</h4>
-                                <div class="col-12 text-right mt-n4">
-                                    <div class="buttons">
-                                        <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <h4 class="card-header text-center">Company Setup Form</h4>
+        
+                        <div class="card-body">
+                            <form method="POST" action="/regorganizer" enctype="multipart/form-data">
+                                @csrf
+        
+                                <div class="form-group row">
+                                    <div class="form-group col-md-6">
+                                        <label for="company_name" class="col-form-label text-md-right">Company Name</label>
+                                        <input id="company_name" name="company_name" type="text" class="form-control" name="company_name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="unique_name" class="col-form-label text-md-right">Unique Name</label>
+                                        <input id="unique_name" name="unique_name" type="text" class="form-control" name="unique_name" required autofocus>
+                                    </div> 
+                                </div>
+                                
+        
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="first_name" class="col-form-label text-md-right">Company Address</label>
+                                        <input id="first_name" name="first_name" type="text" class="form-control" name="first_name" required>
+                                    </div>
+        
+                                    <div class="form-group col-md-6">
+                                        <label for="last_name" class="col-form-label text-md-right">Company Website</label>
+                                        <input id="last_name" name="last_name" type="text" class="form-control" name="last_name" required>
+                                    </div>
+                                   
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="contact_no" class="col-form-label text-md-right">Contact Number</label>
+                                        <input id="contact_no" name="contact_no" type="text" class="form-control" required>
+                                    </div>
+                                
+                                    <div class="form-group col-md-6">
+                                        <label for="email" class="col-form-label text-md-right">Email ID</label>
+                                        <input id="email" name="email" type="email" class="form-control" required>
                                     </div>
                                 </div>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>product_name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($products as $key => $product)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $product->product_name }}</td>
-                                                <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
-                                                    {{-- <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button> --}}
-
-                                                </td>
-                                                
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                
+                                {{-- <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="password" class="col-form-label text-md-right">Password</label>
+                                        <input id="password" name="password" type="password" class="form-control" required>
+                                    </div>
+                                
+                                    <div class="col-md-6">
+                                        <label for="confirm_password" class="col-form-label text-md-right">Confirm Password</label>
+                                        <input id="confirm_password" name="confirm_password" type="password" class="form-control" required>
+                                    </div>
+                                </div> --}}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label  class="col-form-label text-md-right">Industry</label>
+                                        <select  name="industry_name" class="form-control" required>
+                                            <option value="">Select Industry</option>
+                                            {{-- @foreach($industries as $industry)
+                                                <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
+                                            @endforeach --}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
+                                        <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*" required>
+                                    </div>
                                 </div>
-                            </div>
+        <br />
+                                <div class="form-group row justify-content-center mb-3">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form id="addDepartmentForm" action="/storeproductdetails" method="POST">
-                            @csrf
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addDepartmentModalLabel">Add New Product/Services</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="departmentName">Enter Product/Services Name</label>
-                                    <input type="text" class="form-control" id="departmentName" name="productName" required>
-                                    <span id="departmentNameError" class="text-danger"></span>
-                                    
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-            const productId = this.getAttribute('data-id');
-            console.log(productId);
-            
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/deleteproduct/" + productId;
-                }
-            });
-        });
-    });
-});
+        </div>
 
-        </script>   
+        
        
         
     
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
        
         
         

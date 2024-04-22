@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html class="h-100" lang="en">
 
@@ -11,11 +10,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
     <link href="css/style.css" rel="stylesheet">
-    
+
+    <style>
+        .login-form-bg {
+            background-image: url('https://images.unsplash.com/photo-1532153259564-a5f24f261f51?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 </head>
 
 <body class="h-100">
-    
+
     <!--*******************
         Preloader start
     ********************-->
@@ -29,8 +35,6 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    
 
 
 
@@ -47,15 +51,18 @@
                                     @csrf
                                     <div class="form-group">
                                         <label for="email">Email ID</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            placeholder="Enter your email">
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
+                                        <input type="password" class="form-control" id="password" name="password"
+                                            placeholder="Enter your password">
                                     </div>
                                     <button class="btn login-form__btn submit w-100">Sign In</button>
                                 </form>
-                                <p class="mt-5 login-form__footer">Don't have an account? <a href="/login" class="text-primary">Sign Up</a> now</p>
+                                <p class="mt-5 login-form__footer">Don't have an account? <a href="/login"
+                                        class="text-primary">Sign Up</a> now</p>
                             </div>
 
                         </div>
@@ -64,9 +71,9 @@
             </div>
         </div>
     </div>
-    
 
-    
+
+
 
     <!--**********************************
         Scripts
@@ -77,9 +84,5 @@
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
 </body>
+
 </html>
-
-
-
-
-

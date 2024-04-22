@@ -50,10 +50,12 @@
         <div class="nav-header">
             <div class="brand-logo">
                 <a href="index.html">
-                    <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
-                    <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
-                    <span class="brand-title">
-                        <img src="images/logo-text.png" alt="">
+                    <b class="logo-abbr"><img src="" alt=""> </b>
+                    <span class="logo-compact"><img src="" alt=""></span>
+                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
+                        TORNA
+                    </span>
+                        <img src="" alt="">
                     </span>
                 </a>
             </div>
@@ -75,15 +77,7 @@
                 </div>
                 <div class="header-left">
                     <div class="input-group icons">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
-                        </div>
-                        <input type="search" class="form-control" placeholder="Search" aria-label="Search Dashboard">
-                        <div class="drop-down animated flipInX d-md-none">
-                            <form action="#">
-                                <input type="text" class="form-control" placeholder="Search">
-                            </form>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="header-right">
@@ -94,12 +88,8 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
-                                @php
-                                $user = Session::get('user');
-                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -107,7 +97,6 @@
                         </li>
                     </ul>
                 </div>
-                
             </div>
         </div>
         <!--**********************************
@@ -122,16 +111,33 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/" aria-expanded="false">
+                        <a  href="/OrgDashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
+                        <a  href="/" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
+                        </a>
+                    </li>
+                    <li>
                         <a  href="/industrymaster" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
                         </a>
-                        
+                    </li>
+            
+                    
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="/createExhibitionform">Create New Exhibition</a></li>
+                            <li><a href="/activeExhibitions">Active Exhibition</a></li>
+                            <li><a href="/InactiveExhibitions">Inactive Exhibition</a></li>
+
+                        </ul>
                     </li>
                    
                     {{-- <li class="nav-label">Apps</li>
@@ -274,54 +280,53 @@
                                     @csrf
             
                                     <div class="form-group row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name</label>
                                             <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="unique_name" class="col-form-label text-md-right">Unique Name</label>
-                                            <input id="unique_name" name="unique_name" type="text" class="form-control" required autofocus>
-                                        </div> 
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label for="from_date" class="col-form-label text-md-right">From Date</label>
                                             <input id="from_date" name="from_date" type="date" class="form-control" required>
                                         </div>
             
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label for="to_date" class="col-form-label text-md-right">To Date</label>
                                             <input id="to_date" name="to_date" type="date" class="form-control" required>
                                         </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
+                                        
                                     </div>
             
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label for="start_time" class="col-form-label text-md-right">Start Time</label>
                                             <input id="start_time" name="start_time" type="time" class="form-control" required>
                                         </div>
             
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label for="end_time" class="col-form-label text-md-right">End Time</label>
                                             <input id="end_time" name="end_time" type="time" class="form-control" required>
                                         </div>
-                                    </div>
-            
-                                    <div class="form-group row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label for="venue" class="col-form-label text-md-right">Venue</label>
                                             <input id="venue" name="venue" type="text" class="form-control" required>
                                         </div>
-            
-                                        <div class="col-md-6">
-                                            <label for="organized_by" class="col-form-label text-md-right">Organized By</label>
-                                            <input id="organized_by" name="organized_by" type="text" class="form-control" required>
-                                        </div>
                                     </div>
             
                                     <div class="form-group row">
-                                        <div class="col-md-6">
+                                        
+            
+                                        {{-- <div class="col-md-6">
+                                            <label for="organized_by" class="col-form-label text-md-right">Organized By</label>
+                                            <input id="organized_by" name="organized_by" type="text" class="form-control" required>
+                                        </div> --}}
+                                    </div>
+            
+                                    <div class="form-group row">
+                                        {{-- <div class="col-md-6">
                                             <label for="notify_by" class="col-form-label text-md-right">Notify By</label>
                                             <select id="notify_by" name="notify_by" class="form-control" required>
                                                 <option value="email">Select Option</option>
@@ -329,16 +334,13 @@
                                                 <option value="text">Text</option>
                                                 <option value="whatsapp">WhatsApp</option>
                                             </select>
-                                        </div>
+                                        </div> --}}
             
-                                        <div class="col-md-6">
-                                            <label for="company_logo" class="col-form-label text-md-right">Upload Company Logo</label>
+                                        <div class="col-md-4">
+                                            <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
                                             <input id="company_logo" name="company_logo" type="file" class="form-control">
                                         </div>
-                                    </div>
-                                    
-                                    <div class="form-group row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label  class="col-form-label text-md-right">Industry</label>
                                             <select  name="industry_name" class="form-control" required>
                                                 <option value="">Select Industry</option>
@@ -347,6 +349,21 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="col-md-4">
+                                            <label class="col-form-label text-md-right">Status</label>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="status" id="active" value="active" checked>
+                                                <label class="form-check-label" for="active">Active</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="status" id="inactive" value="inactive">
+                                                <label class="form-check-label" for="inactive">Inactive</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        
                                     </div>
                                     
                                     
