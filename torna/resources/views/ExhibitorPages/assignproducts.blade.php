@@ -422,61 +422,84 @@
             Content body start
         ***********************************-->
         <div class="content-body">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-validation">
+                                    <form class="form-valide" action="/assignprod" method="post">
+                                        @csrf
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-username">Document Name : {{ $document->doc_name}}<span class="text-danger">*</span>
+                                            </label>
+                                            
+                                        </div>
+                                        
+                                        
+                                        
+                                        
+                                        <div class="form-group row">
+                                        <input type="hidden" name="encDocumentId" value="{{ $document->encDocumentId }}">
+
+                                            <label class="col-lg-4 col-form-label" for="encProductId" name = "encProductId">Assign Product/Services <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="col-lg-6">
+                                                <select class="form-control" id="encProductId" name="encProductId">
+                                                    <option value="">Please select Document/Services</option>
+                                                    @foreach($products as $product)
+                                                        <option value="{{ $product->encProdId }}">{{ $product->product_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 ml-auto">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
             <div class="container-fluid mt-3">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Documents</h4>
+                                <h4 class="card-title">Product/Services</h4>
                                 <div class="col-12 text-right mt-n4">
-                                    <div class="buttons">
-                                        <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New document</button>
-                                    </div>
+                                    
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
                                             <tr>
                                                 <th>Sr No</th>
-                                                <th>Document Name</th>
+                                                
+                                                <th>Assigned Product/Services</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($documents as $key => $document)
+                                            @foreach($assignedProds as $key => $product)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $document->doc_name }}</td>
+                                                <td>{{ $product->product_name }}</td>
                                                 <td>
-                                                    <button class="btn btn-primary view-document-btn" data-content="{{ $document->document_content }}" data-toggle="modal" data-target="#viewDocumentModal{{ $document->encDocumentId }}">View Document</button>
-
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="viewDocumentModal{{ $document->encDocumentId }}" tabindex="-1" role="dialog" aria-labelledby="viewDocumentModalLabel{{ $document->encDocumentId }}" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="viewDocumentModalLabel{{ $document->encDocumentId }}">View Document</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <!-- Embed the document content from the preloaded data -->
-                                                                    <embed src="data:application/pdf;base64,{{ $document->document_content }}" type="application/pdf" width="100%" height="500px" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encAssignedProdId }}">Delete</button>
                                                 </td>
-                                                <td>
-                                                <a href="/assignproducts/{{ $document->encDocumentId }}" class="btn btn-sm btn-primary assign-btn">Assign Product/Services</a>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $document->enc_id }}">Delete</button>
-                                                </td>
+                                                
                                             </tr>
-                                            @endforeach
+                                            @endforeach 
                                         </tbody>
                                     </table>
                                 </div>
@@ -488,31 +511,24 @@
             <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form id="addDepartmentForm" action="/storedocuments" method="POST" enctype="multipart/form-data">
+                        <form id="addDepartmentForm" action="/storeproductdetails" method="POST">
                             @csrf
                             <div class="modal-header">
-                                <h5 class="modal-title" id="addDepartmentModalLabel">Add New Document</h5>
+                                <h5 class="modal-title" id="addDepartmentModalLabel">Add New Product/Services</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="documentName">Enter Document Name</label>
-                                    <input type="text" class="form-control" id="documentName" name="documentName" required>
-                                    <span id="documentNameError" class="text-danger"></span>
+                                    <label for="departmentName">Enter Product/Services Name</label>
+                                    <input type="text" class="form-control" id="departmentName" name="productName" required>
+                                    <span id="departmentNameError" class="text-danger"></span>
+                                    
                                 </div>
-                                {{-- <div class="form-group">
-                                    <label for="document_attachment">Attach Document</label>
-                                    <input type="file" class="form-control-file" id="attachment" name="document_attachment" required>
-                                    <span id="attachmentError" class="text-danger"></span>
-                                </div> --}}
-                                    <input type="file" name="file">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -520,73 +536,13 @@
             </div>
         </div>
 
-        <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h5 class="modal-title w-100" id="documentModalLabel">Document</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    
-    <script>
-        function openDocument(companyName, email, contactNo, compId ) {
-            $('#companyName').text(companyName);
-            $('#email').text(email);
-            $('#contactNo').text(contactNo);
-            $('#compId').text(compId);
-            $('#documentModal').modal('show');
-        }
-    </script>
-
-
-
-
-        <iframe id="documentViewer" width="100%" height="500px" frameborder="0"></iframe>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('.view-btn').click(function() {
-                    // console.log('View button clicked');
-                    // var documentId = $(this).data('id');
-                    // var documentUrl = '/view-document/' + documentId; // Adjust the URL to fetch the document
-        
-                    $('#documentViewer').attr('src', documentUrl);
-                });
-            });
-        </script>
-                
-
-                <script>
-                    $(document).ready(function() {
-                        $('.view-document-btn').click(function() {
-                            var documentContent = $(this).data('content');
-                            $('#viewDocumentModal embed').attr('src', 'data:application/pdf;base64,' + documentContent);
-                        });
-                    });
-                </script>
-
-
-
-
         <script>
             document.addEventListener('DOMContentLoaded', function () {
     const deleteButtons = document.querySelectorAll('.delete-btn');
     deleteButtons.forEach(button => {
         button.addEventListener('click', function () {
-            const industryId = this.getAttribute('data-id');
-            console.log(industryId);
+            const encAssignedProdId = this.getAttribute('data-id');
+            console.log(encAssignedProdId);
             
             Swal.fire({
                 title: 'Are you sure?',
@@ -598,7 +554,7 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "/deleteindustry/" + industryId;
+                    window.location.href = "/deleteassignedproducts/" + encAssignedProdId;
                 }
             });
         });

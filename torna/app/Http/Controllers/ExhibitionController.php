@@ -7,6 +7,9 @@ use App\Models\UserDetail;
 use App\Models\Document;
 use App\Models\ProductDetail;
 use App\Models\Industry;
+use App\Models\AssignProduct;
+
+
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EncryptionDecryptionHelper;
 use App\Models\ExhibitionDetail;
@@ -410,4 +413,74 @@ class ExhibitionController extends Controller
 
         return view('ExhibitorPages/pastExhibitions', ['pastcomingExs' => $pastcomingExs]);
     }
+
+    public function assignProducts($encDocumentId){
+        $decDocumentId=EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt');
+        
+        $document = Document::where('tbl_doc_id', EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt'))->first();
+       unset($document->tbl_document_id);
+        $document->encDocumentId = $encDocumentId;
+
+        $products = ProductDetail::where('flag','show')->get();
+        foreach($products as $product){
+            $product->encProdId = EncryptionDecryptionHelper::encdecId($product->tbl_product_id,'encrypt');
+            //unset($product->tbl_product_id,$product->created_by,$product->updated_by);
+        }
+        
+
+        $assignedProds = AssignProduct::where('tbl_doc_id', $decDocumentId)->where('flag','show')->get(); 
+        
+        foreach($assignedProds as $assignedProd){
+            $productDetails = ProductDetail::where('tbl_product_id', $assignedProd->tbl_product_id)->where('flag','show')->first();
+    
+            // Attach the product name to the assigned product model
+            $assignedProd->product_name = $productDetails->product_name;
+
+            $assignedProd->encAssignedProdId = EncryptionDecryptionHelper::encdecId($assignedProd->tbl_assigned_prod_id,'encrypt');
+
+            
+        }
+        
+        
+
+        
+
+        
+
+            
+        return view('ExhibitorPages.assignproducts',['document'=>$document,'products'=>$products,'assignedProds'=>$assignedProds]);
+   }
+
+   public function assignProd(Request $request)
+   {
+    
+    $userDetails = session('user');
+    $assignProd = new AssignProduct;
+    $assignProd->tbl_doc_id = EncryptionDecryptionHelper::encdecId($request->encDocumentId,'decrypt');
+    $assignProd->tbl_product_id = EncryptionDecryptionHelper::encdecId($request->encProductId,'decrypt');
+    $assignProd->created_by = $userDetails->tbl_user_id;
+    $assignProd->created_date = Date::now()->toDateString();
+    $assignProd->created_time = Date::now()->toTimeString();
+    $assignProd->save();
+    
+    return redirect()->back();
+    
+   }
+
+   public function deleteAssignedProducts($id)
+   {
+    $userDetails = session('user');
+
+    $decAssignedProdId = EncryptionDecryptionHelper::encdecId($id,'decrypt');
+    
+    $assignedProd = AssignProduct::where('tbl_assigned_prod_id',$decAssignedProdId)->first();
+    $assignedProd->flag = 'deleted';
+    $assignedProd->deleted_by = $userDetails->tbl_user_id;
+    $assignedProd->deleted_date = Date::now()->toDateString();
+    $assignedProd->deleted_time = Date::now()->toTimeString();
+    $assignedProd->save();
+    
+    return redirect()->back();
+    
+   }
 }
