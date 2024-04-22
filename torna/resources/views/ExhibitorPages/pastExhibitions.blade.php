@@ -50,10 +50,12 @@
         <div class="nav-header">
             <div class="brand-logo">
                 <a href="index.html">
-                    <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
-                    <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
-                    <span class="brand-title">
-                        <img src="images/logo-text.png" alt="">
+                    <b class="logo-abbr"><img src="" alt=""> </b>
+                    <span class="logo-compact"><img src="" alt=""></span>
+                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
+                        TORNA
+                    </span>
+                        <img src="" alt="">
                     </span>
                 </a>
             </div>
@@ -75,15 +77,7 @@
                 </div>
                 <div class="header-left">
                     <div class="input-group icons">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
-                        </div>
-                        <input type="search" class="form-control" placeholder="Search" aria-label="Search Dashboard">
-                        <div class="drop-down animated flipInX d-md-none">
-                            <form action="#">
-                                <input type="text" class="form-control" placeholder="Search">
-                            </form>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="header-right">
@@ -94,12 +88,8 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
-                                @php
-                                $user = Session::get('user');
-                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -107,7 +97,6 @@
                         </li>
                     </ul>
                 </div>
-                
             </div>
         </div>
         <!--**********************************
@@ -122,16 +111,38 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/" aria-expanded="false">
+                        <a  href="/ExDashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
-                        <a  href="/industrymaster" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        <a  href="/" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
                         </a>
-                        
+                    </li>
+                    
+            
+                    
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
+                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a  href="/products" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a  href="/documents" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
+                        </a>
                     </li>
                    
                     {{-- <li class="nav-label">Apps</li>

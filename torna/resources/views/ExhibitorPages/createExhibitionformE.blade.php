@@ -19,19 +19,6 @@
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-    
-    <!-- Custom Stylesheet -->
-    <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
@@ -142,6 +129,7 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
                         <ul aria-expanded="false">
+                            <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
                             <li><a href="/pastExhibitions">Past Exhibition</a></li>
                             <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
 
@@ -285,115 +273,127 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Product/Services</h4>
-                                <div class="col-12 text-right mt-n4">
-                                    <div class="buttons">
-                                        <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
-                                    </div>
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>product_name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($products as $key => $product)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $product->product_name }}</td>
-                                                <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
-                                                    {{-- <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button> --}}
+            
 
-                                                </td>
-                                                
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <h2 class="card-header text-center mt-2">Create Exhibition</h2>
+            
+                            <div class="card-body">
+                                <form method="POST" action="/createExhibition" enctype="multipart/form-data">
+                                    @csrf
+            
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name</label>
+                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="from_date" class="col-form-label text-md-right">From Date</label>
+                                            <input id="from_date" name="from_date" type="date" class="form-control" required>
+                                        </div>
+            
+                                        <div class="col-md-6">
+                                            <label for="to_date" class="col-form-label text-md-right">To Date</label>
+                                            <input id="to_date" name="to_date" type="date" class="form-control" required>
+                                        </div>
+                                    </div>
+            
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="start_time" class="col-form-label text-md-right">Start Time</label>
+                                            <input id="start_time" name="start_time" type="time" class="form-control" required>
+                                        </div>
+            
+                                        <div class="col-md-6">
+                                            <label for="end_time" class="col-form-label text-md-right">End Time</label>
+                                            <input id="end_time" name="end_time" type="time" class="form-control" required>
+                                        </div>
+                                    </div>
+            
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label for="venue" class="col-form-label text-md-right">Venue</label>
+                                            <input id="venue" name="venue" type="text" class="form-control" required>
+                                        </div>
+            
+                                        {{-- <div class="col-md-6">
+                                            <label for="organized_by" class="col-form-label text-md-right">Organized By</label>
+                                            <input id="organized_by" name="organized_by" type="text" class="form-control" required>
+                                        </div> --}}
+                                    </div>
+            
+                                    <div class="form-group row">
+                                        {{-- <div class="col-md-6">
+                                            <label for="notify_by" class="col-form-label text-md-right">Notify By</label>
+                                            <select id="notify_by" name="notify_by" class="form-control" required>
+                                                <option value="email">Select Option</option>
+                                                <option value="email">Email</option>
+                                                <option value="text">Text</option>
+                                                <option value="whatsapp">WhatsApp</option>
+                                            </select>
+                                        </div> --}}
+            
+                                        <div class="col-md-6">
+                                            <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
+                                            <input id="company_logo" name="company_logo" type="file" class="form-control">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            <label  class="col-form-label text-md-right">Industry</label>
+                                            <select  name="industry_name" class="form-control" required>
+                                                <option value="">Select Industry</option>
+                                                @foreach($industries as $industry)
+                                                    <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    
+            
+                                    <br />
+                                    <div class="form-group row justify-content-center mb-3">
+                                        <div class="col-md-6 offset-md-4">
+                                            <button type="submit" class="btn btn-primary">
+                                                Register
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form id="addDepartmentForm" action="/storeproductdetails" method="POST">
-                            @csrf
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addDepartmentModalLabel">Add New Product/Services</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="departmentName">Enter Product/Services Name</label>
-                                    <input type="text" class="form-control" id="departmentName" name="productName" required>
-                                    <span id="departmentNameError" class="text-danger"></span>
-                                    
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-            const productId = this.getAttribute('data-id');
-            console.log(productId);
             
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/deleteproduct/" + productId;
-                }
-            });
-        });
-    });
-});
-
-        </script>   
-       
-        
-    
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-       
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
         
         
-
-        
-
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        {{-- <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
+            </div>
+        </div> --}}
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
     <!--**********************************
         Main wrapper end
     ***********************************-->
@@ -429,16 +429,6 @@
 
     <script src="./js/dashboard/dashboard-1.js"></script>
 
-
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
-
-    <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
 
 </html>

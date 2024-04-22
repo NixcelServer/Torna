@@ -167,6 +167,24 @@ class ExhibitionController extends Controller
 
         return redirect('/industrymaster');
     }
+    public function deleteproduct($enc_id)
+    {
+
+        //dd("hi");
+        //get the industry details from db and set the flag as deleted
+        $user_details = session('user');
+        $action = 'decrypt';
+        $dec_id = EncryptionDecryptionHelper::encdecId($enc_id, $action);
+
+        $product = ProductDetail::findOrFail($dec_id);
+
+
+        $product->flag = "deleted";
+
+        $product->save();
+
+        return redirect('/products');
+    }
 
     public function createExhibitionform()
     {
@@ -216,7 +234,7 @@ class ExhibitionController extends Controller
             dd($e->getMessage()); // Dump the error message for debugging
         }
 
-        return redirect()->route('OrgDashboard')->with('success', 'Exhibition created successfully!');
+        return redirect()->route('activeExhibitions')->with('success', 'Exhibition created successfully!');
     }
 
     public function activeExhibitions()
@@ -278,10 +296,10 @@ class ExhibitionController extends Controller
 
     public function products()
     {
-        $products = ProductDetail::all();
+        $products = ProductDetail::where('flag','show')->get();
 
         foreach ($products as $product) {
-            $product->encProductId = EncryptionDecryptionHelper::encdecId($product->tbl_prod_id, 'encrypt');
+            $product->encProductId = EncryptionDecryptionHelper::encdecId($product->tbl_product_id, 'encrypt');
         }
         return view('ExhibitorPages/products', ['products' => $products]);
     }
@@ -413,6 +431,30 @@ class ExhibitionController extends Controller
 
         return view('ExhibitorPages/pastExhibitions', ['pastcomingExs' => $pastcomingExs]);
     }
+
+
+   
+
+    public function createExhibitionformE(){
+        $industries = Industry::where('flag', 'show')->get();
+
+        foreach ($industries as $industry) {
+            $industry->encIndId = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+        }
+
+        return view('ExhibitorPages/createExhibitionformE', ['industries' => $industries]);
+   }
+
+   public function companysetupform(){
+    
+    return view('ExhibitorPages/companysetupform');
+}
+public function companysetupformo(){
+    
+    return view('OrganizerPages/companysetupformo');
+}
+
+    
 
     public function assignProducts($encDocumentId){
         $decDocumentId=EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt');

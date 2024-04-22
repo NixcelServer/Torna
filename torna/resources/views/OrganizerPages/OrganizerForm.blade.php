@@ -68,6 +68,14 @@
     </div>
 </nav>
 
+<style>
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left: 5px;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -80,11 +88,11 @@
 
                         <div class="form-group row">
                             <div class="form-group col-md-6">
-                                <label for="company_name" class="col-form-label text-md-right">Company Name</label>
+                                <label for="company_name" class="col-form-label text-md-right required-field">Company Name</label>
                                 <input id="company_name" name="company_name" type="text" class="form-control" name="company_name" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="unique_name" class="col-form-label text-md-right">Unique Name</label>
+                                <label for="unique_name" class="col-form-label text-md-right required-field">Unique Name</label>
                                 <input id="unique_name" name="unique_name" type="text" class="form-control" name="unique_name" required autofocus>
                             </div> 
                         </div>
@@ -92,12 +100,12 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="first_name" class="col-form-label text-md-right">First Name</label>
+                                <label for="first_name" class="col-form-label text-md-right required-field">First Name</label>
                                 <input id="first_name" name="first_name" type="text" class="form-control" name="first_name" required>
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="last_name" class="col-form-label text-md-right">Last Name</label>
+                                <label for="last_name" class="col-form-label text-md-right required-field">Last Name</label>
                                 <input id="last_name" name="last_name" type="text" class="form-control" name="last_name" required>
                             </div>
                            
@@ -105,40 +113,32 @@
                         
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="contact_no" class="col-form-label text-md-right">Contact Number</label>
+                                <label for="contact_no" class="col-form-label text-md-right required-field">Contact Number</label>
                                 <input id="contact_no" name="contact_no" type="text" class="form-control" required>
                             </div>
                         
                             <div class="form-group col-md-6">
-                                <label for="email" class="col-form-label text-md-right">Email ID</label>
+                                <label for="email" class="col-form-label text-md-right required-field">Email ID</label>
                                 <input id="email" name="email" type="email" class="form-control" required>
+                                <small id="emailError" class="text-danger"></small>
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="password" class="col-form-label text-md-right">Password</label>
+                                <label for="password" class="col-form-label text-md-right required-field">Password</label>
                                 <input id="password" name="password" type="password" class="form-control" required>
                             </div>
                         
                             <div class="col-md-6">
-                                <label for="confirm_password" class="col-form-label text-md-right">Confirm Password</label>
+                                <label for="confirm_password" class="col-form-label text-md-right required-field">Confirm Password</label>
                                 <input id="confirm_password" name="confirm_password" type="password" class="form-control" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label  class="col-form-label text-md-right">Industry</label>
-                                <select  name="industry_name" class="form-control" required>
-                                    <option value="">Select Industry</option>
-                                    @foreach($industries as $industry)
-                                        <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6">
                                 <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
-                                <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*" required>
+                                <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*" >
                             </div>
                         </div>
 <br />
@@ -156,6 +156,22 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const emailInput = document.getElementById('email');
+        //emailError.textContent = 'Only company domain emails are allowed.';
+        emailInput.addEventListener('input', function() {
+            const email = this.value.trim().toLowerCase();
+            const isGmail = email.endsWith('@gmail.com');
+
+            if (isGmail) {
+                this.setCustomValidity("Gmail addresses are not allowed, Only company domain emails are allowed.");
+            } else {
+                this.setCustomValidity("");
+            }
+        });
+    });
+</script>
 <script>
     $(document).ready(function () {
         $('.register-btn').popover({
