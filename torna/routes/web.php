@@ -85,11 +85,16 @@ Route::post('/storeproductdetails', [ExhibitionController::class, 'storeproductd
 Route::post('/storedocuments', [ExhibitionController::class, 'storedocuments']);
 
 
-Route::get('/assignproducts', [ExhibitionController::class, 'assignproducts'])->name('assignproducts');
+// Route::get('/assignproducts', [ExhibitionController::class, 'assignproducts'])->name('assignproducts');
 
 
-Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
+// Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
+Route::get('/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
+
+Route::post('/assignprod',[ExhibitionController::class,'assignProd']);
+
+Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAssignedProducts'])
 
 
 
-
+?>

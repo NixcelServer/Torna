@@ -69,6 +69,7 @@
                         TORNA
                     </span>
                         <img src="" alt="">
+
                     </span>
                 </a>
             </div>
@@ -90,11 +91,12 @@
                 </div>
                 <div class="header-left">
                     <div class="input-group icons">
-                        
+
                     </div>
                 </div>
                 <div class="header-right">
                     <ul class="clearfix">
+
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
@@ -104,6 +106,7 @@
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
+
                                     </ul>
                                 </div>
                             </div>
@@ -158,6 +161,7 @@
                         </a>
                     </li>
                    
+
                     {{-- <li class="nav-label">Apps</li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -291,9 +295,11 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-validation">
-                                    <form class="form-valide" action="#" method="post">
+
+                                    <form class="form-valide" action="/assignprod" method="post">
+                                        @csrf
                                         <div class="form-group row">
-                                            <label class="col-lg-4 col-form-label" for="val-username">Document Name : <span class="text-danger">*</span>
+                                            <label class="col-lg-4 col-form-label" for="val-username">Document Name : {{ $document->doc_name}}<span class="text-danger">*</span>
                                             </label>
                                             
                                         </div>
@@ -302,22 +308,17 @@
                                         
                                         
                                         <div class="form-group row">
-                                            <label class="col-lg-4 col-form-label" for="val-skill">Assign Product/Services <span class="text-danger">*</span>
+
+                                        <input type="hidden" name="encDocumentId" value="{{ $document->encDocumentId }}">
+
+                                            <label class="col-lg-4 col-form-label" for="encProductId" name = "encProductId">Assign Product/Services <span class="text-danger">*</span>
                                             </label>
                                             <div class="col-lg-6">
-                                                <select class="form-control" id="val-skill" name="val-skill">
+                                                <select class="form-control" id="encProductId" name="encProductId">
                                                     <option value="">Please select Document/Services</option>
-                                                    <option value="html">HTML</option>
-                                                    <option value="css">CSS</option>
-                                                    <option value="javascript">JavaScript</option>
-                                                    <option value="angular">Angular</option>
-                                                    <option value="angular">React</option>
-                                                    <option value="vuejs">Vue.js</option>
-                                                    <option value="ruby">Ruby</option>
-                                                    <option value="php">PHP</option>
-                                                    <option value="asp">ASP.NET</option>
-                                                    <option value="python">Python</option>
-                                                    <option value="mysql">MySQL</option>
+                                                    @foreach($products as $product)
+                                                        <option value="{{ $product->encProdId }}">{{ $product->product_name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         
@@ -352,22 +353,26 @@
                                         <thead>
                                             <tr>
                                                 <th>Sr No</th>
+
                                                 <th>Document Name</th>
+                                                
                                                 <th>Assigned Product/Services</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach($products as $key => $product)
+
+                                            @foreach($assignedProds as $key => $product)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $product->product_name }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->enc_id }}">Delete</button>
+<
+                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encAssignedProdId }}">Delete</button>
                                                 </td>
                                                 
                                             </tr>
-                                            @endforeach --}}
+                                            @endforeach 
                                         </tbody>
                                     </table>
                                 </div>
@@ -377,7 +382,6 @@
                 </div>
             </div>
 
-            
             <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -411,8 +415,9 @@
     const deleteButtons = document.querySelectorAll('.delete-btn');
     deleteButtons.forEach(button => {
         button.addEventListener('click', function () {
-            const industryId = this.getAttribute('data-id');
-            console.log(industryId);
+
+            const encAssignedProdId = this.getAttribute('data-id');
+            console.log(encAssignedProdId);
             
             Swal.fire({
                 title: 'Are you sure?',
@@ -424,7 +429,8 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "/deleteindustry/" + industryId;
+
+                    window.location.href = "/deleteassignedproducts/" + encAssignedProdId;
                 }
             });
         });
@@ -491,5 +497,6 @@
     <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
+
 
 </html>

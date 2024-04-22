@@ -290,7 +290,7 @@
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $industry->industry_name }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button>
+                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}" data-count="{{ $industry->count }}">Delete</button>
                                                 </td>
                                                 
                                             </tr>
@@ -338,8 +338,14 @@
         button.addEventListener('click', function () {
             const industryId = this.getAttribute('data-id');
             console.log(industryId);
-            
-            Swal.fire({
+            const count = parseInt(button.getAttribute('data-count'));
+            console.log(count);
+            if (count > 0) {
+                    // Display a pop-up message
+                    alert('Cannot delete industry because it is assigned to a company');
+                }
+                else{
+                    Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -352,6 +358,9 @@
                     window.location.href = "/deleteindustry/" + industryId;
                 }
             });
+                }
+            
+            
         });
     });
 });

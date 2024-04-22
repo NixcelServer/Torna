@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Helpers\EncryptionDecryptionHelper;
 use App\Models\CompanyDetail;
 use App\Models\ExhibitionDetail;
+use Illuminate\Support\Facades\Date;
+
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Industry;
@@ -125,6 +127,8 @@ class AuthController extends Controller
         $user->contact_no = $request->contact_no;
         $user->email = $request->email;
         $user->password = EncryptionDecryptionHelper::encryptData($request->password);
+        $user->created_date = Date::now()->toDateString();
+        $user->created_time = Date::now()->toTimeString();
         $user->role_id = '2';
 
         // Save the user to the database
@@ -144,7 +148,7 @@ class AuthController extends Controller
     }
     public function ExhibitorRegistrationSubmitForm(Request $request)
     {
-
+        
         // Create a new user using the validated data
         $exhibitor = new CompanyDetail();
         $exhibitor->unique_name = $request->unique_name;
@@ -174,6 +178,8 @@ class AuthController extends Controller
         $user->contact_no = $request->contact_no;
         $user->email = $request->email;
         $user->password = EncryptionDecryptionHelper::encryptData($request->password);
+        $user->created_date = Date::now()->toDateString();
+        $user->created_time = Date::now()->toTimeString();
         $user->role_id = '3'; // Assuming '3' is the role ID for exhibitors
 
         // Save the user to the database
