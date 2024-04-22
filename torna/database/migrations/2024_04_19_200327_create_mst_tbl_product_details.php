@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('mst_tbl_product_details', function (Blueprint $table) {
+            $table->id('tbl_product_id');
+            $table->integer('tbl_com_id');
+            $table->string('product_name', 250);
+            $table->text('description')->nullable();
+            $table->string('category', 100)->nullable();
+            $table->integer('created_by');
+            $table->date('created_date');
+            $table->string('created_time', 45);
+            $table->integer('updated_by')->nullable();
+            $table->date('updated_date')->nullable();
+            $table->string('updated_time', 45)->nullable();
+            $table->string('flag', 45)->default('Show');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('mst_tbl_product_details');
+    }
+};
