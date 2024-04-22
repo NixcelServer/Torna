@@ -78,6 +78,7 @@ Route::post('/storeproductdetails', [ExhibitionController::class, 'storeproductd
 Route::post('/storedocuments', [ExhibitionController::class, 'storedocuments']);
 
 
+Route::get('/assignproducts', [ExhibitionController::class, 'assignproducts'])->name('assignproducts');
 
 
 

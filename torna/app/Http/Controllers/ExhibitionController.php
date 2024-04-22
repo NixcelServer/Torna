@@ -394,4 +394,9 @@ class ExhibitionController extends Controller
 
         return view('ExhibitorPages/pastExhibitions', ['pastcomingExs' => $pastcomingExs]);
     }
+
+    public function assignproducts(){
+         return view('ExhibitorPages/assignproducts');
+    }
+    
 }
