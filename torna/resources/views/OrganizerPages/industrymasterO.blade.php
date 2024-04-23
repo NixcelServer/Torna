@@ -62,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="/ExDashboard">
+                <a href="/OrgDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -101,8 +101,12 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                @php
+                                $user = Session::get('user');
+                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
+                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -110,6 +114,7 @@
                         </li>
                     </ul>
                 </div>
+                
             </div>
         </div>
         <!--**********************************
@@ -124,17 +129,21 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/ExDashboard" aria-expanded="false">
+                        <a  href="/OrgDashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
-                        <a  href="/" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
+                        <a  href="/companysetupform-O" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
                         </a>
                     </li>
-                    
+                    <li>
+                        <a  href="/industrymasterO" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        </a>
+                    </li>
             
                     
                     <li>
@@ -142,20 +151,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
-                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+                            <li><a href="/createExhibitionform">Create New Exhibition</a></li>
+                            <li><a href="/activeExhibitions">Active Exhibition</a></li>
+                            <li><a href="/InactiveExhibitions">Inactive Exhibition</a></li>
 
                         </ul>
-                    </li>
-                    <li>
-                        <a  href="/products" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a  href="/documents" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
-                        </a>
                     </li>
                    
                     {{-- <li class="nav-label">Apps</li>
@@ -290,11 +290,11 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Product/Services</h4>
+                                <h4 class="card-title">Industries</h4>
                                 <div class="col-12 text-right mt-n4">
                                     <div class="buttons">
                                         <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addIndustryModal">Add New Industry</button>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -302,19 +302,17 @@
                                         <thead>
                                             <tr>
                                                 <th>Sr No</th>
-                                                <th>product_name</th>
+                                                <th>Industy Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($products as $key => $product)
+                                            @foreach($industries as $key => $industry)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $product->product_name }}</td>
+                                                <td>{{ $industry->industry_name }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
-                                                    {{-- <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button> --}}
-
+                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button>
                                                 </td>
                                                 
                                             </tr>
@@ -327,24 +325,24 @@
                     </div>
                 </div>
             </div>
-            <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
+            <div class="modal fade" id="addIndustryModal" tabindex="-1" role="dialog" aria-labelledby="addIndustryModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form id="addDepartmentForm" action="/storeproductdetails" method="POST">
+                        <form id="addIndustryForm" action="/storeindustrydetails" method="POST">
                             @csrf
                             <div class="modal-header">
-                                <h5 class="modal-title" id="addDepartmentModalLabel">Add New Product/Services</h5>
+                                <h5 class="modal-title" id="addIndustryModalLabel">Add New Industry</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    
+                                    <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="departmentName">Enter Product/Services Name</label>
-                                    <input type="text" class="form-control" id="departmentName" name="productName" required>
-                                    <span id="departmentNameError" class="text-danger"></span>
-                                    
+                                    <label for="industryName">Enter Industry Name</label>
+                                    <input type="text" class="form-control" id="industryName" name="industryName" required>
+                                    <span id="industryNameError" class="text-danger"></span>
                                 </div>
+                                <!-- Add other fields related to adding a new industry if needed -->
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -353,6 +351,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
         <style>
             .modal-backdrop {
@@ -360,13 +359,14 @@
                 background-color: rgba(0, 0, 0, 0.3); /* Adjust the alpha (last value) for transparency level */
             }
         </style>
+        
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-            const productId = this.getAttribute('data-id');
-            console.log(productId);
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const industryId = this.getAttribute('data-id');
+            console.log(industryId);
             
             Swal.fire({
                 title: 'Are you sure?',
@@ -378,7 +378,7 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "/deleteproduct/" + productId;
+                    window.location.href = "/deleteindustry/" + industryId;
                 }
             });
         });

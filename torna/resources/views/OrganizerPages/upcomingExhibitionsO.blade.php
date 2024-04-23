@@ -19,19 +19,6 @@
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-    
-    <!-- Custom Stylesheet -->
-    <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
@@ -62,7 +49,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="/ExDashboard">
+                <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -124,17 +111,21 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/ExDashboard" aria-expanded="false">
+                        <a  href="/OrgDashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
-                        <a  href="/" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
+                        <a  href="/companysetupform-O" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
                         </a>
                     </li>
-                    
+                    <li>
+                        <a  href="/industrymasterO" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        </a>
+                    </li>
             
                     
                     <li>
@@ -142,20 +133,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
-                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+                            <li><a href="/createExhibitionform">Create New Exhibition</a></li>
+                            <li><a href="/activeExhibitions">Active Exhibition</a></li>
+                            <li><a href="/InactiveExhibitions">Inactive Exhibition</a></li>
 
                         </ul>
-                    </li>
-                    <li>
-                        <a  href="/products" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a  href="/documents" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
-                        </a>
                     </li>
                    
                     {{-- <li class="nav-label">Apps</li>
@@ -285,120 +267,63 @@
             Content body start
         ***********************************-->
         <div class="content-body">
+            
+
             <div class="container-fluid mt-3">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Product/Services</h4>
-                                <div class="col-12 text-right mt-n4">
-                                    <div class="buttons">
-                                        <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
-                                    </div>
-                                </div>
+                                <h4 class="card-title">Upcoming Exhibitions List</h4>
+                                <br/>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
                                             <tr>
                                                 <th>Sr No</th>
-                                                <th>product_name</th>
-                                                <th>Action</th>
+                                                <th>Exhibition Name</th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($products as $key => $product)
+                                            
+                                            @foreach($upcomingExs as $key => $upcomingEx)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $product->product_name }}</td>
-                                                <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
-                                                    {{-- <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button> --}}
-
-                                                </td>
+                                                <td>{{ $upcomingEx->exhibition_name }}</td>
                                                 
                                             </tr>
                                             @endforeach
+                                                                                        
                                         </tbody>
+                                        
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form id="addDepartmentForm" action="/storeproductdetails" method="POST">
-                            @csrf
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addDepartmentModalLabel">Add New Product/Services</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="departmentName">Enter Product/Services Name</label>
-                                    <input type="text" class="form-control" id="departmentName" name="productName" required>
-                                    <span id="departmentNameError" class="text-danger"></span>
-                                    
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <style>
-            .modal-backdrop {
-                /* Set the background color to transparent */
-                background-color: rgba(0, 0, 0, 0.3); /* Adjust the alpha (last value) for transparency level */
-            }
-        </style>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-            const productId = this.getAttribute('data-id');
-            console.log(productId);
             
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/deleteproduct/" + productId;
-                }
-            });
-        });
-    });
-});
-
-        </script>   
-       
-        
-    
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-       
+            
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
         
         
-
-        
-
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        {{-- <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
+            </div>
+        </div> --}}
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
     <!--**********************************
         Main wrapper end
     ***********************************-->
@@ -406,6 +331,63 @@
     <!--**********************************
         Scripts
     ***********************************-->
+
+    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
+
+
+    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const changeStatusButtons = document.querySelectorAll('.change-status-btn');
+    
+            changeStatusButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const exhibitionId = this.getAttribute('data-exhibition-id');
+                    console.log("in function",exhibitionId);
+                    debugger;
+                    const updateUrl = this.getAttribute('data-update-url');
+                    console.log(updateUrl);
+                    const confirmation = confirm('Are you sure you want to change the status to Inactive?');
+    
+                    if (confirmation) {
+                        fetch(updateUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                id: exhibitionId,
+                                status: 'Inactive' // You can modify this based on your requirements
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            alert(data.message); // Show success message
+                            // You can update the UI or perform other actions as needed
+                        })
+                        .catch(error => {
+                            console.error('Error updating status:', error);
+                        });
+                    }
+                });
+            });
+        });
+    </script> --}}
+
+
+
+
+
+
+
+
     <script src="plugins/common/common.min.js"></script>
     <script src="js/custom.min.js"></script>
     <script src="js/settings.js"></script>
@@ -434,16 +416,6 @@
 
     <script src="./js/dashboard/dashboard-1.js"></script>
 
-
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
-
-    <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
 
 </html>

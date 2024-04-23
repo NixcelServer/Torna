@@ -49,7 +49,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.html">
+                <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -88,8 +88,12 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                @php
+                                $user = Session::get('user');
+                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
+                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -122,7 +126,7 @@
                         </a>
                     </li>
                     <li>
-                        <a  href="/industrymaster" aria-expanded="false">
+                        <a  href="/industrymasterO" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
                         </a>
                     </li>
@@ -267,9 +271,19 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-
-            
-        </div>
+            {{-- <div class="container-fluid mt-3">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card gradient-4">
+                            <div class="card-body text-center">
+                                <a href="/pendingexcounts">
+                                    <h3 class="card-title text-white">Pending Exhibitors</h3>
+                                </a>
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </div>
+        </div> --}}
         <!--**********************************
             Content body end
         ***********************************-->

@@ -62,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="/ExDashboard">
+                <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -101,8 +101,12 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                @php
+                                $user = Session::get('user');
+                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
+                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -110,6 +114,7 @@
                         </li>
                     </ul>
                 </div>
+                
             </div>
         </div>
         <!--**********************************
@@ -124,17 +129,21 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/ExDashboard" aria-expanded="false">
+                        <a  href="/OrgDashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
-                        <a  href="/" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
+                        <a  href="/companysetupform-O" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
                         </a>
                     </li>
-                    
+                    <li>
+                        <a  href="/industrymasterO" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        </a>
+                    </li>
             
                     
                     <li>
@@ -142,20 +151,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
-                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+                            <li><a href="/createExhibitionform">Create New Exhibition</a></li>
+                            <li><a href="/activeExhibitions">Active Exhibition</a></li>
+                            <li><a href="/InactiveExhibitions">Inactive Exhibition</a></li>
 
                         </ul>
-                    </li>
-                    <li>
-                        <a  href="/products" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a  href="/documents" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
-                        </a>
                     </li>
                    
                     {{-- <li class="nav-label">Apps</li>
@@ -280,6 +280,7 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
         <!--**********************************
             Content body start
@@ -290,31 +291,30 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Product/Services</h4>
-                                <div class="col-12 text-right mt-n4">
-                                    <div class="buttons">
-                                        <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
-                                    </div>
-                                </div>
+                                <h4 class="card-title">Pending Exhibitors List</h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
                                             <tr>
                                                 <th>Sr No</th>
-                                                <th>product_name</th>
+                                                <th>Exhibitor Name</th>
+                                                <th>Exhibition Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($products as $key => $product)
+                                            @foreach($companies as $key => $organizer)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $product->product_name }}</td>
+                                                <td>{{ $organizer->company_name }}</td>
+                                                <td>{{ $organizer->email }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
-                                                    {{-- <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button> --}}
-
+                                                    <button class="btn btn-success" onclick="confirmApprove('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}')">
+                                                        Approve
+                                                    </button>
+                                                    <button class="btn btn-danger" onclick="confirmReject('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}')">
+                                                        Reject
+                                                    </button>
                                                 </td>
                                                 
                                             </tr>
@@ -327,73 +327,184 @@
                     </div>
                 </div>
             </div>
-            <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form id="addDepartmentForm" action="/storeproductdetails" method="POST">
-                            @csrf
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addDepartmentModalLabel">Add New Product/Services</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="departmentName">Enter Product/Services Name</label>
-                                    <input type="text" class="form-control" id="departmentName" name="productName" required>
-                                    <span id="departmentNameError" class="text-danger"></span>
-                                    
+        </div>
+
+        <script>
+            function confirmApprove(companyName, email, contactNo, companyId) {
+                Swal.fire({
+                    title: 'Are you sure you want to approve?',
+                    text: `Approve document for ${companyName}?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Approve',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        approveDocument(companyName, email, contactNo, companyId);
+                    }
+                });
+            }
+        
+            function confirmReject(companyName, email, contactNo, companyId) {
+                Swal.fire({
+                    title: 'Are you sure you want to reject?',
+                    text: `Reject document for ${companyName}?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Reject',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        rejectDocument(companyName, email, contactNo, companyId);
+                    }
+                });
+            }
+        
+            function approveDocument(companyName, email, contactNo, companyId) {
+                // Example logic to handle approval action
+                console.log(`Document for ${companyName} approved!`);
+                openDocument(companyName, email, contactNo, companyId);
+            }
+        
+            function rejectDocument(companyName, email, contactNo, companyId) {
+                // Example logic to handle rejection action
+                console.log(`Document for ${companyName} rejected!`);
+                // You can add additional logic here if needed
+            }
+        
+            function openDocument(companyName, email, contactNo, companyId) {
+                // Example logic to open the document
+                console.log(`Opening document for ${companyName}`);
+                console.log(`Email: ${email}, Contact No: ${contactNo}, Company ID: ${companyId}`);
+                // You can add additional logic here if needed
+            }
+        </script>
+        
+    
+
+
+        <!-- Modal for displaying document -->
+        {{-- <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title w-100" id="documentModalLabel">Organizer Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <p><strong>Company Name:</strong> <span id="companyName"></span></p>
+                                    <p><strong>Email:</strong> <span id="email"></span></p>
+                                    <p><strong>Contact No:</strong> <span id="contactNo"></span></p>
+                                    <p><strong><span style="color: white;">Company Id:</span></strong> <span id="compId" style="color: white;"></span></p>
                                 </div>
                             </div>
-                            <div class="modal-footer justify-content-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="row mt-3">
+                                <div class="col text-center">
+                                    <button id="approveDocumentBtn" class="btn btn-success">Approve</button>
+                                    <button id="rejectDocumentBtn" class="btn btn-danger">Reject</button>
+                                </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <style>
-            .modal-backdrop {
-                /* Set the background color to transparent */
-                background-color: rgba(0, 0, 0, 0.3); /* Adjust the alpha (last value) for transparency level */
-            }
-        </style>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-            const deleteButtons = document.querySelectorAll('.delete-btn');
-            deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-            const productId = this.getAttribute('data-id');
-            console.log(productId);
-            
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/deleteproduct/" + productId;
-                }
-            });
-        });
-    });
-});
-
-        </script>   
-       
-        
+        </div> --}}
     
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-       
+        <script>
+            function openDocument(companyName, email, contactNo, compId ) {
+                $('#companyName').text(companyName);
+                $('#email').text(email);
+                $('#contactNo').text(contactNo);
+                $('#compId').text(compId);
+                $('#documentModal').modal('show');
+            }
+        
+            $('#approveDocumentBtn').on('click', function () {
+                var companyName = $('#companyName').text();
+                var compId = $('#compId').text();
+                var email = $('#email').text();
+                var contactNo = $('#contactNo').text();
+                var activeStatus = 'Approved';
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateStatus',
+                    data: {
+                        companyName: companyName,
+                        email: email,
+                        contactNo: contactNo,
+                        compId: compId,
+                        activeStatus: activeStatus
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        verifyDocument(true);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        
+            $('#rejectDocumentBtn').on('click', function () {
+                verifyDocument(false);
+            });
+        
+            function verifyDocument(Approved) {
+                var companyName = $('#companyName').text();
+                var compId = $('#compId').text();
+                var email = $('#email').text();
+                var contactNo = $('#contactNo').text();
+                var activeStatus = Approved ? 'Approved' : 'rejected';
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateStatus',
+                    data: {
+                        companyName: companyName,
+                        compId: compId,
+                        email: email,
+                        contactNo: contactNo,
+                        activeStatus: activeStatus
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        var status = Approved ? 'Approved' : 'Rejected';
+                        var message = companyName + ' has been ' + status;
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Organizer ' + status + '!',
+                            text: message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(function () {
+                            console.log(companyName + ' ' + status);
+                            $('#documentModal').modal('hide');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        </script>
         
         
 

@@ -58,9 +58,9 @@ class AuthController extends Controller
             if ($user->role_id == '1') {
                 return redirect('/AdminDashboard');
             } else if ($user->role_id == '2') {
-                return redirect('/OrgDashboard');
+                return redirect('/upcomingExhibitionsO');
             } else {
-                return redirect('/ExDashboard');
+                return redirect('/upcomingExhibitions');
             }
             // dd("success");
             //get the user id and iterate over rolemodules to get the data of modules assigned to him
