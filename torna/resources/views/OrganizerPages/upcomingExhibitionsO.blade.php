@@ -49,7 +49,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="/OrgDashboard">
+                <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -117,12 +117,12 @@
                         
                     </li>
                     <li>
-                        <a  href="/" aria-expanded="false">
+                        <a  href="/companysetupform-O" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
                         </a>
                     </li>
                     <li>
-                        <a  href="/industrymaster" aria-expanded="false">
+                        <a  href="/industrymasterO" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
                         </a>
                     </li>
@@ -269,132 +269,40 @@
         <div class="content-body">
             
 
-            <div class="container mt-3">
-                <div class="row justify-content-center">
-                    <div class="col-md-11">
+            <div class="container-fluid mt-3">
+                <div class="row">
+                    <div class="col-12">
                         <div class="card">
-                            <h2 class="card-header text-center mt-2">Create Exhibition</h2>
-            
                             <div class="card-body">
-                                <form method="POST" action="/createExhibition" enctype="multipart/form-data">
-                                    @csrf
-            
-                                    <div class="form-group row">
-                                        <div class="col-md-4">
-                                            <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
-                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
-                                            <input id="from_date" name="from_date" type="date" class="form-control" required>
-                                        </div>
-            
-                                        <div class="col-md-4">
-                                            <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
-                                            <input id="to_date" name="to_date" type="date" class="form-control" required>
-                                        </div>
-            
-                                    </div>
-            
-                                    <div class="row">
+                                <h4 class="card-title">Upcoming Exhibitions List</h4>
+                                <br/>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered zero-configuration">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr No</th>
+                                                <th>Exhibition Name</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            @foreach($upcomingExs as $key => $upcomingEx)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $upcomingEx->exhibition_name }}</td>
+                                                
+                                            </tr>
+                                            @endforeach
+                                                                                        
+                                        </tbody>
                                         
-                                    </div>
-            
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label for="start_time" class="col-form-label text-md-right">Start Time <span style="color: red;">*</span></label>
-                                            <input id="start_time" name="start_time" type="time" class="form-control" required>
-                                        </div>
-            
-                                        <div class="col-md-4">
-                                            <label for="end_time" class="col-form-label text-md-right">End Time <span style="color: red;">*</span></label>
-                                            <input id="end_time" name="end_time" type="time" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="venue" class="col-form-label text-md-right">Venue <span style="color: red;">*</span></label>
-                                            <input id="venue" name="venue" type="text" class="form-control" required>
-                                        </div>
-                                    </div>
-            
-                                    <div class="form-group row">
-                                        
-            
-                                        {{-- <div class="col-md-6">
-                                            <label for="organized_by" class="col-form-label text-md-right">Organized By</label>
-                                            <input id="organized_by" name="organized_by" type="text" class="form-control" required>
-                                        </div> --}}
-                                    </div>
-            
-            
-                                    <div class="form-group row">
-                                        <div class="col-md-4">
-                                            <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
-                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
-                                            <input id="attach_document" name="attach_document" type="file" class="form-control">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
-                                            <input id="registration_url" name="registration_url" type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        
-            
-                                        <div class="col-md-4">
-                                            <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
-                                            <input id="company_logo" name="company_logo" type="file" class="form-control">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
-                                            <select name="industry_name" class="form-control" required>
-                                                <option value="">Select Industry</option>
-                                                @foreach($industries as $industry)
-                                                <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="col-form-label text-md-right">Status <span style="color: red;">*</span></label>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked>
-                                                        <label class="form-check-label" for="Active">Active</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive">
-                                                        <label class="form-check-label" for="Inactive">Inactive</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                    </div>
-            
-            
-            
-            
-            
-                                    <br />
-                                    <div class="form-group row justify-content-center mb-3">
-                                        <div class="col-md-6 offset-md-4">
-                                            <button type="submit" class="btn btn-primary">
-                                                Register
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             
             
             <!-- #/ container -->
@@ -423,6 +331,63 @@
     <!--**********************************
         Scripts
     ***********************************-->
+
+    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
+
+
+    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const changeStatusButtons = document.querySelectorAll('.change-status-btn');
+    
+            changeStatusButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const exhibitionId = this.getAttribute('data-exhibition-id');
+                    console.log("in function",exhibitionId);
+                    debugger;
+                    const updateUrl = this.getAttribute('data-update-url');
+                    console.log(updateUrl);
+                    const confirmation = confirm('Are you sure you want to change the status to Inactive?');
+    
+                    if (confirmation) {
+                        fetch(updateUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                id: exhibitionId,
+                                status: 'Inactive' // You can modify this based on your requirements
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            alert(data.message); // Show success message
+                            // You can update the UI or perform other actions as needed
+                        })
+                        .catch(error => {
+                            console.error('Error updating status:', error);
+                        });
+                    }
+                });
+            });
+        });
+    </script> --}}
+
+
+
+
+
+
+
+
     <script src="plugins/common/common.min.js"></script>
     <script src="js/custom.min.js"></script>
     <script src="js/settings.js"></script>

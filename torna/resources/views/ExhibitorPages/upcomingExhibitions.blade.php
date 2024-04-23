@@ -49,7 +49,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.html">
+                <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -287,7 +287,7 @@
                                             <tr>
                                                 <th>Sr No</th>
                                                 <th>Exhibition Name</th>
-                                                
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

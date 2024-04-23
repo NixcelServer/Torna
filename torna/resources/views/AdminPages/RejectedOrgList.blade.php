@@ -53,7 +53,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.html">
+                <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -125,7 +125,12 @@
                         </a>
                         
                     </li>
-                    
+                    <li>
+                        <a  href="/industrymaster" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        </a>
+                        
+                    </li>
                    
                     {{-- <li class="nav-label">Apps</li>
                     <li>

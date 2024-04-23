@@ -124,6 +124,20 @@ class ExhibitionController extends Controller
         return view('AdminPages/IndustryDashboard', ['industries' => $industries]);
     }
 
+    public function industrymasterO()
+    {
+        // $industries = Industry::all();
+        $industries = Industry::where('flag', 'show')->get();
+
+        foreach ($industries as $industry) {
+            $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+        }
+        return view('OrganizerPages/IndustryDashboardO', ['industries' => $industries]);
+    }
+
+
+    
+
 
     public function storeindustrydetails(Request $request)
     {
@@ -220,6 +234,14 @@ class ExhibitionController extends Controller
         $exhibition->organized_by = $request->organized_by;
         $exhibition->notify_by = $request->notify_by;
         $exhibition->industry = $request->industry_name;
+        
+        $exhibition->active_status = $request->active_status;
+        $exhibition->exhibition_website = $request->exhibition_website;
+        $exhibition->attach_document = $request->attach_document;
+        $exhibition->registration_url = $request->registration_url;
+
+
+
 
         // Handle company logo upload if a file was uploaded
         if ($request->hasFile('company_logo')) {
@@ -411,6 +433,27 @@ class ExhibitionController extends Controller
 
         return view('ExhibitorPages/upcomingExhibitions', ['upcomingExs' => $upcomingExs]);
     }
+    public function upcomingExhibitionsO()
+    {
+        $user = session('user');
+
+        $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
+
+        // $industry_name = $company->industry_name;
+        // dd($industry_name);
+        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('industry', $company->industry_name)->where('flag', 'Show')->get();
+
+
+
+        foreach ($upcomingExs as $upcomingEx) {
+            $upcomingEx->encInActiveExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
+        }
+
+
+
+        return view('OrganizerPages/upcomingExhibitionsO', ['upcomingExs' => $upcomingExs]);
+    }
+    
 
 
     public function pastExhibitions()
@@ -447,12 +490,27 @@ class ExhibitionController extends Controller
    }
 
    public function companysetupform(){
+    $industries = Industry::where('flag', 'show')->get();
+
+    foreach ($industries as $industry) {
+        $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+        $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+    }
     
-    return view('ExhibitorPages/companysetupform');
+    return view('ExhibitorPages/companysetupform',['industries'=>$industries]);
 }
 public function companysetupformo(){
-    
-    return view('OrganizerPages/companysetupformo');
+    $user = session('user');
+    $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->get();
+
+    $industries = Industry::where('flag', 'show')->get();
+
+        foreach ($industries as $industry) {
+            $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+            $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+        }
+    //dd($company);
+    return view('OrganizerPages/companysetupformo',['industries'=>$industries,'company'=>$company]);
 }
 
     
