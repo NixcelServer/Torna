@@ -108,6 +108,9 @@ Route::get('/participatedExhibitions', [ExhibitionController::class, 'participat
 Route::get('/nixcelsoft/exhibitionname/encid ', [ExhibitionController::class, 'visitorsdetails']);
 
 
+Route::get('/industrymasterO', [ExhibitionController::class, 'industrymasterO']);
+
+
 
 
 ?>

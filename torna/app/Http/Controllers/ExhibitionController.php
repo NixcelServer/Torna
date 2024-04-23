@@ -131,7 +131,7 @@ class ExhibitionController extends Controller
         foreach ($industries as $industry) {
             $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
         }
-        return view('OrganizerPages/IndustryDashboardO', ['industries' => $industries]);
+        return view('OrganizerPages/industrymasterO', ['industries' => $industries]);
     }
 
 

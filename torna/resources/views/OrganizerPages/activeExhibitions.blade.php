@@ -117,12 +117,12 @@
                         
                     </li>
                     <li>
-                        <a  href="/" aria-expanded="false">
+                        <a  href="/companysetupform-O" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
                         </a>
                     </li>
                     <li>
-                        <a  href="/industrymaster" aria-expanded="false">
+                        <a  href="/industrymasterO" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
                         </a>
                     </li>
