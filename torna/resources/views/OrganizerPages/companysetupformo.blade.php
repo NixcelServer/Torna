@@ -124,17 +124,21 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/ExDashboard" aria-expanded="false">
+                        <a  href="/OrgDashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
-                        <a  href="/" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
+                        <a  href="/companysetupform-O" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
                         </a>
                     </li>
-                    
+                    <li>
+                        <a  href="/industrymasterO" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        </a>
+                    </li>
             
                     
                     <li>
@@ -142,20 +146,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
-                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+                            <li><a href="/createExhibitionform">Create New Exhibition</a></li>
+                            <li><a href="/activeExhibitions">Active Exhibition</a></li>
+                            <li><a href="/InactiveExhibitions">Inactive Exhibition</a></li>
 
                         </ul>
-                    </li>
-                    <li>
-                        <a  href="/products" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a  href="/documents" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
-                        </a>
                     </li>
                    
                     {{-- <li class="nav-label">Apps</li>

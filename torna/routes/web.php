@@ -108,9 +108,25 @@ Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAs
 
 Route::post('/assignprod',[ExhibitionController::class,'assignProd']);
 
+
 //company set up
 Route::post('/updatecompanydetails',[ExhibitionController::class,'updateCompanyDetails']);
 
 });
+
+
+
+Route::get('/pendingexcounts', [ExhibitionController::class, 'pendingexcounts']);
+
+Route::get('/participatedExhibitions', [ExhibitionController::class, 'participatedExhibitions']);
+
+Route::get('/nixcelsoft/exhibitionname/encid ', [ExhibitionController::class, 'visitorsdetails']);
+
+
+Route::get('/industrymasterO', [ExhibitionController::class, 'industrymasterO']);
+
+
+
+
 
 ?>

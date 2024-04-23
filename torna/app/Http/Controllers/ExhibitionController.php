@@ -132,7 +132,7 @@ class ExhibitionController extends Controller
         foreach ($industries as $industry) {
             $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
         }
-        return view('OrganizerPages/IndustryDashboardO', ['industries' => $industries]);
+        return view('OrganizerPages/industrymasterO', ['industries' => $industries]);
     }
 
 
@@ -592,6 +592,7 @@ public function companysetupformo(){
     
    }
 
+
    public function updateCompanyDetails(Request $request)
    {
         
@@ -636,4 +637,36 @@ public function companysetupformo(){
             dd($e->getMessage()); // Dump the error message for debugging
         }
    }
+
+
+   public function pendingexcounts()
+   {
+       $companies = UserDetail::where('active_status', 'Approved')->where('role_id', 2)->get();
+
+       foreach ($companies as $company) {
+           $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+       }
+       return view('OrganizerPages/pendingexcounts', ['companies' => $companies]);
+   }
+
+
+   public function participatedExhibitions()
+   {
+       $companies = UserDetail::where('active_status', 'Approved')->where('role_id', 2)->get();
+
+       foreach ($companies as $company) {
+           $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+       }
+       return view('ExhibitorPages/participatedExhibitions', ['companies' => $companies]);
+   }
+   
+
+   public function visitorsdetails()
+   {
+       
+       return view('VisitorPages/visitorsdetails');
+   }
+   
+   
+
 }
