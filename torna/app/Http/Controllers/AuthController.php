@@ -9,6 +9,8 @@ use App\Helpers\EncryptionDecryptionHelper;
 use App\Models\CompanyDetail;
 use App\Models\ExhibitionDetail;
 use Illuminate\Support\Facades\Date;
+use App\Helpers\EmailHelper;
+
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -87,7 +89,7 @@ class AuthController extends Controller
 
     public function OrganizerRegistrationSubmitForm(Request $request)
     {
-
+        
         // Create a new user using the validated data
         $company = new CompanyDetail();
         $company->unique_name = $request->unique_name;
@@ -112,6 +114,8 @@ class AuthController extends Controller
 
         try {
             $company->save();
+            //EmailHelper::sendEmail($company);
+            
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
@@ -132,9 +136,11 @@ class AuthController extends Controller
         $user->role_id = '2';
 
         // Save the user to the database
-        $user->save();
+      //  $user->save();
 
-        return redirect()->route('Home')->with('success', 'Registration successful!');
+
+
+      //  return redirect()->route('Home')->with('success', 'Registration successful!');
 
 
 
@@ -166,6 +172,7 @@ class AuthController extends Controller
 
         try {
             $exhibitor->save();
+            EmailHelper::sendEmail($exhibitor);
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
