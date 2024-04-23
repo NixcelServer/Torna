@@ -312,22 +312,33 @@
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $document->doc_name }}</td>
                                                 <td>
-                                                    {{-- <button href="#" onclick="openDocument('')" class="mr-2">
-                                                        <i class="fas fa-eye"></i> View
-                                                    </button> --}}
-                                                    <button class="btn btn-sm btn-primary" onclick="openDocument()">
-                                                        View
-                                                    </button>
+                                                    <button class="btn btn-primary view-document-btn" data-content="{{ $document->document_content }}" data-toggle="modal" data-target="#viewDocumentModal{{ $document->encDocumentId }}">View Document</button>
 
-
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="viewDocumentModal{{ $document->encDocumentId }}" tabindex="-1" role="dialog" aria-labelledby="viewDocumentModalLabel{{ $document->encDocumentId }}" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="viewDocumentModalLabel{{ $document->encDocumentId }}">View Document</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <!-- Embed the document content from the preloaded data -->
+                                                                    <embed src="data:application/pdf;base64,{{ $document->document_content }}" type="application/pdf" width="100%" height="500px" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <a href="{{ route('assignproducts') }}" class="btn btn-sm btn-primary assign-btn">Assign Product/Services</a>
+
+                                                <a href="/assignproducts/{{ $document->encDocumentId }}" class="btn btn-sm btn-primary assign-btn">Assign Product/Services</a>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $document->enc_id }}">Delete</button>
                                                 </td>
-                                                
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -426,7 +437,14 @@
         </script>
                 
 
-
+                <script>
+                    $(document).ready(function() {
+                        $('.view-document-btn').click(function() {
+                            var documentContent = $(this).data('content');
+                            $('#viewDocumentModal embed').attr('src', 'data:application/pdf;base64,' + documentContent);
+                        });
+                    });
+                </script>
 
 
 

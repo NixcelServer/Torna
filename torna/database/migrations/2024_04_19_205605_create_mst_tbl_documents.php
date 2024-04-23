@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('doc_name', 250);
             $table->string('doc_type', 45)->nullable();
             $table->string('doc_url', 250)->nullable();
+            $table->longBlob('document_attachment')->nullable();
             $table->string('doc_description', 250)->nullable();
-            $table->string('product_name', 250); // New field: product_name
-            $table->integer('tbl_product_id'); // New field: product_id
+            $table->string('product_name', 250)->nullable(); // New field: product_name
+            $table->integer('tbl_product_id')->nullable(); // New field: product_id
             $table->string('active_status', 45)->default('Active');
             $table->integer('created_by')->nullable();
             $table->date('created_date');
@@ -26,7 +27,7 @@ return new class extends Migration
             $table->integer('updated_by')->nullable();
             $table->date('updated_date')->nullable();
             $table->string('updated_time', 45)->nullable();
-            $table->string('flag', 45)->default('Show');
+            $table->string('flag', 45)->default('show');
             $table->timestamps();
 
             

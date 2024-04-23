@@ -33,7 +33,7 @@ return new class extends Migration
             $table->integer('updated_by')->nullable();
             $table->date('updated_date')->nullable();
             $table->string('updated_time', 45)->nullable();
-            $table->string('flag', 45)->default('Show');
+            $table->string('flag', 45)->default('show');
             $table->timestamps();
         });
     }

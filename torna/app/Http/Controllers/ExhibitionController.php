@@ -7,6 +7,9 @@ use App\Models\UserDetail;
 use App\Models\Document;
 use App\Models\ProductDetail;
 use App\Models\Industry;
+use App\Models\AssignProduct;
+
+
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EncryptionDecryptionHelper;
 use App\Models\ExhibitionDetail;
@@ -114,7 +117,9 @@ class ExhibitionController extends Controller
 
         foreach ($industries as $industry) {
             $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+            $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
         }
+        
         return view('AdminPages/IndustryDashboard', ['industries' => $industries]);
     }
 
@@ -143,8 +148,8 @@ class ExhibitionController extends Controller
 
         $industry = new Industry;
         $industry->industry_name = $request->industryName;
-        $industry->updated_date = Date::now()->toDateString();
-        $industry->updated_time = Date::now()->toTimeString();
+        $industry->created_date = Date::now()->toDateString();
+        $industry->created_time = Date::now()->toTimeString();
         $industry->flag = "show";
         $industry->save();
 
@@ -161,7 +166,15 @@ class ExhibitionController extends Controller
         $dec_id = EncryptionDecryptionHelper::encdecId($enc_id, $action);
 
         $industry = Industry::findOrFail($dec_id);
+        
 
+        $assignedIndCount = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+
+        if($assignedIndCount>0){
+            // Return a response indicating that it cannot be deleted
+        return response()->json(['message' => 'Cannot delete industry because it is assigned to a company'], 400);
+        }
+        
 
         $industry->flag = "deleted";
         $industry->save();
@@ -248,7 +261,7 @@ class ExhibitionController extends Controller
 
     public function activeExhibitions()
     {
-        $activeExs = ExhibitionDetail::where('active_status', 'Active')->where('flag', 'Show')->get();
+        $activeExs = ExhibitionDetail::where('active_status', 'Active')->where('flag', 'show')->get();
 
 
         // dd($activeExs);
@@ -292,7 +305,7 @@ class ExhibitionController extends Controller
 
     public function InactiveExhibitions()
     {
-        $inActiveExs = ExhibitionDetail::where('active_status', 'Inactive')->where('flag', 'Show')->get();
+        $inActiveExs = ExhibitionDetail::where('active_status', 'Inactive')->where('flag', 'show')->get();
 
 
 
@@ -318,7 +331,11 @@ class ExhibitionController extends Controller
 
         foreach ($documents as $document) {
             $document->encDocumentId = EncryptionDecryptionHelper::encdecId($document->tbl_doc_id, 'encrypt');
+            $document->document_content = base64_encode($document->document_attachment);
+            
         }
+       // dd($documents);
+        
         return view('ExhibitorPages/documents', ['documents' => $documents]);
     }
 
@@ -330,17 +347,19 @@ class ExhibitionController extends Controller
 
 
         // Get the logged-in user's ID from the session
-        $user_id = Session::get('user')->tbl_user_id;
-
+        $userDetails = Session::get('user');
+       // dd($userDetails);
+         $companyId = CompanyDetail::where('tbl_comp_id',$userDetails->tbl_comp_id)->value('tbl_comp_id');
         // Create a new instance of the ProductDetail model
         $product = new ProductDetail;
         // Assign values from the request
+        $product->tbl_comp_id = $companyId;
         $product->product_name = $request->productName;
-        $product->created_by = $user_id;
+        $product->created_by = $userDetails->tbl_user_id;
         $product->created_date = Date::now()->toDateString();
         $product->created_time = Date::now()->toTimeString();
-        $product->flag = 'Show'; // Assuming 'Show' is the default value for 'flag'
-
+        $product->flag = 'show'; // Assuming 'Show' is the default value for 'flag'
+        
         // Save the product details
         $product->save();
 
@@ -361,7 +380,7 @@ class ExhibitionController extends Controller
         $document->doc_name = $request->documentName;
         $document->created_date = Date::now()->toDateString();
         $document->created_time = Date::now()->toTimeString();
-        $document->flag = 'Show'; // Assuming default flag is Show
+        $document->flag = 'show'; // Assuming default flag is Show
 
         // Handle document attachment upload
         // if ($request->hasFile('document_attachment')) {
@@ -372,7 +391,7 @@ class ExhibitionController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
 
-
+            
             // Get the file contents as binary data
             $binaryData = file_get_contents($file->path());
 
@@ -401,7 +420,7 @@ class ExhibitionController extends Controller
 
         // $industry_name = $company->industry_name;
         // dd($industry_name);
-        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('industry', $company->industry_name)->where('flag', 'Show')->get();
+        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('industry', $company->industry_name)->where('flag', 'show')->get();
 
 
 
@@ -443,7 +462,7 @@ class ExhibitionController extends Controller
         $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
         // $industry_name = $company->industry_name;
         // dd($industry_name);
-        $pastcomingExs = ExhibitionDetail::where('active_status', 'Inactive')->where('industry', $company->industry_name)->where('flag', 'Show')->get();
+        $pastcomingExs = ExhibitionDetail::where('active_status', 'Inactive')->where('industry', $company->industry_name)->where('flag', 'show')->get();
         //dd($pastcomingExs);
 
 
@@ -456,9 +475,8 @@ class ExhibitionController extends Controller
         return view('ExhibitorPages/pastExhibitions', ['pastcomingExs' => $pastcomingExs]);
     }
 
-    public function assignproducts(){
-         return view('ExhibitorPages/assignproducts');
-    }
+
+   
 
     public function createExhibitionformE(){
         $industries = Industry::where('flag', 'show')->get();
@@ -480,4 +498,74 @@ public function companysetupformo(){
 }
 
     
+
+    public function assignProducts($encDocumentId){
+        $decDocumentId=EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt');
+        
+        $document = Document::where('tbl_doc_id', EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt'))->first();
+       unset($document->tbl_document_id);
+        $document->encDocumentId = $encDocumentId;
+
+        $products = ProductDetail::where('flag','show')->get();
+        foreach($products as $product){
+            $product->encProdId = EncryptionDecryptionHelper::encdecId($product->tbl_product_id,'encrypt');
+            //unset($product->tbl_product_id,$product->created_by,$product->updated_by);
+        }
+        
+
+        $assignedProds = AssignProduct::where('tbl_doc_id', $decDocumentId)->where('flag','show')->get(); 
+        
+        foreach($assignedProds as $assignedProd){
+            $productDetails = ProductDetail::where('tbl_product_id', $assignedProd->tbl_product_id)->where('flag','show')->first();
+    
+            // Attach the product name to the assigned product model
+            $assignedProd->product_name = $productDetails->product_name;
+
+            $assignedProd->encAssignedProdId = EncryptionDecryptionHelper::encdecId($assignedProd->tbl_assigned_prod_id,'encrypt');
+
+            
+        }
+        
+        
+
+        
+
+        
+
+            
+        return view('ExhibitorPages.assignproducts',['document'=>$document,'products'=>$products,'assignedProds'=>$assignedProds]);
+   }
+
+   public function assignProd(Request $request)
+   {
+    
+    $userDetails = session('user');
+    $assignProd = new AssignProduct;
+    $assignProd->tbl_doc_id = EncryptionDecryptionHelper::encdecId($request->encDocumentId,'decrypt');
+    $assignProd->tbl_product_id = EncryptionDecryptionHelper::encdecId($request->encProductId,'decrypt');
+    $assignProd->created_by = $userDetails->tbl_user_id;
+    $assignProd->created_date = Date::now()->toDateString();
+    $assignProd->created_time = Date::now()->toTimeString();
+    $assignProd->save();
+    
+    return redirect()->back();
+    
+   }
+
+   public function deleteAssignedProducts($id)
+   {
+    $userDetails = session('user');
+
+    $decAssignedProdId = EncryptionDecryptionHelper::encdecId($id,'decrypt');
+    
+    $assignedProd = AssignProduct::where('tbl_assigned_prod_id',$decAssignedProdId)->first();
+    $assignedProd->flag = 'deleted';
+    $assignedProd->deleted_by = $userDetails->tbl_user_id;
+    $assignedProd->deleted_date = Date::now()->toDateString();
+    $assignedProd->deleted_time = Date::now()->toTimeString();
+    $assignedProd->save();
+    
+    return redirect()->back();
+    
+   }
 }

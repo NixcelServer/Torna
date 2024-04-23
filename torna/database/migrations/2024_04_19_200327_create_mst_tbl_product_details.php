@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mst_tbl_product_details', function (Blueprint $table) {
             $table->id('tbl_product_id');
-            $table->integer('tbl_com_id');
+            $table->integer('tbl_comp_id');
             $table->string('product_name', 250);
             $table->text('description')->nullable();
             $table->string('category', 100)->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('updated_by')->nullable();
             $table->date('updated_date')->nullable();
             $table->string('updated_time', 45)->nullable();
-            $table->string('flag', 45)->default('Show');
+            $table->string('flag', 45)->default('show');
             $table->timestamps();
         });
     }
