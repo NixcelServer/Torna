@@ -490,24 +490,31 @@ class ExhibitionController extends Controller
    }
 
    public function companysetupform(){
-    $industries = Industry::where('flag', 'show')->get();
-
-    foreach ($industries as $industry) {
-        $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
-        $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
-    }
-    
-    return view('ExhibitorPages/companysetupform',['industries'=>$industries]);
-}
-public function companysetupformo(){
     $user = session('user');
-    $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->get();
-
+    $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->first();
+    $company->encCompId = EncryptionDecryptionHelper::encdecId($company->tbl_comp_id, 'encrypt');
+    unset($company->tbl_comp_id);
+    
     $industries = Industry::where('flag', 'show')->get();
 
         foreach ($industries as $industry) {
             $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
-            $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+           // $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+        }
+    
+    return view('ExhibitorPages/companysetupform',['industries'=>$industries,'company'=>$company]);
+}
+public function companysetupformo(){
+    $user = session('user');
+    $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->first();
+    $company->encCompId = EncryptionDecryptionHelper::encdecId($company->tbl_comp_id, 'encrypt');
+    unset($company->tbl_comp_id);
+    
+    $industries = Industry::where('flag', 'show')->get();
+
+        foreach ($industries as $industry) {
+            $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+           // $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
         }
     //dd($company);
     return view('OrganizerPages/companysetupformo',['industries'=>$industries,'company'=>$company]);
@@ -583,5 +590,50 @@ public function companysetupformo(){
     
     return redirect()->back();
     
+   }
+
+   public function updateCompanyDetails(Request $request)
+   {
+        
+        $decCompId = EncryptionDecryptionHelper::encdecId($request->encCompId,'decrypt');
+        $company = CompanyDetail::where('tbl_comp_id',$decCompId)->first();
+        //dd($company);
+        $company->unique_name = $request->unique_name;
+        $company->company_name = $request->company_name;
+        $company->comp_address = $request->address;
+        $company->comp_website = $request->website;
+        $company->industry_name = $request->industry_name;
+
+        $company->contact_no = $request->contact_no;
+        $company->email = $request->email;
+        $company->updated_by = session('user')->tbl_user_id;
+        $company->updated_date = Date::now()->toDateString();
+        $company->updated_time = Date::now()->toTimeString();
+
+
+        // Handle company logo upload if a file was uploaded
+        //  if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $company->company_logo = file_get_contents($image->path()); // Store image data as binary
+        // }
+        // if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $company->company_logo = file_get_contents($image->path()); // Store image data as binary
+        // }
+        if ($request->hasFile('company_logo')) {
+            $image = $request->file('company_logo');
+            $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
+            $company->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+        }
+
+        try {
+            //dd($company);
+            $company->save();
+           
+            
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Handle the exception (e.g., log error, display message)
+            dd($e->getMessage()); // Dump the error message for debugging
+        }
    }
 }

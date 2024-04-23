@@ -20,13 +20,22 @@ use App\Http\Controllers\ExhibitionController;
 //     return view('welcome');
 // });
 Route::get('/', [AuthController::class, 'Home'])->name('Home');
+Route::get('/signin', [AuthController::class, 'loginPage']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/regorganizer', [AuthController::class, 'OrganizerRegistrationSubmitForm']);
+Route::post('/regexhibitor', [AuthController::class, 'ExhibitorRegistrationSubmitForm']);
+
+Route::middleware(['validLogin','preventBackHistory'])->group(function () {
+    //Add your routes here
+    
+    
+    
 Route::get('/AdminDashboard', [AuthController::class, 'AdminDashboard']);
 Route::get('/organizerform', [AuthController::class, 'OrganizerRegistrationForm']);
 Route::get('/exhibitorform', [AuthController::class, 'ExhibitorForm']);
-Route::get('/signin', [AuthController::class, 'loginPage']);
-Route::post('/regorganizer', [AuthController::class, 'OrganizerRegistrationSubmitForm']);
-Route::post('/regexhibitor', [AuthController::class, 'ExhibitorRegistrationSubmitForm']);
-Route::post('/login', [AuthController::class, 'login']);
+
+
+
 Route::get('/logout', [AuthController::class, 'logout']);
 
 
@@ -98,5 +107,10 @@ Route::get('/assignproducts/{encDocumentId}', [ExhibitionController::class, 'ass
 Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAssignedProducts']);
 
 Route::post('/assignprod',[ExhibitionController::class,'assignProd']);
+
+//company set up
+Route::post('/updatecompanydetails',[ExhibitionController::class,'updateCompanyDetails']);
+
+});
 
 ?>

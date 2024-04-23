@@ -291,17 +291,17 @@
                         <h4 class="card-header text-center">Company Setup Form</h4>
         
                         <div class="card-body">
-                            <form method="POST" action="/regorganizer" enctype="multipart/form-data">
+                        <form method="POST" action="/updatecompanydetails" enctype="multipart/form-data">
                                 @csrf
         
                                 <div class="form-group row">
                                     <div class="form-group col-md-6">
                                         <label for="company_name" class="col-form-label text-md-right">Company Name</label>
-                                        <input id="company_name" name="company_name" type="text" class="form-control" name="company_name" required>
-                                    </div>
+                                        <input id="company_name" name="company_name" type="text" value="{{ $company->company_name }}" class="form-control" name="company_name" required>
+                                        <input id="encCompId" name="encCompId" type="hidden" value="{{ $company->encCompId }}" class="form-control">                                    </div>
                                     <div class="col-md-6">
                                         <label for="unique_name" class="col-form-label text-md-right">Unique Name</label>
-                                        <input id="unique_name" name="unique_name" type="text" class="form-control" name="unique_name" required autofocus>
+                                        <input id="unique_name" name="unique_name" type="text" value="{{ $company->unique_name }}" class="form-control" name="unique_name" required autofocus>
                                     </div> 
                                 </div>
                                 
@@ -309,12 +309,12 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="first_name" class="col-form-label text-md-right">Company Address</label>
-                                        <input id="first_name" name="first_name" type="text" class="form-control" name="first_name" required>
+                                        <input id="first_name" name="address" type="text" value="{{ $company->comp_address }}" class="form-control" name="first_name" required>
                                     </div>
         
                                     <div class="form-group col-md-6">
                                         <label for="last_name" class="col-form-label text-md-right">Company Website</label>
-                                        <input id="last_name" name="last_name" type="text" class="form-control" name="last_name" required>
+                                        <input id="last_name" name="website" type="text" value="{{ $company->comp_website }}" class="form-control" name="last_name" required>
                                     </div>
                                    
                                 </div>
@@ -322,12 +322,12 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="contact_no" class="col-form-label text-md-right">Contact Number</label>
-                                        <input id="contact_no" name="contact_no" type="text" class="form-control" required>
+                                        <input id="contact_no" name="contact_no" type="text" value="{{ $company->contact_no }}"  class="form-control" required>
                                     </div>
                                 
                                     <div class="form-group col-md-6">
                                         <label for="email" class="col-form-label text-md-right">Email ID</label>
-                                        <input id="email" name="email" type="email" class="form-control" required>
+                                        <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
                                     </div>
                                 </div>
                                 
@@ -347,9 +347,9 @@
                                         <label  class="col-form-label text-md-right">Industry</label>
                                         <select  name="industry_name" class="form-control" required>
                                             <option value="">Select Industry</option>
-                                            {{-- @foreach($industries as $industry)
+                                            @foreach($industries as $industry)
                                                 <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
-                                            @endforeach --}}
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6">

@@ -114,7 +114,7 @@ class AuthController extends Controller
 
         try {
             $company->save();
-            EmailHelper::sendEmail($company);
+            //EmailHelper::sendEmail($company);
             
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
