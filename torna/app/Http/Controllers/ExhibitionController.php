@@ -583,4 +583,35 @@ public function companysetupformo(){
     return redirect()->back();
     
    }
+
+
+   public function pendingexcounts()
+   {
+       $companies = UserDetail::where('active_status', 'Approved')->where('role_id', 2)->get();
+
+       foreach ($companies as $company) {
+           $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+       }
+       return view('OrganizerPages/pendingexcounts', ['companies' => $companies]);
+   }
+
+
+   public function participatedExhibitions()
+   {
+       $companies = UserDetail::where('active_status', 'Approved')->where('role_id', 2)->get();
+
+       foreach ($companies as $company) {
+           $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+       }
+       return view('ExhibitorPages/participatedExhibitions', ['companies' => $companies]);
+   }
+   
+
+   public function visitorsdetails()
+   {
+       
+       return view('VisitorPages/visitorsdetails');
+   }
+   
+   
 }

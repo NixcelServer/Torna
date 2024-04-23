@@ -117,7 +117,7 @@
                         
                     </li>
                     <li>
-                        <a  href="/" aria-expanded="false">
+                        <a  href="/companysetupform" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
                         </a>
                     </li>
@@ -132,6 +132,8 @@
                             <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
                             <li><a href="/pastExhibitions">Past Exhibition</a></li>
                             <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+                            <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
+
 
                         </ul>
                     </li>
