@@ -347,9 +347,9 @@
                                         <label  class="col-form-label text-md-right">Industry</label>
                                         <select  name="industry_name" class="form-control" required>
                                             <option value="">Select Industry</option>
-                                            {{-- @foreach($industries as $industry)
+                                            @foreach($industries as $industry)
                                                 <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
-                                            @endforeach --}}
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6">

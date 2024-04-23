@@ -287,7 +287,7 @@
                                             <tr>
                                                 <th>Sr No</th>
                                                 <th>Exhibition Name</th>
-                                                
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

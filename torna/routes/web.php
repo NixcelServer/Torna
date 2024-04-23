@@ -95,8 +95,8 @@ Route::post('/storedocuments', [ExhibitionController::class, 'storedocuments']);
 Route::get('/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
 
 
-Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAssignedProducts'])
+Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAssignedProducts']);
 
-
+Route::post('/assignprod',[ExhibitionController::class,'assignProd']);
 
 ?>

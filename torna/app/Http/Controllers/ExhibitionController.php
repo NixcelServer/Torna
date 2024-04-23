@@ -489,12 +489,27 @@ class ExhibitionController extends Controller
    }
 
    public function companysetupform(){
+    $industries = Industry::where('flag', 'show')->get();
+
+    foreach ($industries as $industry) {
+        $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+        $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+    }
     
-    return view('ExhibitorPages/companysetupform');
+    return view('ExhibitorPages/companysetupform',['industries'=>$industries]);
 }
 public function companysetupformo(){
-    
-    return view('OrganizerPages/companysetupformo');
+    $user = session('user');
+    $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->get();
+
+    $industries = Industry::where('flag', 'show')->get();
+
+        foreach ($industries as $industry) {
+            $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+            $industry->count = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+        }
+    //dd($company);
+    return view('OrganizerPages/companysetupformo',['industries'=>$industries,'company'=>$company]);
 }
 
     
