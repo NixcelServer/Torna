@@ -62,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.html">
+                <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -129,12 +129,17 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="" aria-expanded="false">
+                        <a  href="/AdminDashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
-                    
+                    <li>
+                        <a  href="/industrymaster" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        </a>
+                        
+                    </li>
                    
                     {{-- <li class="nav-label">Apps</li>
                     <li>
@@ -272,7 +277,7 @@
                                 <div class="col-12 text-right mt-n4">
                                     <div class="buttons">
                                         <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Industry</button>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addIndustryModal">Add New Industry</button>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -303,24 +308,24 @@
                     </div>
                 </div>
             </div>
-            <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
+            <div class="modal fade" id="addIndustryModal" tabindex="-1" role="dialog" aria-labelledby="addIndustryModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form id="addDepartmentForm" action="/storeindustrydetails" method="POST">
+                        <form id="addIndustryForm" action="/storeindustrydetails" method="POST">
                             @csrf
                             <div class="modal-header">
-                                <h5 class="modal-title" id="addDepartmentModalLabel">Add New Industry</h5>
+                                <h5 class="modal-title" id="addIndustryModalLabel">Add New Industry</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    
+                                    <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="departmentName">Enter Industry Name</label>
-                                    <input type="text" class="form-control" id="departmentName" name="industryName" required>
-                                    <span id="departmentNameError" class="text-danger"></span>
-                                    
+                                    <label for="industryName">Enter Industry Name</label>
+                                    <input type="text" class="form-control" id="industryName" name="industryName" required>
+                                    <span id="industryNameError" class="text-danger"></span>
                                 </div>
+                                <!-- Add other fields related to adding a new industry if needed -->
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -330,7 +335,12 @@
                 </div>
             </div>
         </div>
-
+        <style>
+            .modal-backdrop {
+                /* Set the background color to transparent */
+                background-color: rgba(0, 0, 0, 0.3); /* Adjust the alpha (last value) for transparency level */
+            }
+        </style>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
     const deleteButtons = document.querySelectorAll('.delete-btn');

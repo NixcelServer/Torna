@@ -49,7 +49,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.html">
+                <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -275,9 +275,9 @@
         <div class="content-body">
             
 
-            <div class="container mt-5">
+            <div class="container mt-3">
                 <div class="row justify-content-center">
-                    <div class="col-md-8">
+                    <div class="col-md-11">
                         <div class="card">
                             <h2 class="card-header text-center mt-2">Create Exhibition</h2>
             
@@ -286,42 +286,44 @@
                                     @csrf
             
                                     <div class="form-group row">
-                                        <div class="col-md-6">
-                                            <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name</label>
+                                        <div class="col-md-4">
+                                            <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
                                             <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required>
                                         </div>
-                                        
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="from_date" class="col-form-label text-md-right">From Date</label>
+                                        <div class="col-md-4">
+                                            <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
                                             <input id="from_date" name="from_date" type="date" class="form-control" required>
                                         </div>
             
-                                        <div class="col-md-6">
-                                            <label for="to_date" class="col-form-label text-md-right">To Date</label>
+                                        <div class="col-md-4">
+                                            <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
                                             <input id="to_date" name="to_date" type="date" class="form-control" required>
                                         </div>
+            
                                     </div>
             
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="start_time" class="col-form-label text-md-right">Start Time</label>
+                                        
+                                    </div>
+            
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="start_time" class="col-form-label text-md-right">Start Time <span style="color: red;">*</span></label>
                                             <input id="start_time" name="start_time" type="time" class="form-control" required>
                                         </div>
             
-                                        <div class="col-md-6">
-                                            <label for="end_time" class="col-form-label text-md-right">End Time</label>
+                                        <div class="col-md-4">
+                                            <label for="end_time" class="col-form-label text-md-right">End Time <span style="color: red;">*</span></label>
                                             <input id="end_time" name="end_time" type="time" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="venue" class="col-form-label text-md-right">Venue <span style="color: red;">*</span></label>
+                                            <input id="venue" name="venue" type="text" class="form-control" required>
                                         </div>
                                     </div>
             
                                     <div class="form-group row">
-                                        <div class="col-md-6">
-                                            <label for="venue" class="col-form-label text-md-right">Venue</label>
-                                            <input id="venue" name="venue" type="text" class="form-control" required>
-                                        </div>
+                                        
             
                                         {{-- <div class="col-md-6">
                                             <label for="organized_by" class="col-form-label text-md-right">Organized By</label>
@@ -329,36 +331,61 @@
                                         </div> --}}
                                     </div>
             
-                                    <div class="form-group row">
-                                        {{-- <div class="col-md-6">
-                                            <label for="notify_by" class="col-form-label text-md-right">Notify By</label>
-                                            <select id="notify_by" name="notify_by" class="form-control" required>
-                                                <option value="email">Select Option</option>
-                                                <option value="email">Email</option>
-                                                <option value="text">Text</option>
-                                                <option value="whatsapp">WhatsApp</option>
-                                            </select>
-                                        </div> --}}
             
-                                        <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
+                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
+                                            <input id="attach_document" name="attach_document" type="file" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
+                                            <input id="registration_url" name="registration_url" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        
+            
+                                        <div class="col-md-4">
                                             <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
                                             <input id="company_logo" name="company_logo" type="file" class="form-control">
                                         </div>
-                                    </div>
-                                    
-                                    <div class="form-group row">
-                                        <div class="col-md-6">
-                                            <label  class="col-form-label text-md-right">Industry</label>
-                                            <select  name="industry_name" class="form-control" required>
+                                        <div class="col-md-4">
+                                            <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
+                                            <select name="industry_name" class="form-control" required>
                                                 <option value="">Select Industry</option>
                                                 @foreach($industries as $industry)
-                                                    <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
+                                                <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="col-md-4">
+                                            <label class="col-form-label text-md-right">Status <span style="color: red;">*</span></label>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked>
+                                                        <label class="form-check-label" for="Active">Active</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive">
+                                                        <label class="form-check-label" for="Inactive">Inactive</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
                                     </div>
-                                    
-                                    
+            
+            
+            
+            
             
                                     <br />
                                     <div class="form-group row justify-content-center mb-3">

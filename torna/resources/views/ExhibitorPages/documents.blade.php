@@ -62,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.html">
+                <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -372,7 +372,12 @@
                 </div>
             </div>
         </div>
-
+        <style>
+            .modal-backdrop {
+                /* Set the background color to transparent */
+                background-color: rgba(0, 0, 0, 0.3); /* Adjust the alpha (last value) for transparency level */
+            }
+        </style>
         <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">

@@ -27,8 +27,8 @@ class ExhibitionDetail extends Model
         'ex_city',
         'venue',
         'industry',
-        'venue_line_venue_2',
-        'venue_line_venue_3',
+        'exhibition_website',
+        'attach_document',
         'start_time',
         'end_time',
         'active_status',
@@ -38,6 +38,7 @@ class ExhibitionDetail extends Model
         'updated_by',
         'updated_date',
         'updated_time',
+        'registration_url',
         'flag',
     ];
 }
