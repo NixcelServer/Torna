@@ -13,7 +13,7 @@ class CompanyDetail extends Model
     protected $primaryKey = 'tbl_comp_id';
 
     protected $fillable = [
-        'comp_name',
+        'company_name',
         'comp_industry',
         'comp_address',
         'fname',

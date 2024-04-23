@@ -71,6 +71,9 @@ Route::get('/updateExStatus/{id}', [ExhibitionController::class, 'updateExStatus
 Route::get('/products', [ExhibitionController::class, 'products']);
 Route::get('/documents', [ExhibitionController::class, 'documents']);
 Route::get('/upcomingExhibitions', [ExhibitionController::class, 'upcomingExhibitions']);
+Route::get('/upcomingExhibitionsO', [ExhibitionController::class, 'upcomingExhibitionsO']);
+
+
 Route::get('/pastExhibitions', [ExhibitionController::class, 'pastExhibitions']);
 Route::get('/companysetupform', [ExhibitionController::class, 'companysetupform']);
 
@@ -91,10 +94,9 @@ Route::post('/storedocuments', [ExhibitionController::class, 'storedocuments']);
 // Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
 Route::get('/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
 
+
+Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAssignedProducts']);
+
 Route::post('/assignprod',[ExhibitionController::class,'assignProd']);
-
-Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAssignedProducts'])
-
-
 
 ?>
