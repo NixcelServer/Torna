@@ -10,6 +10,7 @@ use App\Models\CompanyDetail;
 use App\Models\ExhibitionDetail;
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EmailHelper;
+use App\Helpers\AuditLogHelper;
 
 
 use Illuminate\Support\Facades\Session;
@@ -80,6 +81,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user_details = session('user');
+        AuditLogHelper::logDetails('logout', $user_details->tbl_user_id);
         $request->session()->flush();
 
         Auth::logout();
@@ -139,7 +141,7 @@ class AuthController extends Controller
         // Save the user to the database
       //  $user->save();
 
-
+      AuditLogHelper::logDetails('registered as organizer', $user->tbl_user_id);
 
       //  return redirect()->route('Home')->with('success', 'Registration successful!');
 
@@ -192,6 +194,8 @@ class AuthController extends Controller
 
         // Save the user to the database
         $user->save();
+
+        AuditLogHelper::logDetails('registered as exhibitor', $user->tbl_user_id);
 
         return redirect()->route('Home')->with('success', 'Registration successful!');
     }

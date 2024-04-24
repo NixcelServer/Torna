@@ -12,6 +12,7 @@ use App\Models\AssignProduct;
 
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EncryptionDecryptionHelper;
+use App\Helpers\AuditLogHelper;
 
 use App\Models\ExhibitionDetail;
 use Illuminate\Http\Request;
@@ -40,6 +41,8 @@ class ExhibitionController extends Controller
             ->where('email', $email)
             ->where('contact_no', $contactNo)
             ->update(['active_status' => $activeStatus]);
+
+            AuditLogHelper::logDetails('update exhibition status to active', $user->tbl_user_id);
 
         return response()->json(['message' => 'Status updated successfully'], 200);
     }
@@ -154,6 +157,8 @@ class ExhibitionController extends Controller
         $industry->flag = "show";
         $industry->save();
 
+        AuditLogHelper::logDetails('created '.$request->industryName . ' industry', $user->tbl_user_id);
+
 
         return redirect('/industrymaster');
     }
@@ -180,6 +185,8 @@ class ExhibitionController extends Controller
         $industry->flag = "deleted";
         $industry->save();
 
+        AuditLogHelper::logDetails('deleted ' .$industy->industy_name. ' industry', $user_details->tbl_user_id);
+
         return redirect('/industrymaster');
     }
     public function deleteproduct($enc_id)
@@ -197,7 +204,7 @@ class ExhibitionController extends Controller
         $product->flag = "deleted";
 
         $product->save();
-
+        AuditLogHelper::logDetails('deleted ' .$product->product_name . 'product', $user_details->tbl_user_id);
         return redirect('/products');
     }
 
@@ -219,28 +226,34 @@ class ExhibitionController extends Controller
     }
     public function StoreExhibitionForm(Request $request)
     {
+        //dd($request);
         // Create a new exhibition using the validated data
         $user = session('user');
+        //$company = CompanyDetail::where('tbl_user_id',$user->tbl_user_id)->first();
 
         $exhibition = new ExhibitionDetail();
         $exhibition->tbl_comp_id = $user->tbl_comp_id;
-        $exhibition->unique_name = $request->unique_name;
-        $exhibition->exhibition_name = $request->exhibition_name;
-        $exhibition->from_date = $request->from_date;
-        $exhibition->to_date = $request->to_date;
+        //$exhibition->unique_name = $request->unique_name;
+        $exhibition->ex_name = $request->exhibition_name;
+       // $exhibition->ex_organized_by = $company->company_name;
+        $exhibition->ex_from_date = $request->from_date;
+        $exhibition->ex_to_date = $request->to_date;
         $exhibition->start_time = $request->start_time;
         $exhibition->end_time = $request->end_time;
         $exhibition->venue = $request->venue;
-        $exhibition->organized_by = $request->organized_by;
-        $exhibition->notify_by = $request->notify_by;
+        //$exhibition->organized_by = $request->organized_by;
+        //$exhibition->notify_by = $request->notify_by;
         $exhibition->industry = $request->industry_name;
         
         $exhibition->active_status = $request->active_status;
-        $exhibition->exhibition_website = $request->exhibition_website;
-        $exhibition->attach_document = $request->attach_document;
-        $exhibition->registration_url = $request->registration_url;
+        $exhibition->created_by = $user->tbl_user_id;
+        $exhibition->created_date = Date::now()->toDateString();
+        $exhibition->created_time = Date::now()->toTimeString();
+       // $exhibition->exhibition_website = $request->exhibition_website;
+        //$exhibition->attach_document = $request->attach_document;
+        //$exhibition->registration_url = $request->registration_url;
 
-
+        
 
 
         // Handle company logo upload if a file was uploaded
@@ -256,6 +269,8 @@ class ExhibitionController extends Controller
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
         }
+
+        AuditLogHelper::logDetails('created ' . $exhibition->ex_name . ' exhibition', $user->tbl_user_id);
 
         return redirect()->route('activeExhibitions')->with('success', 'Exhibition created successfully!');
     }
@@ -276,6 +291,7 @@ class ExhibitionController extends Controller
     public function updateExStatus($id)
     {
 
+        $user->session('user');
         $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
         $ex = ExhibitionDetail::where('tbl_ex_id', $decExId)->first();
 
@@ -299,6 +315,8 @@ class ExhibitionController extends Controller
         //     ->where('email', $email)
         //     ->where('contact_no', $contactNo)
         //     ->update(['active_status' => $activeStatus]);
+
+        AuditLogHelper::logDetails('update ' .$exhibition->exhibition_name . ' to inactive', $user->tbl_user_id);
 
         return redirect()->back();
     }
@@ -364,6 +382,8 @@ class ExhibitionController extends Controller
         // Save the product details
         $product->save();
 
+        AuditLogHelper::logDetails('created ' .$product->product_name . ' product', $userDetails->tbl_user_id);
+
         // Redirect back to the products page
         return redirect('/products');
     }
@@ -405,6 +425,8 @@ class ExhibitionController extends Controller
         //dd($document);
         try {
             $document->save();
+            AuditLogHelper::logDetails('created ' .$document->doc_name. 'document', $user->tbl_user_id);
+
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
@@ -549,12 +571,6 @@ public function companysetupformo(){
             
         }
         
-        
-
-        
-
-        
-
             
         return view('ExhibitorPages.assignproducts',['document'=>$document,'products'=>$products,'assignedProds'=>$assignedProds]);
    }
@@ -570,6 +586,9 @@ public function companysetupformo(){
     $assignProd->created_date = Date::now()->toDateString();
     $assignProd->created_time = Date::now()->toTimeString();
     $assignProd->save();
+
+    AuditLogHelper::logDetails('assigned ' .$product->product_name . ' product', $userDetails->tbl_user_id);
+
     
     return redirect()->back();
     
@@ -587,6 +606,8 @@ public function companysetupformo(){
     $assignedProd->deleted_date = Date::now()->toDateString();
     $assignedProd->deleted_time = Date::now()->toTimeString();
     $assignedProd->save();
+
+    AuditLogHelper::logDetails('deleted assigned Product with ID ' .$decAssignedProdId . '', $user->tbl_user_id);
     
     return redirect()->back();
     
@@ -594,7 +615,7 @@ public function companysetupformo(){
 
    public function updateCompanyDetails(Request $request)
    {
-        
+        $user = session('user');
         $decCompId = EncryptionDecryptionHelper::encdecId($request->encCompId,'decrypt');
         $company = CompanyDetail::where('tbl_comp_id',$decCompId)->first();
         //dd($company);
@@ -629,6 +650,7 @@ public function companysetupformo(){
         try {
             //dd($company);
             $company->save();
+            AuditLogHelper::logDetails('updated '.$company->company_name .' details with ID ' .$company->tbl_comp_id . ' product', $user->tbl_user_id);
            
             
         } catch (\Illuminate\Database\QueryException $e) {
