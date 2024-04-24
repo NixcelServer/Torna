@@ -24,6 +24,9 @@ Route::get('/signin', [AuthController::class, 'loginPage']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/regorganizer', [AuthController::class, 'OrganizerRegistrationSubmitForm']);
 Route::post('/regexhibitor', [AuthController::class, 'ExhibitorRegistrationSubmitForm']);
+Route::get('/organizerform', [AuthController::class, 'OrganizerRegistrationForm']);
+Route::get('/exhibitorform', [AuthController::class, 'ExhibitorForm']);
+
 
 Route::middleware(['validLogin','preventBackHistory'])->group(function () {
     //Add your routes here
@@ -31,8 +34,7 @@ Route::middleware(['validLogin','preventBackHistory'])->group(function () {
     
     
 Route::get('/AdminDashboard', [AuthController::class, 'AdminDashboard']);
-Route::get('/organizerform', [AuthController::class, 'OrganizerRegistrationForm']);
-Route::get('/exhibitorform', [AuthController::class, 'ExhibitorForm']);
+
 
 
 

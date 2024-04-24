@@ -56,6 +56,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             Session::put('user', $user);
+            AuditLogHelper::logDetails('login', $user->tbl_user_id);
 
             if ($user->role_id == '1') {
                 return redirect('/AdminDashboard');
@@ -114,7 +115,7 @@ class AuthController extends Controller
 
         try {
             $company->save();
-            //EmailHelper::sendEmail($company);
+            EmailHelper::sendEmail($company);
             
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
@@ -150,7 +151,7 @@ class AuthController extends Controller
         // Redirect the user to a success page or any other page as needed
         //return view('OrganizerForm');
 
-        return view('OrganizerPages/OrganizerForm');
+        return view('HomePages/Login');
     }
     public function ExhibitorRegistrationSubmitForm(Request $request)
     {
