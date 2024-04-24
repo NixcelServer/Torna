@@ -117,7 +117,7 @@
                         
                     </li>
                     <li>
-                        <a  href="/" aria-expanded="false">
+                        <a  href="/companysetupform" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
                         </a>
                     </li>
@@ -129,8 +129,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
                         <ul aria-expanded="false">
+                            <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
                             <li><a href="/pastExhibitions">Past Exhibition</a></li>
                             <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+                            <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
+
 
                         </ul>
                     </li>
@@ -271,6 +274,8 @@
         <!--**********************************
             Content body start
         ***********************************-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
         <div class="content-body">
             
 
@@ -295,8 +300,14 @@
                                             @foreach($upcomingExs as $key => $upcomingEx)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
+
                                                 <td>{{ $upcomingEx->ex_name }}</td>
                                                 
+
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->id }}" onclick="confirmParticipation(event)">Participate</button>
+                                                </td>                                                
+
                                             </tr>
                                             @endforeach
                                                                                         
@@ -315,6 +326,32 @@
         <!--**********************************
             Content body end
         ***********************************-->
+        <script>
+            function confirmParticipation(event) {
+                event.preventDefault();
+        
+                Swal.fire({
+                    title: 'Are you Exited to participate?',
+                    text: "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, participate!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Handle participation logic here, e.g., submit a form or make an AJAX request
+                        const exhibitionId = event.target.dataset.id;
+                        // Example AJAX request
+                        // $.post('/participate', { exhibitionId: exhibitionId }, function(response) {
+                        //     // Handle response from server
+                        // });
+                        Swal.fire('Participation confirmed!', '', 'success');
+                    }
+                });
+            }
+        </script>
         
         
         <!--**********************************

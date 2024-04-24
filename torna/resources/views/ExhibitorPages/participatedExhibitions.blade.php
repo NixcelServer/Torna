@@ -274,6 +274,8 @@
         <!--**********************************
             Content body start
         ***********************************-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
         <div class="content-body">
             
 
@@ -282,7 +284,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Past Exhibitions List</h4>
+                                <h4 class="card-title">Participated Exhibitions List</h4>
                                 <br/>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
@@ -290,18 +292,25 @@
                                             <tr>
                                                 <th>Sr No</th>
                                                 <th>Exhibition Name</th>
-                                                
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             
-                                            @foreach($pastcomingExs as $key => $pastcomingEx)
+                                            {{-- @foreach($upcomingExs as $key => $upcomingEx) --}}
                                             <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $pastcomingEx->exhibition_name }}</td>
-                                                
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info generate-url-btn" data-id="" onclick="generateURL(event)">Generate URL</button>
+                                                    <!-- If you want a Generate QR Code button -->
+                                                     <button class="btn btn-sm btn-info generate-qr-btn" data-id="" onclick="generateQRCode(event)">Generate QR Code</button>
+                                                     <button class="btn btn-sm btn-primary" onclick="openDocument()">
+                                                        Notify By
+                                                    </button>
+                                                </td>                                                
                                             </tr>
-                                            @endforeach
+                                        {{-- @endforeach --}}
                                                                                         
                                         </tbody>
                                         
@@ -315,9 +324,273 @@
             
             <!-- #/ container -->
         </div>
+        <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title w-100" id="documentModalLabel">Organizer Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <body>
+                                <h3 class="mb-3">Select notification method:</h3>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailOption">
+                                    <label class="form-check-label" for="emailOption">Email</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="whatsapp" id="whatsappOption">
+                                    <label class="form-check-label" for="whatsappOption">WhatsApp</label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="sms" id="smsOption">
+                                    <label class="form-check-label" for="smsOption">SMS</label>
+                                </div>
+                                <button class="btn btn-primary" onclick="parent.submitNotifyOptions(getSelectedOptions())">Submit</button>
+                            
+                                <!-- Bootstrap JS and custom script to get selected options -->
+                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                <!-- SweetAlert -->
+                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                                <script>
+                                    function getSelectedOptions() {
+                                        const selectedOptions = [];
+                                        document.querySelectorAll('input[name=notifyOption]:checked').forEach(option => {
+                                            selectedOptions.push(option.value);
+                                        });
+                                        return selectedOptions;
+                                    }
+                            
+                                    function submitNotifyOptions(selectedOptions) {
+                                        console.log('Selected options:', selectedOptions);
+                                        // Here, you can perform actions based on the selected options (e.g., send notifications)
+                                        showSuccessPopup(); // Show success popup
+                                    }
+                            
+                                    function showSuccessPopup() {
+                                        Swal.fire({
+                                            title: 'Submitted!',
+                                            text: 'Your notification methods have been successfully submitted.',
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Redirect to the main page (replace 'main.html' with the actual page URL)
+                                                window.location.href = 'participatedExhibitions';
+                                            }
+                                        });
+                                    }
+                                </script>
+                            </body>
+                            {{-- <body>
+                                <h3 class="mb-3">Select notification method:</h3>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailOption">
+                                    <label class="form-check-label" for="emailOption">Email</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="whatsapp" id="whatsappOption">
+                                    <label class="form-check-label" for="whatsappOption">WhatsApp</label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="sms" id="smsOption">
+                                    <label class="form-check-label" for="smsOption">SMS</label>
+                                </div>
+                                <button class="btn btn-primary" id="submitBtn">Submit</button>
+                            
+                                <!-- Bootstrap JS and custom script to get selected options -->
+                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                                <!-- SweetAlert -->
+                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#submitBtn').click(function() {
+                                            const selectedOptions = getSelectedOptions();
+                                            console.log('Selected options:', selectedOptions);
+                            
+                                            // Make an AJAX request to the backend endpoint
+                                            $.ajax({
+                                                url: '/your-backend-endpoint',
+                                                type: 'POST',
+                                                data: JSON.stringify({ options: selectedOptions }),
+                                                contentType: 'application/json',
+                                                success: function(response) {
+                                                    console.log('Backend response:', response);
+                                                    showSuccessPopup(); // Show success popup after successful backend call
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    console.error('Error:', error);
+                                                    showErrorPopup(); // Show error popup if backend call fails
+                                                }
+                                            });
+                                        });
+                            
+                                        function getSelectedOptions() {
+                                            const selectedOptions = [];
+                                            document.querySelectorAll('input[name=notifyOption]:checked').forEach(option => {
+                                                selectedOptions.push(option.value);
+                                            });
+                                            return selectedOptions;
+                                        }
+                            
+                                        function showSuccessPopup() {
+                                            Swal.fire({
+                                                title: 'Submitted!',
+                                                text: 'Your notification methods have been successfully submitted.',
+                                                icon: 'success',
+                                                confirmButtonText: 'OK'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    // Redirect to the main page (replace 'main.html' with the actual page URL)
+                                                    window.location.href = 'main.html';
+                                                }
+                                            });
+                                        }
+                            
+                                        function showErrorPopup() {
+                                            Swal.fire({
+                                                title: 'Error!',
+                                                text: 'There was an error submitting your notification methods.',
+                                                icon: 'error',
+                                                confirmButtonText: 'OK'
+                                            });
+                                        }
+                                    });
+                                </script>
+                            </body> --}}
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+        <script>
+            function openDocument(companyName, email, contactNo, compId ) {
+                $('#companyName').text(companyName);
+                $('#email').text(email);
+                $('#contactNo').text(contactNo);
+                $('#compId').text(compId);
+                $('#documentModal').modal('show');
+            }
+        
+            $('#approveDocumentBtn').on('click', function () {
+                var companyName = $('#companyName').text();
+                var compId = $('#compId').text();
+                var email = $('#email').text();
+                var contactNo = $('#contactNo').text();
+                var activeStatus = 'Approved';
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateStatus',
+                    data: {
+                        companyName: companyName,
+                        email: email,
+                        contactNo: contactNo,
+                        compId: compId,
+                        activeStatus: activeStatus
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        verifyDocument(true);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        
+            $('#rejectDocumentBtn').on('click', function () {
+                verifyDocument(false);
+            });
+        
+            function verifyDocument(Approved) {
+                var companyName = $('#companyName').text();
+                var compId = $('#compId').text();
+                var email = $('#email').text();
+                var contactNo = $('#contactNo').text();
+                var activeStatus = Approved ? 'Approved' : 'rejected';
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateStatus',
+                    data: {
+                        companyName: companyName,
+                        compId: compId,
+                        email: email,
+                        contactNo: contactNo,
+                        activeStatus: activeStatus
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        var status = Approved ? 'Approved' : 'Rejected';
+                        var message = companyName + ' has been ' + status;
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Organizer ' + status + '!',
+                            text: message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(function () {
+                            console.log(companyName + ' ' + status);
+                            $('#documentModal').modal('hide');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        </script>
         <!--**********************************
             Content body end
         ***********************************-->
+        <script>
+            function confirmParticipation(event) {
+                event.preventDefault();
+        
+                Swal.fire({
+                    title: 'Are you Exited to participate?',
+                    text: "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, participate!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Handle participation logic here, e.g., submit a form or make an AJAX request
+                        const exhibitionId = event.target.dataset.id;
+                        // Example AJAX request
+                        // $.post('/participate', { exhibitionId: exhibitionId }, function(response) {
+                        //     // Handle response from server
+                        // });
+                        Swal.fire('Participation confirmed!', '', 'success');
+                    }
+                });
+            }
+        </script>
         
         
         <!--**********************************

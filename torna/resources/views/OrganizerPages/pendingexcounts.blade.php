@@ -19,6 +19,19 @@
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
@@ -49,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="/OrgDashboard">
+                <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -88,8 +101,12 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                @php
+                                $user = Session::get('user');
+                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
+                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -97,6 +114,7 @@
                         </li>
                     </ul>
                 </div>
+                
             </div>
         </div>
         <!--**********************************
@@ -262,160 +280,236 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
         <!--**********************************
             Content body start
         ***********************************-->
         <div class="content-body">
-            
-
-            <div class="container mt-3">
-                <div class="row justify-content-center">
-                    <div class="col-md-11">
+            <div class="container-fluid mt-3">
+                <div class="row">
+                    <div class="col-12">
                         <div class="card">
-                            <h2 class="card-header text-center mt-2">Create Exhibition</h2>
-            
                             <div class="card-body">
-                                <form method="POST" action="/createExhibition" enctype="multipart/form-data">
-                                    @csrf
-            
-                                    <div class="form-group row">
-                                        <div class="col-md-4">
-                                            <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
-                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
-                                            <input id="from_date" name="from_date" type="date" class="form-control" required>
-                                        </div>
-            
-                                        <div class="col-md-4">
-                                            <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
-                                            <input id="to_date" name="to_date" type="date" class="form-control" required>
-                                        </div>
-            
-                                    </div>
-            
-                                    <div class="row">
-                                        
-                                    </div>
-            
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label for="start_time" class="col-form-label text-md-right">Start Time <span style="color: red;">*</span></label>
-                                            <input id="start_time" name="start_time" type="time" class="form-control" required>
-                                        </div>
-            
-                                        <div class="col-md-4">
-                                            <label for="end_time" class="col-form-label text-md-right">End Time <span style="color: red;">*</span></label>
-                                            <input id="end_time" name="end_time" type="time" class="form-control" required>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="venue" class="col-form-label text-md-right">Venue <span style="color: red;">*</span></label>
-                                            <input id="venue" name="venue" type="text" class="form-control" required>
-                                        </div>
-                                    </div>
-            
-                                    <div class="form-group row">
-                                        
-            
-                                        {{-- <div class="col-md-6">
-                                            <label for="organized_by" class="col-form-label text-md-right">Organized By</label>
-                                            <input id="organized_by" name="organized_by" type="text" class="form-control" required>
-                                        </div> --}}
-                                    </div>
-            
-            
-                                    <div class="form-group row">
-                                        <div class="col-md-4">
-                                            <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
-                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
-                                            <input id="attach_document" name="attach_document" type="file" class="form-control">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
-                                            <input id="registration_url" name="registration_url" type="text" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        
-            
-                                        <div class="col-md-4">
-                                            <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
-                                            <input id="company_logo" name="company_logo" type="file" class="form-control">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
-                                            <select name="industry_name" class="form-control" required>
-                                                <option value="">Select Industry</option>
-                                                @foreach($industries as $industry)
-                                                <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="col-form-label text-md-right">Status <span style="color: red;">*</span></label>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked>
-                                                        <label class="form-check-label" for="Active">Active</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive">
-                                                        <label class="form-check-label" for="Inactive">Inactive</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                    </div>
-            
-            
-            
-            
-            
-                                    <br />
-                                    <div class="form-group row justify-content-center mb-3">
-                                        <div class="col-md-6 offset-md-4">
-                                            <button type="submit" class="btn btn-primary">
-                                                Register
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                <h4 class="card-title">Pending Exhibitors List</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered zero-configuration">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr No</th>
+                                                <th>Exhibitor Name</th>
+                                                <th>Exhibition Name</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($companies as $key => $organizer)
+                                            <tr>
+                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $organizer->company_name }}</td>
+                                                <td>{{ $organizer->email }}</td>
+                                                <td>
+                                                    <button class="btn btn-success" onclick="confirmApprove('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}')">
+                                                        Approve
+                                                    </button>
+                                                    <button class="btn btn-danger" onclick="confirmReject('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}')">
+                                                        Reject
+                                                    </button>
+                                                </td>
+                                                
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            
-            <!-- #/ container -->
         </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
+
+        <script>
+            function confirmApprove(companyName, email, contactNo, companyId) {
+                Swal.fire({
+                    title: 'Are you sure you want to approve?',
+                    text: `Approve document for ${companyName}?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Approve',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        approveDocument(companyName, email, contactNo, companyId);
+                    }
+                });
+            }
         
+            function confirmReject(companyName, email, contactNo, companyId) {
+                Swal.fire({
+                    title: 'Are you sure you want to reject?',
+                    text: `Reject document for ${companyName}?`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Reject',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        rejectDocument(companyName, email, contactNo, companyId);
+                    }
+                });
+            }
         
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        {{-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
+            function approveDocument(companyName, email, contactNo, companyId) {
+                // Example logic to handle approval action
+                console.log(`Document for ${companyName} approved!`);
+                openDocument(companyName, email, contactNo, companyId);
+            }
+        
+            function rejectDocument(companyName, email, contactNo, companyId) {
+                // Example logic to handle rejection action
+                console.log(`Document for ${companyName} rejected!`);
+                // You can add additional logic here if needed
+            }
+        
+            function openDocument(companyName, email, contactNo, companyId) {
+                // Example logic to open the document
+                console.log(`Opening document for ${companyName}`);
+                console.log(`Email: ${email}, Contact No: ${contactNo}, Company ID: ${companyId}`);
+                // You can add additional logic here if needed
+            }
+        </script>
+        
+    
+
+
+        <!-- Modal for displaying document -->
+        {{-- <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title w-100" id="documentModalLabel">Organizer Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <p><strong>Company Name:</strong> <span id="companyName"></span></p>
+                                    <p><strong>Email:</strong> <span id="email"></span></p>
+                                    <p><strong>Contact No:</strong> <span id="contactNo"></span></p>
+                                    <p><strong><span style="color: white;">Company Id:</span></strong> <span id="compId" style="color: white;"></span></p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col text-center">
+                                    <button id="approveDocumentBtn" class="btn btn-success">Approve</button>
+                                    <button id="rejectDocumentBtn" class="btn btn-danger">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div> --}}
-        <!--**********************************
-            Footer end
-        ***********************************-->
-    </div>
+    
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function openDocument(companyName, email, contactNo, compId ) {
+                $('#companyName').text(companyName);
+                $('#email').text(email);
+                $('#contactNo').text(contactNo);
+                $('#compId').text(compId);
+                $('#documentModal').modal('show');
+            }
+        
+            $('#approveDocumentBtn').on('click', function () {
+                var companyName = $('#companyName').text();
+                var compId = $('#compId').text();
+                var email = $('#email').text();
+                var contactNo = $('#contactNo').text();
+                var activeStatus = 'Approved';
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateStatus',
+                    data: {
+                        companyName: companyName,
+                        email: email,
+                        contactNo: contactNo,
+                        compId: compId,
+                        activeStatus: activeStatus
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        verifyDocument(true);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        
+            $('#rejectDocumentBtn').on('click', function () {
+                verifyDocument(false);
+            });
+        
+            function verifyDocument(Approved) {
+                var companyName = $('#companyName').text();
+                var compId = $('#compId').text();
+                var email = $('#email').text();
+                var contactNo = $('#contactNo').text();
+                var activeStatus = Approved ? 'Approved' : 'rejected';
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateStatus',
+                    data: {
+                        companyName: companyName,
+                        compId: compId,
+                        email: email,
+                        contactNo: contactNo,
+                        activeStatus: activeStatus
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        var status = Approved ? 'Approved' : 'Rejected';
+                        var message = companyName + ' has been ' + status;
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Organizer ' + status + '!',
+                            text: message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(function () {
+                            console.log(companyName + ' ' + status);
+                            $('#documentModal').modal('hide');
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        </script>
+        
+        
+
+        
+
     <!--**********************************
         Main wrapper end
     ***********************************-->
@@ -451,6 +545,16 @@
 
     <script src="./js/dashboard/dashboard-1.js"></script>
 
+
+    <script src="plugins/common/common.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/gleek.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+
+    <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
+    <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
 
 </html>

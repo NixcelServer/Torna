@@ -136,6 +136,8 @@
                             <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
                             <li><a href="/pastExhibitions">Past Exhibition</a></li>
                             <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+                            <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
+
 
                         </ul>
                     </li>

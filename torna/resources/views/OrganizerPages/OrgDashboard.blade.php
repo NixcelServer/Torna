@@ -271,9 +271,19 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-
-            
-        </div>
+            {{-- <div class="container-fluid mt-3">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="card gradient-4">
+                            <div class="card-body text-center">
+                                <a href="/pendingexcounts">
+                                    <h3 class="card-title text-white">Pending Exhibitors</h3>
+                                </a>
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </div>
+        </div> --}}
         <!--**********************************
             Content body end
         ***********************************-->
