@@ -247,6 +247,12 @@ class ExhibitionController extends Controller
 
         $product = ProductDetail::findOrFail($dec_id);
 
+        $assignedProdCount = AssignProduct::where('tbl_product_id',$product->tbl_product_id)->count();
+
+        if($assignedProdCount>0){
+            // Return a response indicating that it cannot be deleted
+        return response()->json(['message' => 'Cannot delete Product because it is assigned to a document'], 400);
+        }
 
         $product->flag = "deleted";
 
@@ -443,7 +449,7 @@ class ExhibitionController extends Controller
     }
     public function documents()
     {
-        $documents = Document::all();
+        $documents = Document::where('flag','show')->get();
 
         foreach ($documents as $document) {
             $document->encDocumentId = EncryptionDecryptionHelper::encdecId($document->tbl_doc_id, 'encrypt');
@@ -531,6 +537,30 @@ class ExhibitionController extends Controller
         }
 
         return redirect('/documents')->with('success', 'Document created successfully');
+        
+    }
+
+    public function deleteDocument($id)
+    {
+        // //get the industry details from db and set the flag as deleted
+         $user = session('user');
+        
+         $decDocId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+        
+         $doc = Document::findOrFail($decDocId);
+         $doc->flag = 'deleted';
+         $doc->updated_by = $user->tbl_user_id;
+         $doc->updated_date = Date::now()->toDateString();
+         $doc->updated_time = Date::now()->toTimeString();
+         $doc->save();   
+        
+
+        
+
+         AuditLogHelper::logDetails('deleted ' .$doc->doc_name. ' document', $user->tbl_user_id);
+
+         return redirect()->back();
+
     }
 
     public function upcomingExhibitions()
@@ -646,7 +676,7 @@ public function companysetupformo(){
         $decDocumentId=EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt');
         
         $document = Document::where('tbl_doc_id', EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt'))->first();
-       unset($document->tbl_document_id);
+       //unset($document->tbl_document_id);
         $document->encDocumentId = $encDocumentId;
 
         $products = ProductDetail::where('flag','show')->get();
@@ -661,10 +691,12 @@ public function companysetupformo(){
         foreach($assignedProds as $assignedProd){
             $productDetails = ProductDetail::where('tbl_product_id', $assignedProd->tbl_product_id)->where('flag','show')->first();
     
+           if($productDetails){
             // Attach the product name to the assigned product model
             $assignedProd->product_name = $productDetails->product_name;
 
             $assignedProd->encAssignedProdId = EncryptionDecryptionHelper::encdecId($assignedProd->tbl_assigned_prod_id,'encrypt');
+           }
 
             
         }
@@ -825,6 +857,10 @@ public function companysetupformo(){
 
         $user = session('user');
 
+        $encUserId = EncryptionDecryptionHelper::encdecId($user->tbl_user_id,'encrypt');
+        
+        $encCompanyId = EncryptionDecryptionHelper::encdecId($user->tbl_comp_id,'encrypt');
+        
         $participatedExs = Participate::where('tbl_user_id',$user->tbl_user_id)
                             ->where('active_status','active')
                             ->where('flag','show')->get();
@@ -832,6 +868,10 @@ public function companysetupformo(){
         
        foreach ($participatedExs as $participatedEx) {
            $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
+
+           $encExhibitionID = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id, 'encrypt');
+
+           $participatedEx->encExId = $encExhibitionID;
        }
        
        return view('ExhibitorPages/participatedExhibitions', ['participatedExs' => $participatedExs]);

@@ -351,6 +351,7 @@
                                             <tr>
                                                 <th>Sr No</th>
 
+
                                                 
                                                 <th>Assigned Product/Services</th>
                                                 <th>Action</th>
@@ -472,6 +473,7 @@
     <script src="/plugins/raphael/raphael.min.js"></script>
     <script src="/plugins/morris/morris.min.js"></script>
     <!-- Pignose Calender -->
+
     <script src="/plugins/moment/moment.min.js"></script>
     <script src="/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
     <!-- ChartistJS -->

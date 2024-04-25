@@ -311,7 +311,7 @@
             <button class="btn btn-sm btn-info generate-url-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateURL(event)">Generate URL</button>
             <!-- If you want a Generate QR Code button -->
             <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateQRCode(event)">Generate QR Code</button>
-            <button class="btn btn-sm btn-primary" onclick="openDocument()">
+            <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}')">
                 Notify By
             </button>
         </td>                                                
@@ -357,6 +357,11 @@
                                     <input class="form-check-input" type="checkbox" name="notifyOption" value="sms" id="smsOption">
                                     <label class="form-check-label" for="smsOption">SMS</label>
                                 </div>
+                                <div class="modal-body">
+                <!-- Hidden input fields to store user ID and company ID -->
+                <input type="hidden" id="encExId">
+
+            </div>
                                 <button class="btn btn-primary" onclick="parent.submitNotifyOptions(getSelectedOptions())">Submit</button>
                             
                                 <!-- Bootstrap JS and custom script to get selected options -->
@@ -380,6 +385,7 @@
 
                                         // Get selected options when the button is clicked
                                             const selectedOptions = getSelectedOptions();
+
                                             
                                             // Check if any options are selected
                                             if (selectedOptions.length === 0) {
@@ -392,7 +398,9 @@
                                             $.ajax({
                                                 url: '/selected-options-to-notify',
                                                 type: 'POST',
-                                                data: JSON.stringify({ options: selectedOptions }),
+                                                data: JSON.stringify({ options: selectedOptions,
+                                                                        encExId: $('#encExId').val(), // Get the encrypted user ID from the hidden input field
+                                                                           }),
                                                 contentType: 'application/json',
                                                 headers: {
                                                     'X-CSRF-TOKEN': csrfToken // Include CSRF token in request headers
@@ -527,11 +535,9 @@
 
 
         <script>
-            function openDocument(companyName, email, contactNo, compId ) {
-                $('#companyName').text(companyName);
-                $('#email').text(email);
-                $('#contactNo').text(contactNo);
-                $('#compId').text(compId);
+            function openDocument(encExId ) {
+                document.getElementById('encExId').value = encExId;
+                
                 $('#documentModal').modal('show');
             }
         

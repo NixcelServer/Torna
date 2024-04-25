@@ -476,10 +476,10 @@
                                                 </td>
                                                 <td>
 
-                                                <a href="/assignproducts/{{ $document->encDocumentId }}" class="btn btn-sm btn-primary assign-btn">Assign Product/Services</a>
+                                                <a href='/documents/assignproducts/{{ $document->encDocumentId }}' class="btn btn-sm btn-primary assign-btn">Assign Product/Services</a>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $document->enc_id }}">Delete</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $document->encDocumentId }}">Delete</button>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -596,8 +596,8 @@
     const deleteButtons = document.querySelectorAll('.delete-btn');
     deleteButtons.forEach(button => {
         button.addEventListener('click', function () {
-            const industryId = this.getAttribute('data-id');
-            console.log(industryId);
+            const encDocumentId = this.getAttribute('data-id');
+            console.log(encDocumentId);
             
             Swal.fire({
                 title: 'Are you sure?',
@@ -609,7 +609,7 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "/deleteindustry/" + industryId;
+                    window.location.href = "/delete-document/" + encDocumentId;
                 }
             });
         });
