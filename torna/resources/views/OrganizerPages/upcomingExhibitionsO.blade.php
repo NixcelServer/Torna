@@ -290,7 +290,7 @@
                                             @foreach($upcomingExs as $key => $upcomingEx)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $upcomingEx->exhibition_name }}</td>
+                                                <td>{{ $upcomingEx->ex_name }}</td>
                                                 
                                             </tr>
                                             @endforeach

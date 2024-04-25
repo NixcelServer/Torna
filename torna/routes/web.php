@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ExhibitionController;
 
 
@@ -20,13 +21,26 @@ use App\Http\Controllers\ExhibitionController;
 //     return view('welcome');
 // });
 Route::get('/', [AuthController::class, 'Home'])->name('Home');
-Route::get('/AdminDashboard', [AuthController::class, 'AdminDashboard']);
-Route::get('/organizerform', [AuthController::class, 'OrganizerRegistrationForm']);
-Route::get('/exhibitorform', [AuthController::class, 'ExhibitorForm']);
 Route::get('/signin', [AuthController::class, 'loginPage']);
+Route::post('/login', [AuthController::class, 'login']);
 Route::post('/regorganizer', [AuthController::class, 'OrganizerRegistrationSubmitForm']);
 Route::post('/regexhibitor', [AuthController::class, 'ExhibitorRegistrationSubmitForm']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/organizerform', [AuthController::class, 'OrganizerRegistrationForm']);
+Route::get('/exhibitorform', [AuthController::class, 'ExhibitorForm']);
+
+
+Route::middleware(['validLogin','preventBackHistory'])->group(function () {
+    //Add your routes here
+    
+    
+    
+Route::get('/AdminDashboard', [AuthController::class, 'AdminDashboard']);
+
+Route::get('/auditlog',[AuthController::class,'auditLogDetails']);
+
+
+
+
 Route::get('/logout', [AuthController::class, 'logout']);
 
 
@@ -100,6 +114,12 @@ Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAs
 Route::post('/assignprod',[ExhibitionController::class,'assignProd']);
 
 
+//company set up
+Route::post('/updatecompanydetails',[ExhibitionController::class,'updateCompanyDetails']);
+
+});
+
+
 
 Route::get('/pendingexcounts', [ExhibitionController::class, 'pendingexcounts']);
 
@@ -109,6 +129,11 @@ Route::get('/nixcelsoft/exhibitionname/encid ', [ExhibitionController::class, 'v
 
 
 Route::get('/industrymasterO', [ExhibitionController::class, 'industrymasterO']);
+
+//participate in exhibitions
+Route::get('/participate/{id}',[ExhibitionController::class,'participate']);
+
+Route::post('/selected-options-to-notify',[NotifyController::class,'selectNotifyOptions']);
 
 
 

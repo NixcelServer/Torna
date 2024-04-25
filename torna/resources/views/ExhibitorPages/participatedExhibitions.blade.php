@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -297,20 +298,21 @@
                                         </thead>
                                         <tbody>
                                             
-                                            {{-- @foreach($upcomingExs as $key => $upcomingEx) --}}
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-info generate-url-btn" data-id="" onclick="generateURL(event)">Generate URL</button>
-                                                    <!-- If you want a Generate QR Code button -->
-                                                     <button class="btn btn-sm btn-info generate-qr-btn" data-id="" onclick="generateQRCode(event)">Generate QR Code</button>
-                                                     <button class="btn btn-sm btn-primary" onclick="openDocument()">
-                                                        Notify By
-                                                    </button>
-                                                </td>                                                
-                                            </tr>
-                                        {{-- @endforeach --}}
+                                        @foreach($participatedExs as $key => $participatedEx) 
+    <tr>
+        <td>{{ (int)$key + 1 }}</td>
+        <td>{{ $participatedEx->exDetails->ex_name }}</td>
+        <td>
+            <button class="btn btn-sm btn-info generate-url-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateURL(event)">Generate URL</button>
+            <!-- If you want a Generate QR Code button -->
+            <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateQRCode(event)">Generate QR Code</button>
+            <button class="btn btn-sm btn-primary" onclick="openDocument()">
+                Notify By
+            </button>
+        </td>                                                
+    </tr>
+@endforeach
+
                                                                                         
                                         </tbody>
                                         
@@ -367,11 +369,39 @@
                                         return selectedOptions;
                                     }
                             
-                                    function submitNotifyOptions(selectedOptions) {
-                                        console.log('Selected options:', selectedOptions);
-                                        // Here, you can perform actions based on the selected options (e.g., send notifications)
-                                        showSuccessPopup(); // Show success popup
-                                    }
+                                    function submitNotifyOptions() {
+
+                                        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                                        // Get selected options when the button is clicked
+                                            const selectedOptions = getSelectedOptions();
+                                            
+                                            // Check if any options are selected
+                                            if (selectedOptions.length === 0) {
+                                                // Show an error message or handle the case where no options are selected
+                                                console.error('No options selected!');
+                                                return;
+                                            }
+
+                                            console.log('Selected options:', selectedOptions);
+                                            $.ajax({
+                                                url: '/selected-options-to-notify',
+                                                type: 'POST',
+                                                data: JSON.stringify({ options: selectedOptions }),
+                                                contentType: 'application/json',
+                                                headers: {
+                                                    'X-CSRF-TOKEN': csrfToken // Include CSRF token in request headers
+                                                },
+                                                success: function(response) {
+                                                    console.log('Backend response:', response);
+                                                    showSuccessPopup(); // Show success popup after successful backend call
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    console.error('Error:', error);
+                                                    showErrorPopup(); // Show error popup if backend call fails
+                                                }
+                                            });
+                                        }
                             
                                     function showSuccessPopup() {
                                         Swal.fire({
@@ -386,6 +416,15 @@
                                             }
                                         });
                                     }
+                                    function showErrorPopup() {
+                                            Swal.fire({
+                                                title: 'Error!',
+                                                text: 'There was an error submitting your notification methods.',
+                                                icon: 'error',
+                                                confirmButtonText: 'OK'
+                                            });
+                                        }
+                                   
                                 </script>
                             </body>
                             {{-- <body>
@@ -414,16 +453,17 @@
                                     $(document).ready(function() {
                                         $('#submitBtn').click(function() {
                                             const selectedOptions = getSelectedOptions();
-                                            console.log('Selected options:', selectedOptions);
+                                            console.log('Selected all options:', selectedOptions);
                             
                                             // Make an AJAX request to the backend endpoint
                                             $.ajax({
-                                                url: '/your-backend-endpoint',
+                                                url: '/selected-options-to-notify',
                                                 type: 'POST',
                                                 data: JSON.stringify({ options: selectedOptions }),
                                                 contentType: 'application/json',
                                                 success: function(response) {
                                                     console.log('Backend response:', response);
+                                                    debugger;
                                                     showSuccessPopup(); // Show success popup after successful backend call
                                                 },
                                                 error: function(xhr, status, error) {
@@ -450,7 +490,7 @@
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
                                                     // Redirect to the main page (replace 'main.html' with the actual page URL)
-                                                    window.location.href = 'main.html';
+                                                    window.location.href = '/participatedExhibitions';
                                                 }
                                             });
                                         }

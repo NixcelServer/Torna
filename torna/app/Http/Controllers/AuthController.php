@@ -9,6 +9,10 @@ use App\Helpers\EncryptionDecryptionHelper;
 use App\Models\CompanyDetail;
 use App\Models\ExhibitionDetail;
 use Illuminate\Support\Facades\Date;
+use App\Helpers\EmailHelper;
+use App\Helpers\AuditLogHelper;
+use App\Models\AuditLogDetail;
+
 
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +58,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             Session::put('user', $user);
+            AuditLogHelper::logDetails('login', $user->tbl_user_id);
 
             if ($user->role_id == '1') {
                 return redirect('/AdminDashboard');
@@ -77,6 +82,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user_details = session('user');
+        AuditLogHelper::logDetails('logout', $user_details->tbl_user_id);
         $request->session()->flush();
 
         Auth::logout();
@@ -87,7 +93,7 @@ class AuthController extends Controller
 
     public function OrganizerRegistrationSubmitForm(Request $request)
     {
-
+        
         // Create a new user using the validated data
         $company = new CompanyDetail();
         $company->unique_name = $request->unique_name;
@@ -112,6 +118,8 @@ class AuthController extends Controller
 
         try {
             $company->save();
+            EmailHelper::sendEmail($company);
+            
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
@@ -132,9 +140,11 @@ class AuthController extends Controller
         $user->role_id = '2';
 
         // Save the user to the database
-        $user->save();
+      //  $user->save();
 
-        return redirect()->route('Home')->with('success', 'Registration successful!');
+      AuditLogHelper::logDetails('registered as organizer', $user->tbl_user_id);
+
+      //  return redirect()->route('Home')->with('success', 'Registration successful!');
 
 
 
@@ -144,7 +154,7 @@ class AuthController extends Controller
         // Redirect the user to a success page or any other page as needed
         //return view('OrganizerForm');
 
-        return view('OrganizerPages/OrganizerForm');
+        return view('HomePages/Login');
     }
     public function ExhibitorRegistrationSubmitForm(Request $request)
     {
@@ -166,6 +176,7 @@ class AuthController extends Controller
 
         try {
             $exhibitor->save();
+            EmailHelper::sendEmail($exhibitor);
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
@@ -184,6 +195,8 @@ class AuthController extends Controller
 
         // Save the user to the database
         $user->save();
+
+        AuditLogHelper::logDetails('registered as exhibitor', $user->tbl_user_id);
 
         return redirect()->route('Home')->with('success', 'Registration successful!');
     }
@@ -250,4 +263,21 @@ class AuthController extends Controller
     // {
     //     return view('Login');
     // }
+
+    public function auditLogDetails()
+    {
+        $auditlogs = AuditLogDetail::orderBy('activity_date','desc')->get();
+
+        foreach($auditlogs as $auditlog){
+         
+         $user = UserDetail::where('tbl_user_id',$auditlog->activity_by)->first();
+     
+         if($user){
+             $auditlog->username = $user->first_name . " " . $user->last_name;
+             
+         }
+        }
+        
+         return view('AdminPages.AuditLog',['auditlogs'=>$auditlogs]);
+    }
 }
