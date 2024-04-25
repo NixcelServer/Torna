@@ -140,6 +140,12 @@
                         </a>
                         
                     </li>
+                    <li>
+                        <a  href="/auditlog" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Audit Log</span>
+                        </a>
+                        
+                    </li>
                    
                     {{-- <li class="nav-label">Apps</li>
                     <li>

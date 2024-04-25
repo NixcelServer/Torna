@@ -70,7 +70,14 @@ class NotifyController extends Controller
             return response()->json(['error' => 'An error occurred while saving notification'], 500);
         }    
     }
+<<<<<<< HEAD
 
 
 
+=======
+public function notificationSetting(){
+    return view('ExhibitorPages.notificationSetting');
+}
+    
+>>>>>>> e48a78e1b5ecd0d5e288b099eee3ea8da129a605
 }

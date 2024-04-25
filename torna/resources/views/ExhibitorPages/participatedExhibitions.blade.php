@@ -148,6 +148,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
                         </a>
                     </li>
+                    <li>
+                        <a  href="/notificationSetting" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Setting</span>
+                        </a>
+                    </li>
                    
                     {{-- <li class="nav-label">Apps</li>
                     <li>
@@ -301,7 +306,7 @@
                                         @foreach($participatedExs as $key => $participatedEx) 
     <tr>
         <td>{{ (int)$key + 1 }}</td>
-        <td>{{ $participatedEx->exDetails->ex_name }}</td>
+        <td>{{ $participatedEx->exDetails->exhibition_name }}</td>
         <td>
             <button class="btn btn-sm btn-info generate-url-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateURL(event)">Generate URL</button>
             <!-- If you want a Generate QR Code button -->

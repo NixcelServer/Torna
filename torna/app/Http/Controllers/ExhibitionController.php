@@ -163,6 +163,26 @@ class ExhibitionController extends Controller
 
         return redirect('/industrymaster');
     }
+    public function storeindustrydetailso(Request $request)
+    {
+
+
+
+        $user = session('user');
+        $user_id = $user->tbl_user_id;
+
+        $industry = new Industry;
+        $industry->industry_name = $request->industryName;
+        $industry->created_date = Date::now()->toDateString();
+        $industry->created_time = Date::now()->toTimeString();
+        $industry->flag = "show";
+        $industry->save();
+
+        AuditLogHelper::logDetails('created '.$request->industryName . ' industry', $user->tbl_user_id);
+
+
+        return redirect('/industrymasterO');
+    }
 
     public function deleteindustry($enc_id)
     {
@@ -186,9 +206,35 @@ class ExhibitionController extends Controller
         $industry->flag = "deleted";
         $industry->save();
 
-        AuditLogHelper::logDetails('deleted ' .$industy->industy_name. ' industry', $user_details->tbl_user_id);
+        AuditLogHelper::logDetails('deleted ' .$industry->industy_name. ' industry', $user_details->tbl_user_id);
 
         return redirect('/industrymaster');
+    }
+    public function deleteindustryo($enc_id)
+    {
+
+        //get the industry details from db and set the flag as deleted
+        $user_details = session('user');
+        $action = 'decrypt';
+        $dec_id = EncryptionDecryptionHelper::encdecId($enc_id, $action);
+
+        $industry = Industry::findOrFail($dec_id);
+        
+
+        $assignedIndCount = CompanyDetail::where('industry_name',$industry->industry_name)->count();
+
+        if($assignedIndCount>0){
+            // Return a response indicating that it cannot be deleted
+        return response()->json(['message' => 'Cannot delete industry because it is assigned to a company'], 400);
+        }
+        
+
+        $industry->flag = "deleted";
+        $industry->save();
+
+        AuditLogHelper::logDetails('deleted ' .$industry->industy_name. ' industry', $user_details->tbl_user_id);
+
+        return redirect('/industrymasterO');
     }
     public function deleteproduct($enc_id)
     {
@@ -241,10 +287,10 @@ class ExhibitionController extends Controller
         $exhibition = new ExhibitionDetail();
         $exhibition->tbl_comp_id = $user->tbl_comp_id;
         //$exhibition->unique_name = $request->unique_name;
-        $exhibition->ex_name = $request->exhibition_name;
+        $exhibition->exhibition_name = $request->exhibition_name;
        // $exhibition->ex_organized_by = $company->company_name;
-        $exhibition->ex_from_date = $request->from_date;
-        $exhibition->ex_to_date = $request->to_date;
+        $exhibition->from_date = $request->from_date;
+        $exhibition->to_date = $request->to_date;
         $exhibition->start_time = $request->start_time;
         $exhibition->end_time = $request->end_time;
         $exhibition->venue = $request->venue;
@@ -280,6 +326,56 @@ class ExhibitionController extends Controller
         AuditLogHelper::logDetails('created ' . $exhibition->ex_name . ' exhibition', $user->tbl_user_id);
 
         return redirect()->route('activeExhibitions')->with('success', 'Exhibition created successfully!');
+    }
+    public function storeExhibitionformE(Request $request)
+    {
+        //dd($request);
+        // Create a new exhibition using the validated data
+        $user = session('user');
+        //$company = CompanyDetail::where('tbl_user_id',$user->tbl_user_id)->first();
+
+        $exhibition = new ExhibitionDetail();
+        $exhibition->tbl_comp_id = $user->tbl_comp_id;
+        //$exhibition->unique_name = $request->unique_name;
+        $exhibition->exhibition_name = $request->exhibition_name;
+       // $exhibition->ex_organized_by = $company->company_name;
+        $exhibition->from_date = $request->from_date;
+        $exhibition->to_date = $request->to_date;
+        $exhibition->start_time = $request->start_time;
+        $exhibition->end_time = $request->end_time;
+        $exhibition->venue = $request->venue;
+        //$exhibition->organized_by = $request->organized_by;
+        //$exhibition->notify_by = $request->notify_by;
+        $exhibition->industry = $request->industry_name;
+        
+        $exhibition->active_status = $request->active_status;
+        $exhibition->created_by = $user->tbl_user_id;
+        $exhibition->created_date = Date::now()->toDateString();
+        $exhibition->created_time = Date::now()->toTimeString();
+       // $exhibition->exhibition_website = $request->exhibition_website;
+        //$exhibition->attach_document = $request->attach_document;
+        //$exhibition->registration_url = $request->registration_url;
+
+        
+
+
+        // Handle company logo upload if a file was uploaded
+        if ($request->hasFile('company_logo')) {
+            $image = $request->file('company_logo');
+            $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
+            $exhibition->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+        }
+
+        try {
+            $exhibition->save();
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Handle the exception (e.g., log error, display message)
+            dd($e->getMessage()); // Dump the error message for debugging
+        }
+
+        AuditLogHelper::logDetails('created ' . $exhibition->ex_name . ' exhibition', $user->tbl_user_id);
+
+        return redirect()->route('upcomingExhibitions')->with('success', 'Exhibition created successfully!');
     }
 
     public function activeExhibitions()
@@ -609,6 +705,10 @@ public function companysetupformo(){
         return view('ExhibitorPages.assignproducts',['document'=>$document,'products'=>$products,'assignedProds'=>$assignedProds]);
    }
 
+    
+        
+
+
    public function assignProd(Request $request)
    {
     
@@ -686,14 +786,60 @@ public function companysetupformo(){
             //dd($company);
             $company->save();
             AuditLogHelper::logDetails('updated '.$company->company_name .' details with ID ' .$company->tbl_comp_id . ' product', $user->tbl_user_id);
-           
+            return redirect()->route('OrgDashboard')->with('success', 'Company details updated successfully.');
+
             
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
         }
    }
+   public function updatecompanydetailsE(Request $request)
+   {
+        $user = session('user');
+        $decCompId = EncryptionDecryptionHelper::encdecId($request->encCompId,'decrypt');
+        $company = CompanyDetail::where('tbl_comp_id',$decCompId)->first();
+        //dd($company);
+        $company->unique_name = $request->unique_name;
+        $company->company_name = $request->company_name;
+        $company->comp_address = $request->address;
+        $company->comp_website = $request->website;
+        $company->industry_name = $request->industry_name;
 
+        $company->contact_no = $request->contact_no;
+        $company->email = $request->email;
+        $company->updated_by = session('user')->tbl_user_id;
+        $company->updated_date = Date::now()->toDateString();
+        $company->updated_time = Date::now()->toTimeString();
+
+
+        // Handle company logo upload if a file was uploaded
+        //  if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $company->company_logo = file_get_contents($image->path()); // Store image data as binary
+        // }
+        // if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $company->company_logo = file_get_contents($image->path()); // Store image data as binary
+        // }
+        if ($request->hasFile('company_logo')) {
+            $image = $request->file('company_logo');
+            $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
+            $company->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+        }
+
+        try {
+            //dd($company);
+            $company->save();
+            AuditLogHelper::logDetails('updated '.$company->company_name .' details with ID ' .$company->tbl_comp_id . ' product', $user->tbl_user_id);
+            return redirect()->route('ExDashboard')->with('success', 'Company details updated successfully.');
+
+            
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Handle the exception (e.g., log error, display message)
+            dd($e->getMessage()); // Dump the error message for debugging
+        }
+   }
 
    public function pendingexcounts()
    {

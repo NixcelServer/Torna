@@ -328,7 +328,7 @@
             <div class="modal fade" id="addIndustryModal" tabindex="-1" role="dialog" aria-labelledby="addIndustryModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form id="addIndustryForm" action="/storeindustrydetails" method="POST">
+                        <form id="addIndustryForm" action="/storeindustrydetailso" method="POST">
                             @csrf
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addIndustryModalLabel">Add New Industry</h5>
@@ -378,7 +378,7 @@
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = "/deleteindustry/" + industryId;
+                    window.location.href = "/deleteindustryo/" + industryId;
                 }
             });
         });
