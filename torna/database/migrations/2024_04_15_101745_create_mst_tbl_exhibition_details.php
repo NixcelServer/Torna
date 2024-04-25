@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mst_tbl_exhibition_details', function (Blueprint $table) {
-            $table->id('mst_tbl_ex_id');
+            $table->id('tbl_ex_id');
             $table->integer('mst_tbl_com_id');
             $table->string('ex_name', 250);
             $table->date('ex_from_date');

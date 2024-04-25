@@ -11,6 +11,7 @@ use App\Models\ExhibitionDetail;
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EmailHelper;
 use App\Helpers\AuditLogHelper;
+use App\Models\AuditLogDetail;
 
 
 use Illuminate\Support\Facades\Session;
@@ -262,4 +263,21 @@ class AuthController extends Controller
     // {
     //     return view('Login');
     // }
+
+    public function auditLogDetails()
+    {
+        $auditlogs = AuditLogDetail::orderBy('activity_date','desc')->get();
+
+        foreach($auditlogs as $auditlog){
+         
+         $user = UserDetail::where('tbl_user_id',$auditlog->activity_by)->first();
+     
+         if($user){
+             $auditlog->username = $user->first_name . " " . $user->last_name;
+             
+         }
+        }
+        
+         return view('AdminPages.AuditLog',['auditlogs'=>$auditlogs]);
+    }
 }

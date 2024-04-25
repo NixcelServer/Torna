@@ -305,8 +305,9 @@
                                                 
 
                                                 <td>
-                                                    <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->id }}" onclick="confirmParticipation(event)">Participate</button>
-                                                </td>                                                
+                                                    <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" onclick="confirmParticipation(event)">Participate</button>
+                                                </td>        
+
 
                                             </tr>
                                             @endforeach
@@ -329,6 +330,9 @@
         <script>
             function confirmParticipation(event) {
                 event.preventDefault();
+                const encExId = event.target.getAttribute('data-id');
+                // const encExId = this.getAttribute('data-id');
+                // console.log(encExId);
         
                 Swal.fire({
                     title: 'Are you Exited to participate?',
@@ -342,7 +346,9 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Handle participation logic here, e.g., submit a form or make an AJAX request
-                        const exhibitionId = event.target.dataset.id;
+                        
+                        
+                        window.location.href = "/participate/" + encExId;
                         // Example AJAX request
                         // $.post('/participate', { exhibitionId: exhibitionId }, function(response) {
                         //     // Handle response from server

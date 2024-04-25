@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotifyController;
 use App\Http\Controllers\ExhibitionController;
 
 
@@ -34,6 +35,8 @@ Route::middleware(['validLogin','preventBackHistory'])->group(function () {
     
     
 Route::get('/AdminDashboard', [AuthController::class, 'AdminDashboard']);
+
+Route::get('/auditlog',[AuthController::class,'auditLogDetails']);
 
 
 
@@ -127,6 +130,10 @@ Route::get('/nixcelsoft/exhibitionname/encid ', [ExhibitionController::class, 'v
 
 Route::get('/industrymasterO', [ExhibitionController::class, 'industrymasterO']);
 
+//participate in exhibitions
+Route::get('/participate/{id}',[ExhibitionController::class,'participate']);
+
+Route::post('/selected-options-to-notify',[NotifyController::class,'selectNotifyOptions']);
 
 
 

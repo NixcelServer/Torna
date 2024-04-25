@@ -8,6 +8,7 @@ use App\Models\Document;
 use App\Models\ProductDetail;
 use App\Models\Industry;
 use App\Models\AssignProduct;
+use App\Models\Participate;
 
 
 use Illuminate\Support\Facades\Date;
@@ -448,7 +449,7 @@ class ExhibitionController extends Controller
 
 
         foreach ($upcomingExs as $upcomingEx) {
-            $upcomingEx->encInActiveExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
+            $upcomingEx->encExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
         }
 
 
@@ -468,10 +469,10 @@ class ExhibitionController extends Controller
 
 
         foreach ($upcomingExs as $upcomingEx) {
-            $upcomingEx->encInActiveExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
+            $upcomingEx->encExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
         }
 
-
+        
 
         return view('OrganizerPages/upcomingExhibitionsO', ['upcomingExs' => $upcomingExs]);
     }
@@ -674,12 +675,19 @@ public function companysetupformo(){
 
    public function participatedExhibitions()
    {
-       $companies = UserDetail::where('active_status', 'Approved')->where('role_id', 2)->get();
 
-       foreach ($companies as $company) {
-           $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+        $user = session('user');
+
+        $participatedExs = Participate::where('tbl_user_id',$user->tbl_user_id)
+                            ->where('active_status','active')
+                            ->where('flag','show')->get();
+
+        
+       foreach ($participatedExs as $participatedEx) {
+           $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
        }
-       return view('ExhibitorPages/participatedExhibitions', ['companies' => $companies]);
+       
+       return view('ExhibitorPages/participatedExhibitions', ['participatedExs' => $participatedExs]);
    }
    
 
@@ -689,6 +697,34 @@ public function companysetupformo(){
        return view('VisitorPages/visitorsdetails');
    }
    
+   public function participate($id)
+   {
+    $user = session('user');
+    $decExId = EncryptionDecryptionHelper::encdecId($id,'decrypt');
+   // dd($decExId);
+
+    // Check if the user has already participated
+    $existingParticipation = Participate::where('tbl_ex_id', $decExId)
+                                        ->where('tbl_user_id', $user->tbl_user_id)
+                                        ->exists();
+
+    // If the user has already participated, return a JSON response
+    if ($existingParticipation) {
+        return redirect()->back()->withErrors(['error' => 'You have already participated in this exhibition.']);    }
+        
+        
+        $participate = new Participate;
+        $participate->tbl_ex_id = $decExId;
+        $participate->tbl_user_id = $user->tbl_user_id;
+        $participate->add_date = Date::now()->toDateString();
+        $participate->add_time = Date::now()->toTimeString();
+        $participate->save();
+
+        AuditLogHelper::logDetails(' user with user ID: '.$user->tbl_user_id. ' has participated in exhibition ID'. $decExId . '', $user->tbl_user_id);
+
+        return redirect()->back();
+        
+   }
    
 
 }
