@@ -151,6 +151,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
                         </a>
                     </li>
+                    <li>
+                        <a  href="/notification-settings" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Settings</span>
+                        </a>
+                    </li>
                    
                     {{-- <li class="nav-label">Apps</li>
                     <li>

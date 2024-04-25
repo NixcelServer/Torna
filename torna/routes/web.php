@@ -101,12 +101,14 @@ Route::post('/storeproductdetails', [ExhibitionController::class, 'storeproductd
 
 Route::post('/storedocuments', [ExhibitionController::class, 'storedocuments']);
 
+Route::get('/delete-document/{id}',[ExhibitionController::class,'deleteDocument']);
+
 
 // Route::get('/assignproducts', [ExhibitionController::class, 'assignproducts'])->name('assignproducts');
 
 
-// Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
-Route::get('/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
+ Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
+Route::get('/documents/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
 
 
 Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAssignedProducts']);

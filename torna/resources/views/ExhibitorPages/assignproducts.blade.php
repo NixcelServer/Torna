@@ -354,7 +354,7 @@
                                             <tr>
                                                 <th>Sr No</th>
 
-                                                <th>Document Name</th>
+                                                
                                                 
                                                 <th>Assigned Product/Services</th>
                                                 <th>Action</th>
@@ -477,7 +477,7 @@
     <script src="./plugins/morris/morris.min.js"></script>
     <!-- Pignose Calender -->
     <script src="./plugins/moment/moment.min.js"></script>
-    <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+    <script src="./plugins/pg-calendar/js/pignose/calendar.min.js"></script>
     <!-- ChartistJS -->
     <script src="./plugins/chartist/js/chartist.min.js"></script>
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
