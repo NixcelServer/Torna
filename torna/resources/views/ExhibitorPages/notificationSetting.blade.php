@@ -88,8 +88,12 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                @php
+                                $user = Session::get('user');
+                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
+                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -280,63 +284,122 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            
-
-            <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-12">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <h3 class="text-center">Email Setting Form</h3> <!-- Form title -->
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Past Exhibitions List</h4>
-                                <br/>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Exhibition Name</th>
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            @foreach($pastcomingExs as $key => $pastcomingEx)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $pastcomingEx->exhibition_name }}</td>
-                                                
-                                            </tr>
-                                            @endforeach
-                                                                                        
-                                        </tbody>
-                                        
-                                    </table>
+                                <div class="form-validation">
+                                    <form class="form-valide" action="#" method="post">
+                                        <!-- Existing form fields -->
+                                        <!-- Your new fields -->
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-smtp">SMTP <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-smtp" name="val-smtp" placeholder="SMTP server address">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-port">Port <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-port" name="val-port" placeholder="SMTP port number">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-username-smtp">Username <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-username-smtp" name="val-username-smtp" placeholder="SMTP username">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-password-smtp">Password <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="password" class="form-control" id="val-password-smtp" name="val-password-smtp" placeholder="SMTP password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 ml-auto">
+                                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                                            </div>
+                                        </div>
+                                        <!-- End of new fields -->
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            
-            
-            <!-- #/ container -->
-        </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
-        
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        {{-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
             </div>
-        </div> --}}
-        <!--**********************************
-            Footer end
-        ***********************************-->
-    </div>
+            
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <h3 class="text-center">SMS Setting Form</h3> <!-- Form title -->
+                            <div class="card-body">
+                                <div class="form-validation">
+                                    <form class="form-valide" action="#" method="post">
+                                        <!-- Existing form fields -->
+                                        <!-- New field: WhatsApp Number -->
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-whatsapp-no">WhatsApp Number <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-whatsapp-no" name="val-whatsapp-no" placeholder="Enter WhatsApp number">
+                                            </div>
+                                        </div>
+                                        <!-- End of new field -->
+                                        <!-- Submit button -->
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 ml-auto">
+                                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <h3 class="text-center">Whatsapp Setting Form</h3> <!-- Form title -->
+                            <div class="card-body">
+                                <div class="form-validation">
+                                    <form class="form-valide" action="#" method="post">
+                                        <!-- New field: SMS Service -->
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-sms-service">SMS Service <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-sms-service" name="val-sms-service" placeholder="Enter SMS service name">
+                                            </div>
+                                        </div>
+                                        <!-- New field: SID -->
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-sid">SID <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-sid" name="val-sid" placeholder="Enter SID">
+                                            </div>
+                                        </div>
+                                        <!-- End of new fields -->
+                                        <!-- Submit button -->
+                                        <div class="form-group row">
+                                            <div class="col-lg-8 ml-auto">
+                                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
     <!--**********************************
         Main wrapper end
     ***********************************-->
@@ -344,63 +407,6 @@
     <!--**********************************
         Scripts
     ***********************************-->
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const changeStatusButtons = document.querySelectorAll('.change-status-btn');
-    
-            changeStatusButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const exhibitionId = this.getAttribute('data-exhibition-id');
-                    console.log("in function",exhibitionId);
-                    debugger;
-                    const updateUrl = this.getAttribute('data-update-url');
-                    console.log(updateUrl);
-                    const confirmation = confirm('Are you sure you want to change the status to Inactive?');
-    
-                    if (confirmation) {
-                        fetch(updateUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                id: exhibitionId,
-                                status: 'Inactive' // You can modify this based on your requirements
-                            })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            alert(data.message); // Show success message
-                            // You can update the UI or perform other actions as needed
-                        })
-                        .catch(error => {
-                            console.error('Error updating status:', error);
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
-
-
-
-
-
-
-
-
     <script src="plugins/common/common.min.js"></script>
     <script src="js/custom.min.js"></script>
     <script src="js/settings.js"></script>

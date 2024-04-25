@@ -272,29 +272,29 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Rejected Organizer List</h4>
+                                <h4 class="card-title">Audit Logs</h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
+                                        <tr>
+                                            <th>Sr. No</th>
+                                            <th>Activity Name</th>
+                                            <th>Activity By</th>
+                                            <th>Activity Date</th>
+                                            <th>Activity Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($auditlogs as $index => $log)
                                             <tr>
-                                                <th>Sr No</th>
-                                                <th>Company Name</th>
-                                                <th>Email</th>
-                                                <th>Contact No</th>
+                                                <td>{{ $index+1 }}</td>
+                                                <td>{{ $log->activity_name}}</td>
+                                                <td>{{ $log->username}}</td>
+                                                <td>{{ $log->activity_date}}</td>
+                                                <td>{{ $log->activity_time}}</td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            @foreach($companies as $key => $organizer)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $organizer->company_name }}</td>
-                                                <td>{{ $organizer->email }}</td>
-                                                <td>{{ $organizer->contact_no }}</td>
-                                            </tr>
-                                            @endforeach
-                                                                                        
-                                        </tbody>
+                                        @endforeach
+                                    </tbody>
                                         
                                     </table>
                                 </div>
