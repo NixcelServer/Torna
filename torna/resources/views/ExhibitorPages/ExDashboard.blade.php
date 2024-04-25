@@ -152,8 +152,9 @@
                         </a>
                     </li>
                     <li>
-                        <a  href="/notification-settings" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Settings</span>
+
+                        <a  href="/notificationSetting" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Setting</span>
                         </a>
                     </li>
                    

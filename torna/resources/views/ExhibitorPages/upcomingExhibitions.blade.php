@@ -147,6 +147,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
                         </a>
                     </li>
+                    <li>
+                        <a  href="/notificationSetting" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Setting</span>
+                        </a>
+                    </li>
                    
                     {{-- <li class="nav-label">Apps</li>
                     <li>
@@ -301,7 +306,7 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
 
-                                                <td>{{ $upcomingEx->ex_name }}</td>
+                                                <td>{{ $upcomingEx->exhibition_name }}</td>
                                                 
 
                                                 <td>

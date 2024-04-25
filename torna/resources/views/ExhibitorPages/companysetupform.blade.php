@@ -160,6 +160,11 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
                         </a>
                     </li>
+                    <li>
+                        <a  href="/notificationSetting" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Setting</span>
+                        </a>
+                    </li>
                    
                     {{-- <li class="nav-label">Apps</li>
                     <li>
@@ -294,7 +299,7 @@
                         <h4 class="card-header text-center">Company Setup Form</h4>
         
                         <div class="card-body">
-                        <form method="POST" action="/updatecompanydetails" enctype="multipart/form-data">
+                        <form method="POST" action="/updatecompanydetailsE" enctype="multipart/form-data">
                                 @csrf
         
                                 <div class="form-group row">
