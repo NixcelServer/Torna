@@ -41,4 +41,8 @@ class NotifyController extends Controller
 
         return response()->json($request);
     }
+public function notificationSetting(){
+    return view('ExhibitorPages.notificationSetting');
+}
+    
 }

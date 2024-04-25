@@ -294,7 +294,7 @@
                         <h4 class="card-header text-center">Company Setup Form</h4>
         
                         <div class="card-body">
-                        <form method="POST" action="/updatecompanydetails" enctype="multipart/form-data">
+                        <form method="POST" action="/updatecompanydetailsE" enctype="multipart/form-data">
                                 @csrf
         
                                 <div class="form-group row">

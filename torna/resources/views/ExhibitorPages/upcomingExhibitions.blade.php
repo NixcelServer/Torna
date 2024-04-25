@@ -301,7 +301,7 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
 
-                                                <td>{{ $upcomingEx->ex_name }}</td>
+                                                <td>{{ $upcomingEx->exhibition_name }}</td>
                                                 
 
                                                 <td>

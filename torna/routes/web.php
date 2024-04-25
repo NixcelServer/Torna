@@ -52,19 +52,23 @@ Route::get('/unapprovedexcount', [ExhibitionController::class, 'unapprovedexcoun
 Route::get('/rejectedorgcount', [ExhibitionController::class, 'rejectedorgcount']);
 Route::get('/rejectedexcount', [ExhibitionController::class, 'rejectedexcount']);
 
-Route::get('/ExDashboard', [ExhibitionController::class, 'exdashboard']);
+Route::get('/ExDashboard', [ExhibitionController::class, 'exdashboard'])->name('ExDashboard');
 Route::get('/OrgDashboard', [ExhibitionController::class, 'orgdashboard'])->name('OrgDashboard');
 Route::get('/industrymaster', [ExhibitionController::class, 'industrymaster']);
 
 //Route::post('/regexhibitor', [ExhibitionController::class, 'ExhibitorRegistrationSubmitForm']);
 
 Route::get('/deleteindustry/{id}', [ExhibitionController::class, 'deleteindustry']);
+Route::get('/deleteindustryo/{id}', [ExhibitionController::class, 'deleteindustryo']);
+
 
 Route::post('/updateStatus', [ExhibitionController::class, 'updateStatus']);
 
 
 
 Route::post('/storeindustrydetails', [ExhibitionController::class, 'storeindustrydetails']);
+Route::post('/storeindustrydetailso', [ExhibitionController::class, 'storeindustrydetailso']);
+
 
 Route::get('/createExhibitionform', [ExhibitionController::class, 'createExhibitionform']);
 Route::get('/createExhibitionform-E', [ExhibitionController::class, 'createExhibitionformE']);
@@ -72,6 +76,8 @@ Route::get('/createExhibitionform-E', [ExhibitionController::class, 'createExhib
 
 
 Route::post('/createExhibition', [ExhibitionController::class, 'storeExhibitionform']);
+Route::post('/createExhibitionE', [ExhibitionController::class, 'storeExhibitionformE']);
+
 
 
 
@@ -84,7 +90,7 @@ Route::get('/updateExStatus/{id}', [ExhibitionController::class, 'updateExStatus
 //Route::post('/update-exhibition-status', [ExhibitionController::class, 'updateExStatus'])->name('updateExStatus');
 Route::get('/products', [ExhibitionController::class, 'products']);
 Route::get('/documents', [ExhibitionController::class, 'documents']);
-Route::get('/upcomingExhibitions', [ExhibitionController::class, 'upcomingExhibitions']);
+Route::get('/upcomingExhibitions', [ExhibitionController::class, 'upcomingExhibitions'])->name('upcomingExhibitions');
 Route::get('/upcomingExhibitionsO', [ExhibitionController::class, 'upcomingExhibitionsO']);
 
 
@@ -105,8 +111,9 @@ Route::post('/storedocuments', [ExhibitionController::class, 'storedocuments']);
 // Route::get('/assignproducts', [ExhibitionController::class, 'assignproducts'])->name('assignproducts');
 
 
-// Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
+Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
 Route::get('/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
+
 
 
 Route::get('/deleteassignedproducts/{id}',[ExhibitionController::class,'deleteAssignedProducts']);
@@ -116,6 +123,8 @@ Route::post('/assignprod',[ExhibitionController::class,'assignProd']);
 
 //company set up
 Route::post('/updatecompanydetails',[ExhibitionController::class,'updateCompanyDetails']);
+Route::post('/updatecompanydetailsE',[ExhibitionController::class,'updatecompanydetailsE']);
+
 
 });
 
@@ -134,6 +143,9 @@ Route::get('/industrymasterO', [ExhibitionController::class, 'industrymasterO'])
 Route::get('/participate/{id}',[ExhibitionController::class,'participate']);
 
 Route::post('/selected-options-to-notify',[NotifyController::class,'selectNotifyOptions']);
+
+//Notifications Settings
+Route::get('/notificationSetting', [NotifyController::class, 'notificationSetting']);
 
 
 

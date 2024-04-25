@@ -284,7 +284,7 @@
                             <h2 class="card-header text-center mt-2">Create Exhibition</h2>
             
                             <div class="card-body">
-                                <form method="POST" action="/createExhibition" enctype="multipart/form-data">
+                                <form method="POST" action="/createExhibitionE" enctype="multipart/form-data">
                                     @csrf
             
                                     <div class="form-group row">

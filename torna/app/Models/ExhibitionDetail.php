@@ -15,8 +15,8 @@ class ExhibitionDetail extends Model
     protected $fillable = [
         'tbl_com_id',
         'exhibition_name',
-        'ex_from_date',
-        'ex_to_date',
+        'from_date',
+        'to_date',
         'start_time',
         'end_time',
         'venue',

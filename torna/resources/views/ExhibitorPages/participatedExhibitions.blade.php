@@ -301,7 +301,7 @@
                                         @foreach($participatedExs as $key => $participatedEx) 
     <tr>
         <td>{{ (int)$key + 1 }}</td>
-        <td>{{ $participatedEx->exDetails->ex_name }}</td>
+        <td>{{ $participatedEx->exDetails->exhibition_name }}</td>
         <td>
             <button class="btn btn-sm btn-info generate-url-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateURL(event)">Generate URL</button>
             <!-- If you want a Generate QR Code button -->
