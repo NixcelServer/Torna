@@ -22,6 +22,18 @@ class NotifyController extends Controller
             // Decrypt the exhibition ID
             $decExId = EncryptionDecryptionHelper::encdecId($request->encExId, 'decrypt');
 
+
+
+            $existingDetails = Notify::where('tbl_ex_id', $decExId)
+                                        ->where('tbl_user_id', $user->tbl_user_id)
+                                        ->exists();
+
+    // If the user has already participated, return a JSON response
+    if ($existingDetails) {
+        // $notify = Notify::where('tbl_ex_id')   
+     }
+            
+
             $notify = new Notify;
             
             $options = $request->options; // Assuming $request is the request object
@@ -58,4 +70,7 @@ class NotifyController extends Controller
             return response()->json(['error' => 'An error occurred while saving notification'], 500);
         }    
     }
+
+
+
 }
