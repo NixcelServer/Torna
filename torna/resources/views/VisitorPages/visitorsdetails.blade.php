@@ -62,14 +62,17 @@
     <div class="card-header text-center">
         {{-- Featured --}}
     </div>
-    <div class="card-body text-center" >
+    <div class="card-body text-center">
         <h5 class="card-title">Exhibition Details</h5>
-        <img src="{{$participatedEx->exDetails->company_logo}}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 200px; object-fit: cover;">
-        <p class="card-text">Exhibition Name: {{$participatedEx->exDetails->exhibition_name}}</p>
-        {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a> --}}
-
+        @if ($participatedEx->exDetails->company_logo)
+            <?php $base64Image = $participatedEx->exDetails->company_logo; ?>
+            <img src="data:image/png;base64,{{ $base64Image }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 200px; object-fit: cover;">
+        @else
+            <p>No logo available</p>
+        @endif
+        <p class="card-text">Exhibition Name: {{ $participatedEx->exDetails->exhibition_name }}</p>
     </div>
+    
 </div>
 
 <div class="container mt-5">

@@ -313,11 +313,17 @@ class ExhibitionController extends Controller
 
 
         // Handle company logo upload if a file was uploaded
+        // if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
+        //     $exhibition->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+        // }
         if ($request->hasFile('company_logo')) {
             $image = $request->file('company_logo');
-            $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
-            $exhibition->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+            $imagePath = $image->store('company_logos'); // Save the image and get the path
+            $exhibition->company_logo = $imagePath; // Save the image path to the company_logo column
         }
+        
 
         try {
             $exhibition->save();
@@ -984,4 +990,11 @@ public function companysetupformo()
     return redirect()->back();
 
    }
+
+public function collectdata(){
+    
+    return view('VisitorPages/collectdata');
+
+}
+   
 }
