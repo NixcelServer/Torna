@@ -137,7 +137,7 @@ Route::get('/pendingexcounts', [ExhibitionController::class, 'pendingexcounts'])
 
 Route::get('/participatedExhibitions', [ExhibitionController::class, 'participatedExhibitions']);
 
-Route::get('/nixcelsoft/exhibitionname/encid ', [ExhibitionController::class, 'visitorsdetails']);
+Route::get('/visitordetails/{id}', [ExhibitionController::class, 'visitorsdetails'])->name('visitorsdetails');
 
 
 Route::get('/industrymasterO', [ExhibitionController::class, 'industrymasterO']);
@@ -150,6 +150,7 @@ Route::post('/selected-options-to-notify',[NotifyController::class,'selectNotify
 //Notifications Settings
 Route::get('/notificationSetting', [NotifyController::class, 'notificationSetting']);
 
+Route::post('/regvisitor',[ExhibitionController::class, 'regVisitor']  );
 
 
 
