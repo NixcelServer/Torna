@@ -15,7 +15,7 @@ use Smalot\PdfParser\Parser;
 
 class EmailHelper{
 
-    // public static function sendEmail($company)
+    // public static function senEmail($company)
     // {
     //     //ini_set('max_execution_time', 120);
     //     // try {
@@ -58,38 +58,7 @@ class EmailHelper{
     //         $message = "Congratulations! Your registration for ". $company->company_name ." is complete. Welcome aboard! 🎉 ";
     //         $mail->isHTML(true); // Set email format to HTML
     //         $mail->Body = $message;
-            
-    //         // Set email subject and body
-            
-            
-    //         //$mail->Body  = $message;
-
-    //         //$filePath = $emailCredential->email_attachment;
-    //         // dd($filePath);
-    //         // $absolutePath = storage_path('app/' . $filePath);
-            
-    //         // //$absolutePath = public_path($filePath);
-            
-    //         // $mail->addAttachment($absolutePath);
-    //         //dd($filePath);
-    //         // Check if attachment file exists
-    //     // if ($filePath && file_exists($filePath)) {
-    //         // Attach the file using its path
-    //         //$mail->addAttachment($filePath);
-    //     // } else {
-    //         // Attachment file not found or path is empty
-    //         //dd($filePath);
-    //     //     return response()->json(['error' => 'Attachment file not found'], 500);
-    //     // }
-
-    //     // $filePath = $emailCredential->email_attachment;
-    //     // if ($filePath) {
-    //     //     // Get the absolute path of the attachment
-    //     //     $absolutePath = storage_path('app/' . $filePath);
-    //     //     // Attach the file using its absolute path
-    //     //     $mail->addAttachment($absolutePath);
-    //     // }
-            
+    
     //         $mail->send();
         
            
@@ -99,9 +68,57 @@ class EmailHelper{
     //     // }
     // }
 
-    public static function sendEmail($recipientEmailId , $id , $documents)
+    public static function sendEmail($recipientEmailId = null, $id = null, $documents = null,$company = null)
     {
+        
        //dd($id);
+       if (is_null($documents) && !is_null($company)) {
+        
+        // Send email using default mail address
+        if (!$company) {
+            return response()->json(['error' => 'No email credentials found'], 500);
+        }
+        $emailCredential = EmailSetting::where('tbl_user_id','1')->first();
+
+
+        // Create a new PHPMailer instance
+        $mail = new PHPMailer(true); // Enable exceptions
+
+        
+
+        // Set SMTP server settings
+         $mail->isSMTP();
+            $mail->Host = $emailCredential->smtp;
+            $mail->Port = $emailCredential->port;
+            $mail->SMTPAuth = true;
+            $mail->Username = $emailCredential->username;
+            $mail->Password = $emailCredential->password;
+
+        Config::set('mail.username', $mail->Username);
+        Config::set('mail.password', $mail->Password);
+        Config::set('mail.host', $mail->Host);
+        Config::set('mail.port', $mail->Port);
+
+        
+        // Set sender and recipient
+        $mail->setFrom($mail->Username, 'Torna');
+       
+        $recipientEmail = $company->email;
+        $mail->addAddress($recipientEmail);
+       
+
+        $subject = "Torna Exhibitions";
+        $mail->Subject = $subject;
+
+        $message = "Congratulations! Your registration for ". $company->company_name ." is complete. Welcome aboard! 🎉 ";
+        $mail->isHTML(true); // Set email format to HTML
+        $mail->Body = $message;
+
+        $mail->send();
+    
+       
+        return response()->json(['message' => 'Email sent successfully'], 200);
+    }
        
         // try {
             // Fetch email credentials from the database

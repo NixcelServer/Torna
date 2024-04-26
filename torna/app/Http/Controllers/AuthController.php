@@ -118,7 +118,7 @@ class AuthController extends Controller
 
         try {
             $company->save();
-            EmailHelper::sendEmail($company);
+            EmailHelper::sendEmail(null,null,null,$company);
             
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
@@ -140,8 +140,8 @@ class AuthController extends Controller
         $user->role_id = '2';
 
         // Save the user to the database
-      //  $user->save();
-
+        $user->save();
+        
       AuditLogHelper::logDetails('registered as organizer', $user->tbl_user_id);
 
       //  return redirect()->route('Home')->with('success', 'Registration successful!');
@@ -176,7 +176,7 @@ class AuthController extends Controller
 
         try {
             $exhibitor->save();
-            EmailHelper::sendEmail($exhibitor);
+            EmailHelper::sendEmail(null,null,null,$exhibitor);
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging

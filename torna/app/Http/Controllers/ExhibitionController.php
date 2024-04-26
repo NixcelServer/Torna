@@ -979,7 +979,7 @@ public function companysetupformo()
     }
 
     
-    EmailHelper::sendEmail($visitor->email,$visitor->tbl_comp_id,$documents);
+    EmailHelper::sendEmail($visitor->email,$visitor->tbl_comp_id,$documents,null);
 
     return redirect()->back();
 
