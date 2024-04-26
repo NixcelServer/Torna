@@ -9,7 +9,7 @@ use App\Models\ProductDetail;
 use App\Models\Industry;
 use App\Models\AssignProduct;
 use App\Models\Participate;
-
+use App\Models\Visitor;
 
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EncryptionDecryptionHelper;
@@ -872,16 +872,40 @@ public function companysetupformo(){
            $encExhibitionID = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id, 'encrypt');
 
            $participatedEx->encExId = $encExhibitionID;
+
+           $participatedEx->encParticipationId = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_participation_id, 'encrypt');
        }
        
        return view('ExhibitorPages/participatedExhibitions', ['participatedExs' => $participatedExs]);
    }
+
+   
    
 
-   public function visitorsdetails()
+   public function visitorsdetails($id)
    {
+    
+    $user = session('user');
+    $decPartId = EncryptionDecryptionHelper::encdecId($id,'decrypt');
+    
+    $participatedEx = Participate::where('tbl_participation_id',$decPartId)->first();
+
+    $userDetails = UserDetail::where('tbl_user_id',$participatedEx->tbl_user_id)->first();
+    
+    $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
+    $participatedEx->encExId = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id,'encrypt');
+    $participatedEx->encCompId = EncryptionDecryptionHelper::encdecId($userDetails->tbl_comp_id,'encrypt');
+
+    $participatedEx->compDetails = CompanyDetail::where('tbl_comp_id',$userDetails->tbl_comp_id)->first();
+    
+    $services = ProductDetail::where('tbl_comp_id',$userDetails->tbl_comp_id)->get();
+
+        foreach ($services as $service) {
+            $service->encServiceId = EncryptionDecryptionHelper::encdecId($service->tbl_product_id, 'encrypt');
+        }
+        //dd($services);
        
-       return view('VisitorPages/visitorsdetails');
+       return view('VisitorPages/visitorsdetails',['participatedEx'=>$participatedEx,'services'=>$services]);
    }
    
    public function participate($id)
@@ -912,6 +936,21 @@ public function companysetupformo(){
         return redirect()->back();
         
    }
-   
 
+   public function regVisitor(Request $request)
+   {
+    $visitor = new Visitor;
+    $visitor->tbl_ex_id = EncryptionDecryptionHelper::encdecId($request->encExId,'encrypt');
+    $visitor->tbl_comp_id = EncryptionDecryptionHelper::encdecId($request->encCompId,'encrypt');
+    $visitor->name = $request->name;
+    $visitor->email = $request->email;
+    $visitor->contact_no = $request->contact_no;
+    $visitor->service = $request->service;
+    $visitor->add_date = Date::now()->toDateString();
+    $visitor->add_time = Date::now()->toTimeString();
+    $visitor->save();
+
+    
+
+   }
 }

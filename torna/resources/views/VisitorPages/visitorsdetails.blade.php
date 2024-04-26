@@ -64,9 +64,11 @@
     </div>
     <div class="card-body text-center" >
         <h5 class="card-title">Exhibition Details</h5>
-        <img src="https://i.ytimg.com/vi/j8nkFo1_8FI/maxresdefault.jpg" class="card-img-top" alt="Card image" style="width: 100%; height: 200px; object-fit: cover;">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <img src="{{$participatedEx->exDetails->company_logo}}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 200px; object-fit: cover;">
+        <p class="card-text">Exhibition Name: {{$participatedEx->exDetails->exhibition_name}}</p>
+        {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a> --}}
+
     </div>
 </div>
 
@@ -84,6 +86,8 @@
                             <div class="col-md-6">
                                 <label for="visitor_name" class="col-form-label text-md-right required-field">Visitor Name</label>
                                 <input id="visitor_name" name="visitor_name" type="text" class="form-control" required>
+                                <input type="hidden" name= "encCompId" value="{{ $participatedEx->encCompId }}">
+                                <input type="hidden" name = "encExId" value="{{ $participatedEx->encExId }}">
                             </div>
 
                             <div class="col-md-6">
@@ -102,11 +106,10 @@
                             <div class="col-md-6">
                                 <label for="services" class="col-form-label text-md-right ">Select Services</label>
                                 <select id="services" name="services" class="form-control" >
-                                    <option value="">Select</option>
-                                    <option value="service1">Service 1</option>
-                                    <option value="service2">Service 2</option>
-                                    <option value="service3">Service 3</option>
-                                    <!-- Add more options as needed -->
+                                    <option value="">Select Service</option>
+                                    @foreach($services as $service)
+                                        <option value="{{ $service->product_name }}">{{ $service->product_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

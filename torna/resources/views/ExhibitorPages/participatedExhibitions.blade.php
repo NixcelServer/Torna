@@ -308,9 +308,13 @@
         <td>{{ (int)$key + 1 }}</td>
         <td>{{ $participatedEx->exDetails->exhibition_name }}</td>
         <td>
-            <button class="btn btn-sm btn-info generate-url-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateURL(event)">Generate URL</button>
+            {{-- <button class="btn btn-sm btn-info generate-url-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateURL()">Generate URL</button> --}}
+            {{-- <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}">Generate URL</a> --}}
+            <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" target="_blank">Generate URL</a>
+
             <!-- If you want a Generate QR Code button -->
-            <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateQRCode(event)">Generate QR Code</button>
+            <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
+            <iframe id="qrCodeFrame" style="display: none;"></iframe>
             <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}')">
                 Notify By
             </button>
@@ -440,6 +444,42 @@
                                    
                                 </script>
                             </body>
+                            <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
+<script>
+    function generateQRCode() {
+    // Get the data-id attribute from the button
+    const exId = document.querySelector('.generate-qr-btn').getAttribute('data-id');
+
+    // Generate the QR code using qrcode-generator library
+    const qr = qrcode(0, 'M');
+    qr.addData(`http://192.168.1.47:8000/visitordetails/${exId}`);
+    qr.make();
+
+    // Get the QR code SVG and convert it to a data URI
+    const svg = qr.createSvgTag();
+    const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
+
+    // Display the QR code in the iframe
+    const iframe = document.getElementById('qrCodeFrame');
+    iframe.src = dataUri;
+    iframe.style.display = 'block';
+}
+
+// Function to download the QR code
+function downloadQRCode() {
+    const iframe = document.getElementById('qrCodeFrame');
+    const svg = iframe.contentDocument.querySelector('svg');
+
+    // Create a temporary link element to trigger the download
+    const link = document.createElement('a');
+    link.href = 'data:image/svg+xml;base64,' + btoa(new XMLSerializer().serializeToString(svg));
+    link.download = 'qr-code.svg';
+    link.click();
+}
+
+</script>
+
+
                             {{-- <body>
                                 <h3 class="mb-3">Select notification method:</h3>
                                 <div class="form-check mb-2">
@@ -457,8 +497,8 @@
                                 <button class="btn btn-primary" id="submitBtn">Submit</button>
                             
                                 <!-- Bootstrap JS and custom script to get selected options -->
-                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></s>
+                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></scrip>
                                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
                                 <!-- SweetAlert -->
                                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -519,6 +559,20 @@
                                     });
                                 </script>
                             </body> --}}
+
+                            <script>
+                                function generateURL() {
+    // Get the data-id attribute from the button
+    const exId = document.querySelector('.generate-url-btn').getAttribute('data-id');
+    
+    // Construct the URL based on your route
+    const url = `/nixcelsoft/exhibitionname/encid`;
+    
+    // Open the URL in a new tab
+    window.open(url, '_blank');
+}
+
+                            </script>
                             
                             
                             
@@ -655,6 +709,9 @@
         <!--**********************************
             Footer end
         ***********************************-->
+        
+
+        
     </div>
     <!--**********************************
         Main wrapper end
