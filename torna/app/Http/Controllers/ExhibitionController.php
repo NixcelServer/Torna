@@ -959,4 +959,11 @@ public function companysetupformo(){
     
 
    }
+
+public function collectdata(){
+    
+    return view('VisitorPages/collectdata');
+
+}
+   
 }

@@ -319,6 +319,8 @@
             <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}')">
                 Notify By
             </button>
+            <a class="btn btn-sm btn-success" href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}">Collect Data</a>
+
         </td>                                                
     </tr>
 @endforeach

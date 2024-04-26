@@ -152,6 +152,9 @@ Route::get('/notificationSetting', [NotifyController::class, 'notificationSettin
 
 Route::post('/regvisitor',[ExhibitionController::class, 'regVisitor']  );
 
+Route::get('/collectdata/{id}', [ExhibitionController::class, 'collectdata'])->name('collectdata');
+
+
 
 
 ?>
