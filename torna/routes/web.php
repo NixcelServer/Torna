@@ -150,6 +150,11 @@ Route::post('/selected-options-to-notify',[NotifyController::class,'selectNotify
 //Notifications Settings
 Route::get('/notificationSetting', [NotifyController::class, 'notificationSetting']);
 
+Route::post('/notification-settings/email',[NotifyController::class,'storeEmailSettings']);
+
+Route::post('/notification-settings/sms',[NotifyController::class,'storeSMSSettings']);
+
+
 
 
 

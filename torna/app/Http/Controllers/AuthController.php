@@ -195,6 +195,7 @@ class AuthController extends Controller
 
         // Save the user to the database
         $user->save();
+        
 
         AuditLogHelper::logDetails('registered as exhibitor', $user->tbl_user_id);
 
