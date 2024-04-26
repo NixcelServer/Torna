@@ -311,6 +311,7 @@
             {{-- <button class="btn btn-sm btn-info generate-url-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateURL()">Generate URL</button> --}}
             {{-- <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}">Generate URL</a> --}}
             <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" target="_blank">Generate URL</a>
+            
 
             <!-- If you want a Generate QR Code button -->
             <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
