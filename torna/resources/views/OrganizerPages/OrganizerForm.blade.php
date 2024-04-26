@@ -144,7 +144,7 @@
 <br />
                         <div class="form-group row justify-content-center mb-3">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" onclick="showRegistrationSuccessMessage()">
                                     Register
                                 </button>
                             </div>
@@ -155,7 +155,21 @@
         </div>
     </div>
 </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function showRegistrationSuccessMessage() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Registration Successful',
+            text: 'Your registration has been successfully submitted.',
+            showConfirmButton: false,
+            timer: 2000 // 2 seconds
+        });
+    }
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const emailInput = document.getElementById('email');
