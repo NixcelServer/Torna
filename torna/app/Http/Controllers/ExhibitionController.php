@@ -991,8 +991,8 @@ public function companysetupformo()
 
    }
 
-public function collectdata(){
-    
+public function collectdata($id){
+    dd($id);
     return view('VisitorPages/collectdata');
 
 }
