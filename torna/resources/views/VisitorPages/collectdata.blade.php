@@ -297,8 +297,18 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Visitors List</h4>
-                                <div class="table-responsive">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 class="card-title mb-0">Visitors List</h4>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Export Data
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                                            <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
+                                            <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
+                                        </div>
+                                    </div>
+                                </div>
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
                                         <tr>
@@ -1068,6 +1078,86 @@
             Footer end
         ***********************************-->
     </div>
+
+    <!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include SheetJS library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#exportExcel').click(function (e) {
+            e.preventDefault();
+            
+            exportData('xlsx');
+        });
+
+        $('#exportCsv').click(function (e) {
+            e.preventDefault();
+            exportData('csv');
+        });
+
+        function exportData(format) {
+            // Send AJAX request to fetch all data
+            
+            $.ajax({
+                url: '/fetch-all-audit-log', // Update with your backend route
+                method: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        if (format === 'xlsx') {
+                            // Convert data to Excel
+                            
+                            const sheet = XLSX.utils.json_to_sheet(response.data);
+                            const wb = XLSX.utils.book_new();
+                            XLSX.utils.book_append_sheet(wb, sheet, 'Audit Log Data');
+                            const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+                            // Save Excel file
+                            saveAsFile(excelBuffer, 'Audit_Log_Data.xlsx');
+                        } else if (format === 'csv') {
+                            // Convert data to CSV
+                            const csv = convertToCsv(response.data);
+
+                            // Save CSV file
+                            saveAsFile(csv, 'Audit_Log_Data.csv');
+                        }
+                    } else {
+                        alert('Failed to fetch data.');
+                    }
+                },
+                error: function () {
+                    alert('Error occurred while fetching data.');
+                }
+            });
+        }
+
+        // Function to save file
+        function saveAsFile(buffer, fileName) {
+            const blob = new Blob([buffer], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+
+            URL.revokeObjectURL(url);
+        }
+
+        // Function to convert JSON data to CSV format
+        function convertToCsv(data) {
+            const header = Object.keys(data[0]);
+            const csv = [header.join(',')];
+            data.forEach(row => {
+                const values = header.map(key => row[key]);
+                csv.push(values.join(','));
+            });
+            return csv.join('\n');
+        }
+    });
+</script>
     <!--**********************************
         Main wrapper end
     ***********************************-->
