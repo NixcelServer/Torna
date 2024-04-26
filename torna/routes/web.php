@@ -150,9 +150,18 @@ Route::post('/selected-options-to-notify',[NotifyController::class,'selectNotify
 //Notifications Settings
 Route::get('/notificationSetting', [NotifyController::class, 'notificationSetting']);
 
+
 Route::post('/regvisitor',[ExhibitionController::class, 'regVisitor']  );
 
+
 Route::get('/collectdata/{id}', [ExhibitionController::class, 'collectdata'])->name('collectdata');
+
+Route::post('/notification-settings/email',[NotifyController::class,'storeEmailSettings']);
+
+Route::post('/notification-settings/sms',[NotifyController::class,'storeSMSSettings']);
+
+
+
 
 
 

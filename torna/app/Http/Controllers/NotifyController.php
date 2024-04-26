@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Helpers\EncryptionDecryptionHelper;
 use App\Helpers\AuditLogHelper;
 use App\Models\Notify;
+use App\Models\EmailSetting;
+use App\Models\SMSSetting;
+
+
 use Illuminate\Support\Facades\Date;
 
 
@@ -22,6 +26,18 @@ class NotifyController extends Controller
             // Decrypt the exhibition ID
             $decExId = EncryptionDecryptionHelper::encdecId($request->encExId, 'decrypt');
 
+
+
+            $existingDetails = Notify::where('tbl_ex_id', $decExId)
+                                        ->where('tbl_user_id', $user->tbl_user_id)
+                                        ->exists();
+
+    // If the user has already participated, return a JSON response
+    if ($existingDetails) {
+        // $notify = Notify::where('tbl_ex_id')   
+     }
+            
+
             $notify = new Notify;
             
             $options = $request->options; // Assuming $request is the request object
@@ -29,11 +45,24 @@ class NotifyController extends Controller
             // Check if email is selected
             if (in_array('email', $options)) {
                 $notify->email_service = 'enabled';
+                $email = new EmailSetting;
+                $email->tbl_user_id = $user->tbl_user_id;
+                $email->tbl_comp_id = $user->tbl_comp_id;
+                $email->add_date = Date::now()->toDateString();
+                $email->add_time = Date::now()->toTimeString();
+                $email->save();
             }
 
             // Check if SMS is selected
             if (in_array('sms', $options)) {
                 $notify->sms_service = 'enabled';
+                $sms = new SMSSetting;
+                $sms->tbl_user_id = $user->tbl_user_id;
+                $sms->tbl_comp_id = $user->tbl_comp_id;
+                $sms->add_date = Date::now()->toDateString();
+                $sms->add_time = Date::now()->toTimeString();
+                $sms->save();
+
             }
 
             // Check if WhatsApp is selected
@@ -49,6 +78,8 @@ class NotifyController extends Controller
             
             $notify->save();
 
+            
+
             // Return success response
             return response()->json(['message' => 'Notification saved successfully'], 200);
         } catch (\Exception $e) {
@@ -58,8 +89,38 @@ class NotifyController extends Controller
             return response()->json(['error' => 'An error occurred while saving notification'], 500);
         }    
     }
+
 public function notificationSetting(){
+
     return view('ExhibitorPages.notificationSetting');
 }
     
+public function storeEmailSettings(Request $request)
+{
+    $user = session('user');
+    $email = EmailSetting::where('tbl_user_id',$user->tbl_user_id)->first();
+
+    $email->smtp = $request->smtp;
+    $email->port = $request->port;
+    $email->username = $request->username;
+    $email->password = $request->password;
+    $email->save();
+    dd($email);
+    return redirect->back();
+}
+
+public function storeSMSSettings(Request $request)
+{
+    
+    $user = session('user');
+    $sms = SMSSetting::where('tbl_user_id',$user->tbl_user_id)->first();
+    $sms->sid = $request->sid;
+    $sms->auth_token = $request->authToken;
+    $sms->mobile_no = $request->mobileNo;
+    dd($sms);
+    $sms->save();
+
+    return redirect()->back();
+
+}
 }

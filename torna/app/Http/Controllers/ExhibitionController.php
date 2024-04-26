@@ -13,6 +13,8 @@ use App\Models\Visitor;
 
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EncryptionDecryptionHelper;
+use App\Helpers\EmailHelper;
+
 use App\Helpers\AuditLogHelper;
 
 use App\Models\ExhibitionDetail;
@@ -107,6 +109,7 @@ class ExhibitionController extends Controller
         }
         return view('AdminPages/RejectedExList', ['companies' => $companies]);
     }
+
     public function exdashboard()
     {
         return view('ExhibitorPages/ExDashboard');
@@ -645,7 +648,8 @@ class ExhibitionController extends Controller
         return view('ExhibitorPages/createExhibitionformE', ['industries' => $industries]);
    }
 
-   public function companysetupform(){
+   public function companysetupform()
+   {
     $user = session('user');
     $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->first();
     $company->encCompId = EncryptionDecryptionHelper::encdecId($company->tbl_comp_id, 'encrypt');
@@ -659,8 +663,11 @@ class ExhibitionController extends Controller
         }
     
     return view('ExhibitorPages/companysetupform',['industries'=>$industries,'company'=>$company]);
-}
-public function companysetupformo(){
+    }
+
+
+public function companysetupformo()
+{
     $user = session('user');
     $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->first();
     $company->encCompId = EncryptionDecryptionHelper::encdecId($company->tbl_comp_id, 'encrypt');
@@ -674,11 +681,12 @@ public function companysetupformo(){
         }
     //dd($company);
     return view('OrganizerPages/companysetupformo',['industries'=>$industries,'company'=>$company]);
-}
+    }
 
     
 
-    public function assignProducts($encDocumentId){
+    public function assignProducts($encDocumentId)
+    {
         $decDocumentId=EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt');
         
         $document = Document::where('tbl_doc_id', EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt'))->first();
@@ -905,11 +913,12 @@ public function companysetupformo(){
     $participatedEx->compDetails = CompanyDetail::where('tbl_comp_id',$userDetails->tbl_comp_id)->first();
     
     $services = ProductDetail::where('tbl_comp_id',$userDetails->tbl_comp_id)->get();
+    
 
         foreach ($services as $service) {
             $service->encServiceId = EncryptionDecryptionHelper::encdecId($service->tbl_product_id, 'encrypt');
         }
-        //dd($services);
+        
        
        return view('VisitorPages/visitorsdetails',['participatedEx'=>$participatedEx,'services'=>$services]);
    }
@@ -926,8 +935,10 @@ public function companysetupformo(){
                                         ->exists();
 
     // If the user has already participated, return a JSON response
-    if ($existingParticipation) {
-        return redirect()->back()->withErrors(['error' => 'You have already participated in this exhibition.']);    }
+    if ($existingParticipation) 
+    {
+        return redirect()->back()->withErrors(['error' => 'You have already participated in this exhibition.']);   
+     }
         
         
         $participate = new Participate;
@@ -945,9 +956,10 @@ public function companysetupformo(){
 
    public function regVisitor(Request $request)
    {
+    //dd($request);
     $visitor = new Visitor;
-    $visitor->tbl_ex_id = EncryptionDecryptionHelper::encdecId($request->encExId,'encrypt');
-    $visitor->tbl_comp_id = EncryptionDecryptionHelper::encdecId($request->encCompId,'encrypt');
+    $visitor->tbl_ex_id = EncryptionDecryptionHelper::encdecId($request->encExId,'decrypt');
+    $visitor->tbl_comp_id = EncryptionDecryptionHelper::encdecId($request->encCompId,'decrypt');
     $visitor->name = $request->name;
     $visitor->email = $request->email;
     $visitor->contact_no = $request->contact_no;
@@ -956,7 +968,26 @@ public function companysetupformo(){
     $visitor->add_time = Date::now()->toTimeString();
     $visitor->save();
 
+    $decProdId = EncryptionDecryptionHelper::encdecId($request->services,'decrypt');
+    //dd($decProdId);
+    $product = ProductDetail::where('tbl_product_id',$decProdId)->first();
+
+    $assignedProds = AssignProduct::where('tbl_product_id',$decProdId)->get();
     
+    $documents = collect(); // Initialize an empty collection to store documents
+
+    foreach ($assignedProds as $assignedProd) {
+        // Retrieve documents associated with each assigned product
+        $docs = Document::where('tbl_doc_id', $assignedProd->tbl_doc_id)->get();
+        
+        // Merge retrieved documents into the documents collection
+        $documents = $documents->merge($docs);
+    }
+
+    
+    EmailHelper::sendEmail($visitor->email,$visitor->tbl_comp_id,$documents,null);
+
+    return redirect()->back();
 
    }
 
