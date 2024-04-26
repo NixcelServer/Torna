@@ -1100,7 +1100,7 @@
 
         function exportData(format) {
             // Send AJAX request to fetch all data
-            
+            //add new route here
             $.ajax({
                 url: '/fetch-all-audit-log', // Update with your backend route
                 method: 'GET',
