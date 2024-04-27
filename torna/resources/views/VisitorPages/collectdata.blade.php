@@ -1087,76 +1087,68 @@
 
 <script>
     $(document).ready(function () {
-        $('#exportExcel').click(function (e) {
-            e.preventDefault();
-            
-            exportData('xlsx');
-        });
-
-        $('#exportCsv').click(function (e) {
-            e.preventDefault();
-            exportData('csv');
-        });
-
-        function exportData(format) {
-            // Send AJAX request to fetch all data
-            //add new route here
-            $.ajax({
-                url: '/fetch-all-audit-log', // Update with your backend route
-                method: 'GET',
-                success: function (response) {
-                    if (response.success) {
-                        if (format === 'xlsx') {
-                            // Convert data to Excel
-                            
-                            const sheet = XLSX.utils.json_to_sheet(response.data);
-                            const wb = XLSX.utils.book_new();
-                            XLSX.utils.book_append_sheet(wb, sheet, 'Audit Log Data');
-                            const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-
-                            // Save Excel file
-                            saveAsFile(excelBuffer, 'Audit_Log_Data.xlsx');
-                        } else if (format === 'csv') {
-                            // Convert data to CSV
-                            const csv = convertToCsv(response.data);
-
-                            // Save CSV file
-                            saveAsFile(csv, 'Audit_Log_Data.csv');
-                        }
-                    } else {
-                        alert('Failed to fetch data.');
-                    }
-                },
-                error: function () {
-                    alert('Error occurred while fetching data.');
-                }
-            });
-        }
-
-        // Function to save file
-        function saveAsFile(buffer, fileName) {
-            const blob = new Blob([buffer], { type: 'application/octet-stream' });
-            const url = URL.createObjectURL(blob);
-
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            a.click();
-
-            URL.revokeObjectURL(url);
-        }
-
-        // Function to convert JSON data to CSV format
-        function convertToCsv(data) {
-            const header = Object.keys(data[0]);
-            const csv = [header.join(',')];
-            data.forEach(row => {
-                const values = header.map(key => row[key]);
-                csv.push(values.join(','));
-            });
-            return csv.join('\n');
-        }
+    $('#exportExcel').click(function (e) {
+        e.preventDefault();
+        exportData('xlsx');
     });
+
+    $('#exportCsv').click(function (e) {
+        e.preventDefault();
+        exportData('csv');
+    });
+
+    function exportData(format) {
+        $.ajax({
+            
+            url: '/fetchvisitordata', // Check if this URL is correct
+            method: 'GET',
+            success: function (response) {
+                if (response.success) {
+                    if (format === 'xlsx') {
+                        // Convert data to Excel
+                        const sheet = XLSX.utils.json_to_sheet(response.data);
+                        const wb = XLSX.utils.book_new();
+                        XLSX.utils.book_append_sheet(wb, sheet, 'Audit Log Data');
+                        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                        saveAsFile(excelBuffer, 'Audit_Log_Data.xlsx');
+                    } else if (format === 'csv') {
+                        // Convert data to CSV
+                        const csv = convertToCsv(response.data);
+                        saveAsFile(csv, 'Audit_Log_Data.csv');
+                    }
+                } else {
+                    alert('Failed to fetch data.');
+                }
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+    // Function to save file
+    function saveAsFile(buffer, fileName) {
+        const blob = new Blob([buffer], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // Function to convert JSON data to CSV format
+    function convertToCsv(data) {
+        const header = Object.keys(data[0]);
+        const csv = [header.join(',')];
+        data.forEach(row => {
+            const values = header.map(key => row[key]);
+            csv.push(values.join(','));
+        });
+        return csv.join('\n');
+    }
+});
+
 </script>
     <!--**********************************
         Main wrapper end

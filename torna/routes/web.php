@@ -155,6 +155,6 @@ Route::post('/regvisitor',[ExhibitionController::class, 'regVisitor']  );
 Route::get('/collectdata/{id}', [ExhibitionController::class, 'collectdata'])->name('collectdata');
 
 
-
+Route::get('/fetchvisitordata', [ExhibitionController::class, 'fetchvisitordata']);
 
 ?>

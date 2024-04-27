@@ -965,5 +965,37 @@ public function collectdata(){
     return view('VisitorPages/collectdata');
 
 }
+
+public function fetchvisitordata()
+{
+    dd("hi");
+    $user = session('user');
+    $visitorlogs = Visitor::orderBy('add_date', 'desc')->get();
+
+    $auditLogsWithUsername = [];
+
+    foreach ($visitorlogs as $visitorlog) {
+        $user = UserDetail::where('tbl_user_id', $visitorlog->activity_by)->first();
+
+        if ($user) {
+            $auditLogsWithUsername[] = [
+                'id' => $visitorlog->id,
+                'activity_name' => $visitorlog->name, // Assuming activity_name is the visitor's name in your table
+                'activity_by' => $user->first_name . " " . $user->last_name,
+                'activity_date' => $visitorlog->add_date, // Assuming add_date is the activity date in your table
+                'activity_time' => $visitorlog->add_time, // Assuming add_time is the activity time in your table
+                'email' => $visitorlog->email, // Assuming email is the visitor's email in your table
+                'contact_no' => $visitorlog->contact_no, // Assuming contact_no is the visitor's contact number in your table
+                'service' => $visitorlog->service, // Assuming service is the visitor's service in your table
+            ];
+        }
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $auditLogsWithUsername,
+    ]);
+}
+
    
 }
