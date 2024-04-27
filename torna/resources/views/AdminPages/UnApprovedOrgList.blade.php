@@ -420,6 +420,8 @@
                         }).then(function () {
                             console.log(companyName + ' ' + status);
                             $('#documentModal').modal('hide');
+                            window.location.href = '/AdminDashboard'; // Redirect to AdminDashboard page
+
                         });
                     },
                     error: function (xhr, status, error) {
