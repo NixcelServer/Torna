@@ -687,6 +687,7 @@ public function companysetupformo()
 
     public function assignProducts($encDocumentId)
     {
+        
         $decDocumentId=EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt');
         
         $document = Document::where('tbl_doc_id', EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt'))->first();

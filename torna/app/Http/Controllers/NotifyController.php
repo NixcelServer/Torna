@@ -97,6 +97,7 @@ public function notificationSetting(){
     
 public function storeEmailSettings(Request $request)
 {
+    
     $user = session('user');
     $email = EmailSetting::where('tbl_user_id',$user->tbl_user_id)->first();
 
@@ -105,7 +106,7 @@ public function storeEmailSettings(Request $request)
     $email->username = $request->username;
     $email->password = $request->password;
     $email->save();
-    dd($email);
+    
     return redirect->back();
 }
 

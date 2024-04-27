@@ -115,7 +115,7 @@ Route::get('/delete-document/{id}',[ExhibitionController::class,'deleteDocument'
 
 
 Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
-Route::get('/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
+Route::get('documents/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
 
 
 

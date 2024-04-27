@@ -61,8 +61,7 @@
                                     </div>
                                     <button class="btn login-form__btn submit w-100">Sign In</button>
                                 </form>
-                                <p class="mt-5 login-form__footer">Don't have an account? <a href="/login"
-                                        class="text-primary">Sign Up</a> now</p>
+                                
                             </div>
 
                         </div>

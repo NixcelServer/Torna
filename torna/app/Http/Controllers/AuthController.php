@@ -154,7 +154,7 @@ class AuthController extends Controller
         // Redirect the user to a success page or any other page as needed
         //return view('OrganizerForm');
 
-        return view('HomePages/Login');
+        return redirect()->route('Home')->with('success', 'Registration successful!');
     }
     public function ExhibitorRegistrationSubmitForm(Request $request)
     {

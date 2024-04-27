@@ -338,28 +338,17 @@
                                         <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
                                     </div>
                                 </div>
-                                
-                                {{-- <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="password" class="col-form-label text-md-right">Password</label>
-                                        <input id="password" name="password" type="password" class="form-control" required>
-                                    </div>
-                                
-                                    <div class="col-md-6">
-                                        <label for="confirm_password" class="col-form-label text-md-right">Confirm Password</label>
-                                        <input id="confirm_password" name="confirm_password" type="password" class="form-control" required>
-                                    </div>
-                                </div> --}}
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label  class="col-form-label text-md-right">Industry</label>
-                                        <select  name="industry_name" class="form-control" required>
+                                        <label class="col-form-label text-md-right">Industry</label>
+                                        <select name="industry_name" class="form-control" required>
                                             <option value="">Select Industry</option>
                                             @foreach($industries as $industry)
-                                                <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
+                                                <option value="{{ $industry->industry_name }}" @if($industry->industry_name == $company->industry_name) selected @endif>{{ $industry->industry_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                    
                                     <div class="col-md-6">
                                         <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
                                         <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*" required>

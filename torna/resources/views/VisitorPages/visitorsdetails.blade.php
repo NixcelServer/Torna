@@ -64,12 +64,7 @@
     </div>
     <div class="card-body text-center">
         <h5 class="card-title">Exhibition Details</h5>
-        @if ($participatedEx->exDetails->company_logo)
-            <?php $base64Image = $participatedEx->exDetails->company_logo; ?>
-            <img src="data:image/png;base64,{{ $base64Image }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 200px; object-fit: cover;">
-        @else
-            <p>No logo available</p>
-        @endif
+       
         <p class="card-text">Exhibition Name: {{ $participatedEx->exDetails->exhibition_name }}</p>
     </div>
     
@@ -132,7 +127,7 @@
 </div>
 
 
-<script>
+{{-- <script>
     document.addEventListener("DOMContentLoaded", function() {
         const emailInput = document.getElementById('email');
         //emailError.textContent = 'Only company domain emails are allowed.';
@@ -147,7 +142,7 @@
             }
         });
     });
-</script>
+</script> --}}
 <script>
     $(document).ready(function () {
         $('.register-btn').popover({
