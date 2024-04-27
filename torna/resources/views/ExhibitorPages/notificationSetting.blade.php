@@ -291,31 +291,32 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-validation">
-                                    <form class="form-valide" action="#" method="post">
+                                    <form class="form-valide" action="/notification-settings/email" method="post">
+                                        @csrf
                                         <!-- Existing form fields -->
                                         <!-- Your new fields -->
                                         <div class="form-group row">
-                                            <label class="col-lg-4 col-form-label" for="val-smtp">SMTP <span class="text-danger">*</span></label>
+                                            <label class="col-lg-4 col-form-label" for="smtp">SMTP <span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="val-smtp" name="val-smtp" placeholder="SMTP server address">
+                                                <input type="text" class="form-control" id="smtp" name="smtp" placeholder="SMTP server address">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="val-port">Port <span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="val-port" name="val-port" placeholder="SMTP port number">
+                                                <input type="text" class="form-control" id="val-port" name="port" placeholder="SMTP port number">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="val-username-smtp">Username <span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="val-username-smtp" name="val-username-smtp" placeholder="SMTP username">
+                                                <input type="text" class="form-control" id="val-username-smtp" name="username" placeholder="SMTP username">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="val-password-smtp">Password <span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <input type="password" class="form-control" id="val-password-smtp" name="val-password-smtp" placeholder="SMTP password">
+                                                <input type="password" class="form-control" id="val-password-smtp" name="password" placeholder="SMTP password">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -336,10 +337,10 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="card">
-                            <h3 class="text-center">SMS Setting Form</h3> <!-- Form title -->
+                            <h3 class="text-center">Whatsapp Setting Form</h3> <!-- Form title -->
                             <div class="card-body">
                                 <div class="form-validation">
-                                    <form class="form-valide" action="#" method="post">
+                                    <form class="form-valide" action="" method="post">
                                         <!-- Existing form fields -->
                                         <!-- New field: WhatsApp Number -->
                                         <div class="form-group row">
@@ -367,22 +368,29 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="card">
-                            <h3 class="text-center">Whatsapp Setting Form</h3> <!-- Form title -->
+                            <h3 class="text-center">SMS Setting Form</h3> <!-- Form title -->
                             <div class="card-body">
                                 <div class="form-validation">
-                                    <form class="form-valide" action="#" method="post">
+                                    <form class="form-valide" action="/notification-settings/sms" method="post">
+                                        @csrf
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label" for="val-sms-mobile_no">Mobile Number <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-sms-mobile_no" name="mobileNo" placeholder="Enter Mobile Number">
+                                            </div>
+                                        </div>
                                         <!-- New field: SMS Service -->
                                         <div class="form-group row">
-                                            <label class="col-lg-4 col-form-label" for="val-sms-service">SMS Service <span class="text-danger">*</span></label>
+                                            <label class="col-lg-4 col-form-label" for="val-sms-service">Auth Token <span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="val-sms-service" name="val-sms-service" placeholder="Enter SMS service name">
+                                                <input type="text" class="form-control" id="val-sms-service" name="authToken" placeholder="Enter Auth Token">
                                             </div>
                                         </div>
                                         <!-- New field: SID -->
                                         <div class="form-group row">
                                             <label class="col-lg-4 col-form-label" for="val-sid">SID <span class="text-danger">*</span></label>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="val-sid" name="val-sid" placeholder="Enter SID">
+                                                <input type="text" class="form-control" id="val-sid" name="sid" placeholder="Enter SID">
                                             </div>
                                         </div>
                                         <!-- End of new fields -->

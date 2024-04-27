@@ -12,17 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         //
-        Schema::create('tbl_visitor_details', function (Blueprint $table) {
-            $table->id('tbl_visitor_detail_id');
-            $table->integer('tbl_ex_id')->required();
+        Schema::create('tbl_email_settings', function (Blueprint $table) {
+            $table->id('tbl_email_setting_id');
+            $table->integer('tbl_user_id')->required();
             $table->integer('tbl_comp_id')->required();
-            $table->string('name');
-            $table->string('email');
-            $table->string('contact_no');
-            $table->string('service');
+            $table->string('smtp')->nullable();
+            $table->string('port')->nullable();
+            $table->string('username')->nullable();
+            $table->string('password')->nullable();
             $table->date('add_date')->required();
             $table->time('add_time')->required();
-            
+            $table->date('updated_date')->nullable();
+            $table->time('updated_time')->nullable();
             $table->string('flag')->default('show');
         });
     }
@@ -33,5 +34,6 @@ return new class extends Migration
     public function down(): void
     {
         //
+        Schema::dropIfExists('tbl_email_settings');
     }
 };

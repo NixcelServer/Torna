@@ -320,15 +320,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($auditlogs as $index => $log)
+                                         @foreach ($visitors as $index => $visitor)
                                             <tr>
                                                 <td>{{ $index+1 }}</td>
-                                                <td>{{ $log->activity_name}}</td>
-                                                <td>{{ $log->username}}</td>
-                                                <td>{{ $log->activity_date}}</td>
-                                                <td>{{ $log->activity_time}}</td>
+                                                <td>{{ $visitor->name}}</td>
+                                                <td>{{ $visitor->contact_no}}</td>
+                                                <td>{{ $visitor->email}}</td>
+                                                <td>{{ $visitor->service_name}}</td>
                                             </tr>
-                                        @endforeach --}}
+                                        @endforeach 
                                     </tbody>
                                         
                                     </table>
