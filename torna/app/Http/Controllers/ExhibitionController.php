@@ -956,19 +956,21 @@ public function companysetupformo()
 
    public function regVisitor(Request $request)
    {
-    //dd($request);
+   // dd($request);
+   $decProdId = EncryptionDecryptionHelper::encdecId($request->services,'decrypt');
+
     $visitor = new Visitor;
     $visitor->tbl_ex_id = EncryptionDecryptionHelper::encdecId($request->encExId,'decrypt');
     $visitor->tbl_comp_id = EncryptionDecryptionHelper::encdecId($request->encCompId,'decrypt');
-    $visitor->name = $request->name;
+    $visitor->name = $request->visitor_name;
     $visitor->email = $request->email;
     $visitor->contact_no = $request->contact_no;
-    $visitor->service = $request->service;
+    $visitor->service = $decProdId;
     $visitor->add_date = Date::now()->toDateString();
     $visitor->add_time = Date::now()->toTimeString();
     $visitor->save();
 
-    $decProdId = EncryptionDecryptionHelper::encdecId($request->services,'decrypt');
+    
     //dd($decProdId);
     $product = ProductDetail::where('tbl_product_id',$decProdId)->first();
 
@@ -992,8 +994,16 @@ public function companysetupformo()
    }
 
 public function collectdata($id){
-    dd($id);
-    return view('VisitorPages/collectdata');
+    $participatedEx = Participate::where('tbl_participation_id',EncryptionDecryptionHelper::encdecId($id,'decrypt'))->first();
+    $user = UserDetail::where('tbl_user_id',$participatedEx->tbl_user_id)->first();
+    // dd($participatedEx);
+    $visitors = Visitor::where('tbl_comp_id',$user->tbl_comp_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->get();
+
+    foreach($visitors as $visitor){
+        $visitor->service_name = ProductDetail::where('tbl_product_id',$visitor->service)->value('product_name');
+    }
+    
+    return view('VisitorPages/collectdata',['visitors'=>$visitors]);
 
 }
    
