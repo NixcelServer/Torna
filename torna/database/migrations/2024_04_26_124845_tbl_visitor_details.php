@@ -14,7 +14,7 @@ return new class extends Migration
         //
         Schema::create('tbl_visitor_details', function (Blueprint $table) {
             $table->id('tbl_visitor_detail_id');
-            $table->string('tbl_ex_id')->required();
+            $table->integer('tbl_ex_id')->required();
             $table->integer('tbl_comp_id')->required();
             $table->string('name');
             $table->string('email');

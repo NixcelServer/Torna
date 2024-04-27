@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Visitor extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    protected $table = 'tbl_visitor_details';
+    protected $primaryKey = 'tbl_visitor_detail_id';
 }
