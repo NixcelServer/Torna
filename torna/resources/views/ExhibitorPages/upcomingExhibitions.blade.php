@@ -354,11 +354,12 @@
                         
                         
                         window.location.href = "/participate/" + encExId;
+                        window.location.href = "/participatedExhibitions";
                         // Example AJAX request
                         // $.post('/participate', { exhibitionId: exhibitionId }, function(response) {
                         //     // Handle response from server
                         // });
-                        Swal.fire('Participation confirmed!', '', 'success');
+                        //Swal.fire('Participation confirmed!', '', 'success');
                     }
                 });
             }
