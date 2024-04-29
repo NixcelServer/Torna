@@ -93,7 +93,6 @@ class AuthController extends Controller
 
     public function OrganizerRegistrationSubmitForm(Request $request)
     {
-        
         // Create a new user using the validated data
         $company = new CompanyDetail();
         $company->unique_name = $request->unique_name;
@@ -101,21 +100,20 @@ class AuthController extends Controller
         $company->contact_no = $request->contact_no;
         $company->email = $request->email;
 
-        // Handle company logo upload if a file was uploaded
+        //Handle company logo upload if a file was uploaded
         //  if ($request->hasFile('company_logo')) {
-        //     $image = $request->file('company_logo');
-        //     $company->company_logo = file_get_contents($image->path()); // Store image data as binary
-        // }
-        // if ($request->hasFile('company_logo')) {
         //     $image = $request->file('company_logo');
         //     $company->company_logo = file_get_contents($image->path()); // Store image data as binary
         // }
         if ($request->hasFile('company_logo')) {
             $image = $request->file('company_logo');
-            $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
-            $company->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+            $company->company_logo = file_get_contents($image->path()); // Store image data as binary
         }
-
+        // if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
+        //     $company->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+        // }
         try {
             $company->save();
             EmailHelper::sendEmail(null,null,null,$company);
@@ -158,7 +156,6 @@ class AuthController extends Controller
     }
     public function ExhibitorRegistrationSubmitForm(Request $request)
     {
-        
         // Create a new user using the validated data
         $exhibitor = new CompanyDetail();
         $exhibitor->unique_name = $request->unique_name;

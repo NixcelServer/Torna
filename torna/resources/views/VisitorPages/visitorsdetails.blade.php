@@ -102,8 +102,8 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="services" class="col-form-label text-md-right ">Select Services</label>
-                                <select id="services" name="services" class="form-control" >
+                                <label for="services" class="col-form-label text-md-right required-field">Select Services</label>
+                                <select id="services" name="services" class="form-control" required>
                                     <option value="">Select Service</option>
                                     @foreach($services as $service)
                                         <option value="{{ $service->encServiceId }}">{{ $service->product_name }}</option>

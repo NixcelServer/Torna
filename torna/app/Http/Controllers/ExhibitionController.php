@@ -86,7 +86,9 @@ class ExhibitionController extends Controller
         $companies = UserDetail::where('active_status', 'Pending')->where('role_id', 3)->get();
 
         foreach ($companies as $company) {
-            $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+            $companyDetails = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->first();
+            $company->company_name = $companyDetails->company_name;
+            $company->company_logo = $companyDetails->company_logo; // Assuming company_logo is stored as a base64 string
         }
 
         return view('AdminPages/UnApprovedExList', ['companies' => $companies]);

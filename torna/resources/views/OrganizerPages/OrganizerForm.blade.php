@@ -137,8 +137,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
-                                <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*" >
+                                <label for="company_logo" class="col-form-label text-md-right">Upload Company Logo</label>
+                                <input id="company_logo" name="company_logo" type="file" class="form-control-file" accept="image/*">
+                                
                             </div>
                         </div>
 <br />
