@@ -296,9 +296,10 @@
     <td>{{ $key + 1 }}</td>
     <td>{{ $activeEx->exhibition_name }}</td>
     <td>
-        <a href="/updateExStatus/{{ $activeEx->encActiveExId }}"
+        {{-- <a href="/updateExStatus/{{ $activeEx->encActiveExId }}"
             class="btn btn-primary change-status-btn"
-            onclick="return confirm('Are you sure you want to change the status to Inactive?');">Change Status</a>
+            onclick="return confirm('Are you sure you want to change the status to Inactive?');">Change Status</a> --}}
+            <a href="/editExhibition/{{ $activeEx->encActiveExId }}"class="btn btn-primary">Edit Exhibition</a>
     </td>
 </tr>
 @endforeach

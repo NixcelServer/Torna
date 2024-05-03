@@ -11,26 +11,14 @@
   
     <title>Nixcel Exhibition</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Pignose Calender -->
-    <link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
     <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
-    
-    <!-- Custom Stylesheet -->
-    <link href="/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
 
@@ -283,76 +271,121 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card">
-                        <h4 class="card-header text-center">Company Setup Form</h4>
-        
-                        <div class="card-body">
-                            <form method="POST" action="/updatecompanydetails" enctype="multipart/form-data">
-                                @csrf
-        
-                                <div class="form-group row">
-                                    <div class="form-group col-md-6">
-                                        <label for="company_name" class="col-form-label text-md-right">Company Name</label>
-                                        <input id="company_name" name="company_name" type="text" value="{{ $company->company_name }}" class="form-control" name="company_name" required>
-                                        <input id="encCompId" name="encCompId" type="hidden" value="{{ $company->encCompId }}" class="form-control">                                   
-                                     </div>
-                                     <div class="col-md-6">
-                                        <label for="first_name" class="col-form-label text-md-right">Company Address</label>
-                                        <input id="first_name" name="address" type="text" value="{{ $company->comp_address }}" class="form-control" name="first_name" required>
+            <div class="container mt-3">
+                <div class="row justify-content-center">
+                    <div class="col-md-11">
+                        <div class="card">
+                            <h2 class="card-header text-center mt-2">Edit Exhibition</h2>
+                            <div class="card-body">
+                                <form method="POST" action="/updateExhibition" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
+                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ $exhibition->exhibition_name }}" required>
+                                            <input id="encExhibitionId" name="encExhibitionId" type="hidden" value="{{ $exhibition->encExhibitionId }}" class="form-control">                                   
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
+                                            <input id="from_date" name="from_date" type="date" class="form-control" value="{{ $exhibition->from_date }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
+                                            <input id="to_date" name="to_date" type="date" class="form-control" value="{{ $exhibition->to_date }}" required>
+                                        </div>
                                     </div>
-                                </div>                                
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="contact_no" class="col-form-label text-md-right">Contact Number</label>
-                                        <input id="contact_no" name="contact_no" type="text" value="{{ $company->contact_no }}"  class="form-control" required>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="start_time" class="col-form-label text-md-right">Start Time <span style="color: red;">*</span></label>
+                                            <input id="start_time" name="start_time" type="time" class="form-control" value="{{ $exhibition->start_time }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="end_time" class="col-form-label text-md-right">End Time <span style="color: red;">*</span></label>
+                                            <input id="end_time" name="end_time" type="time" class="form-control" value="{{ $exhibition->end_time }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="venue" class="col-form-label text-md-right">Venue <span style="color: red;">*</span></label>
+                                            <input id="venue" name="venue" type="text" class="form-control" value="{{ $exhibition->venue }}" required>
+                                        </div>
                                     </div>
-                                
-                                    <div class="form-group col-md-6">
-                                        <label for="email" class="col-form-label text-md-right">Email ID</label>
-                                        <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
+                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control" value="{{ $exhibition->exhibition_website }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
+                                            <input id="attach_document" name="attach_document" type="file" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
+                                            <input id="registration_url" name="registration_url" type="text" class="form-control" value="{{ $exhibition->registration_url }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="last_name" class="col-form-label text-md-right">Company Website</label>
-                                        <input id="last_name" name="website" type="text" value="{{ $company->comp_website }}" class="form-control" name="last_name" required>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
+                                            <input id="company_logo" name="company_logo" type="file" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
+                                            <select name="industry_name" class="form-control" required>
+                                                <option value="">Select Industry</option>
+                                                @foreach($industries as $industry)
+                                                    <option value="{{ $industry->industry_name }}" @if($industry->industry_name == $exhibition->industry) selected @endif>{{ $industry->industry_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <label class="col-form-label text-md-right">Status <span style="color: red;">*</span></label>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked>
+                                                        <label class="form-check-label" for="Active">Active</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive">
+                                                        <label class="form-check-label" for="Inactive">Inactive</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="col-md-6">
-                                        <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
-                                        <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*">
+                                    <div class="form-group row justify-content-center mb-3">
+                                        <div class="col-md-6 offset-md-4">
+                                            <button type="submit" class="btn btn-primary">Update Exhibition</button>
+                                        </div>
                                     </div>
-                                </div>
-        <br />
-                                <div class="form-group row justify-content-center mb-3">
-                                    <div class="col-md-6 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            Submit
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        </div>
-
         
-       
-        
-    
-        
-       
+        <!--**********************************
+            Content body end
+        ***********************************-->
         
         
-
-        
-
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        {{-- <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
+            </div>
+        </div> --}}
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
     <!--**********************************
         Main wrapper end
     ***********************************-->
@@ -388,12 +421,6 @@
 
     <script src="/js/dashboard/dashboard-1.js"></script>
 
-
-   
-
-    <script src="/plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
 
 </html>

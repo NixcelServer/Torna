@@ -356,9 +356,10 @@
                     if (result.isConfirmed) {
                         // Handle participation logic here, e.g., submit a form or make an AJAX request
                         
-                        
+                        //console.log(encExId);
                         window.location.href = "/participate/" + encExId;
-                        window.location.href = "/participatedExhibitions";
+
+                        //window.location.href = "/participatedExhibitions";
                         // Example AJAX request
                         // $.post('/participate', { exhibitionId: exhibitionId }, function(response) {
                         //     // Handle response from server

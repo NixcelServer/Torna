@@ -18,16 +18,8 @@ return new class extends Migration
             $table->integer('tbl_comp_id')->required();
             $table->integer('tbl_ex_id')->required();
             $table->string('email_service')->default('disabled');
-            $table->string('smtp')->nullable();
-            $table->string('port')->nullable();
-            $table->string('username')->nullable();
-            $table->string('password')->nullable();
             $table->string('whatsapp_service')->default('disabled');
-            $table->string('whatsapp_no')->nullable();
             $table->string('sms_service')->default('disabled');
-            $table->string('sid')->nullable();
-            $table->string('auth_token')->nullable();
-            $table->string('phone_no')->nullable();
             $table->date('add_date')->required();
             $table->time('add_time')->required();
             $table->date('updated_date')->nullable();

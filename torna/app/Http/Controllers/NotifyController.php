@@ -38,30 +38,20 @@ class NotifyController extends Controller
      }
             
 
-            $notify = new Notify;
+        $notify = Notify::where('tbl_user_id', $user->tbl_user_id)->first();
             
             $options = $request->options; // Assuming $request is the request object
             
             // Check if email is selected
             if (in_array('email', $options)) {
                 $notify->email_service = 'enabled';
-                $email = new EmailSetting;
-                $email->tbl_user_id = $user->tbl_user_id;
-                $email->tbl_comp_id = $user->tbl_comp_id;
-                $email->add_date = Date::now()->toDateString();
-                $email->add_time = Date::now()->toTimeString();
-                $email->save();
+                
             }
 
             // Check if SMS is selected
             if (in_array('sms', $options)) {
                 $notify->sms_service = 'enabled';
-                $sms = new SMSSetting;
-                $sms->tbl_user_id = $user->tbl_user_id;
-                $sms->tbl_comp_id = $user->tbl_comp_id;
-                $sms->add_date = Date::now()->toDateString();
-                $sms->add_time = Date::now()->toTimeString();
-                $sms->save();
+                
 
             }
 
@@ -107,7 +97,7 @@ public function storeEmailSettings(Request $request)
     $email->password = $request->password;
     $email->save();
     
-    return redirect->back();
+    return redirect()->back();
 }
 
 public function storeSMSSettings(Request $request)

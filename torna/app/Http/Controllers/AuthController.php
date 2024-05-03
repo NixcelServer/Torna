@@ -116,7 +116,9 @@ class AuthController extends Controller
         // }
         try {
             $company->save();
-            EmailHelper::sendEmail(null,null,null,$company);
+            EmailHelper::sendEmail(null,null,null,$company,$request->password);
+            // Send email to admin
+            EmailHelper::sendAdminEmail($company);
             
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
@@ -152,7 +154,9 @@ class AuthController extends Controller
         // Redirect the user to a success page or any other page as needed
         //return view('OrganizerForm');
 
-        return redirect()->route('Home')->with('success', 'Registration successful!');
+       // return redirect()->back()->with('success', 'Registration successful!');
+       return response()->json(['success' => true, 'message' => 'Registration successful'], 200);
+
     }
     public function ExhibitorRegistrationSubmitForm(Request $request)
     {
@@ -173,7 +177,8 @@ class AuthController extends Controller
 
         try {
             $exhibitor->save();
-            EmailHelper::sendEmail(null,null,null,$exhibitor);
+            EmailHelper::sendEmail(null,null,null,$exhibitor,$request->password);
+            EmailHelper::sendAdminEmail($exhibitor,$role = '3');
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
@@ -196,7 +201,9 @@ class AuthController extends Controller
 
         AuditLogHelper::logDetails('registered as exhibitor', $user->tbl_user_id);
 
-        return redirect()->route('Home')->with('success', 'Registration successful!');
+        //return redirect()->route('Home')->with('success', 'Registration successful!');
+        return response()->json(['success' => true, 'message' => 'Registration successful'], 200);
+
     }
 
 

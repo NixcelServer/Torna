@@ -311,8 +311,13 @@
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $industry->industry_name }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button>
+                                                    @if($industry->delete_disabled)
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}" disabled>Delete</button>
+                                                    @else
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button>
+                                                    @endif
                                                 </td>
+                                                
                                                 
                                             </tr>
                                             @endforeach

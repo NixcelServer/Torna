@@ -166,4 +166,10 @@ Route::post('/notification-settings/sms',[NotifyController::class,'storeSMSSetti
 
 Route::get('/fetchvisitordata', [ExhibitionController::class, 'fetchvisitordata']);
 
+
+//Edit Exhibition Route 
+Route::get('/editExhibition/{id}', [ExhibitionController::class, 'editExhibition']);
+Route::post('/updateExhibition',[ExhibitionController::class,'updateExhibition']);
+
+
 ?>
