@@ -468,7 +468,9 @@ class ExhibitionController extends Controller
 
         foreach ($products as $product) {
             $product->encProductId = EncryptionDecryptionHelper::encdecId($product->tbl_product_id, 'encrypt');
+            $product->assignedProdCount = AssignProduct::where('tbl_product_id',$product->tbl_product_id)->count();
         }
+        //dd($products);
         return view('ExhibitorPages/products', ['products' => $products]);
     }
     public function documents()
@@ -601,9 +603,10 @@ class ExhibitionController extends Controller
 
         foreach ($upcomingExs as $upcomingEx) {
             $upcomingEx->encExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
-        }
+            $upcomingEx->participated = Participate::where('tbl_ex_id', $upcomingEx->tbl_ex_id)->where('tbl_user_id', $user->tbl_user_id)->exists();
+                }
 
-
+        
 
         return view('ExhibitorPages/upcomingExhibitions', ['upcomingExs' => $upcomingExs]);
     }

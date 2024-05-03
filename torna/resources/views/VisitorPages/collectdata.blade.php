@@ -290,27 +290,25 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-
-
             <div class="container-fluid mt-3">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 class="card-title mb-0">Visitors List</h4>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Export Data
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
-                                            <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
-                                            <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
-                                        </div>
+                            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                <span>Visitors List</span>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Export Data
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
+                                        <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
+                                        <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
                                     </div>
                                 </div>
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped table-bordered zero-configuration">
+                                    <thead>
                                         <tr>
                                             <th>Sr. No</th>
                                             <th>Visitor Name</th>
@@ -320,23 +318,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                         @foreach ($visitors as $index => $visitor)
-                                            <tr>
-                                                <td>{{ $index+1 }}</td>
-                                                <td>{{ $visitor->name}}</td>
-                                                <td>{{ $visitor->contact_no}}</td>
-                                                <td>{{ $visitor->email}}</td>
-                                                <td>{{ $visitor->service_name}}</td>
-                                            </tr>
-                                        @endforeach 
+                                        @foreach ($visitors as $index => $visitor)
+                                        <tr>
+                                            <td>{{ $index+1 }}</td>
+                                            <td>{{ $visitor->name}}</td>
+                                            <td>{{ $visitor->contact_no}}</td>
+                                            <td>{{ $visitor->email}}</td>
+                                            <td>{{ $visitor->service_name}}</td>
+                                        </tr>
+                                        @endforeach
                                     </tbody>
-                                        
-                                    </table>
-                                </div>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            
             {{-- <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">

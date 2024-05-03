@@ -296,18 +296,17 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            <div class="container-fluid mt-3">
+            <div class="container-fluid mt-2">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Product/Services</h4>
-                                <div class="col-12 text-right mt-n4">
-                                    <div class="buttons">
-                                        <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
-                                    </div>
+                        <div class="card card-sm">
+                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Product/Services</span>
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
                                 </div>
+                            </div>
+                            <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
@@ -323,11 +322,12 @@
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $product->product_name }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
-                                                    {{-- <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button> --}}
-
+                                                    @if($product->assignedProdCount > 0)
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}" disabled title="This Service Assigned to the document so this service cannot deleted">Delete</button>
+                                                    @else
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
+                                                    @endif
                                                 </td>
-                                                
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -338,6 +338,8 @@
                     </div>
                 </div>
             </div>
+            
+            
             <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

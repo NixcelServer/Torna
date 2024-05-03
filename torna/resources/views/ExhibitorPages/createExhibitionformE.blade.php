@@ -21,7 +21,49 @@
     <link href="/css/style.css" rel="stylesheet">
 
 </head>
+{{-- form validations scripts  --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script>
+    $(document).ready(function() {
+        $('#exhibition_website').on('input', function() {
+            var val = $(this).val();
+            if (!isValidUrl(val)) {
+                $('#exhibitionWebsiteError').text('Please enter a valid website URL.');
+                $(this).addClass('is-invalid');
+            } else {
+                $('#exhibitionWebsiteError').text('');
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+        // Function to validate URL format
+        function isValidUrl(url) {
+            var urlRegex = /^(https?:\/\/)?([\w\d-]+\.)*[\w\d-]+\.[\w\d]{2,}(\/.*)?$/i;
+            return urlRegex.test(url);
+        }
+    });
+
+
+    $(document).ready(function() {
+        $('#registration_url').on('input', function() {
+            var val = $(this).val();
+            if (!isValidUrl(val)) {
+                $('#registrationUrlError').text('Please enter a valid URL.');
+                $(this).addClass('is-invalid');
+            } else {
+                $('#registrationUrlError').text('');
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+        // Function to validate URL format
+        function isValidUrl(url) {
+            var urlRegex = /^(https?:\/\/)?([\w\d-]+\.)*[\w\d-]+\.[\w\d]{2,}(\/.*)?$/i;
+            return urlRegex.test(url);
+        }
+    });
+</script>
 <body>
 
     <!--*******************
@@ -286,17 +328,17 @@
         <div class="content-body">
             
 
-            <div class="container mt-3">
+            <div class="container mt-4">
                 <div class="row justify-content-center">
                     <div class="col-md-11">
                         <div class="card">
-                            <h2 class="card-header text-center mt-2">Create Exhibition</h2>
+                            <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Create Exhibition Form</h4>
             
                             <div class="card-body">
                                 <form method="POST" action="/createExhibitionE" enctype="multipart/form-data">
                                     @csrf
             
-                                    <div class="form-group row">
+                                    <div class="row">
                                         <div class="col-md-4">
                                             <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
                                             <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required>
@@ -311,18 +353,12 @@
                                             <input id="to_date" name="to_date" type="date" class="form-control" required>
                                         </div>
             
-                                    </div>
-            
-                                    <div class="row">
-                                        
-                                    </div>
-            
+                                    </div>           
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="start_time" class="col-form-label text-md-right">Start Time <span style="color: red;">*</span></label>
                                             <input id="start_time" name="start_time" type="time" class="form-control" required>
-                                        </div>
-            
+                                        </div>            
                                         <div class="col-md-4">
                                             <label for="end_time" class="col-form-label text-md-right">End Time <span style="color: red;">*</span></label>
                                             <input id="end_time" name="end_time" type="time" class="form-control" required>
@@ -331,22 +367,12 @@
                                             <label for="venue" class="col-form-label text-md-right">Venue <span style="color: red;">*</span></label>
                                             <input id="venue" name="venue" type="text" class="form-control" required>
                                         </div>
-                                    </div>
-            
-                                    <div class="form-group row">
-                                        
-            
-                                        {{-- <div class="col-md-6">
-                                            <label for="organized_by" class="col-form-label text-md-right">Organized By</label>
-                                            <input id="organized_by" name="organized_by" type="text" class="form-control" required>
-                                        </div> --}}
-                                    </div>
-            
-            
-                                    <div class="form-group row">
+                                    </div>     
+                                    <div class="row">
                                         <div class="col-md-4">
                                             <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
                                             <input id="exhibition_website" name="exhibition_website" type="text" class="form-control">
+                                            <small id="exhibitionWebsiteError" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
@@ -355,11 +381,11 @@
                                         <div class="col-md-4">
                                             <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
                                             <input id="registration_url" name="registration_url" type="text" class="form-control">
+                                            <small id="registrationUrlError" class="text-danger"></small>
+
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        
-            
+                                    <div class="row">
                                         <div class="col-md-4">
                                             <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
                                             <input id="company_logo" name="company_logo" type="file" class="form-control">
@@ -390,14 +416,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
                                     </div>
-            
-            
-            
-            
-            
                                     <br />
                                     <div class="form-group row justify-content-center mb-3">
                                         <div class="col-md-6 offset-md-4">

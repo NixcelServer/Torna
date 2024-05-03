@@ -22,7 +22,6 @@
     <link href="/css/style.css" rel="stylesheet">
 
 </head>
-
 <body>
 
     <!--*******************
@@ -316,6 +315,8 @@
                                                             <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" target="_blank">Generate URL</a>
                                                             <!-- Enable Generate QR Code button -->
                                                             <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
+                                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
+
                                                         @else
                                                             <!-- Disable Generate URL button -->
                                                             <button class="btn btn-sm btn-info generate-url-btn" disabled>Generate URL</button>
@@ -457,22 +458,27 @@
                                 </script>
                             </body>
                             <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
+                            
+
 <script>
     function generateQRCode() {
+        //console.log("Generating");
     // Get the data-id attribute from the button
     const exId = document.querySelector('.generate-qr-btn').getAttribute('data-id');
-
+    //console.log(exId);
     // Generate the QR code using qrcode-generator library
     const qr = qrcode(0, 'M');
     qr.addData(`http://192.168.1.47:8000/visitordetails/${exId}`);
     qr.make();
-
+    //console.log(qr);
     // Get the QR code SVG and convert it to a data URI
     const svg = qr.createSvgTag();
     const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
+    //console.log(dataUri);
 
     // Display the QR code in the iframe
     const iframe = document.getElementById('qrCodeFrame');
+    console.log(iframe);
     iframe.src = dataUri;
     iframe.style.display = 'block';
 }

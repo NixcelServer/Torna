@@ -304,24 +304,22 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            
+                                        <tbody>                                            
                                             @foreach($upcomingExs as $key => $upcomingEx)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-
-                                                <td>{{ $upcomingEx->exhibition_name }}</td>
-                                                
-
-                                                <td>
-                                                    <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" onclick="confirmParticipation(event)">Participate</button>
-                                                </td>        
-
-
-                                            </tr>
-                                            @endforeach
-                                                                                        
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>{{ $upcomingEx->exhibition_name }}</td>
+                                                    <td>
+                                                        @if($upcomingEx->participated)
+                                                        <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" disabled title="Already participated!">Participate</button>
+                                                        @else
+                                                            <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" onclick="confirmParticipation(event)">Participate</button>
+                                                        @endif
+                                                    </td>        
+                                                </tr>
+                                            @endforeach                                                                                        
                                         </tbody>
+                                        
                                         
                                     </table>
                                 </div>
