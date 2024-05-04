@@ -50,7 +50,7 @@ class ExhibitionController extends Controller
             ->where('contact_no', $contactNo)
             ->update(['active_status' => $activeStatus]);
 
-            AuditLogHelper::logDetails('update exhibition status to active', $user->tbl_user_id);
+            //AuditLogHelper::logDetails('update exhibition status to active', $user->tbl_user_id);
 
         return response()->json(['message' => 'Status updated successfully'], 200);
     }
