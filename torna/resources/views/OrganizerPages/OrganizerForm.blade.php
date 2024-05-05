@@ -191,7 +191,6 @@
                 <div class="card-body">
                     <form enctype="multipart/form-data">
                         @csrf
-
                         <div class="form-group row">             
                             <div class="col-md-6">
                                 <label for="first_name" class="col-form-label text-md-right required-field">First Name</label>

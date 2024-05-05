@@ -138,6 +138,7 @@ class AuthController extends Controller
         $user->created_date = Date::now()->toDateString();
         $user->created_time = Date::now()->toTimeString();
         $user->role_id = '2';
+        //dd($user);
 
         // Save the user to the database
         $user->save();
