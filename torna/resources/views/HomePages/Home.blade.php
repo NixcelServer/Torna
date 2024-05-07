@@ -49,12 +49,12 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="speakers.html" class="nav-link">Exhibitions</a></li>
-	          <li class="nav-item"><a href="schedule.html" class="nav-link">Schedule</a></li>
-	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="" class="nav-link">Exhibitions</a></li>
+	          <li class="nav-item"><a href="" class="nav-link">Schedule</a></li>
+	          <li class="nav-item"><a href="" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="" class="nav-link">Contact</a></li>
 	          <li class="nav-item cta mr-md-2">
 				<a href="#" class="nav-link register-btn" data-toggle="popover" data-placement="bottom" data-content='
 					<a href="/organizerform" class="dropdown-item">As Organizer</a>

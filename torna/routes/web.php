@@ -115,7 +115,7 @@ Route::get('/delete-document/{id}',[ExhibitionController::class,'deleteDocument'
 
 
 Route::get('/deleteproduct/{id}', [ExhibitionController::class, 'deleteproduct']);
-Route::get('/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
+Route::get('documents/assignproducts/{encDocumentId}', [ExhibitionController::class, 'assignProducts']);
 
 
 
@@ -164,6 +164,12 @@ Route::post('/notification-settings/sms',[NotifyController::class,'storeSMSSetti
 
 
 
+Route::get('/fetchvisitordata', [ExhibitionController::class, 'fetchvisitordata']);
+
+
+//Edit Exhibition Route 
+Route::get('/editExhibition/{id}', [ExhibitionController::class, 'editExhibition']);
+Route::post('/updateExhibition',[ExhibitionController::class,'updateExhibition']);
 
 
 ?>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('industry_name', 100);
             $table->date('created_date');
             $table->string('created_time', 45);
+            $table->integer('created_by')->nullable();
             $table->date('updated_date')->nullable();
             $table->string('updated_time', 45)->nullable();
             $table->string('active_status', 45)->default('Active');

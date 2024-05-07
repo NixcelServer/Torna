@@ -12,17 +12,16 @@
   
     <title>Nixcel Exhibition</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
-    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
-    <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
 </head>
-
 <body>
 
     <!--*******************
@@ -89,8 +88,12 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                @php
+                                $user = Session::get('user');
+                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
+                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -302,31 +305,34 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
-                                        @foreach($participatedExs as $key => $participatedEx) 
-    <tr>
-        <td>{{ (int)$key + 1 }}</td>
-        <td>{{ $participatedEx->exDetails->exhibition_name }}</td>
-        <td>
-            {{-- <button class="btn btn-sm btn-info generate-url-btn" data-id="{{ $participatedEx->tbl_ex_id }}" onclick="generateURL()">Generate URL</button> --}}
-            {{-- <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}">Generate URL</a> --}}
-            <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" target="_blank">Generate URL</a>
-            
+                                            @foreach($participatedExs as $key => $participatedEx) 
+                                                <tr>
+                                                    <td>{{ (int)$key + 1 }}</td>
+                                                    <td>{{ $participatedEx->exDetails->exhibition_name }}</td>
+                                                    <td>
+                                                        @if($participatedEx->emailServiceEnabled)
+                                                            <!-- Enable Generate URL button -->
+                                                            <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" target="_blank">Generate URL</a>
+                                                            <!-- Enable Generate QR Code button -->
+                                                            <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
+                                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
 
-            <!-- If you want a Generate QR Code button -->
-            <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
-            <iframe id="qrCodeFrame" style="display: none;"></iframe>
-            <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}')">
-                Notify By
-            </button>
-            <a class="btn btn-sm btn-success" href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}">Collect Data</a>
-
-        </td>                                                
-    </tr>
-@endforeach
-
-                                                                                        
+                                                        @else
+                                                            <!-- Disable Generate URL button -->
+                                                            <button class="btn btn-sm btn-info generate-url-btn" disabled>Generate URL</button>
+                                                            <!-- Disable Generate QR Code button -->
+                                                            <button class="btn btn-sm btn-info generate-qr-btn" disabled>Generate QR Code</button>
+                                                        @endif
+                                                        
+                                                        <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}')">
+                                                            Notify By
+                                                        </button>
+                                                        <a class="btn btn-sm btn-success" href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}">Collect Data</a>
+                                                    </td>                                                
+                                                </tr>
+                                            @endforeach
                                         </tbody>
+                                        
                                         
                                     </table>
                                 </div>
@@ -354,7 +360,11 @@
                                 <h3 class="mb-3">Select notification method:</h3>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailOption">
-                                    <label class="form-check-label" for="emailOption">Email</label>
+                                    <label class="form-check-label" for="emailOption">Email (Immediate After Registration)</label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailOption">
+                                    <label class="form-check-label" for="emailOption">Email (After Exhibition)</label>
                                 </div>
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" name="notifyOption" value="whatsapp" id="whatsappOption">
@@ -448,22 +458,27 @@
                                 </script>
                             </body>
                             <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
+                            
+
 <script>
     function generateQRCode() {
+        //console.log("Generating");
     // Get the data-id attribute from the button
     const exId = document.querySelector('.generate-qr-btn').getAttribute('data-id');
-
+    //console.log(exId);
     // Generate the QR code using qrcode-generator library
     const qr = qrcode(0, 'M');
     qr.addData(`http://192.168.1.47:8000/visitordetails/${exId}`);
     qr.make();
-
+    //console.log(qr);
     // Get the QR code SVG and convert it to a data URI
     const svg = qr.createSvgTag();
     const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
+    //console.log(dataUri);
 
     // Display the QR code in the iframe
     const iframe = document.getElementById('qrCodeFrame');
+    console.log(iframe);
     iframe.src = dataUri;
     iframe.style.display = 'block';
 }
@@ -780,33 +795,33 @@ function downloadQRCode() {
 
 
 
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
+    <script src="/plugins/common/common.min.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/gleek.js"></script>
+    <script src="/js/styleSwitcher.js"></script>
 
     <!-- Chartjs -->
-    <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
+    <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
-    <script src="./plugins/circle-progress/circle-progress.min.js"></script>
+    <script src="/plugins/circle-progress/circle-progress.min.js"></script>
     <!-- Datamap -->
-    <script src="./plugins/d3v3/index.js"></script>
-    <script src="./plugins/topojson/topojson.min.js"></script>
-    <script src="./plugins/datamaps/datamaps.world.min.js"></script>
+    <script src="/plugins/d3v3/index.js"></script>
+    <script src="/plugins/topojson/topojson.min.js"></script>
+    <script src="/plugins/datamaps/datamaps.world.min.js"></script>
     <!-- Morrisjs -->
-    <script src="./plugins/raphael/raphael.min.js"></script>
-    <script src="./plugins/morris/morris.min.js"></script>
+    <script src="/plugins/raphael/raphael.min.js"></script>
+    <script src="/plugins/morris/morris.min.js"></script>
     <!-- Pignose Calender -->
-    <script src="./plugins/moment/moment.min.js"></script>
-    <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+    <script src="/plugins/moment/moment.min.js"></script>
+    <script src="/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
     <!-- ChartistJS -->
-    <script src="./plugins/chartist/js/chartist.min.js"></script>
-    <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+    <script src="/plugins/chartist/js/chartist.min.js"></script>
+    <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 
 
-    <script src="./js/dashboard/dashboard-1.js"></script>
+    <script src="/js/dashboard/dashboard-1.js"></script>
 
 </body>
 

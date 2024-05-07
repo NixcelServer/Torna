@@ -62,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="">
+                <a href="/AdminDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -299,7 +299,7 @@
                                                 <td>{{ $organizer->email }}</td>
                                                 <td>{{ $organizer->contact_no }}</td>
                                                 <td>
-                                                    <button class="btn btn-primary" onclick="openDocument('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}')">
+                                                    <button class="btn btn-primary" onclick="openDocument('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}', '{{ $organizer->company_logo }}')">
                                                         View
                                                     </button>
                                                 </td>
@@ -322,21 +322,26 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header text-center">
-                        <h5 class="modal-title w-100" id="documentModalLabel">Organizer Details</h5>
+                        <h5 class="modal-title w-100" id="documentModalLabel">Exhibitor Details</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <p><strong>Company Name:</strong> <span id="companyName"></span></p>
-                                    <p><strong>Email:</strong> <span id="email"></span></p>
-                                    <p><strong>Contact No:</strong> <span id="contactNo"></span></p>
-                                    <p><strong><span style="color: white;">Company Id:</span></strong> <span id="compId" style="color: white;"></span></p>
-                                </div>
+                            @foreach ($companies as $company)
+                            <div class="col">
+                                <p><strong>Company Name:</strong> <span id="companyName"></span></p>
+                                <p><strong>Email:</strong> <span id="email"></span></p>
+                                <p><strong>Contact No:</strong> <span id="contactNo"></span></p>
+                                <p><strong><span style="color: white;">Company Id:</span></strong> <span id="compId" style="color: white;"></span></p>
+                                @if ($company->company_logo)
+                                    <img id="companyLogo"src="data:image/png;base64,{{ $company->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 200px; object-fit: cover;">
+                                @else
+                                    <p>No logo available</p>
+                                @endif
                             </div>
+                        @endforeach                            
                             <div class="row mt-3">
                                 <div class="col text-center">
                                     <button id="approveDocumentBtn" class="btn btn-success">Approve</button>
@@ -354,12 +359,20 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            function openDocument(companyName, email, contactNo, compId ) {
+            function openDocument(companyName, email, contactNo, compId, companyLogo ) {
                 $('#companyName').text(companyName);
                 $('#email').text(email);
                 $('#contactNo').text(contactNo);
                 $('#compId').text(compId);
-                $('#documentModal').modal('show');
+                // Set the src attribute of the company logo img tag
+    if (companyLogo) {
+        $('#companyLogo').attr('src', 'data:image/png;base64,' + companyLogo);
+        $('#companyLogo').show(); // Show the logo if available
+    } else {
+        $('#companyLogo').hide(); // Hide the logo if not available
+    }
+
+    $('#documentModal').modal('show');
             }
         
             $('#approveDocumentBtn').on('click', function () {
@@ -367,6 +380,7 @@
                 var compId = $('#compId').text();
                 var email = $('#email').text();
                 var contactNo = $('#contactNo').text();
+                var companyLogo = $('#companyLogo').attr('src'); // Get the src attribute of the company logo img tag
                 var activeStatus = 'Approved';
                 $.ajax({
                     type: 'POST',
@@ -376,6 +390,7 @@
                         email: email,
                         contactNo: contactNo,
                         compId: compId,
+                        companyLogo: companyLogo,
                         activeStatus: activeStatus
                     },
                     headers: {
@@ -400,6 +415,7 @@
                 var compId = $('#compId').text();
                 var email = $('#email').text();
                 var contactNo = $('#contactNo').text();
+                var companyLogo = $('#companyLogo').attr('src');
                 var activeStatus = Approved ? 'Approved' : 'rejected';
                 $.ajax({
                     type: 'POST',
@@ -409,6 +425,7 @@
                         compId: compId,
                         email: email,
                         contactNo: contactNo,
+                        companyLogo: companyLogo,
                         activeStatus: activeStatus
                     },
                     headers: {
@@ -446,44 +463,39 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
+    <script src="/plugins/common/common.min.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/gleek.js"></script>
+    <script src="/js/styleSwitcher.js"></script>
 
     <!-- Chartjs -->
-    <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
+    <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
-    <script src="./plugins/circle-progress/circle-progress.min.js"></script>
+    <script src="/plugins/circle-progress/circle-progress.min.js"></script>
     <!-- Datamap -->
-    <script src="./plugins/d3v3/index.js"></script>
-    <script src="./plugins/topojson/topojson.min.js"></script>
-    <script src="./plugins/datamaps/datamaps.world.min.js"></script>
+    <script src="/plugins/d3v3/index.js"></script>
+    <script src="/plugins/topojson/topojson.min.js"></script>
+    <script src="/plugins/datamaps/datamaps.world.min.js"></script>
     <!-- Morrisjs -->
-    <script src="./plugins/raphael/raphael.min.js"></script>
-    <script src="./plugins/morris/morris.min.js"></script>
+    <script src="/plugins/raphael/raphael.min.js"></script>
+    <script src="/plugins/morris/morris.min.js"></script>
     <!-- Pignose Calender -->
-    <script src="./plugins/moment/moment.min.js"></script>
-    <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+    <script src="/plugins/moment/moment.min.js"></script>
+    <script src="/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
     <!-- ChartistJS -->
-    <script src="./plugins/chartist/js/chartist.min.js"></script>
-    <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+    <script src="/plugins/chartist/js/chartist.min.js"></script>
+    <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 
 
-    <script src="./js/dashboard/dashboard-1.js"></script>
+    <script src="/js/dashboard/dashboard-1.js"></script>
 
 
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
 
-    <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+    <script src="/plugins/tables/js/jquery.dataTables.min.js"></script>
+    <script src="/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
 
 </html>

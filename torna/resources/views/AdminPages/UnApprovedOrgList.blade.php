@@ -62,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="">
+                <a href="/AdminDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -426,6 +426,8 @@
                         }).then(function () {
                             console.log(companyName + ' ' + status);
                             $('#documentModal').modal('hide');
+                            window.location.href = '/AdminDashboard'; // Redirect to AdminDashboard page
+
                         });
                     },
                     error: function (xhr, status, error) {

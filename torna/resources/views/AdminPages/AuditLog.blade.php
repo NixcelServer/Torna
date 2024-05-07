@@ -11,18 +11,17 @@
   
     <title>Nixcel Exhibition</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="/image/png" sizes="16x16" href="images/favicon.png">
     <!-- Pignose Calender -->
-    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
-    <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     
     <!-- Custom Stylesheet -->
-    <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -53,7 +52,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="">
+                <a href="/AdminDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -268,40 +267,52 @@
 
 
             <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Audit Logs</h4>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                        <tr>
-                                            <th>Sr. No</th>
-                                            <th>Activity Name</th>
-                                            <th>Activity By</th>
-                                            <th>Activity Date</th>
-                                            <th>Activity Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($auditlogs as $index => $log)
-                                            <tr>
-                                                <td>{{ $index+1 }}</td>
-                                                <td>{{ $log->activity_name}}</td>
-                                                <td>{{ $log->username}}</td>
-                                                <td>{{ $log->activity_date}}</td>
-                                                <td>{{ $log->activity_time}}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                        
-                                    </table>
-                                </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Audit Logs</h4>
+                    {{-- <div class="float-right mr-3 mb-2"> <!-- Added float-right and margin classes -->
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Export Data
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                                <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
+                                <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
                             </div>
                         </div>
+                    </div> --}}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered zero-configuration">
+                            <thead>
+                                <tr>
+                                    <th>Sr. No</th>
+                                    <th>Activity Name</th>
+                                    <th>Activity By</th>
+                                    <th>Activity Date</th>
+                                    <th>Activity Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($auditlogs as $index => $log)
+                                <tr>
+                                    <td>{{ $index+1 }}</td>
+                                    <td>{{ $log->activity_name}}</td>
+                                    <td>{{ $log->username}}</td>
+                                    <td>{{ $log->activity_date}}</td>
+                                    <td>{{ $log->activity_time}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
             {{-- <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
@@ -1050,44 +1061,39 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
-
+    
     <!-- Chartjs -->
-    <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
+    <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
-    <script src="./plugins/circle-progress/circle-progress.min.js"></script>
+    <script src="/plugins/circle-progress/circle-progress.min.js"></script>
     <!-- Datamap -->
-    <script src="./plugins/d3v3/index.js"></script>
-    <script src="./plugins/topojson/topojson.min.js"></script>
-    <script src="./plugins/datamaps/datamaps.world.min.js"></script>
+    <script src="/plugins/d3v3/index.js"></script>
+    <script src="/plugins/topojson/topojson.min.js"></script>
+    <script src="/plugins/datamaps/datamaps.world.min.js"></script>
     <!-- Morrisjs -->
-    <script src="./plugins/raphael/raphael.min.js"></script>
-    <script src="./plugins/morris/morris.min.js"></script>
+    <script src="/plugins/raphael/raphael.min.js"></script>
+    <script src="/plugins/morris/morris.min.js"></script>
     <!-- Pignose Calender -->
-    <script src="./plugins/moment/moment.min.js"></script>
-    <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+    <script src="/plugins/moment/moment.min.js"></script>
+    <script src="/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
     <!-- ChartistJS -->
-    <script src="./plugins/chartist/js/chartist.min.js"></script>
-    <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+    <script src="/plugins/chartist/js/chartist.min.js"></script>
+    <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 
 
-    <script src="./js/dashboard/dashboard-1.js"></script>
+    <script src="/js/dashboard/dashboard-1.js"></script>
 
 
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
+    <script src="/plugins/common/common.min.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/gleek.js"></script>
+    <script src="/js/styleSwitcher.js"></script>
 
-    <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-    <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+    <script src="/plugins/tables/js/jquery.dataTables.min.js"></script>
+    <script src="/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
 
 </html>

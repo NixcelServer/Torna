@@ -93,7 +93,6 @@ class AuthController extends Controller
 
     public function OrganizerRegistrationSubmitForm(Request $request)
     {
-        
         // Create a new user using the validated data
         $company = new CompanyDetail();
         $company->unique_name = $request->unique_name;
@@ -101,24 +100,25 @@ class AuthController extends Controller
         $company->contact_no = $request->contact_no;
         $company->email = $request->email;
 
-        // Handle company logo upload if a file was uploaded
+        //Handle company logo upload if a file was uploaded
         //  if ($request->hasFile('company_logo')) {
-        //     $image = $request->file('company_logo');
-        //     $company->company_logo = file_get_contents($image->path()); // Store image data as binary
-        // }
-        // if ($request->hasFile('company_logo')) {
         //     $image = $request->file('company_logo');
         //     $company->company_logo = file_get_contents($image->path()); // Store image data as binary
         // }
         if ($request->hasFile('company_logo')) {
             $image = $request->file('company_logo');
-            $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
-            $company->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+            $company->company_logo = file_get_contents($image->path()); // Store image data as binary
         }
-
+        // if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
+        //     $company->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+        // }
         try {
             $company->save();
-            EmailHelper::sendEmail(null,null,null,$company);
+            EmailHelper::sendEmail(null,null,null,$company,$request->password);
+            // Send email to admin
+            EmailHelper::sendAdminEmail($company);
             
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
@@ -138,6 +138,7 @@ class AuthController extends Controller
         $user->created_date = Date::now()->toDateString();
         $user->created_time = Date::now()->toTimeString();
         $user->role_id = '2';
+        //dd($user);
 
         // Save the user to the database
         $user->save();
@@ -154,11 +155,12 @@ class AuthController extends Controller
         // Redirect the user to a success page or any other page as needed
         //return view('OrganizerForm');
 
-        return view('HomePages/Login');
+       // return redirect()->back()->with('success', 'Registration successful!');
+       return response()->json(['success' => true, 'message' => 'Registration successful'], 200);
+
     }
     public function ExhibitorRegistrationSubmitForm(Request $request)
     {
-        
         // Create a new user using the validated data
         $exhibitor = new CompanyDetail();
         $exhibitor->unique_name = $request->unique_name;
@@ -176,7 +178,8 @@ class AuthController extends Controller
 
         try {
             $exhibitor->save();
-            EmailHelper::sendEmail(null,null,null,$exhibitor);
+            EmailHelper::sendEmail(null,null,null,$exhibitor,$request->password);
+            EmailHelper::sendAdminEmail($exhibitor,$role = '3');
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
             dd($e->getMessage()); // Dump the error message for debugging
@@ -199,7 +202,9 @@ class AuthController extends Controller
 
         AuditLogHelper::logDetails('registered as exhibitor', $user->tbl_user_id);
 
-        return redirect()->route('Home')->with('success', 'Registration successful!');
+        //return redirect()->route('Home')->with('success', 'Registration successful!');
+        return response()->json(['success' => true, 'message' => 'Registration successful'], 200);
+
     }
 
 

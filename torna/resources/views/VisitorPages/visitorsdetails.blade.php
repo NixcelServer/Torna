@@ -35,6 +35,48 @@
     <!-- Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
+{{-- form validations scripts  --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var contactNoInput = document.getElementById('contact_no');
+        var contactError = document.getElementById('contactError');
+
+        contactNoInput.addEventListener('input', function() {
+            var contactNo = contactNoInput.value.trim();
+
+            if (contactNo.length !== 10 || isNaN(contactNo)) {
+                contactError.textContent = 'Contact number should be 10 digits long and contain only numbers.';
+                contactNoInput.classList.add('is-invalid');
+            } else {
+                contactError.textContent = '';
+                contactNoInput.classList.remove('is-invalid');
+            }
+        });
+    });
+
+
+    $(document).ready(function() {
+        $('#email').on('input', function() {
+            var email = $(this).val();
+            if (!isValidEmail(email)) {
+                $('#emailError').text('Please enter a valid email address.');
+                $(this).addClass('is-invalid');
+            } else {
+                $('#emailError').text('');
+                $(this).removeClass('is-invalid');
+            }
+        });
+
+        function isValidEmail(email) {
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex for valid email format
+            return emailRegex.test(email);
+        }
+    });
+</script>
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -64,12 +106,7 @@
     </div>
     <div class="card-body text-center">
         <h5 class="card-title">Exhibition Details</h5>
-        @if ($participatedEx->exDetails->company_logo)
-            <?php $base64Image = $participatedEx->exDetails->company_logo; ?>
-            <img src="data:image/png;base64,{{ $base64Image }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 200px; object-fit: cover;">
-        @else
-            <p>No logo available</p>
-        @endif
+       
         <p class="card-text">Exhibition Name: {{ $participatedEx->exDetails->exhibition_name }}</p>
     </div>
     
@@ -79,13 +116,13 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header text-center font-weight-bold display-5">Visitor Registration Form</div>
+                <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Visitor Registration Form</h4>
 
                 <div class="card-body">
                     <form method="POST" action="/regvisitor">
                         @csrf
 
-                        <div class="form-group row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <label for="visitor_name" class="col-form-label text-md-right required-field">Visitor Name</label>
                                 <input id="visitor_name" name="visitor_name" type="text" class="form-control" required>
@@ -96,10 +133,11 @@
                             <div class="col-md-6">
                                 <label for="contact_no" class="col-form-label text-md-right required-field">Visitor Contact No</label>
                                 <input id="contact_no" name="contact_no" type="text" class="form-control" required>
+                                <small id="contactError" class="text-danger"></small>
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <label for="email" class="col-form-label text-md-right required-field">Visitor Email Id</label>
                                 <input id="email" name="email" type="email" class="form-control" required>
@@ -107,8 +145,8 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="services" class="col-form-label text-md-right ">Select Services</label>
-                                <select id="services" name="services" class="form-control" >
+                                <label for="services" class="col-form-label text-md-right required-field">Select Services</label>
+                                <select id="services" name="services" class="form-control" required>
                                     <option value="">Select Service</option>
                                     @foreach($services as $service)
                                         <option value="{{ $service->encServiceId }}">{{ $service->product_name }}</option>
@@ -116,8 +154,8 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="form-group row justify-content-center mb-5">
+<br />
+                        <div class="form-group row justify-content-center mb-2">
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-primary">
                                     Submit
@@ -132,22 +170,7 @@
 </div>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const emailInput = document.getElementById('email');
-        //emailError.textContent = 'Only company domain emails are allowed.';
-        emailInput.addEventListener('input', function() {
-            const email = this.value.trim().toLowerCase();
-            const isGmail = email.endsWith('@gmail.com');
 
-            if (isGmail) {
-                this.setCustomValidity("Gmail addresses are not allowed, Only company domain emails are allowed.");
-            } else {
-                this.setCustomValidity("");
-            }
-        });
-    });
-</script>
 <script>
     $(document).ready(function () {
         $('.register-btn').popover({

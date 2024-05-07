@@ -231,13 +231,14 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span>Documents</span>
-                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Document</button>
-                                </div>
-                            </div>
                             <div class="card-body">
+                                <h4 class="card-title">Documents</h4>
+                                <div class="col-12 text-right mt-n4">
+                                    <div class="buttons">
+                                        <!-- Button to show Add Department Modal -->
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New document</button>
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
@@ -253,28 +254,10 @@
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $document->doc_name }}</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-primary view-document-btn" data-content="{{ $document->document_content }}" data-toggle="modal" data-target="#viewDocumentModal{{ $document->encDocumentId }}">View Document</button>
-            
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="viewDocumentModal{{ $document->encDocumentId }}" tabindex="-1" role="dialog" aria-labelledby="viewDocumentModalLabel{{ $document->encDocumentId }}" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="viewDocumentModalLabel{{ $document->encDocumentId }}">View Document</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <!-- Embed the document content from the preloaded data -->
-                                                                    <embed src="data:application/pdf;base64,{{ $document->document_content }}" type="application/pdf" width="100%" height="500px" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <button class="btn btn-sm btn-primary view-document-btn" data-content="{{ $document->document_content }}" data-toggle="modal" data-target="#viewDocumentModal{{ $document->encDocumentId }}">View Document</button> 
                                                 </td>
                                                 <td>
-                                                    <a href='/documents/assignproducts/{{ $document->encDocumentId }}' class="btn btn-sm btn-primary assign-btn">Assign Product/Services</a>
+                                                <a href='/documents/assignproducts/{{ $document->encDocumentId }}' class="btn btn-sm btn-primary assign-btn">Assign Product/Services</a>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $document->encDocumentId }}">Delete</button>
@@ -289,7 +272,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">

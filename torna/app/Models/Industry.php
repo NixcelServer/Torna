@@ -16,6 +16,7 @@ class Industry extends Model
         'industry_name',
         'updated_date',
         'updated_time',
+        'created_by',
 
     ];
 }
