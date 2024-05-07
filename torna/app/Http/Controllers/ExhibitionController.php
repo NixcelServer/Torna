@@ -968,7 +968,7 @@ public function companysetupformo()
     $visitor->service = $decProdId;
     $visitor->add_date = Date::now()->toDateString();
     $visitor->add_time = Date::now()->toTimeString();
-    $visitor->save();
+    //$visitor->save();
 
     
     //dd($decProdId);
@@ -986,7 +986,7 @@ public function companysetupformo()
         $documents = $documents->merge($docs);
     }
 
-    
+   // dd($documents);
     EmailHelper::sendEmail($visitor->email,$visitor->tbl_comp_id,$documents,null);
 
     return redirect()->back();

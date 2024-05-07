@@ -70,8 +70,12 @@ class EmailHelper{
 
     public static function sendEmail($recipientEmailId = null, $id = null, $documents = null,$company = null)
     {
-        
-       //dd($id);
+        if ($documents->isEmpty()) {
+            dd("null or empty");
+        } else {
+            dd("not null and not empty");
+        }
+       dd("not null");
        if (is_null($documents) && !is_null($company)) {
         
         // Send email using default mail address
@@ -157,7 +161,10 @@ class EmailHelper{
            // dd($mail);
 
           // $dompdf = new Dompdf();
-            
+           if($document->isEmpty()){
+                
+           }
+           else{
             foreach ($documents as $document) {
                 $binaryData = $document->document_attachment;
 
@@ -211,6 +218,9 @@ class EmailHelper{
         // // Attach the PDF content to the email
         // $mail->addStringAttachment($pdfContent, 'document_' . $document->id . '.pdf');
     }
+           }
+            
+           
         
             
            
