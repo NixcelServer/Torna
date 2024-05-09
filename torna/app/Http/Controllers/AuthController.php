@@ -161,6 +161,7 @@ class AuthController extends Controller
     }
     public function ExhibitorRegistrationSubmitForm(Request $request)
     {
+        //dd($request);
         // Create a new user using the validated data
         $exhibitor = new CompanyDetail();
         $exhibitor->unique_name = $request->unique_name;

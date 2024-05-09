@@ -328,28 +328,32 @@
 
             // Submit the form using AJAX
             $.ajax({
-                type: 'POST',
-                url: '/regexhibitor', // Update the URL to your form submission endpoint
-                data: $(this).serialize(),
-                success: function (response) {
-                    // Check if the registration was successful
-                    if (response.success) {
-                        $('#loader').hide();
-                        // Show the success message
-                        showRegistrationSuccessMessage();
-                        window.location.href = '/';                        // Optionally, you can redirect the user to another page after success
-                        // window.location.href = '/success-page'; // Update the URL as needed
-                    } else {
-                        $('#loader').hide();
-                        // Handle errors or other responses here
-                        console.log(response.message);
-                    }
-                },
-                error: function (error) {
-                    $('#loader').hide();
-                    console.log(error);
-                }
-            });
+    type: 'POST',
+    url: '/regexhibitor', // Update the URL to your form submission endpoint
+    data: new FormData($(this)[0]), // Use FormData to handle multipart/form-data
+    processData: false, // Prevent jQuery from automatically processing data
+    contentType: false, // Prevent jQuery from setting contentType
+    enctype: 'multipart/form-data', // Specify the enctype directly
+    success: function (response) {
+        // Check if the registration was successful
+        if (response.success) {
+            $('#loader').hide();
+            // Show the success message
+            showRegistrationSuccessMessage();
+            window.location.href = '/'; // Optionally, you can redirect the user to another page after success
+            // window.location.href = '/success-page'; // Update the URL as needed
+        } else {
+            $('#loader').hide();
+            // Handle errors or other responses here
+            console.log(response.message);
+        }
+    },
+    error: function (error) {
+        $('#loader').hide();
+        console.log(error);
+    }
+});
+
         });
 
         function showRegistrationSuccessMessage() {

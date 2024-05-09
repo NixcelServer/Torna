@@ -321,12 +321,12 @@ class ExhibitionController extends Controller
         $exhibition->created_date = Date::now()->toDateString();
         $exhibition->created_time = Date::now()->toTimeString();
        // $exhibition->exhibition_website = $request->exhibition_website;
-        //$exhibition->attach_document = $request->attach_document;
+        $exhibition->attach_document = $request->attach_document;
         //$exhibition->registration_url = $request->registration_url;
 
         
 
-
+//dd($exhibition);
         // Handle company logo upload if a file was uploaded
         // if ($request->hasFile('company_logo')) {
         //     $image = $request->file('company_logo');
@@ -377,7 +377,7 @@ class ExhibitionController extends Controller
         $exhibition->created_date = Date::now()->toDateString();
         $exhibition->created_time = Date::now()->toTimeString();
        // $exhibition->exhibition_website = $request->exhibition_website;
-        //$exhibition->attach_document = $request->attach_document;
+        $exhibition->attach_document = $request->attach_document;
         //$exhibition->registration_url = $request->registration_url;
 
         
@@ -418,7 +418,7 @@ class ExhibitionController extends Controller
     public function updateExStatus($id)
     {
 
-        $user->session('user');
+        $user = session('user');
         $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
         $ex = ExhibitionDetail::where('tbl_ex_id', $decExId)->first();
 
@@ -443,7 +443,7 @@ class ExhibitionController extends Controller
         //     ->where('contact_no', $contactNo)
         //     ->update(['active_status' => $activeStatus]);
 
-        AuditLogHelper::logDetails('update ' .$exhibition->exhibition_name . ' to inactive', $user->tbl_user_id);
+        //AuditLogHelper::logDetails('update ' .$exhibition->exhibition_name . ' to inactive', $user->tbl_user_id);
 
         return redirect()->back();
     }
