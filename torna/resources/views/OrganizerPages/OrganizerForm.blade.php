@@ -189,7 +189,7 @@
                 <div class="card-header text-center font-weight-bold display-5">Organizer Registration Form</div>
 
                 <div class="card-body">
-                    <form enctype="multipart/form-data">
+                    <form id="registrationForm" enctype="multipart/form-data" >
                         @csrf
                         <div class="form-group row">             
                             <div class="col-md-6">
@@ -212,12 +212,12 @@
                                     </div>
                                     <input id="contact_no" name="contact_no" type="text" class="form-control" required>
                                 </div>
-                                <small id="contactError" class="text-danger"></small>
+                                <small id="contact_noError" class="text-danger"></small>
                             </div>                           
                             <div class="col-md-6">
                                 <label for="email" class="col-form-label text-md-right required-field">Email ID</label>
                                 <input id="email" name="email" type="email" class="form-control" required>
-                                <small id="emailError" class="text-danger"></small>
+                               <small id="emailError" class="text-danger"></small>
                             </div>
                         </div>
                         
@@ -236,6 +236,7 @@
                             <div class="col-md-6">
                                 <label for="company_name" class="col-form-label text-md-right required-field">Company Name</label>
                                 <input id="company_name" name="company_name" type="text" class="form-control" name="company_name" required>
+                                <small id="company_nameError" class="text-danger"></small>
                             </div>
                             <div class="col-md-6">
                                 <label for="company_logo" class="col-form-label text-md-right">Upload Company Logo</label>
@@ -275,25 +276,37 @@
         $('.register-btnn').popover({
             html: true,
             trigger: 'click' // Specify trigger event
+           
         });
+         // Log serialized form data
+       
 
         // Add event listener to form submission
-        $('form').on('submit', function (e) {
+        $('#registrationForm').on('submit', function (e) {
+            console.log("Form submission event listener triggered!"); // L
             e.preventDefault(); // Prevent the form from submitting normally
 
             // Show the loader
             $('#loader').show();
+         console.log("Form submission triggered!");
+         console.log("Serialized form data:", $(this).serialize());
 
             // Submit the form using AJAX
             $.ajax({
                 type: 'POST',
                 url: '/regorganizer', // Update the URL to your form submission endpoint
-                data: $(this).serialize(),
+                data: new FormData($(this)[0]), // Use FormData to handle multipart/form-data
+    processData: false, // Prevent jQuery from automatically processing data
+    contentType: false, // Prevent jQuery from setting contentType
+    enctype: 'multipart/form-data', 
                 success: function (response) {
                     // Check if the registration was successful
                     if (response.success) {
                         $('#loader').hide();
+                        console.log("AJAX request successful!");
+                console.log("Response: ", response);
                         // Show the success message
+                        console.log("Request Data: ", response.data);
                         showRegistrationSuccessMessage();
                         window.location.href = '/';                        // Optionally, you can redirect the user to another page after success
                         // window.location.href = '/success-page'; // Update the URL as needed
@@ -301,11 +314,25 @@
                         $('#loader').hide();
                         // Handle errors or other responses here
                         console.log(response.message);
+                        console.log("Registration error: ", response.message);
                     }
                 },
                 error: function (error) {
                     $('#loader').hide();
-                    console.log(error);
+                    console.log("AJAX request failed!");
+                
+                var errors = error.responseJSON.errors; // Make sure 'errors' is extracted correctly
+    
+
+                $.each(errors, function(field, messages) {
+                    // Construct the ID of the error message element
+                
+                    var errorMessageId = field + 'Error';
+
+                    // Display the first error message for the field
+                    $('#' + errorMessageId).text(messages[0]);
+                });
+
                 }
             });
         });

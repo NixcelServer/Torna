@@ -107,8 +107,13 @@
     <div class="card-body text-center">
         <h5 class="card-title">Exhibition Details</h5>
        
-        <p class="card-text">Exhibition Name: {{ $participatedEx->exDetails->exhibition_name }}</p>
-    </div>
+        <p class="card-text">Exhibition Name: {{ $participatedEx->exDetails->ex_name }}</p>
+
+        @if($participatedEx->exDetails->company_logo)
+    <img src="data:image/png;base64,{{ $participatedEx->exDetails->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 50%; height: 250px; object-fit: cover;">
+    @else
+        <p>No company logo available</p>
+    @endif    </div>
     
 </div>
 

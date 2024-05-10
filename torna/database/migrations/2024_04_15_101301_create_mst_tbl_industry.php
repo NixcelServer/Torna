@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('mst_tbl_industry', function (Blueprint $table) {
             $table->increments('tbl_industry_id');
             $table->string('industry_name', 100);
+            $table->integer('created_by');
             $table->date('created_date');
-            $table->string('created_time', 45);
-            $table->integer('created_by')->nullable();
+            $table->time('created_time');
             $table->date('updated_date')->nullable();
-            $table->string('updated_time', 45)->nullable();
+            $table->time('updated_time')->nullable();
             $table->string('active_status', 45)->default('Active');
             $table->string('flag', 45)->default('show');
             $table->timestamps(); // Adds created_at and updated_at columns

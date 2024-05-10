@@ -17,7 +17,8 @@ return new class extends Migration
             $table->integer('tbl_user_id')->required();
             $table->integer('tbl_comp_id')->required();
             $table->string('sid')->nullable();
-            $table->string('auth_id')->nullable();
+            $table->string('auth_token')->nullable();
+            $table->string('mobile_no')->nullable();
             
             $table->date('add_date')->required();
             $table->time('add_time')->required();

@@ -294,7 +294,7 @@
                                             @foreach($activeExs as $key => $activeEx)
 <tr>
     <td>{{ $key + 1 }}</td>
-    <td>{{ $activeEx->exhibition_name }}</td>
+    <td>{{ $activeEx->ex_name }}</td>
     <td>
         {{-- <a href="/updateExStatus/{{ $activeEx->encActiveExId }}"
             class="btn btn-primary change-status-btn"

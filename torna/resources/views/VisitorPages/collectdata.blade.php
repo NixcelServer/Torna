@@ -315,6 +315,9 @@
                                             <th>Visitor Contact No</th>
                                             <th>Visitor Email</th>
                                             <th>Service</th>
+                                            @if ($showActionColumn)
+                                                <th>Action</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -325,6 +328,11 @@
                                             <td>{{ $visitor->contact_no}}</td>
                                             <td>{{ $visitor->email}}</td>
                                             <td>{{ $visitor->service_name}}</td>
+                                            @if ($showActionColumn)
+                                                <td>
+                                                    <a href="/sendmail/{{ $visitor->encVisitorId }}" class="btn btn-primary btn-sm">Send Email</a>
+                                                </td>
+                                            @endif
                                         </tr>
                                         @endforeach
                                     </tbody>

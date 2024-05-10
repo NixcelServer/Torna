@@ -329,19 +329,19 @@
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            @foreach ($companies as $company)
+                           
                             <div class="col">
+                            <img id="companyLogo" src="" alt="Company Logo" style="max-width: 100%; height: auto;">
+
                                 <p><strong>Company Name:</strong> <span id="companyName"></span></p>
                                 <p><strong>Email:</strong> <span id="email"></span></p>
                                 <p><strong>Contact No:</strong> <span id="contactNo"></span></p>
                                 <p><strong><span style="color: white;">Company Id:</span></strong> <span id="compId" style="color: white;"></span></p>
-                                @if ($company->company_logo)
-                                    <img id="companyLogo"src="data:image/png;base64,{{ $company->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 200px; object-fit: cover;">
-                                @else
-                                    <p>No logo available</p>
-                                @endif
+                               
+                                    
+                               
                             </div>
-                        @endforeach                            
+                        
                             <div class="row mt-3">
                                 <div class="col text-center">
                                     <button id="approveDocumentBtn" class="btn btn-success">Approve</button>
@@ -443,6 +443,7 @@
                         }).then(function () {
                             console.log(companyName + ' ' + status);
                             $('#documentModal').modal('hide');
+                            window.location.href = '/AdminDashboard';
                         });
                     },
                     error: function (xhr, status, error) {

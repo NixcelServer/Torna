@@ -286,7 +286,7 @@
                                             <tr>
                                                 <th>Sr No</th>
                                                 <th>Exhibition Name</th>
-                                                
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -294,8 +294,10 @@
                                             @foreach($inActiveExs as $key => $inActiveEx)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
-                                                <td>{{ $inActiveEx->exhibition_name }}</td>
-                                                
+                                                <td>{{ $inActiveEx->ex_name }}</td>
+                                                <td>
+                                                <a href="/editExhibition/{{ $inActiveEx->encInActiveExId }}"class="btn btn-primary">Edit Exhibition</a>
+                                                </td>
                                             </tr>
                                             @endforeach
                                                                                         

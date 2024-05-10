@@ -200,7 +200,7 @@
                 <div class="card-header text-center font-weight-bold display-5">Exhibitor Registration Form</div>
 
                 <div class="card-body">
-                    <form enctype="multipart/form-data">
+                    <form id="exRegistration" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -220,7 +220,7 @@
                                     </div>
                                     <input id="contact_no" name="contact_no" type="text" class="form-control" required>
                                 </div>
-                                <small id="contactError" class="text-danger"></small>
+                                <small id="contact_noError" class="text-danger"></small>
                             </div>
                         </div>
                         
@@ -230,6 +230,7 @@
                                 <div class="form-group">
                                     <label for="company_name" class="col-form-label text-md-right">Company Name <span style="color: red;">*</span></label>
                                     <input id="company_name" name="company_name" type="text" class="form-control" required>
+                                    <small id="company_nameError" class="text-danger"></small>
                                 </div>
                             </div>
                         
@@ -237,6 +238,7 @@
                                 <div class="form-group">
                                     <label for="email" class="col-form-label text-md-right">Email ID <span style="color: red;">*</span></label>
                                     <input id="email" name="email" type="email" class="form-control" required>
+                                    <small id="emailError" class="text-danger"></small>
                                 </div>
                             </div>
                         
@@ -321,33 +323,51 @@
         });
 
         // Add event listener to form submission
-        $('form').on('submit', function (e) {
+        $('#exRegistration').on('submit', function (e) {
             e.preventDefault(); // Prevent the form from submitting normally
-
-            $('#loader').show();
+    $('#loader').show();
+            
 
             // Submit the form using AJAX
             $.ajax({
                 type: 'POST',
-                url: '/regexhibitor', // Update the URL to your form submission endpoint
-                data: $(this).serialize(),
+    url: '/regexhibitor', // Update the URL to your form submission endpoint
+    data: new FormData($(this)[0]), // Use FormData to handle multipart/form-data
+    processData: false, // Prevent jQuery from automatically processing data
+    contentType: false, // Prevent jQuery from setting contentType
+    enctype: 'multipart/form-data', // Specify the enctype directly // Set processData to false when sending FormData
                 success: function (response) {
+                    
                     // Check if the registration was successful
                     if (response.success) {
                         $('#loader').hide();
                         // Show the success message
                         showRegistrationSuccessMessage();
-                        window.location.href = '/';                        // Optionally, you can redirect the user to another page after success
+                        window.location.href = '/';   
+                                           // Optionally, you can redirect the user to another page after success
                         // window.location.href = '/success-page'; // Update the URL as needed
                     } else {
                         $('#loader').hide();
                         // Handle errors or other responses here
-                        console.log(response.message);
+                        console.log(response);
                     }
                 },
                 error: function (error) {
                     $('#loader').hide();
-                    console.log(error);
+                    console.log("AJAX request failed!");
+                
+                var errors = error.responseJSON.errors; // Make sure 'errors' is extracted correctly
+    
+
+                $.each(errors, function(field, messages) {
+                    // Construct the ID of the error message element
+                
+                    var errorMessageId = field + 'Error';
+
+                    // Display the first error message for the field
+                    $('#' + errorMessageId).text(messages[0]);
+                });
+
                 }
             });
         });

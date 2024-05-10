@@ -308,7 +308,7 @@
                                             @foreach($participatedExs as $key => $participatedEx) 
                                                 <tr>
                                                     <td>{{ (int)$key + 1 }}</td>
-                                                    <td>{{ $participatedEx->exDetails->exhibition_name }}</td>
+                                                    <td>{{ $participatedEx->exDetails->ex_name }}</td>
                                                     <td>
                                                         @if($participatedEx->emailServiceEnabled)
                                                             <!-- Enable Generate URL button -->
@@ -324,7 +324,7 @@
                                                             <button class="btn btn-sm btn-info generate-qr-btn" disabled>Generate QR Code</button>
                                                         @endif
                                                         
-                                                        <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}')">
+                                                        <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}',{{ json_encode($participatedEx->selectedOptions ?? []) }})">
                                                             Notify By
                                                         </button>
                                                         <a class="btn btn-sm btn-success" href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}">Collect Data</a>
@@ -349,7 +349,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header text-center">
-                        <h5 class="modal-title w-100" id="documentModalLabel">Organizer Details</h5>
+                        <h5 class="modal-title w-100" id="documentModalLabel">Notification Methods</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -359,11 +359,11 @@
                             <body>
                                 <h3 class="mb-3">Select notification method:</h3>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailOption">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailImmediateOption">
                                     <label class="form-check-label" for="emailOption">Email (Immediate After Registration)</label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailOption">
+                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="emailAfter" id="emailAfterOption">
                                     <label class="form-check-label" for="emailOption">Email (After Exhibition)</label>
                                 </div>
                                 <div class="form-check mb-2">
@@ -607,8 +607,15 @@ function downloadQRCode() {
 
 
         <script>
-            function openDocument(encExId ) {
+            function openDocument(encExId,selectedOptions ) {
                 document.getElementById('encExId').value = encExId;
+
+                $('input[name="notifyOption"]').prop('checked', false);
+
+                selectedOptions.forEach(option => {
+            document.getElementById(option + 'Option').checked = true;
+        });
+    
                 
                 $('#documentModal').modal('show');
             }

@@ -282,17 +282,17 @@
                                     <div class="form-group row">
                                         <div class="col-md-4">
                                             <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
-                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ $exhibition->exhibition_name }}" required>
+                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ $exhibition->ex_name }}" required>
                                             <input id="encExhibitionId" name="encExhibitionId" type="hidden" value="{{ $exhibition->encExhibitionId }}" class="form-control">                                   
 
                                         </div>
                                         <div class="col-md-4">
                                             <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
-                                            <input id="from_date" name="from_date" type="date" class="form-control" value="{{ $exhibition->from_date }}" required>
+                                            <input id="from_date" name="from_date" type="date" class="form-control" value="{{ $exhibition->ex_from_date }}" required>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
-                                            <input id="to_date" name="to_date" type="date" class="form-control" value="{{ $exhibition->to_date }}" required>
+                                            <input id="to_date" name="to_date" type="date" class="form-control" value="{{ $exhibition->ex_to_date }}" required>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -312,7 +312,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-4">
                                             <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
-                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control" value="{{ $exhibition->exhibition_website }}">
+                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control" value="{{ $exhibition->ex_website }}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
@@ -320,7 +320,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
-                                            <input id="registration_url" name="registration_url" type="text" class="form-control" value="{{ $exhibition->registration_url }}">
+                                            <input id="registration_url" name="registration_url" type="text" class="form-control" value="{{ $exhibition->ex_reg_url }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -343,13 +343,13 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked>
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" {{ $exhibition->active_status === 'Active' ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="Active">Active</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive" {{ $exhibition->active_status === 'Inactive' ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="Inactive">Inactive</label>
                                                     </div>
                                                 </div>

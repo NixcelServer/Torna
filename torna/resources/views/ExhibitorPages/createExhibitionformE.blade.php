@@ -341,7 +341,10 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
-                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required>
+                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ old('exhibition_name') }}" required>
+                                            @if ($errors->has('exhibition_name'))
+                                                <span id="exhibitionNameError" class="text-danger">{{ $errors->first('exhibition_name') }}</span>
+                                            @endif
                                         </div>
                                         <div class="col-md-4">
                                             <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
@@ -485,6 +488,16 @@
 
 
     <script src="/js/dashboard/dashboard-1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Add event listener to the input field
+        $('#exhibition_name').on('input', function() {
+            // Hide the error message when the input value changes
+            $('#exhibitionNameError').hide();
+        });
+    });
+</script>
 
 </body>
 

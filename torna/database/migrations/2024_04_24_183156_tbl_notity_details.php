@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('tbl_comp_id')->required();
             $table->integer('tbl_ex_id')->required();
             $table->string('email_service')->default('disabled');
+            $table->string('email_after_service')->default('disabled');
+
             $table->string('whatsapp_service')->default('disabled');
             $table->string('sms_service')->default('disabled');
             $table->date('add_date')->required();
