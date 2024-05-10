@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Quixlab - Bootstrap Admin Dashboard Template by Themefisher.com</title>
+    <title>Nixcel Exhibition</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
@@ -17,6 +17,32 @@
             background-size: cover;
             background-position: center;
         }
+
+        .login-form-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-form-content {
+            background-color: #999999; /* Replace #cccccc with the desired shade of gray */
+            padding: 5px;
+            border-radius: 15px; /* Increased border radius for a smoother look */
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.2); /* Increased box shadow for depth */
+            width: 100%; /* Set width to 100% */
+            max-width: 500px; /* Set a maximum width */
+            margin: 0 auto; /* Center the form horizontally */
+        }
+
+        .exhibition-image {
+            background-image: url('https://hire4event.com/blogs/wp-content/uploads/2019/02/EXHIBITION-MANAGEMENT-COMPANIES-NOIDA.jpg'); /* Add your exhibition image path */
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            width: calc(100% - 500px); /* Adjust based on your design */
+        }
+        
     </style>
 </head>
 
@@ -36,44 +62,37 @@
         Preloader end
     ********************-->
 
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <!-- Left side: Login Form -->
+            <div class="col-lg-6 login-form-container">
+                <div class="login-form-content">
+                    <div class="card login-form mb-0">
+                        <div class="card-body pt-5">
+                            <a class="text-center" href=""><h4>Login</h4></a>
 
-
-    <div class="login-form-bg h-100">
-        <div class="container h-100">
-            <div class="row justify-content-center h-100">
-                <div class="col-xl-6">
-                    <div class="form-input-content">
-                        <div class="card login-form mb-0">
-                            <div class="card-body pt-5">
-                                <a class="text-center" href=""> <h4>Login</h4></a>
-
-                                <form class="mt-5 mb-5 login-input" method="POST" action="/login">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="email">Email ID</label>
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Enter your email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password"
-                                            placeholder="Enter your password">
-                                    </div>
-                                    <button class="btn login-form__btn submit w-100">Sign In</button>
-                                </form>
-                                <p class="mt-5 login-form__footer">Don't have an account? <a href="/login"
-                                        class="text-primary">Sign Up</a> now</p>
-                            </div>
-
+                            <form class="mt-5 mb-5 login-input" method="POST" action="/login">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="email">Email ID</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Enter your email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Enter your password">
+                                </div>
+                                <button class="btn login-form__btn submit w-100">Sign In</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Right side: Exhibition Image -->
+            <div class="col-lg-6 exhibition-image"></div>
         </div>
     </div>
-
-
-
 
     <!--**********************************
         Scripts

@@ -22,6 +22,7 @@
     
     <!-- Custom Stylesheet -->
     <link href="/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -52,7 +53,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="/AdminDashboard">
+                <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -88,7 +89,7 @@
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="images/user/1.png" height="40" width="40" alt="">
+                                <img src="/images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 @php
@@ -119,22 +120,47 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/AdminDashboard" aria-expanded="false">
+                        <a  href="/ExDashboard" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
-                        <a  href="/industrymaster" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        <a  href="/companysetupform" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
                         </a>
-                        
+                    </li>
+                    
+            
+                    
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
+                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
+                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
+                            <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
+
+
+                        </ul>
                     </li>
                     <li>
-                        <a  href="/auditlog" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Audit Log</span>
+                        <a  href="/products" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
                         </a>
-                        
+                    </li>
+                    <li>
+                        <a  href="/documents" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
+                        </a>
+                    </li>
+                    <li>
+
+                        <a  href="/notificationSetting" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Setting</span>
+                        </a>
                     </li>
                    
                     {{-- <li class="nav-label">Apps</li>
@@ -264,55 +290,59 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-
-
             <div class="container-fluid mt-3">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Audit Logs</h4>
-                    {{-- <div class="float-right mr-3 mb-2"> <!-- Added float-right and margin classes -->
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Export Data
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="exportDropdown">
-                                <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
-                                <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                <span>Visitors List</span>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Export Data
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
+                                        <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
+                                        <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped table-bordered zero-configuration">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr. No</th>
+                                            <th>Visitor Name</th>
+                                            <th>Visitor Contact No</th>
+                                            <th>Visitor Email</th>
+                                            <th>Service</th>
+                                            @if ($showActionColumn)
+                                                <th>Action</th>
+                                            @endif
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($visitors as $index => $visitor)
+                                        <tr>
+                                            <td>{{ $index+1 }}</td>
+                                            <td>{{ $visitor->name}}</td>
+                                            <td>{{ $visitor->contact_no}}</td>
+                                            <td>{{ $visitor->email}}</td>
+                                            <td>{{ $visitor->service_name}}</td>
+                                            @if ($showActionColumn)
+                                                <td>
+                                                    <a href="/sendmail/{{ $visitor->encVisitorId }}" class="btn btn-primary btn-sm">Send Email</a>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div> --}}
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered zero-configuration">
-                            <thead>
-                                <tr>
-                                    <th>Sr. No</th>
-                                    <th>Activity Name</th>
-                                    <th>Activity By</th>
-                                    <th>Activity Date</th>
-                                    <th>Activity Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($auditlogs as $index => $log)
-                                <tr>
-                                    <td>{{ $index+1 }}</td>
-                                    <td>{{ $log->activity_name}}</td>
-                                    <td>{{ $log->username}}</td>
-                                    <td>{{ $log->activity_date}}</td>
-                                    <td>{{ $log->activity_time}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
+            
             {{-- <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
@@ -1054,6 +1084,78 @@
             Footer end
         ***********************************-->
     </div>
+
+    <!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include SheetJS library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+    $('#exportExcel').click(function (e) {
+        e.preventDefault();
+        exportData('xlsx');
+    });
+
+    $('#exportCsv').click(function (e) {
+        e.preventDefault();
+        exportData('csv');
+    });
+
+    function exportData(format) {
+        $.ajax({
+            
+            url: '/fetchvisitordata', // Check if this URL is correct
+            method: 'GET',
+            success: function (response) {
+                if (response.success) {
+                    if (format === 'xlsx') {
+                        // Convert data to Excel
+                        const sheet = XLSX.utils.json_to_sheet(response.data);
+                        const wb = XLSX.utils.book_new();
+                        XLSX.utils.book_append_sheet(wb, sheet, 'Audit Log Data');
+                        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                        saveAsFile(excelBuffer, 'Audit_Log_Data.xlsx');
+                    } else if (format === 'csv') {
+                        // Convert data to CSV
+                        const csv = convertToCsv(response.data);
+                        saveAsFile(csv, 'Audit_Log_Data.csv');
+                    }
+                } else {
+                    alert('Failed to fetch data.');
+                }
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+    // Function to save file
+    function saveAsFile(buffer, fileName) {
+        const blob = new Blob([buffer], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // Function to convert JSON data to CSV format
+    function convertToCsv(data) {
+        const header = Object.keys(data[0]);
+        const csv = [header.join(',')];
+        data.forEach(row => {
+            const values = header.map(key => row[key]);
+            csv.push(values.join(','));
+        });
+        return csv.join('\n');
+    }
+});
+
+</script>
     <!--**********************************
         Main wrapper end
     ***********************************-->
@@ -1061,7 +1163,12 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    
+    <script src="/plugins/common/common.min.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/gleek.js"></script>
+    <script src="/js/styleSwitcher.js"></script>
+
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -1083,13 +1190,6 @@
 
 
     <script src="/js/dashboard/dashboard-1.js"></script>
-
-
-    <script src="/plugins/common/common.min.js"></script>
-    <script src="/js/custom.min.js"></script>
-    <script src="/js/settings.js"></script>
-    <script src="/js/gleek.js"></script>
-    <script src="/js/styleSwitcher.js"></script>
 
     <script src="/plugins/tables/js/jquery.dataTables.min.js"></script>
     <script src="/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>

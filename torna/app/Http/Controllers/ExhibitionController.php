@@ -10,9 +10,16 @@ use App\Models\Industry;
 use App\Models\AssignProduct;
 use App\Models\Participate;
 use App\Models\Visitor;
+use App\Models\Notify;
+use App\Models\EmailSetting;
+use App\Models\SMSSetting;
+
+
 
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EncryptionDecryptionHelper;
+use App\Helpers\EmailHelper;
+
 use App\Helpers\AuditLogHelper;
 
 use App\Models\ExhibitionDetail;
@@ -25,6 +32,7 @@ class ExhibitionController extends Controller
     public function updateStatus(Request $request)
     {
         //dd($request);
+        $userDetails = session('user');
         $companyName = $request->input('companyName');
         $compId = $request->input('compId');
         $email = $request->input('email');
@@ -43,7 +51,7 @@ class ExhibitionController extends Controller
             ->where('contact_no', $contactNo)
             ->update(['active_status' => $activeStatus]);
 
-            AuditLogHelper::logDetails('update exhibition status to active', $user->tbl_user_id);
+            AuditLogHelper::logDetails('update exhibition status of '. $companyName .' to ' .$activeStatus. ' ', $userDetails->tbl_user_id);
 
         return response()->json(['message' => 'Status updated successfully'], 200);
     }
@@ -64,8 +72,9 @@ class ExhibitionController extends Controller
 
         foreach ($companies as $company) {
             $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
-        }
+            $company->company_logo = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_logo');
 
+        }
         return view('AdminPages/UnApprovedOrgList', ['companies' => $companies]);
     }
 
@@ -82,9 +91,11 @@ class ExhibitionController extends Controller
     public function unapprovedexcount()
     {
         $companies = UserDetail::where('active_status', 'Pending')->where('role_id', 3)->get();
-
         foreach ($companies as $company) {
-            $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+            $companyDetails = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->first();
+           
+            $company->company_name = $companyDetails->company_name;
+            $company->company_logo = $companyDetails->company_logo; // Assuming company_logo is stored as a base64 string
         }
 
         return view('AdminPages/UnApprovedExList', ['companies' => $companies]);
@@ -107,6 +118,7 @@ class ExhibitionController extends Controller
         }
         return view('AdminPages/RejectedExList', ['companies' => $companies]);
     }
+
     public function exdashboard()
     {
         return view('ExhibitorPages/ExDashboard');
@@ -130,12 +142,21 @@ class ExhibitionController extends Controller
 
     public function industrymasterO()
     {
+        $user = session('user');
         // $industries = Industry::all();
         $industries = Industry::where('flag', 'show')->get();
 
-        foreach ($industries as $industry) {
-            $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+    foreach ($industries as $industry) 
+    {
+        $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+
+        // Check if the industry was created by a logged in user 
+        if ($industry->created_by == $user->tbl_user_id) {
+            $industry->delete_disabled = false; // Add a delete_disabled attribute
+        } else {
+            $industry->delete_disabled = true; // Add a delete_disabled attribute
         }
+    }
         return view('OrganizerPages/industrymasterO', ['industries' => $industries]);
     }
 
@@ -145,9 +166,14 @@ class ExhibitionController extends Controller
 
     public function storeindustrydetails(Request $request)
     {
-
-
-
+        $validatedData = $request->validate([
+            'industryName' => [
+                'required',
+                'unique_industry_based_on_flag',
+            ],
+        ]);
+      
+       
         $user = session('user');
         $user_id = $user->tbl_user_id;
 
@@ -155,6 +181,7 @@ class ExhibitionController extends Controller
         $industry->industry_name = $request->industryName;
         $industry->created_date = Date::now()->toDateString();
         $industry->created_time = Date::now()->toTimeString();
+        $industry->created_by = $user->tbl_user_id;
         $industry->flag = "show";
         $industry->save();
 
@@ -165,14 +192,19 @@ class ExhibitionController extends Controller
     }
     public function storeindustrydetailso(Request $request)
     {
-
-
-
+        $validatedData = $request->validate([
+            'industryName' => [
+                'required',
+                'unique_industry_based_on_flag',
+            ],
+        ]);
+       
         $user = session('user');
         $user_id = $user->tbl_user_id;
 
         $industry = new Industry;
         $industry->industry_name = $request->industryName;
+        $industry->created_by = $user->tbl_user_id;
         $industry->created_date = Date::now()->toDateString();
         $industry->created_time = Date::now()->toTimeString();
         $industry->flag = "show";
@@ -279,6 +311,12 @@ class ExhibitionController extends Controller
     }
     public function StoreExhibitionForm(Request $request)
     {
+        $validatedData = $request->validate([
+            'exhibition_name' => [
+                'required',
+                'unique_exhibition_based_on_flag',
+            ],
+        ]);
         //dd($request);
         // Create a new exhibition using the validated data
         $user = session('user');
@@ -287,18 +325,19 @@ class ExhibitionController extends Controller
         $exhibition = new ExhibitionDetail();
         $exhibition->tbl_comp_id = $user->tbl_comp_id;
         //$exhibition->unique_name = $request->unique_name;
-        $exhibition->exhibition_name = $request->exhibition_name;
+        $exhibition->ex_name = $request->exhibition_name;
        // $exhibition->ex_organized_by = $company->company_name;
-        $exhibition->from_date = $request->from_date;
-        $exhibition->to_date = $request->to_date;
+        $exhibition->ex_from_date = $request->from_date;
+        $exhibition->ex_to_date = $request->to_date;
         $exhibition->start_time = $request->start_time;
         $exhibition->end_time = $request->end_time;
         $exhibition->venue = $request->venue;
         //$exhibition->organized_by = $request->organized_by;
         //$exhibition->notify_by = $request->notify_by;
         $exhibition->industry = $request->industry_name;
-        
+        //dd($user);
         $exhibition->active_status = $request->active_status;
+        $exhibition->ex_created_by_role_id = $user->role_id;
         $exhibition->created_by = $user->tbl_user_id;
         $exhibition->created_date = Date::now()->toDateString();
         $exhibition->created_time = Date::now()->toTimeString();
@@ -306,17 +345,24 @@ class ExhibitionController extends Controller
         //$exhibition->attach_document = $request->attach_document;
         //$exhibition->registration_url = $request->registration_url;
 
-        
 
 
         // Handle company logo upload if a file was uploaded
-        if ($request->hasFile('company_logo')) {
-            $image = $request->file('company_logo');
-            $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
-            $exhibition->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
-        }
+        // if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
+        //     $exhibition->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+        // }
+        
+        // if ($request->hasFile('company_logo')) {
+        //     $image = $request->file('company_logo');
+        //     $imagePath = $image->store('company_logos'); // Save the image and get the path
+        //     $exhibition->company_logo = $imagePath; // Save the image path to the company_logo column
+        // }
+        
 
         try {
+           
             $exhibition->save();
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
@@ -329,6 +375,15 @@ class ExhibitionController extends Controller
     }
     public function storeExhibitionformE(Request $request)
     {
+        
+        $validatedData = $request->validate([
+            'exhibition_name' => [
+                'required',
+                'unique_exhibition_based_on_flag',
+            ],
+        ], [
+            'exhibition_name.unique_exhibition_based_on_flag' => 'Exhibition with this name already exists.'
+        ]);
         //dd($request);
         // Create a new exhibition using the validated data
         $user = session('user');
@@ -337,10 +392,10 @@ class ExhibitionController extends Controller
         $exhibition = new ExhibitionDetail();
         $exhibition->tbl_comp_id = $user->tbl_comp_id;
         //$exhibition->unique_name = $request->unique_name;
-        $exhibition->exhibition_name = $request->exhibition_name;
+        $exhibition->ex_name = $request->exhibition_name;
        // $exhibition->ex_organized_by = $company->company_name;
-        $exhibition->from_date = $request->from_date;
-        $exhibition->to_date = $request->to_date;
+        $exhibition->ex_from_date = $request->from_date;
+        $exhibition->ex_to_date = $request->to_date;
         $exhibition->start_time = $request->start_time;
         $exhibition->end_time = $request->end_time;
         $exhibition->venue = $request->venue;
@@ -349,6 +404,7 @@ class ExhibitionController extends Controller
         $exhibition->industry = $request->industry_name;
         
         $exhibition->active_status = $request->active_status;
+        $exhibition->ex_created_by_role_id = $user->role_id;
         $exhibition->created_by = $user->tbl_user_id;
         $exhibition->created_date = Date::now()->toDateString();
         $exhibition->created_time = Date::now()->toTimeString();
@@ -380,7 +436,8 @@ class ExhibitionController extends Controller
 
     public function activeExhibitions()
     {
-        $activeExs = ExhibitionDetail::where('active_status', 'Active')->where('flag', 'show')->get();
+        $user = session('user');
+        $activeExs = ExhibitionDetail::where('tbl_comp_id',$user->tbl_comp_id)->where('active_status', 'Active')->where('flag', 'show')->get();
 
 
         // dd($activeExs);
@@ -440,16 +497,21 @@ class ExhibitionController extends Controller
 
     public function products()
     {
-        $products = ProductDetail::where('flag','show')->get();
+        $user = session('user');
+        $products = ProductDetail::where('tbl_comp_id',$user->tbl_comp_id)->where('flag','show')->get();
 
         foreach ($products as $product) {
             $product->encProductId = EncryptionDecryptionHelper::encdecId($product->tbl_product_id, 'encrypt');
+            $product->assignedProdCount = AssignProduct::where('tbl_product_id',$product->tbl_product_id)->count();
         }
+        //dd($products);
         return view('ExhibitorPages/products', ['products' => $products]);
     }
+
     public function documents()
     {
-        $documents = Document::where('flag','show')->get();
+        $user = session('user');
+        $documents = Document::where('created_by',$user->tbl_user_id)->where('flag','show')->get();
 
         foreach ($documents as $document) {
             $document->encDocumentId = EncryptionDecryptionHelper::encdecId($document->tbl_doc_id, 'encrypt');
@@ -466,7 +528,12 @@ class ExhibitionController extends Controller
 
     public function storeproductdetails(Request $request)
     {
-
+        $validatedData = $request->validate([
+            'productName' => [
+                'required',
+                'unique_product_based_on_flag',
+            ],
+        ]);
 
         // Get the logged-in user's ID from the session
         $userDetails = Session::get('user');
@@ -493,6 +560,14 @@ class ExhibitionController extends Controller
 
     public function storedocuments(Request $request)
     {
+
+        $validatedData = $request->validate([
+            'documentName' => [
+                'required',
+                'unique_document_based_on_flag',
+            ],
+        ]);
+
         $user = session('user');
         //dd($request);
         // Assuming you have user authentication and you're retrieving the user ID from the session
@@ -503,6 +578,7 @@ class ExhibitionController extends Controller
 
         // Fill the document details from the request
         $document->doc_name = $request->documentName;
+        $document->created_by = $user->tbl_user_id;
         $document->created_date = Date::now()->toDateString();
         $document->created_time = Date::now()->toTimeString();
         $document->flag = 'show'; // Assuming default flag is Show
@@ -566,23 +642,72 @@ class ExhibitionController extends Controller
     public function upcomingExhibitions()
     {
         $user = session('user');
+        
 
         $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
 
+        // if($user->role_id == '2'){
+        //     $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('flag', 'show')->get();
+        //     foreach ($upcomingExs as $upcomingEx) {
+        //         $upcomingEx->encExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
+        //             }
+
+        //             return view('ExhibitorPages/upcomingExhibitions', ['upcomingExs' => $upcomingExs]);
+        // }
+
         // $industry_name = $company->industry_name;
         // dd($industry_name);
-        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('industry', $company->industry_name)->where('flag', 'show')->get();
+        if($user->role_id == '3'){
+            $upcomingExs = ExhibitionDetail::where(function ($query) use ($user) {
+                $query->where('ex_created_by_role_id', '2') // Exhibitions created by users with role_id 2
+                      ->orWhere('created_by', $user->tbl_user_id); // Exhibitions created by the logged-in user
+            })
+            ->where('active_status', 'Active')
+            ->where('flag', 'show')
+            ->where(function ($query) use ($company) {
+                $query->where('industry', $company->industry_name)
+                      ->orWhere('industry', 'others');
+            })
+            ->get();
 
-
+        $showReminder = false;
 
         foreach ($upcomingExs as $upcomingEx) {
             $upcomingEx->encExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
-        }
+            $upcomingEx->participated = Participate::where('tbl_ex_id', $upcomingEx->tbl_ex_id)->where('tbl_user_id', $user->tbl_user_id)->exists();
 
+            if ($upcomingEx->participated) {
+                // Check if email service is enabled in emailSetting table
+               // $emailServiceEnabled = EmailSetting::where('email_service', 'enabled')->exists();
+                $notify = Notify::where('tbl_user_id',$user->tbl_user_id)->where('tbl_ex_id',$upcomingEx->tbl_ex_id)->first();
+                if ($notify) { // Ensure $notify is not null
+                    if ($notify->email_service === 'enabled' || $notify->sms_service === 'enabled' || $notify->whatsapp_service === 'enabled') {
+                        $emailSetting = EmailSetting::where('tbl_user_id', $user->tbl_user_id)->first();
+                        if ($emailSetting && $emailSetting->smtp === null) {
+                            $showReminder = true;
+                        }
+        
+                        $smsSetting = SMSSetting::where('tbl_user_id', $user->tbl_user_id)->first();
+                        if ($smsSetting && $smsSetting->sid === null) {
+                            $showReminder = true;
+                        }
+                        
+                        // Similar checks for WhatsApp settings if needed
+                    }
+                }
+                
+            }
 
+         }
 
-        return view('ExhibitorPages/upcomingExhibitions', ['upcomingExs' => $upcomingExs]);
+                // dd($showReminder);
+                return view('ExhibitorPages/upcomingExhibitions', ['upcomingExs' => $upcomingExs,'showReminder'=>$showReminder]);
+
+            }
+
+        
     }
+
     public function upcomingExhibitionsO()
     {
         $user = session('user');
@@ -591,7 +716,7 @@ class ExhibitionController extends Controller
 
         // $industry_name = $company->industry_name;
         // dd($industry_name);
-        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('industry', $company->industry_name)->where('flag', 'Show')->get();
+        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('flag', 'Show')->get();
 
 
 
@@ -639,7 +764,8 @@ class ExhibitionController extends Controller
         return view('ExhibitorPages/createExhibitionformE', ['industries' => $industries]);
    }
 
-   public function companysetupform(){
+   public function companysetupform()
+   {
     $user = session('user');
     $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->first();
     $company->encCompId = EncryptionDecryptionHelper::encdecId($company->tbl_comp_id, 'encrypt');
@@ -653,8 +779,11 @@ class ExhibitionController extends Controller
         }
     
     return view('ExhibitorPages/companysetupform',['industries'=>$industries,'company'=>$company]);
-}
-public function companysetupformo(){
+    }
+
+
+public function companysetupformo()
+{
     $user = session('user');
     $company = CompanyDetail::where('tbl_comp_id',$user->tbl_comp_id)->first();
     $company->encCompId = EncryptionDecryptionHelper::encdecId($company->tbl_comp_id, 'encrypt');
@@ -668,18 +797,20 @@ public function companysetupformo(){
         }
     //dd($company);
     return view('OrganizerPages/companysetupformo',['industries'=>$industries,'company'=>$company]);
-}
+    }
 
     
 
-    public function assignProducts($encDocumentId){
+    public function assignProducts($encDocumentId)
+    {
+        $user = session('user');
         $decDocumentId=EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt');
         
         $document = Document::where('tbl_doc_id', EncryptionDecryptionHelper::encdecId($encDocumentId,'decrypt'))->first();
        //unset($document->tbl_document_id);
         $document->encDocumentId = $encDocumentId;
 
-        $products = ProductDetail::where('flag','show')->get();
+        $products = ProductDetail::where('tbl_comp_id',$user->tbl_comp_id)->where('flag','show')->get();
         foreach($products as $product){
             $product->encProdId = EncryptionDecryptionHelper::encdecId($product->tbl_product_id,'encrypt');
             //unset($product->tbl_product_id,$product->created_by,$product->updated_by);
@@ -754,7 +885,6 @@ public function companysetupformo(){
         $decCompId = EncryptionDecryptionHelper::encdecId($request->encCompId,'decrypt');
         $company = CompanyDetail::where('tbl_comp_id',$decCompId)->first();
         //dd($company);
-        $company->unique_name = $request->unique_name;
         $company->company_name = $request->company_name;
         $company->comp_address = $request->address;
         $company->comp_website = $request->website;
@@ -796,11 +926,12 @@ public function companysetupformo(){
    }
    public function updatecompanydetailsE(Request $request)
    {
+
         $user = session('user');
         $decCompId = EncryptionDecryptionHelper::encdecId($request->encCompId,'decrypt');
         $company = CompanyDetail::where('tbl_comp_id',$decCompId)->first();
         //dd($company);
-        $company->unique_name = $request->unique_name;
+       // $company->unique_name = $request->unique_name;
         $company->company_name = $request->company_name;
         $company->comp_address = $request->address;
         $company->comp_website = $request->website;
@@ -853,31 +984,63 @@ public function companysetupformo(){
 
 
    public function participatedExhibitions()
-   {
+{
+    $user = session('user');
+    // $notify = Notify::where('tbl_user_id', $user->tbl_user_id)->first();
+    $encUserId = EncryptionDecryptionHelper::encdecId($user->tbl_user_id, 'encrypt');
+    $encCompanyId = EncryptionDecryptionHelper::encdecId($user->tbl_comp_id, 'encrypt');
+    $participatedExs = Participate::where('tbl_user_id', $user->tbl_user_id)
+                        ->where('active_status', 'active')
+                        ->where('flag', 'show')
+                        ->get();
 
-        $user = session('user');
+    $emailSettings = EmailSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
 
-        $encUserId = EncryptionDecryptionHelper::encdecId($user->tbl_user_id,'encrypt');
+    foreach ($participatedExs as $participatedEx) {
+        $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
+        $participatedEx->notify = Notify::where('tbl_user_id', $user->tbl_user_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->first();
+    
+        $encExhibitionID = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id, 'encrypt');
+        $participatedEx->encExId = $encExhibitionID;
+        $participatedEx->encParticipationId = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_participation_id, 'encrypt');
         
-        $encCompanyId = EncryptionDecryptionHelper::encdecId($user->tbl_comp_id,'encrypt');
+        $selectedOptions = [];
+        $participatedEx->selectedOptions = $selectedOptions;
+    if($participatedEx->notify){    
+    if ($participatedEx->notify->email_service === 'enabled') {
+        $selectedOptions[] = 'emailImmediate';
+    }
+    if ($participatedEx->notify->email_after_service === 'enabled' ) {
+        $selectedOptions[] = 'emailAfter';
+    }
+    if ($participatedEx->notify->whatsapp_service === 'enabled' ) {
+        $selectedOptions[] = 'whatsapp';
+    }
+    if ($participatedEx->notify->sms_service === 'enabled' ) {
+        $selectedOptions[] = 'sms';
+    }
+    $participatedEx->selectedOptions = $selectedOptions;
         
-        $participatedExs = Participate::where('tbl_user_id',$user->tbl_user_id)
-                            ->where('active_status','active')
-                            ->where('flag','show')->get();
 
+      // Check if email_service is enabled
+        if ($participatedEx->notify->email_service === 'enabled' && $emailSettings->smtp !== null || $participatedEx->notify->email_after_service === 'enabled' && $emailSettings->smtp !== null) {
+            
+            $participatedEx->emailServiceEnabled = true;
+
+            // Pass selected options to the frontend if email service is enabled
         
-       foreach ($participatedExs as $participatedEx) {
-           $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
 
-           $encExhibitionID = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id, 'encrypt');
 
-           $participatedEx->encExId = $encExhibitionID;
+        } else {
+            $participatedEx->emailServiceEnabled = false;
+        }
+    }
+    }
+  
+   
+    return view('ExhibitorPages/participatedExhibitions', ['participatedExs' => $participatedExs]);
+}
 
-           $participatedEx->encParticipationId = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_participation_id, 'encrypt');
-       }
-       
-       return view('ExhibitorPages/participatedExhibitions', ['participatedExs' => $participatedExs]);
-   }
 
    
    
@@ -894,22 +1057,27 @@ public function companysetupformo(){
     
     $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
     $participatedEx->encExId = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id,'encrypt');
+    
+
+error_log("Decoded company logo: " . $participatedEx->exDetails->company_logo);
     $participatedEx->encCompId = EncryptionDecryptionHelper::encdecId($userDetails->tbl_comp_id,'encrypt');
 
     $participatedEx->compDetails = CompanyDetail::where('tbl_comp_id',$userDetails->tbl_comp_id)->first();
     
     $services = ProductDetail::where('tbl_comp_id',$userDetails->tbl_comp_id)->get();
+    
 
         foreach ($services as $service) {
             $service->encServiceId = EncryptionDecryptionHelper::encdecId($service->tbl_product_id, 'encrypt');
         }
-        //dd($services);
-       
+        
+    //    dd($participatedEx);
        return view('VisitorPages/visitorsdetails',['participatedEx'=>$participatedEx,'services'=>$services]);
    }
    
    public function participate($id)
    {
+    //dd($id);
     $user = session('user');
     $decExId = EncryptionDecryptionHelper::encdecId($id,'decrypt');
    // dd($decExId);
@@ -920,8 +1088,10 @@ public function companysetupformo(){
                                         ->exists();
 
     // If the user has already participated, return a JSON response
-    if ($existingParticipation) {
-        return redirect()->back()->withErrors(['error' => 'You have already participated in this exhibition.']);    }
+    if ($existingParticipation) 
+    {
+        return redirect()->back()->withErrors(['error' => 'You have already participated in this exhibition.']);   
+     }
         
         
         $participate = new Participate;
@@ -931,6 +1101,30 @@ public function companysetupformo(){
         $participate->add_time = Date::now()->toTimeString();
         $participate->save();
 
+        $notify = new Notify;
+        $notify->tbl_ex_id = $decExId;
+        $notify->tbl_user_id = $user->tbl_user_id;
+        $notify->tbl_comp_id = $user->tbl_comp_id;
+        $notify->add_date = now()->toDateString();
+        $notify->add_time = now()->toTimeString();
+        $notify->save();        
+
+        $email = new EmailSetting;
+        $email->tbl_user_id = $user->tbl_user_id;
+        $email->tbl_comp_id = $user->tbl_comp_id;
+        $email->add_date = Date::now()->toDateString();
+        $email->add_time = Date::now()->toTimeString();
+        $email->save();
+
+        $sms = new SMSSetting;
+        $sms->tbl_user_id = $user->tbl_user_id;
+        $sms->tbl_comp_id = $user->tbl_comp_id;
+        $sms->add_date = Date::now()->toDateString();
+        $sms->add_time = Date::now()->toTimeString();
+        $sms->save();
+
+
+
         AuditLogHelper::logDetails(' user with user ID: '.$user->tbl_user_id. ' has participated in exhibition ID'. $decExId . '', $user->tbl_user_id);
 
         return redirect()->back();
@@ -939,18 +1133,165 @@ public function companysetupformo(){
 
    public function regVisitor(Request $request)
    {
+   // dd($request);
+   $decProdId = EncryptionDecryptionHelper::encdecId($request->services,'decrypt');
+
     $visitor = new Visitor;
-    $visitor->tbl_ex_id = EncryptionDecryptionHelper::encdecId($request->encExId,'encrypt');
-    $visitor->tbl_comp_id = EncryptionDecryptionHelper::encdecId($request->encCompId,'encrypt');
-    $visitor->name = $request->name;
+    $visitor->tbl_ex_id = EncryptionDecryptionHelper::encdecId($request->encExId,'decrypt');
+    $visitor->tbl_comp_id = EncryptionDecryptionHelper::encdecId($request->encCompId,'decrypt');
+    $visitor->name = $request->visitor_name;
     $visitor->email = $request->email;
     $visitor->contact_no = $request->contact_no;
-    $visitor->service = $request->service;
+    $visitor->service = $decProdId;
     $visitor->add_date = Date::now()->toDateString();
     $visitor->add_time = Date::now()->toTimeString();
     $visitor->save();
 
     
+    //dd($decProdId);
+    $product = ProductDetail::where('tbl_product_id',$decProdId)->first();
+
+    $assignedProds = AssignProduct::where('tbl_product_id',$decProdId)->get();
+    
+    $documents = collect(); // Initialize an empty collection to store documents
+
+    foreach ($assignedProds as $assignedProd) {
+        // Retrieve documents associated with each assigned product
+        $docs = Document::where('tbl_doc_id', $assignedProd->tbl_doc_id)->get();
+        
+        // Merge retrieved documents into the documents collection
+        $documents = $documents->merge($docs);
+    }
+
+    $notify = Notify::where('tbl_comp_id',$visitor->tbl_comp_id)->where('tbl_ex_id',$visitor->tbl_ex_id)->first();
+    
+    if($notify->email_after_service === 'disabled'){
+    EmailHelper::sendEmail($visitor->email,$visitor->tbl_comp_id,$documents,null);
+    }
+
+    return redirect()->back();
 
    }
+
+public function collectdata($id){
+    $participatedEx = Participate::where('tbl_participation_id',EncryptionDecryptionHelper::encdecId($id,'decrypt'))->first();
+    
+    $user = UserDetail::where('tbl_user_id',$participatedEx->tbl_user_id)->first();
+    // dd($participatedEx);
+    $visitors = Visitor::where('tbl_comp_id',$user->tbl_comp_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->get();
+
+    $notify = Notify::where('tbl_user_id',$participatedEx->tbl_user_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->first();
+    
+    $showActionColumn = false;
+    if($notify->email_after_service === 'enabled'){
+        $showActionColumn = true;
+    }
+
+    foreach($visitors as $visitor){
+        $visitor->service_name = ProductDetail::where('tbl_product_id',$visitor->service)->value('product_name');
+        $visitor->encVisitorId = EncryptionDecryptionHelper::encdecId($visitor->tbl_visitor_detail_id,'encrypt');
+    }
+    
+    return view('VisitorPages/collectdata',['visitors'=>$visitors,'showActionColumn'=>$showActionColumn]);
+
+}
+
+public function fetchvisitordata()
+{
+    dd("hi");
+    $user = session('user');
+    $visitorlogs = Visitor::orderBy('add_date', 'desc')->get();
+
+    $auditLogsWithUsername = [];
+
+    foreach ($visitorlogs as $visitorlog) {
+        $user = UserDetail::where('tbl_user_id', $visitorlog->activity_by)->first();
+
+        if ($user) {
+            $auditLogsWithUsername[] = [
+                'id' => $visitorlog->id,
+                'activity_name' => $visitorlog->name, // Assuming activity_name is the visitor's name in your table
+                'activity_by' => $user->first_name . " " . $user->last_name,
+                'activity_date' => $visitorlog->add_date, // Assuming add_date is the activity date in your table
+                'activity_time' => $visitorlog->add_time, // Assuming add_time is the activity time in your table
+                'email' => $visitorlog->email, // Assuming email is the visitor's email in your table
+                'contact_no' => $visitorlog->contact_no, // Assuming contact_no is the visitor's contact number in your table
+                'service' => $visitorlog->service, // Assuming service is the visitor's service in your table
+            ];
+        }
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $auditLogsWithUsername,
+    ]);
+}
+
+public function editExhibition($id)
+{
+    $user = session('user');
+    $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+    $exhibition = ExhibitionDetail::where('tbl_ex_id', $decExId)->first();
+    // Assuming you have an Exhibition model
+    $exhibition->encExhibitionId = EncryptionDecryptionHelper::encdecId($exhibition->tbl_ex_id , 'encrypt');
+    unset($exhibition->tbl_ex_id );
+    // If you have industries related to exhibitions, fetch them as well
+    $industries = Industry::where('flag', 'show')->get();
+
+    foreach ($industries as $industry) {
+        $industry->enc_id = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
+    }
+
+    return view('OrganizerPages/editExhibition', ['industries' => $industries, 'exhibition' => $exhibition]);
+}
+
+public function updateExhibition(Request $request)
+{
+    //dd($request);
+    $user = session('user');
+    $decExId = EncryptionDecryptionHelper::encdecId($request->encExhibitionId,'decrypt');
+    $exhibition = ExhibitionDetail::where('tbl_ex_id', $decExId)->first();
+    //dd($exhibition);
+    if (!$exhibition) {
+        return redirect()->back()->with('error', 'Exhibition not found.');
+    }
+
+    $exhibition->ex_name = $request->exhibition_name;
+    $exhibition->ex_from_date = $request->from_date;
+    $exhibition->ex_to_date = $request->to_date;
+    $exhibition->start_time = $request->start_time;
+    $exhibition->end_time = $request->end_time;
+    $exhibition->venue = $request->venue;
+    $exhibition->ex_website = $request->exhibition_website;
+    $exhibition->ex_reg_url = $request->registration_url;
+    $exhibition->industry = $request->industry_name;
+    $exhibition->active_status = $request->active_status;
+    $exhibition->updated_by = $user->tbl_user_id;
+    $exhibition->updated_date = now()->toDateString();
+    $exhibition->updated_time = now()->toTimeString();
+    
+    if ($request->hasFile('company_logo')) {
+        $image = $request->file('company_logo');
+        $base64Image = base64_encode(file_get_contents($image->path()));
+        $exhibition->company_logo = $base64Image;
+    }
+    if ($request->hasFile('attach_document')) {
+        $document = $request->file('attach_document');
+        $base64Document = base64_encode(file_get_contents($document->path()));
+        $exhibition->attach_document = $base64Document;
+    }
+   // dd($exhibition);
+    // try {
+       //dd($exhibition);
+        $exhibition->save();
+        AuditLogHelper::logDetails('updated ' . $exhibition->exhibition_name . ' details with ID ' . $exhibition->tbl_ex_id . ' exhibition', $user->tbl_user_id);
+        return redirect()->route('activeExhibitions')->with('success', 'Exhibition details updated successfully.');
+    // } catch (\Exception $e) {
+    //     // Handle the exception (e.g., log error, display message)
+    //     return redirect()->back()->with('error', 'Error updating exhibition details: ' . $e->getMessage());
+    // }
+}
+
+
+   
 }

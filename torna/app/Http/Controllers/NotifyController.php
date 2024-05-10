@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers\EncryptionDecryptionHelper;
 use App\Helpers\AuditLogHelper;
+use App\Helpers\EmailHelper;
+
 use App\Models\Notify;
 use App\Models\EmailSetting;
 use App\Models\SMSSetting;
+use App\Models\Visitor;
+use App\Models\ProductDetail;
+use App\Models\AssignProduct;
+use App\Models\Document;
 
 
 use Illuminate\Support\Facades\Date;
@@ -19,6 +25,8 @@ class NotifyController extends Controller
     //
     public function selectNotifyOptions(Request $request)
     {
+       
+       
         $user = session('user');
        
 
@@ -38,37 +46,38 @@ class NotifyController extends Controller
      }
             
 
-            $notify = new Notify;
+        $notify = Notify::where('tbl_user_id', $user->tbl_user_id)->where('tbl_ex_id', $decExId)->first();
             
             $options = $request->options; // Assuming $request is the request object
             
             // Check if email is selected
             if (in_array('email', $options)) {
                 $notify->email_service = 'enabled';
-                $email = new EmailSetting;
-                $email->tbl_user_id = $user->tbl_user_id;
-                $email->tbl_comp_id = $user->tbl_comp_id;
-                $email->add_date = Date::now()->toDateString();
-                $email->add_time = Date::now()->toTimeString();
-                $email->save();
+                
+            }else{
+                $notify->email_service = 'disabled';
             }
 
             // Check if SMS is selected
             if (in_array('sms', $options)) {
                 $notify->sms_service = 'enabled';
-                $sms = new SMSSetting;
-                $sms->tbl_user_id = $user->tbl_user_id;
-                $sms->tbl_comp_id = $user->tbl_comp_id;
-                $sms->add_date = Date::now()->toDateString();
-                $sms->add_time = Date::now()->toTimeString();
-                $sms->save();
-
+            }else{
+                $notify->sms_service = 'disabled';
             }
 
             // Check if WhatsApp is selected
             if (in_array('whatsapp', $options)) {
                 $notify->whatsapp_service = 'enabled';
+            }else{
+                $notify->whatsapp_service = 'disabled';
             }
+
+            if (in_array('emailAfter', $options)) {
+                $notify->email_after_service = 'enabled';
+            }else{
+                $notify->email_after_service = 'disabled';
+            }
+
 
             $notify->tbl_user_id = $user->tbl_user_id;
             $notify->tbl_comp_id = $user->tbl_comp_id;
@@ -97,6 +106,7 @@ public function notificationSetting(){
     
 public function storeEmailSettings(Request $request)
 {
+    
     $user = session('user');
     $email = EmailSetting::where('tbl_user_id',$user->tbl_user_id)->first();
 
@@ -105,8 +115,8 @@ public function storeEmailSettings(Request $request)
     $email->username = $request->username;
     $email->password = $request->password;
     $email->save();
-    dd($email);
-    return redirect->back();
+    
+    return redirect()->back();
 }
 
 public function storeSMSSettings(Request $request)
@@ -122,5 +132,34 @@ public function storeSMSSettings(Request $request)
 
     return redirect()->back();
 
+}
+
+public function sendMail($id)
+{
+    
+    $decVisitorId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+    
+    $visitor = Visitor::where('tbl_visitor_detail_id',EncryptionDecryptionHelper::encdecId($id,'decrypt'))->first();
+
+    
+
+    $product = ProductDetail::where('tbl_product_id',$visitor->service)->first();
+
+    
+
+    $assignedProds = AssignProduct::where('tbl_product_id',$visitor->service)->get();
+    
+    
+    $documents = collect(); // Initialize an empty collection to store documents
+
+    foreach ($assignedProds as $assignedProd) {
+        // Retrieve documents associated with each assigned product
+        $docs = Document::where('tbl_doc_id', $assignedProd->tbl_doc_id)->get();
+        
+        // Merge retrieved documents into the documents collection
+        $documents = $documents->merge($docs);
+    }
+    EmailHelper::sendEmail($visitor->email,$visitor->tbl_comp_id,$documents,null);
+    return redirect()->back();
 }
 }

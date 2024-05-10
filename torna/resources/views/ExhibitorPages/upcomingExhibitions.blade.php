@@ -11,14 +11,14 @@
   
     <title>Nixcel Exhibition</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
-    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
-    <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -88,8 +88,12 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                @php
+                                $user = Session::get('user');
+                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
+                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -300,24 +304,22 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            
+                                        <tbody>                                            
                                             @foreach($upcomingExs as $key => $upcomingEx)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-
-                                                <td>{{ $upcomingEx->exhibition_name }}</td>
-                                                
-
-                                                <td>
-                                                    <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" onclick="confirmParticipation(event)">Participate</button>
-                                                </td>        
-
-
-                                            </tr>
-                                            @endforeach
-                                                                                        
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>{{ $upcomingEx->ex_name }}</td>
+                                                    <td>
+                                                        @if($upcomingEx->participated)
+                                                        <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" disabled title="Already participated!">Participate</button>
+                                                        @else
+                                                            <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" onclick="confirmParticipation(event)">Participate</button>
+                                                        @endif
+                                                    </td>        
+                                                </tr>
+                                            @endforeach                                                                                        
                                         </tbody>
+                                        
                                         
                                     </table>
                                 </div>
@@ -333,6 +335,25 @@
             Content body end
         ***********************************-->
         <script>
+            <?php if ($showReminder): ?>
+        // Display the popup when the page is loaded
+        Swal.fire({
+            title: 'Please fill your details in notification settings',
+            text: "",
+            icon: '',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Handle participation logic here, e.g., submit a form or make an AJAX request
+                window.location.href = "/notificationSetting";
+            }
+        });
+    <?php endif; ?>
+
             function confirmParticipation(event) {
                 event.preventDefault();
                 const encExId = event.target.getAttribute('data-id');
@@ -342,7 +363,7 @@
                 Swal.fire({
                     title: 'Are you Exited to participate?',
                     text: "",
-                    icon: 'warning',
+                    icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
@@ -352,13 +373,15 @@
                     if (result.isConfirmed) {
                         // Handle participation logic here, e.g., submit a form or make an AJAX request
                         
-                        
+                        //console.log(encExId);
                         window.location.href = "/participate/" + encExId;
+
+                        //window.location.href = "/participatedExhibitions";
                         // Example AJAX request
                         // $.post('/participate', { exhibitionId: exhibitionId }, function(response) {
                         //     // Handle response from server
                         // });
-                        Swal.fire('Participation confirmed!', '', 'success');
+                        //Swal.fire('Participation confirmed!', '', 'success');
                     }
                 });
             }
@@ -441,33 +464,33 @@
 
 
 
-    <script src="plugins/common/common.min.js"></script>
-    <script src="js/custom.min.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/gleek.js"></script>
-    <script src="js/styleSwitcher.js"></script>
+    <script src="/plugins/common/common.min.js"></script>
+    <script src="/js/custom.min.js"></script>
+    <script src="/js/settings.js"></script>
+    <script src="/js/gleek.js"></script>
+    <script src="/js/styleSwitcher.js"></script>
 
     <!-- Chartjs -->
-    <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
+    <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
-    <script src="./plugins/circle-progress/circle-progress.min.js"></script>
+    <script src="/plugins/circle-progress/circle-progress.min.js"></script>
     <!-- Datamap -->
-    <script src="./plugins/d3v3/index.js"></script>
-    <script src="./plugins/topojson/topojson.min.js"></script>
-    <script src="./plugins/datamaps/datamaps.world.min.js"></script>
+    <script src="/plugins/d3v3/index.js"></script>
+    <script src="/plugins/topojson/topojson.min.js"></script>
+    <script src="/plugins/datamaps/datamaps.world.min.js"></script>
     <!-- Morrisjs -->
-    <script src="./plugins/raphael/raphael.min.js"></script>
-    <script src="./plugins/morris/morris.min.js"></script>
+    <script src="/plugins/raphael/raphael.min.js"></script>
+    <script src="/plugins/morris/morris.min.js"></script>
     <!-- Pignose Calender -->
-    <script src="./plugins/moment/moment.min.js"></script>
-    <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+    <script src="/plugins/moment/moment.min.js"></script>
+    <script src="/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
     <!-- ChartistJS -->
-    <script src="./plugins/chartist/js/chartist.min.js"></script>
-    <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
+    <script src="/plugins/chartist/js/chartist.min.js"></script>
+    <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 
 
-    <script src="./js/dashboard/dashboard-1.js"></script>
+    <script src="/js/dashboard/dashboard-1.js"></script>
 
 </body>
 

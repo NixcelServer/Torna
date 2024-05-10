@@ -11,18 +11,17 @@
   
     <title>Nixcel Exhibition</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
-    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
-    <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     
     <!-- Custom Stylesheet -->
-    <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -34,6 +33,27 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
+{{-- form validations scripts  --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var contactNoInput = document.getElementById('contact_no');
+        var contactError = document.getElementById('contactError');
+
+        contactNoInput.addEventListener('input', function() {
+            var contactNo = contactNoInput.value.trim();
+
+            if (contactNo.length !== 10 || isNaN(contactNo)) {
+                contactError.textContent = 'Contact number should be 10 digits long and contain only numbers.';
+                contactNoInput.classList.add('is-invalid');
+            } else {
+                contactError.textContent = '';
+                contactNoInput.classList.remove('is-invalid');
+            }
+        });
+    });
+</script>
 
 <body>
 
@@ -101,8 +121,12 @@
                                 <img src="images/user/1.png" height="40" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                @php
+                                $user = Session::get('user');
+                                @endphp
                                 <div class="dropdown-content-body">
                                     <ul>
+                                        <li><span>Hello {{ $user->first_name }}</span></li>
                                         <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
@@ -296,73 +320,59 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
-                        <h4 class="card-header text-center">Company Setup Form</h4>
+                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Company Setup Form</h4>
         
                         <div class="card-body">
                         <form method="POST" action="/updatecompanydetailsE" enctype="multipart/form-data">
                                 @csrf
         
-                                <div class="form-group row">
-                                    <div class="form-group col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <label for="company_name" class="col-form-label text-md-right">Company Name</label>
                                         <input id="company_name" name="company_name" type="text" value="{{ $company->company_name }}" class="form-control" name="company_name" required>
-                                        <input id="encCompId" name="encCompId" type="hidden" value="{{ $company->encCompId }}" class="form-control">                                    </div>
+                                        <input id="encCompId" name="encCompId" type="hidden" value="{{ $company->encCompId }}" class="form-control">                                    
+                                    </div>
                                     <div class="col-md-6">
-                                        <label for="unique_name" class="col-form-label text-md-right">Unique Name</label>
-                                        <input id="unique_name" name="unique_name" type="text" value="{{ $company->unique_name }}" class="form-control" name="unique_name" required autofocus>
-                                    </div> 
+                                        <label for="last_name" class="col-form-label text-md-right">Company Website</label>
+                                        <input id="last_name" name="website" type="text" value="{{ $company->comp_website }}" class="form-control" name="last_name" required>
+                                    </div>
+                                    
                                 </div>
-                                
-        
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="first_name" class="col-form-label text-md-right">Company Address</label>
                                         <input id="first_name" name="address" type="text" value="{{ $company->comp_address }}" class="form-control" name="first_name" required>
                                     </div>
-        
-                                    <div class="form-group col-md-6">
-                                        <label for="last_name" class="col-form-label text-md-right">Company Website</label>
-                                        <input id="last_name" name="website" type="text" value="{{ $company->comp_website }}" class="form-control" name="last_name" required>
+                                    <div class="col-md-6">
+                                        <label for="contact_no" class="col-form-label text-md-right required-field">Contact Number</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1" style="width: 50px;">+91</span>
+                                            </div>
+                                            <input id="contact_no" name="contact_no" type="text" value="{{ $company->contact_no }}" class="form-control" required>
+                                        </div>
+                                        <small id="contactError" class="text-danger"></small>
                                     </div>
-                                   
-                                </div>
-                                
+                                </div>                             
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="contact_no" class="col-form-label text-md-right">Contact Number</label>
-                                        <input id="contact_no" name="contact_no" type="text" value="{{ $company->contact_no }}"  class="form-control" required>
-                                    </div>
-                                
-                                    <div class="form-group col-md-6">
                                         <label for="email" class="col-form-label text-md-right">Email ID</label>
                                         <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
                                     </div>
-                                </div>
-                                
-                                {{-- <div class="row">
                                     <div class="col-md-6">
-                                        <label for="password" class="col-form-label text-md-right">Password</label>
-                                        <input id="password" name="password" type="password" class="form-control" required>
-                                    </div>
-                                
-                                    <div class="col-md-6">
-                                        <label for="confirm_password" class="col-form-label text-md-right">Confirm Password</label>
-                                        <input id="confirm_password" name="confirm_password" type="password" class="form-control" required>
-                                    </div>
-                                </div> --}}
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label  class="col-form-label text-md-right">Industry</label>
-                                        <select  name="industry_name" class="form-control" required>
+                                        <label class="col-form-label text-md-right">Industry</label>
+                                        <select name="industry_name" class="form-control" required>
                                             <option value="">Select Industry</option>
                                             @foreach($industries as $industry)
-                                                <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
+                                                <option value="{{ $industry->industry_name }}" @if($industry->industry_name == $company->industry_name) selected @endif>{{ $industry->industry_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
-                                        <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*" required>
+                                        <input id="logo" name="company_logo" type="file" class="form-control-file" accept="image/*" required>
                                     </div>
                                 </div>
         <br />

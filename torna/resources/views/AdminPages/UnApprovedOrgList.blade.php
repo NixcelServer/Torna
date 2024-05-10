@@ -62,7 +62,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="">
+                <a href="/AdminDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -299,7 +299,7 @@
                                                 <td>{{ $organizer->email }}</td>
                                                 <td>{{ $organizer->contact_no }}</td>
                                                 <td>
-                                                    <button class="btn btn-primary" onclick="openDocument('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}')">
+                                                    <button class="btn btn-primary" onclick="openDocument('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}', '{{ $organizer->company_logo }}')">
                                                         View
                                                     </button>
                                                 </td>
@@ -331,10 +331,14 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col">
+                                <img id="companyLogo" src="" alt="Company Logo" style="max-width: 100%; height: auto;">
+
                                     <p><strong>Company Name:</strong> <span id="companyName"></span></p>
                                     <p><strong>Email:</strong> <span id="email"></span></p>
                                     <p><strong>Contact No:</strong> <span id="contactNo"></span></p>
+                                    
                                     <p><strong><span style="color: white;">Company Id:</span></strong> <span id="compId" style="color: white;"></span></p>
+
                                 </div>
                             </div>
                             <div class="row mt-3">
@@ -354,9 +358,10 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            function openDocument(companyName, email, contactNo, compId ) {
+            function openDocument(companyName, email, contactNo, compId, companyLogo ) {
                 $('#companyName').text(companyName);
                 $('#email').text(email);
+                $('#companyLogo').attr('src', 'data:image/png;base64,' + companyLogo);
                 $('#contactNo').text(contactNo);
                 $('#compId').text(compId);
                 $('#documentModal').modal('show');
@@ -426,6 +431,8 @@
                         }).then(function () {
                             console.log(companyName + ' ' + status);
                             $('#documentModal').modal('hide');
+                            window.location.href = '/AdminDashboard'; // Redirect to AdminDashboard page
+
                         });
                     },
                     error: function (xhr, status, error) {

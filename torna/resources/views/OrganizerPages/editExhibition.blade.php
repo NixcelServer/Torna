@@ -11,9 +11,9 @@
   
     <title>Nixcel Exhibition</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Pignose Calender -->
-    <link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
     <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
@@ -49,7 +49,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="">
+                <a href="/OrgDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -271,19 +271,104 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            {{-- <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-lg-4 col-sm-6">
-                        <div class="card gradient-4">
-                            <div class="card-body text-center">
-                                <a href="/pendingexcounts">
-                                    <h3 class="card-title text-white">Pending Exhibitors</h3>
-                                </a>
-                                <h1></h1>
+            <div class="container mt-3">
+                <div class="row justify-content-center">
+                    <div class="col-md-11">
+                        <div class="card">
+                            <h2 class="card-header text-center mt-2">Edit Exhibition</h2>
+                            <div class="card-body">
+                                <form method="POST" action="/updateExhibition" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
+                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ $exhibition->ex_name }}" required>
+                                            <input id="encExhibitionId" name="encExhibitionId" type="hidden" value="{{ $exhibition->encExhibitionId }}" class="form-control">                                   
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
+                                            <input id="from_date" name="from_date" type="date" class="form-control" value="{{ $exhibition->ex_from_date }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
+                                            <input id="to_date" name="to_date" type="date" class="form-control" value="{{ $exhibition->ex_to_date }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="start_time" class="col-form-label text-md-right">Start Time <span style="color: red;">*</span></label>
+                                            <input id="start_time" name="start_time" type="time" class="form-control" value="{{ $exhibition->start_time }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="end_time" class="col-form-label text-md-right">End Time <span style="color: red;">*</span></label>
+                                            <input id="end_time" name="end_time" type="time" class="form-control" value="{{ $exhibition->end_time }}" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="venue" class="col-form-label text-md-right">Venue <span style="color: red;">*</span></label>
+                                            <input id="venue" name="venue" type="text" class="form-control" value="{{ $exhibition->venue }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
+                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control" value="{{ $exhibition->ex_website }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
+                                            <input id="attach_document" name="attach_document" type="file" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
+                                            <input id="registration_url" name="registration_url" type="text" class="form-control" value="{{ $exhibition->ex_reg_url }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
+                                            <input id="company_logo" name="company_logo" type="file" class="form-control">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
+                                            <select name="industry_name" class="form-control" required>
+                                                <option value="">Select Industry</option>
+                                                @foreach($industries as $industry)
+                                                    <option value="{{ $industry->industry_name }}" @if($industry->industry_name == $exhibition->industry) selected @endif>{{ $industry->industry_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <label class="col-form-label text-md-right">Status <span style="color: red;">*</span></label>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" {{ $exhibition->active_status === 'Active' ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="Active">Active</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive" {{ $exhibition->active_status === 'Inactive' ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="Inactive">Inactive</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row justify-content-center mb-3">
+                                        <div class="col-md-6 offset-md-4">
+                                            <button type="submit" class="btn btn-primary">Update Exhibition</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-        </div> --}}
+                </div>
+            </div>
+        </div>
+        
         <!--**********************************
             Content body end
         ***********************************-->
