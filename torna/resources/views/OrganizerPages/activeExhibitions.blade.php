@@ -47,12 +47,12 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header"  style="background-color: white;" >
             <div class="brand-logo">
                 <a href="/OrgDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
-                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
+                    <span class="brand-title" style="color: #ffa117; font-weight: bold; font-size: 20px;">
                         TORNA
                     </span>
                         <img src="" alt="">
@@ -67,7 +67,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header"style="background-color: #ffa117;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">

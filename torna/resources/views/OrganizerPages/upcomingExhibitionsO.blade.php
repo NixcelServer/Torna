@@ -47,7 +47,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" >
             <div class="brand-logo">
                 <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>

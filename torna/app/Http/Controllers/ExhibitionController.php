@@ -687,10 +687,10 @@ class ExhibitionController extends Controller
                             $showReminder = true;
                         }
         
-                        $smsSetting = SMSSetting::where('tbl_user_id', $user->tbl_user_id)->first();
-                        if ($smsSetting && $smsSetting->sid === null) {
-                            $showReminder = true;
-                        }
+                        // $smsSetting = SMSSetting::where('tbl_user_id', $user->tbl_user_id)->first();
+                        // if ($smsSetting && $smsSetting->sid === null) {
+                        //     $showReminder = true;
+                        // }
                         
                         // Similar checks for WhatsApp settings if needed
                     }

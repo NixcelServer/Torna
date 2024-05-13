@@ -47,12 +47,12 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #ffffff;">
             <div class="brand-logo">
                 <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
-                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
+                    <span class="brand-title" style="color: #FF6D00; font-weight: bold; font-size: 20px;">
                         TORNA
                     </span>
                         <img src="" alt="">
@@ -67,7 +67,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FF6D00;" >    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -110,9 +110,9 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar" style="background-color: #505050;" >           
             <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
+                <ul class="metismenu" id="menu" style="background-color: #505050;" >
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
                         <a  href="/ExDashboard" aria-expanded="false">
@@ -121,7 +121,7 @@
                         
                     </li>
                     <li>
-                        <a  href="/companysetupform" aria-expanded="false">
+                        <a  href="/companysetupform" style="background-color: #505050;" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
                         </a>
                     </li>
@@ -129,12 +129,12 @@
             
                     
                     <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <a class="has-arrow" href="javascript:void()" style="background-color: #505050;" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
-                        <ul aria-expanded="false">
+                        <ul aria-expanded="false" style="background-color: #505050;">
                             <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
-                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
+                            <li style="background-color: #505050;"><a href="/pastExhibitions" style="background-color: #505050;">Past Exhibition</a></li>
                             <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
                             <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
 

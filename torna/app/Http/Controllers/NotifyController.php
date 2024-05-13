@@ -101,7 +101,11 @@ class NotifyController extends Controller
 
 public function notificationSetting(){
 
-    return view('ExhibitorPages.notificationSetting');
+    $user = session('user');
+    $emailDetails = EmailSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
+  //  $smsDetails = SMSSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
+    // $whatsappDetails = WhatsappSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
+    return view('ExhibitorPages.notificationSetting',['emailDetails'=>$emailDetails]);
 }
     
 public function storeEmailSettings(Request $request)
