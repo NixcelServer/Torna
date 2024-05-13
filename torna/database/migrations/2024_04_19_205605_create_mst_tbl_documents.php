@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string('active_status', 45)->default('Active');
             $table->integer('created_by')->nullable();
             $table->date('created_date');
-            $table->string('created_time', 45);
+            $table->time('created_time', 45);
             $table->integer('updated_by')->nullable();
             $table->date('updated_date')->nullable();
-            $table->string('updated_time', 45)->nullable();
+            $table->time('updated_time', 45)->nullable();
             $table->string('flag', 45)->default('show');
             $table->timestamps();
 

@@ -231,25 +231,41 @@
                                         <div class="row">
                                             <label class="col-lg-4 col-form-label" for="smtp">SMTP <span class="text-danger">*</span></label>
                                             <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="smtp" name="smtp" placeholder="SMTP server address">
+                                            @if ($emailDetails !== null)
+                                                <input type="text" class="form-control" id="smtp" name="smtp" value="{{ $emailDetails->smtp}}" placeholder="SMTP server address">
+                                                @else
+                                                <input type="text" class="form-control" id="smtp" name="smtp"  placeholder="SMTP server address">
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-lg-4 col-form-label" for="val-port">Port <span class="text-danger">*</span></label>
                                             <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="val-port" name="port" placeholder="SMTP port number">
+                                            @if ($emailDetails !== null)
+                                                <input type="text" class="form-control" id="val-port" name="port" value="{{$emailDetails->port}}" placeholder="SMTP port number">
+                                                @else
+                                                <input type="text" class="form-control" id="val-port" name="port"  placeholder="SMTP port number">
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-lg-4 col-form-label" for="val-username-smtp">Username <span class="text-danger">*</span></label>
                                             <div class="col-lg-4">
+                                            @if ($emailDetails !== null)
+                                                <input type="text" class="form-control" id="val-username-smtp" name="username" value="{{$emailDetails->username}}"placeholder="SMTP username">
+                                                @else
                                                 <input type="text" class="form-control" id="val-username-smtp" name="username" placeholder="SMTP username">
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="row">
                                             <label class="col-lg-4 col-form-label" for="val-password-smtp">Password <span class="text-danger">*</span></label>
                                             <div class="col-lg-4">
-                                                <input type="password" class="form-control" id="val-password-smtp" name="password" placeholder="SMTP password">
+                                            @if ($emailDetails !== null)
+                                                <input type="password" class="form-control" id="val-password-smtp" name="password" value="{{$emailDetails->password}}" placeholder="SMTP password">
+                                                @else
+                                                <input type="password" class="form-control" id="val-password-smtp" name="password"  placeholder="SMTP password">
+                                                @endif
                                             </div>
                                         </div>
                                         <br/>

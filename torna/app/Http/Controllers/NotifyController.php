@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Helpers\EncryptionDecryptionHelper;
 use App\Helpers\AuditLogHelper;
+use App\Helpers\EmailHelper;
+
 use App\Models\Notify;
 use App\Models\EmailSetting;
 use App\Models\SMSSetting;
+use App\Models\Visitor;
+use App\Models\ProductDetail;
+use App\Models\AssignProduct;
+use App\Models\Document;
 
 
 use Illuminate\Support\Facades\Date;
@@ -19,6 +25,8 @@ class NotifyController extends Controller
     //
     public function selectNotifyOptions(Request $request)
     {
+       
+       
         $user = session('user');
        
 
@@ -38,7 +46,7 @@ class NotifyController extends Controller
      }
             
 
-        $notify = Notify::where('tbl_user_id', $user->tbl_user_id)->first();
+        $notify = Notify::where('tbl_user_id', $user->tbl_user_id)->where('tbl_ex_id', $decExId)->first();
             
             $options = $request->options; // Assuming $request is the request object
             
@@ -46,19 +54,30 @@ class NotifyController extends Controller
             if (in_array('email', $options)) {
                 $notify->email_service = 'enabled';
                 
+            }else{
+                $notify->email_service = 'disabled';
             }
 
             // Check if SMS is selected
             if (in_array('sms', $options)) {
                 $notify->sms_service = 'enabled';
-                
-
+            }else{
+                $notify->sms_service = 'disabled';
             }
 
             // Check if WhatsApp is selected
             if (in_array('whatsapp', $options)) {
                 $notify->whatsapp_service = 'enabled';
+            }else{
+                $notify->whatsapp_service = 'disabled';
             }
+
+            if (in_array('emailAfter', $options)) {
+                $notify->email_after_service = 'enabled';
+            }else{
+                $notify->email_after_service = 'disabled';
+            }
+
 
             $notify->tbl_user_id = $user->tbl_user_id;
             $notify->tbl_comp_id = $user->tbl_comp_id;
@@ -82,7 +101,11 @@ class NotifyController extends Controller
 
 public function notificationSetting(){
 
-    return view('ExhibitorPages.notificationSetting');
+    $user = session('user');
+    $emailDetails = EmailSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
+  //  $smsDetails = SMSSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
+    // $whatsappDetails = WhatsappSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
+    return view('ExhibitorPages.notificationSetting',['emailDetails'=>$emailDetails]);
 }
     
 public function storeEmailSettings(Request $request)
@@ -113,5 +136,34 @@ public function storeSMSSettings(Request $request)
 
     return redirect()->back();
 
+}
+
+public function sendMail($id)
+{
+    
+    $decVisitorId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+    
+    $visitor = Visitor::where('tbl_visitor_detail_id',EncryptionDecryptionHelper::encdecId($id,'decrypt'))->first();
+
+    
+
+    $product = ProductDetail::where('tbl_product_id',$visitor->service)->first();
+
+    
+
+    $assignedProds = AssignProduct::where('tbl_product_id',$visitor->service)->get();
+    
+    
+    $documents = collect(); // Initialize an empty collection to store documents
+
+    foreach ($assignedProds as $assignedProd) {
+        // Retrieve documents associated with each assigned product
+        $docs = Document::where('tbl_doc_id', $assignedProd->tbl_doc_id)->get();
+        
+        // Merge retrieved documents into the documents collection
+        $documents = $documents->merge($docs);
+    }
+    EmailHelper::sendEmail($visitor->email,$visitor->tbl_comp_id,$documents,null);
+    return redirect()->back();
 }
 }

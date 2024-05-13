@@ -56,7 +56,7 @@
 	          <li class="nav-item"><a href="" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="" class="nav-link">Contact</a></li>
 	          <li class="nav-item cta mr-md-2">
-				<a href="#" class="nav-link register-btn" data-toggle="popover" data-placement="bottom" data-content='
+				<a href="#" class="nav-link register-btn" data-toggle="popover" style="background-color: #FF6D00;" data-placement="bottom" data-content='
 					<a href="/organizerform" class="dropdown-item">As Organizer</a>
 					<a href="/exhibitorform" class="dropdown-item">As Exhibitor</a>
 				'>Register</a>
@@ -81,11 +81,11 @@
     
     <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
-          <div class="col-xl-10 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-            <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"> Developer <br><span>Exhibition 2024</span></h1>
-            <p class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">May 21-24, 2024. Pimpri-Chinchwad, Pune</p>
+      <div class="container" >
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true" style="color: #FF6D00;">
+          <div class="col-xl-10 ftco-animate" data-scrollax=" properties: { translateY: '70%' }" style="color: #FF6D00;">
+            <h1 class="mb-4"  data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color: #FF6D00; !important;" > Developer <br><span style="color: #FF6D00;" >Exhibition 2024</span></h1>
+            <p class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color: #FF6D00;">May 21-24, 2024. Pimpri-Chinchwad, Pune</p>
             <div id="timer" class="d-flex mb-3">
 						  <div class="time" id="days"></div>
 						  <div class="time pl-4" id="hours"></div>

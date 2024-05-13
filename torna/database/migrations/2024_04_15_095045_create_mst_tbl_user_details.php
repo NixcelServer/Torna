@@ -27,7 +27,7 @@ return new class extends Migration
             $table->time('updated_time')->nullable();
             $table->string('password');
             $table->string('flag')->default('show');
-            $table->timestamps();
+            
         });
     }
 

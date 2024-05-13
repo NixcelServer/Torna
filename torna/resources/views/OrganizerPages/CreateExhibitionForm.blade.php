@@ -290,14 +290,42 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
-                                            <input id="from_date" name="from_date" type="date" class="form-control" required>
+                                            <input id="from_date" name="from_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required >
                                         </div>
             
                                         <div class="col-md-4">
                                             <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
-                                            <input id="to_date" name="to_date" type="date" class="form-control" required>
+                                            <input id="to_date" name="to_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required>
+                                            <span id="date-error" style="color: red; display: none;">To date should not be less than from date.</span>
+
                                         </div>
-            
+                                        <script>
+    document.getElementById('from_date').addEventListener('change', function() {
+        var toDateInput = document.getElementById('to_date');
+        var fromDateValue = this.value;
+        
+        // Set the minimum selectable date for "to date" input field
+        toDateInput.min = fromDateValue;
+        
+        // Reset the value of "to date" if it's before "from date"
+        if (toDateInput.value < fromDateValue) {
+            toDateInput.value = '';
+        }
+    });
+</script>
+                                        <script>
+    document.getElementById('to_date').addEventListener('change', function() {
+        var fromDate = document.getElementById('from_date').value;
+        var toDate = this.value;
+
+        if (fromDate && toDate < fromDate) {
+            document.getElementById('date-error').style.display = 'inline';
+            this.value = ''; // Clear the "to date" input
+        } else {
+            document.getElementById('date-error').style.display = 'none';
+        }
+    });
+</script>
                                     </div>
             
                                     <div class="row">

@@ -47,7 +47,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FF6D00;" >
             <div class="brand-logo">
                 <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -67,7 +67,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" >    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -308,7 +308,7 @@
                                             @foreach($upcomingExs as $key => $upcomingEx)
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
-                                                    <td>{{ $upcomingEx->exhibition_name }}</td>
+                                                    <td>{{ $upcomingEx->ex_name }}</td>
                                                     <td>
                                                         @if($upcomingEx->participated)
                                                         <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" disabled title="Already participated!">Participate</button>
@@ -335,6 +335,25 @@
             Content body end
         ***********************************-->
         <script>
+            <?php if ($showReminder): ?>
+        // Display the popup when the page is loaded
+        Swal.fire({
+            title: 'Please fill your details in notification settings',
+            text: "",
+            icon: '',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Handle participation logic here, e.g., submit a form or make an AJAX request
+                window.location.href = "/notificationSetting";
+            }
+        });
+    <?php endif; ?>
+
             function confirmParticipation(event) {
                 event.preventDefault();
                 const encExId = event.target.getAttribute('data-id');
@@ -344,7 +363,7 @@
                 Swal.fire({
                     title: 'Are you Exited to participate?',
                     text: "",
-                    icon: 'warning',
+                    icon: 'question',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',

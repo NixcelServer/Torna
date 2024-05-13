@@ -372,7 +372,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
-                                        <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*" required>
+                                        <input id="logo" name="company_logo" type="file" class="form-control-file" accept="image/*" >
                                     </div>
                                 </div>
         <br />

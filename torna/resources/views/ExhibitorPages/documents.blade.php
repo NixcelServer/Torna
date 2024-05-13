@@ -312,7 +312,7 @@
                                     <input type="file" class="form-control-file" id="attachment" name="document_attachment" required>
                                     <span id="attachmentError" class="text-danger"></span>
                                 </div> --}}
-                                    <input type="file" name="file">
+                                    <input type="file" name="file" accept=".pdf">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </form>
                             </div>

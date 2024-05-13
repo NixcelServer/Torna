@@ -59,12 +59,12 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header"style="background-color: white;">
             <div class="brand-logo">
                 <a href="/OrgDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
-                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
+                    <span class="brand-title" style="color: #FF6D00; font-weight: bold; font-size: 20px;">
                         TORNA
                     </span>
                         <img src="" alt="">
@@ -79,7 +79,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #505050;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -123,24 +123,25 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <div class="nk-sidebar" 
+style="background-color: #FF6D00;">           
             <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
+                <ul class="metismenu" style="background-color: #FF6D00;" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
                         <a  href="/OrgDashboard" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
+                            <i class="icon-speedometer menu-icon" style="background-color: #FF6D00;" ></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
                         <a  href="/companysetupform-O" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
+                            <i class="icon-speedometer menu-icon" style="background-color: #FF6D00;" ></i><span class="nav-text">Company SetUp</span>
                         </a>
                     </li>
-                    <li>
-                        <a  href="/industrymasterO" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                    <li style="background-color: #FF6D00;" >
+                        <a  href="/industrymasterO" aria-expanded="false" style="background-color: #FF6D00;">
+                            <i class="icon-speedometer menu-icon" style="background-color: #FF6D00;"></i><span class="nav-text">Industry</span>
                         </a>
                     </li>
             
