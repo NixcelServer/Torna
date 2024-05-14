@@ -439,7 +439,7 @@ class ExhibitionController extends Controller
         $user = session('user');
         $activeExs = ExhibitionDetail::where('tbl_comp_id',$user->tbl_comp_id)->where('active_status', 'Active')->where('flag', 'show')->get();
 
-
+        
         // dd($activeExs);
         foreach ($activeExs as $activeEx) {
             $activeEx->encActiveExId = EncryptionDecryptionHelper::encdecId($activeEx->tbl_ex_id, 'encrypt');

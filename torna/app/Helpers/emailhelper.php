@@ -236,7 +236,7 @@ class EmailHelper{
     public static function sendAdminEmail($company,$role=null)
 {
     // Fetch admin email from configuration or database
-    $adminEmail = 'abhitryai@gmail.com'; // Change this to your actual admin email address
+    $adminEmail = 'harshal.mandale@nixcelsoft.com'; // Change this to your actual admin email address
 
     // Create a new PHPMailer instance
     $mail = new PHPMailer(true); // Enable exceptions

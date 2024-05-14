@@ -54,7 +54,6 @@ class AuthController extends Controller
             //enter the user activity into auditlog
             //  $activity_name = "login";
             //  $activity_by = $user->tbl_user_id;
-
             Auth::login($user);
 
             Session::put('user', $user);
@@ -94,15 +93,15 @@ class AuthController extends Controller
     public function OrganizerRegistrationSubmitForm(Request $request)
     {
         
-        $request->validate([
-            'company_name' => 'unique:mst_tbl_company_details',
-            'email' => 'unique:mst_tbl_user_details|email',
-            'contact_no' => 'unique:mst_tbl_user_details',
-        ], [
-            'email.unique' => 'This email address is already in use.',
-            'contact_no.unique' => 'This contact number is already in use.',
-            'company_name.unique' => 'This Company is already registered.'
-        ]);
+        // $request->validate([
+        //     'company_name' => 'unique:mst_tbl_company_details',
+        //     'email' => 'unique:mst_tbl_user_details|email',
+        //     'contact_no' => 'unique:mst_tbl_user_details',
+        // ], [
+        //     'email.unique' => 'This email address is already in use.',
+        //     'contact_no.unique' => 'This contact number is already in use.',
+        //     'company_name.unique' => 'This Company is already registered.'
+        // ]);
         //  return response()->json(['success' => true, 'message' => 'Registration successful'], 200);
 
         // Create a new user using the validated data
@@ -120,8 +119,8 @@ class AuthController extends Controller
          try {
             $company->save();
             EmailHelper::sendEmail(null,null,null,$company,$request->password);
-            // Send email to admin
-            EmailHelper::sendAdminEmail($company);
+            // // Send email to admin
+             EmailHelper::sendAdminEmail($company);
             
         } catch (\Exception $e) {
             // Log the error message
@@ -135,7 +134,7 @@ class AuthController extends Controller
         }
 
 
-
+        
 
         $user = new UserDetail();
         $user->tbl_comp_id = $company->tbl_comp_id;
@@ -147,10 +146,12 @@ class AuthController extends Controller
         $user->created_date = Date::now()->toDateString();
         $user->created_time = Date::now()->toTimeString();
         $user->role_id = '2';
+        
         //dd($user);
 
         // Save the user to the database
         $user->save();
+        
         
       AuditLogHelper::logDetails('registered as organizer', $user->tbl_user_id);
 

@@ -301,6 +301,8 @@
     enctype: 'multipart/form-data', 
                 success: function (response) {
                     // Check if the registration was successful
+                    console.log(response.message);
+                    debugger;
                     if (response.success) {
                         $('#loader').hide();
                         console.log("AJAX request successful!");
@@ -311,6 +313,8 @@
                         window.location.href = '/';                        // Optionally, you can redirect the user to another page after success
                         // window.location.href = '/success-page'; // Update the URL as needed
                     } else {
+                        console.log(response.message);
+
                         $('#loader').hide();
                         // Handle errors or other responses here
                         console.log(response.message);
@@ -318,6 +322,8 @@
                     }
                 },
                 error: function (error) {
+                    console.log("Error:", error);
+
                     $('#loader').hide();
                     console.log("AJAX request failed!");
                 

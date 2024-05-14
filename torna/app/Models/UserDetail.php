@@ -13,6 +13,7 @@ class UserDetail extends Model implements Authenticatable
     
     use AuthenticatableTrait;
     protected $table = 'mst_tbl_user_details';
+    public $timestamps = false;
 
     protected $primaryKey = 'tbl_user_id';
 

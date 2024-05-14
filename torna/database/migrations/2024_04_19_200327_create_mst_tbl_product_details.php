@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('category', 100)->nullable();
             $table->integer('created_by');
             $table->date('created_date');
-            $table->time('created_time', 45);
+            $table->time('created_time');
             $table->integer('updated_by')->nullable();
             $table->date('updated_date')->nullable();
-            $table->time('updated_time', 45)->nullable();
+            $table->time('updated_time')->nullable();
             $table->string('flag', 45)->default('show');
             $table->timestamps();
         });
