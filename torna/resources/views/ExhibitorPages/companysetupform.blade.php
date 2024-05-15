@@ -80,7 +80,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -100,7 +100,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -318,7 +318,7 @@
         ***********************************-->
         <div class="content-body">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-8 mt-4">
                     <div class="card">
                         <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Company Setup Form</h4>
         

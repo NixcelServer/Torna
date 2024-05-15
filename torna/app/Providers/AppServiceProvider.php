@@ -73,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
                 Validator::extend('unique_exhibition_based_on_flag', function ($attribute, $value, $parameters, $validator) {
                     $user = session('user');    
                 // Check if a designation with the given name and flag 'show' exists
-                $existingEx = \App\Models\ExhibitionDetail::where('ex_name', $value)
+                $existingEx = \App\Models\ExhibitionDetail::where('exhibition_name', $value)
                     ->where('active_status', '!=', 'Past')
                     ->where('flag', 'show')
                     ->exists();

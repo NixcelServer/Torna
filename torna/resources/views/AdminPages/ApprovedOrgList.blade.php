@@ -50,7 +50,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/AdminDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -70,7 +70,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -271,7 +271,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Approved Organizer List</h4>
+                                <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Approved Organizer List</h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>

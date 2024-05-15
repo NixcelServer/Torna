@@ -59,7 +59,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/OrgDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -79,7 +79,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -284,16 +284,16 @@
         ***********************************-->
         <div class="content-body">
             <div class="row justify-content-center">
-                <div class="col-md-8">
+                <div class="col-md-8 mt-4">
                     <div class="card">
-                        <h4 class="card-header text-center">Company Setup Form</h4>
+                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Company Setup Form</h4>
         
                         <div class="card-body">
                             <form method="POST" action="/updatecompanydetails" enctype="multipart/form-data">
                                 @csrf
         
                                 <div class="form-group row">
-                                    <div class="form-group col-md-6">
+                                    <div class="col-md-6">
                                         <label for="company_name" class="col-form-label text-md-right">Company Name</label>
                                         <input id="company_name" name="company_name" type="text" value="{{ $company->company_name }}" class="form-control" name="company_name" required>
                                         <input id="encCompId" name="encCompId" type="hidden" value="{{ $company->encCompId }}" class="form-control">                                   
@@ -309,13 +309,13 @@
                                         <input id="contact_no" name="contact_no" type="text" value="{{ $company->contact_no }}"  class="form-control" required>
                                     </div>
                                 
-                                    <div class="form-group col-md-6">
+                                    <div class="col-md-6">
                                         <label for="email" class="col-form-label text-md-right">Email ID</label>
                                         <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-md-6">
+                                    <div class="col-md-6">
                                         <label for="last_name" class="col-form-label text-md-right">Company Website</label>
                                         <input id="last_name" name="website" type="text" value="{{ $company->comp_website }}" class="form-control" name="last_name" required>
                                     </div>

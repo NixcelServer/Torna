@@ -13,6 +13,7 @@ use App\Models\Visitor;
 use App\Models\Notify;
 use App\Models\EmailSetting;
 use App\Models\SMSSetting;
+use App\Models\AuditLogDetail;
 
 
 
@@ -296,7 +297,13 @@ class ExhibitionController extends Controller
     public function createExhibitionform()
     {
         
-        // $user = session('user');
+        
+         $user = session('user');
+         $approvedStatus = false;
+         $userDetails = UserDetail::where('tbl_user_id', $user->tbl_user_id)->first();
+         if($userDetails->active_status == 'Approved'){
+            $approvedStatus = true;
+         }
        
         // $first_name = $user->first_name;
         
@@ -307,7 +314,7 @@ class ExhibitionController extends Controller
             $industry->encIndId = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
         }
         // dd($industries);
-        return view('OrganizerPages/CreateExhibitionForm', ['industries' => $industries]);
+        return view('OrganizerPages/CreateExhibitionForm', ['industries' => $industries,'approvedStatus'=>$approvedStatus]);
     }
     public function StoreExhibitionForm(Request $request)
     {
@@ -325,7 +332,7 @@ class ExhibitionController extends Controller
         $exhibition = new ExhibitionDetail();
         $exhibition->tbl_comp_id = $user->tbl_comp_id;
         //$exhibition->unique_name = $request->unique_name;
-        $exhibition->ex_name = $request->exhibition_name;
+        $exhibition->exhibition_name = $request->exhibition_name;
        // $exhibition->ex_organized_by = $company->company_name;
         $exhibition->ex_from_date = $request->from_date;
         $exhibition->ex_to_date = $request->to_date;
@@ -341,18 +348,18 @@ class ExhibitionController extends Controller
         $exhibition->created_by = $user->tbl_user_id;
         $exhibition->created_date = Date::now()->toDateString();
         $exhibition->created_time = Date::now()->toTimeString();
-       // $exhibition->exhibition_website = $request->exhibition_website;
+        $exhibition->exhibition_website = $request->exhibition_website;
         $exhibition->attach_document = $request->attach_document;
-        //$exhibition->registration_url = $request->registration_url;
+        $exhibition->registration_url = $request->registration_url;
 
 
 //dd($exhibition);
-        // Handle company logo upload if a file was uploaded
-        // if ($request->hasFile('company_logo')) {
-        //     $image = $request->file('company_logo');
-        //     $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
-        //     $exhibition->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
-        // }
+        //Handle company logo upload if a file was uploaded
+        if ($request->hasFile('company_logo')) {
+            $image = $request->file('company_logo');
+            $base64Image = base64_encode(file_get_contents($image->path())); // Convert the image to base64
+            $exhibition->company_logo = $base64Image; // Save the base64 encoded image to the company_logo column
+        }
         
         // if ($request->hasFile('company_logo')) {
         //     $image = $request->file('company_logo');
@@ -369,7 +376,7 @@ class ExhibitionController extends Controller
             dd($e->getMessage()); // Dump the error message for debugging
         }
 
-        AuditLogHelper::logDetails('created ' . $exhibition->ex_name . ' exhibition', $user->tbl_user_id);
+        AuditLogHelper::logDetails('created ' . $exhibition->exhibition_name . ' exhibition', $user->tbl_user_id);
 
         return redirect()->route('activeExhibitions')->with('success', 'Exhibition created successfully!');
     }
@@ -392,7 +399,7 @@ class ExhibitionController extends Controller
         $exhibition = new ExhibitionDetail();
         $exhibition->tbl_comp_id = $user->tbl_comp_id;
         //$exhibition->unique_name = $request->unique_name;
-        $exhibition->ex_name = $request->exhibition_name;
+        $exhibition->exhibition_name = $request->exhibition_name;
        // $exhibition->ex_organized_by = $company->company_name;
         $exhibition->ex_from_date = $request->from_date;
         $exhibition->ex_to_date = $request->to_date;
@@ -429,7 +436,7 @@ class ExhibitionController extends Controller
             dd($e->getMessage()); // Dump the error message for debugging
         }
 
-        AuditLogHelper::logDetails('created ' . $exhibition->ex_name . ' exhibition', $user->tbl_user_id);
+        AuditLogHelper::logDetails('created ' . $exhibition->exhibition_name . ' exhibition', $user->tbl_user_id);
 
         return redirect()->route('upcomingExhibitions')->with('success', 'Exhibition created successfully!');
     }
@@ -440,7 +447,7 @@ class ExhibitionController extends Controller
         $activeExs = ExhibitionDetail::where('tbl_comp_id',$user->tbl_comp_id)->where('active_status', 'Active')->where('flag', 'show')->get();
 
 
-        // dd($activeExs);
+        //dd($activeExs);
         foreach ($activeExs as $activeEx) {
             $activeEx->encActiveExId = EncryptionDecryptionHelper::encdecId($activeEx->tbl_ex_id, 'encrypt');
         }
@@ -738,7 +745,7 @@ class ExhibitionController extends Controller
         $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
         // $industry_name = $company->industry_name;
         // dd($industry_name);
-        $pastcomingExs = ExhibitionDetail::where('active_status', 'Inactive')->where('industry', $company->industry_name)->where('flag', 'show')->get();
+        $pastcomingExs = ExhibitionDetail::where('active_status', 'Past')->where('industry', $company->industry_name)->where('flag', 'show')->get();
         //dd($pastcomingExs);
 
 
@@ -755,13 +762,22 @@ class ExhibitionController extends Controller
    
 
     public function createExhibitionformE(){
+
+        $user = session('user');
+         $approvedStatus = false;
+         $userDetails = UserDetail::where('tbl_user_id', $user->tbl_user_id)->first();
+         if($userDetails->active_status == 'Approved'){
+            $approvedStatus = true;
+         }
+
+
         $industries = Industry::where('flag', 'show')->get();
 
         foreach ($industries as $industry) {
             $industry->encIndId = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
         }
 
-        return view('ExhibitorPages/createExhibitionformE', ['industries' => $industries]);
+        return view('ExhibitorPages/createExhibitionformE', ['industries' => $industries,'approvedStatus' => $approvedStatus]);
    }
 
    public function companysetupform()
@@ -1037,7 +1053,7 @@ public function companysetupformo()
     }
     }
   
-   
+   //dd($participatedEx);
     return view('ExhibitorPages/participatedExhibitions', ['participatedExs' => $participatedExs]);
 }
 
@@ -1127,7 +1143,8 @@ error_log("Decoded company logo: " . $participatedEx->exDetails->company_logo);
 
         AuditLogHelper::logDetails(' user with user ID: '.$user->tbl_user_id. ' has participated in exhibition ID'. $decExId . '', $user->tbl_user_id);
 
-        return redirect()->back();
+        //return redirect()->back();
+        return redirect('/participatedExhibitions');
         
    }
 
@@ -1179,9 +1196,16 @@ public function collectdata($id){
     $user = UserDetail::where('tbl_user_id',$participatedEx->tbl_user_id)->first();
     // dd($participatedEx);
     $visitors = Visitor::where('tbl_comp_id',$user->tbl_comp_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->get();
-
-    $notify = Notify::where('tbl_user_id',$participatedEx->tbl_user_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->first();
+    $decParticipatedExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+    //dd($decExId);
+    $participatedEx = Participate::where('tbl_participation_id',$decParticipatedExId)->first();
     
+    $exhibition = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
+    $exhibition->encExId = EncryptionDecryptionHelper::encdecId($exhibition->tbl_ex_id,'encrypt');
+    $notify = Notify::where('tbl_user_id',$participatedEx->tbl_user_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->first();
+    // dd($exhibition);
+    //     dd($exhibition);
+
     $showActionColumn = false;
     if($notify->email_after_service === 'enabled'){
         $showActionColumn = true;
@@ -1192,33 +1216,33 @@ public function collectdata($id){
         $visitor->encVisitorId = EncryptionDecryptionHelper::encdecId($visitor->tbl_visitor_detail_id,'encrypt');
     }
     
-    return view('VisitorPages/collectdata',['visitors'=>$visitors,'showActionColumn'=>$showActionColumn]);
+    return view('VisitorPages/collectdata',['visitors'=>$visitors,'showActionColumn'=>$showActionColumn,'exhibition'=>$exhibition]);
 
 }
 
-public function fetchvisitordata()
+public function fetchvisitordata($id)
 {
-    dd("hi");
+    $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
     $user = session('user');
-    $visitorlogs = Visitor::orderBy('add_date', 'desc')->get();
+    $visitorlogs = Visitor::where('tbl_ex_id',$decExId)->orderBy('add_date', 'desc')->get();
 
+    foreach($visitorlogs as $visitor){
+        $visitor->service_name = ProductDetail::where('tbl_product_id',$visitor->service)->value('product_name');
+        $visitor->encVisitorId = EncryptionDecryptionHelper::encdecId($visitor->tbl_visitor_detail_id,'encrypt');
+    }
     $auditLogsWithUsername = [];
 
     foreach ($visitorlogs as $visitorlog) {
-        $user = UserDetail::where('tbl_user_id', $visitorlog->activity_by)->first();
+        //$user = UserDetail::where('tbl_user_id', $visitorlog->activity_by)->first();
 
-        if ($user) {
             $auditLogsWithUsername[] = [
-                'id' => $visitorlog->id,
-                'activity_name' => $visitorlog->name, // Assuming activity_name is the visitor's name in your table
-                'activity_by' => $user->first_name . " " . $user->last_name,
-                'activity_date' => $visitorlog->add_date, // Assuming add_date is the activity date in your table
-                'activity_time' => $visitorlog->add_time, // Assuming add_time is the activity time in your table
+                // 'id' => $visitorlog->tbl_visitor_detail_id,
+                'name' => $visitorlog->name, // Assuming activity_name is the visitor's name in your table
                 'email' => $visitorlog->email, // Assuming email is the visitor's email in your table
                 'contact_no' => $visitorlog->contact_no, // Assuming contact_no is the visitor's contact number in your table
-                'service' => $visitorlog->service, // Assuming service is the visitor's service in your table
+                'service' => $visitorlog->service_name, // Assuming service is the visitor's service in your table
             ];
-        }
+        
     }
 
     return response()->json([
@@ -1226,6 +1250,40 @@ public function fetchvisitordata()
         'data' => $auditLogsWithUsername,
     ]);
 }
+
+public function fetchauditlogs()
+{
+    $user = session('user');
+    // Assuming you have an AuditLog model and you want to fetch data from it
+    $auditlogs = AuditLogDetail::orderBy('activity_date','desc')->get();
+
+        foreach($auditlogs as $auditlog){
+         
+         $user = UserDetail::where('tbl_user_id',$auditlog->activity_by)->first();
+     
+         if($user){
+             $auditlog->username = $user->first_name . " " . $user->last_name;
+             
+         }
+
+         $auditLogsWithUsername[] = [
+            'activity_name' => $auditlog->activity_name,
+            'activity_date' => $auditlog->activity_date,
+            'activity_by' => $auditlog->username, // Assuming you have a date field in your audit log table
+            'activity_time' => $auditlog->activity_time, // Assuming you have a time field in your audit log table
+           
+        ];
+
+        }
+
+    
+
+    return response()->json([
+        'success' => true,
+        'data' => $auditLogsWithUsername,
+    ]);
+}
+
 
 public function editExhibition($id)
 {
@@ -1256,14 +1314,14 @@ public function updateExhibition(Request $request)
         return redirect()->back()->with('error', 'Exhibition not found.');
     }
 
-    $exhibition->ex_name = $request->exhibition_name;
+    $exhibition->exhibition_name = $request->exhibition_name;
     $exhibition->ex_from_date = $request->from_date;
     $exhibition->ex_to_date = $request->to_date;
     $exhibition->start_time = $request->start_time;
     $exhibition->end_time = $request->end_time;
     $exhibition->venue = $request->venue;
-    $exhibition->ex_website = $request->exhibition_website;
-    $exhibition->ex_reg_url = $request->registration_url;
+    $exhibition->exhibition_website = $request->exhibition_website;
+    $exhibition->registration_url = $request->registration_url;
     $exhibition->industry = $request->industry_name;
     $exhibition->active_status = $request->active_status;
     $exhibition->updated_by = $user->tbl_user_id;

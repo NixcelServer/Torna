@@ -47,7 +47,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header" style="background-color: #FF6D00;" >
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -67,7 +67,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header" >    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -83,9 +83,9 @@
                 <div class="header-right">
                     <ul class="clearfix">
                         <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
+                            <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                                 <span class="activity active"></span>
-                                <img src="images/user/1.png" height="40" width="40" alt="">
+                                <img src="images/user/1.png" height="60" width="40" alt="">
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 @php
@@ -103,6 +103,7 @@
                 </div>
             </div>
         </div>
+        
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
@@ -286,56 +287,59 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
         <div class="content-body">
-            
-
-            <div class="container-fluid mt-3">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Upcoming Exhibitions List</h4>
-                                <br/>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Exhibition Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>                                            
-                                            @foreach($upcomingExs as $key => $upcomingEx)
-                                                <tr>
-                                                    <td>{{ $key + 1 }}</td>
-                                                    <td>{{ $upcomingEx->ex_name }}</td>
-                                                    <td>
-                                                        @if($upcomingEx->participated)
-                                                        <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" disabled title="Already participated!">Participate</button>
-                                                        @else
-                                                            <button class="btn btn-sm btn-primary participate-btn" data-id="{{ $upcomingEx->encExId }}" onclick="confirmParticipation(event)">Participate</button>
-                                                        @endif
-                                                    </td>        
-                                                </tr>
-                                            @endforeach                                                                                        
-                                        </tbody>
-                                        
-                                        
-                                    </table>
+                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Upcoming Exhibitions List</h4>
+                        <br/>
+                        <div class="row">
+                            @foreach($upcomingExs as $key => $upcomingEx)
+                            <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
+                                <div class="card">
+                                    @if($upcomingEx->company_logo)
+                                    <img src="data:image/png;base64,{{ $upcomingEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                    @endif
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $upcomingEx->exhibition_name }}</h5>
+                                        <div>
+                                            <div class="mr-3">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">Date:</span>
+                                                <span>{{ $upcomingEx->ex_from_date }}</span>
+                                                <span class="mx-2">-</span>
+                                                <span>{{ $upcomingEx->ex_to_date }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn mb-1 {{ $upcomingEx->participated ? 'btn-success' : 'btn-outline-primary' }}" 
+                                            {{ $upcomingEx->participated ? 'disabled title=Participated!' : '' }}
+                                            data-id="{{ $upcomingEx->encExId }}" 
+                                            onclick="confirmParticipation(event)">
+                                        @if($upcomingEx->participated)
+                                            Participated
+                                        @else
+                                            Participate
+                                        @endif
+                                    </button>
+                                                                                                       
+                                    </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            
-            
-            <!-- #/ container -->
+            </div>
         </div>
+        
         <!--**********************************
             Content body end
         ***********************************-->
-        <script>
-            <?php if ($showReminder): ?>
+    <?php if ($showReminder): ?>
+    <script>
         // Display the popup when the page is loaded
         Swal.fire({
             title: 'Please fill your details in notification settings',
@@ -352,8 +356,13 @@
                 window.location.href = "/notificationSetting";
             }
         });
+    </script>
     <?php endif; ?>
+        
 
+        
+
+        <script>
             function confirmParticipation(event) {
                 event.preventDefault();
                 const encExId = event.target.getAttribute('data-id');

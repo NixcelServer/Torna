@@ -51,7 +51,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -71,7 +71,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -295,14 +295,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
-                                <span>Visitors List</span>
+                                <span style="color: black;">{{ $exhibition->exhibition_name }} Visitors List</span>
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Export Data
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
-                                        <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
-                                        <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
+                                        <a class="dropdown-item" href="#" id="exportExcel" data-id="{{ $exhibition->encExId }}">Export to Excel</a>
+                                        <a class="dropdown-item" href="#" id="exportCsv" data-id="{{ $exhibition->encExId }}">Export to CSV</a>
                                     </div>
                                 </div>
                             </div>
@@ -1086,63 +1086,69 @@
     </div>
 
     <!-- Include jQuery library -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Include SheetJS library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-
-<script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    
+    <script>
     $(document).ready(function () {
     $('#exportExcel').click(function (e) {
         e.preventDefault();
-        exportData('xlsx');
+        const ExhibitionId = this.getAttribute('data-id'); // Get the data-id attribute
+        const ExhibitionName = "{{ $exhibition->exhibition_name }}"; // Get exhibition name from Blade variable
+        exportData('xlsx', ExhibitionId, ExhibitionName); // Pass ExhibitionId and ExhibitionName to exportData function
     });
 
     $('#exportCsv').click(function (e) {
         e.preventDefault();
-        exportData('csv');
+        const ExhibitionId = this.getAttribute('data-id'); // Get the data-id attribute
+        const ExhibitionName = "{{ $exhibition->exhibition_name }}"; // Get exhibition name from Blade variable
+        exportData('csv', ExhibitionId, ExhibitionName); // Pass ExhibitionId and ExhibitionName to exportData function
     });
+});
 
-    function exportData(format) {
-        $.ajax({
-            
-            url: '/fetchvisitordata', // Check if this URL is correct
-            method: 'GET',
-            success: function (response) {
-                if (response.success) {
-                    if (format === 'xlsx') {
-                        // Convert data to Excel
-                        const sheet = XLSX.utils.json_to_sheet(response.data);
-                        const wb = XLSX.utils.book_new();
-                        XLSX.utils.book_append_sheet(wb, sheet, 'Audit Log Data');
-                        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-                        saveAsFile(excelBuffer, 'Audit_Log_Data.xlsx');
-                    } else if (format === 'csv') {
-                        // Convert data to CSV
-                        const csv = convertToCsv(response.data);
-                        saveAsFile(csv, 'Audit_Log_Data.csv');
-                    }
-                } else {
-                    alert('Failed to fetch data.');
+    
+    function exportData(format, ExhibitionId, ExhibitionName) {
+    $.ajax({
+        url: '/fetchvisitordata/' + ExhibitionId,
+        method: 'GET',
+        success: function (response) {
+            if (response.success) {
+                if (format === 'xlsx') {
+                    // Convert data to Excel
+                    console.log(response.data); // Make sure response.data has the correct structure
+                    const sheet = XLSX.utils.json_to_sheet(response.data);
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, sheet, 'Audit Log Data');
+                    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                    saveAsFile(excelBuffer, `${ExhibitionName} Visitors_Data.xlsx`); // Set custom filename
+                } else if (format === 'csv') {
+                    // Convert data to CSV
+                    const csv = convertToCsv(response.data);
+                    saveAsFile(csv, `${ExhibitionName} Visitors_Data.csv`); // Set custom filename
                 }
-            },
-            error: function () {
-                alert('Error occurred while fetching data.');
+            } else {
+                alert('Failed to fetch data.');
             }
-        });
-    }
+        },
+        error: function () {
+            alert('Error occurred while fetching data.');
+        }
+    });
+}
 
+    
     // Function to save file
     function saveAsFile(buffer, fileName) {
-        const blob = new Blob([buffer], { type: 'application/octet-stream' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
+    const blob = new Blob([buffer], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName; // Set the filename here
+    a.click();
+    URL.revokeObjectURL(url);
+}
 
+    
     // Function to convert JSON data to CSV format
     function convertToCsv(data) {
         const header = Object.keys(data[0]);
@@ -1153,9 +1159,8 @@
         });
         return csv.join('\n');
     }
-});
-
-</script>
+    </script>
+    
     <!--**********************************
         Main wrapper end
     ***********************************-->

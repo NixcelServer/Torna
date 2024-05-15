@@ -206,7 +206,7 @@ Route::get('/visitordetails/{id}', [ExhibitionController::class, 'visitorsdetail
 
 
 //participate in exhibitions
-Route::get('/participate/{id}',[ExhibitionController::class,'participate']);
+Route::get('/participate/{id}',[ExhibitionController::class,'participate'])->name('participatedExhibitions');
 
 
 //Notifications Settings
@@ -223,7 +223,8 @@ Route::get('/collectdata/{id}', [ExhibitionController::class, 'collectdata'])->n
 
 
 
-Route::get('/fetchvisitordata', [ExhibitionController::class, 'fetchvisitordata']);
+Route::get('/fetchvisitordata/{id}', [ExhibitionController::class, 'fetchvisitordata']);
+Route::get('/fetchauditlogs', [ExhibitionController::class, 'fetchauditlogs']);
 
 
 //Edit Exhibition Route 

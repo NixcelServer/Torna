@@ -60,7 +60,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/AdminDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -80,7 +80,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -278,14 +278,14 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Industries</h4>
-                                <div class="col-12 text-right mt-n4">
-                                    <div class="buttons">
-                                        <!-- Button to show Add Department Modal -->
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addIndustryModal">Add New Industry</button>
-                                    </div>
+                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Industries</span>
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addIndustryModal">Add New Industry</button>
                                 </div>
+                            </div>
+                            <div class="card-body">
+                                
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>

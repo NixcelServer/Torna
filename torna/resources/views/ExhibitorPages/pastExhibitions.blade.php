@@ -47,12 +47,12 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header" style="background-color: #ffffff;">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
-                    <span class="brand-title" style="color: #FF6D00; font-weight: bold; font-size: 20px;">
+                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
                         TORNA
                     </span>
                         <img src="" alt="">
@@ -67,7 +67,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header" style="background-color: #FF6D00;" >    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -110,9 +110,9 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar" style="background-color: #505050;" >           
+        <div class="nk-sidebar"  >           
             <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu" style="background-color: #505050;" >
+                <ul class="metismenu" id="menu"  >
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
                         <a  href="/ExDashboard" aria-expanded="false">
@@ -121,7 +121,7 @@
                         
                     </li>
                     <li>
-                        <a  href="/companysetupform" style="background-color: #505050;" aria-expanded="false">
+                        <a  href="/companysetupform" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
                         </a>
                     </li>
@@ -129,12 +129,12 @@
             
                     
                     <li>
-                        <a class="has-arrow" href="javascript:void()" style="background-color: #505050;" aria-expanded="false">
+                        <a class="has-arrow" href="javascript:void()"  aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
-                        <ul aria-expanded="false" style="background-color: #505050;">
+                        <ul aria-expanded="false" >
                             <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
-                            <li style="background-color: #505050;"><a href="/pastExhibitions" style="background-color: #505050;">Past Exhibition</a></li>
+                            <li ><a href="/pastExhibitions" >Past Exhibition</a></li>
                             <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
                             <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
 
@@ -284,46 +284,52 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            
-
             <div class="container-fluid mt-3">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Past Exhibitions List</h4>
+                                <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Past Exhibitions List</h4>
                                 <br/>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Exhibition Name</th>
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            @foreach($pastcomingExs as $key => $pastcomingEx)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $pastcomingEx->exhibition_name }}</td>
-                                                
-                                            </tr>
-                                            @endforeach
-                                                                                        
-                                        </tbody>
-                                        
-                                    </table>
+                                <div class="row">
+                                    @foreach($pastcomingExs as $key => $pastcomingEx)
+                                    <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
+                                        <div class="card">
+                                            @if($pastcomingEx->company_logo)
+                                            <img src="data:image/png;base64,{{ $pastcomingEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                            @endif
+                                            <!-- If you have a logo for past exhibitions, add it here -->
+                                            <!-- Example: <img src="path_to_your_logo" class="card-img-top" alt="Company Logo"> -->
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $pastcomingEx->exhibition_name }}</h5>
+                                                <div>
+                                                    <div class="mr-3">
+                                                        <i class="fas fa-calendar-alt"></i>
+                                                    </div>
+                                                    <div>
+                                                        <b class="font-weight-bold">Date:</b>
+                                                        <span>{{ $pastcomingEx->ex_from_date }}</span>
+                                                        <span class="mx-2">-</span>
+                                                        <span>{{ $pastcomingEx->ex_to_date }}</span>
+                                                    </div>
+                                                </div>
+                                                <!-- You can add more details here as needed -->
+                                            </div>
+                                            {{-- <div class="card-footer">
+                                                <!-- Customize this button link as per your requirement -->
+                                                <a href="/viewPastExhibition/{{ $pastcomingEx->encPastExId }}" class="btn mb-1 btn-outline-primary">View Details</a>
+                                            </div> --}}
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            
-            
-            <!-- #/ container -->
+            </div>
         </div>
+        
         <!--**********************************
             Content body end
         ***********************************-->

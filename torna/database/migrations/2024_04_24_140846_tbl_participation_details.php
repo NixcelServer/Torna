@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id('tbl_participation_id');
             $table->string('tbl_ex_id')->required();
             $table->integer('tbl_user_id')->required();
-            $table->string('active_status')->defualt('active');
+            $table->string('active_status')->default('active');
             $table->date('add_date')->required();
             $table->time('add_time')->required();
             $table->date('updated_date')->nullable();

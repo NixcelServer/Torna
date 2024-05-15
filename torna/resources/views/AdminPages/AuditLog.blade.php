@@ -50,7 +50,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/AdminDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -70,7 +70,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -264,54 +264,56 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-
-
             <div class="container-fluid mt-3">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Audit Logs</h4>
-                    {{-- <div class="float-right mr-3 mb-2"> <!-- Added float-right and margin classes -->
-                        <div class="dropdown">
-                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Export Data
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="exportDropdown">
-                                <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
-                                <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-sm"> <!-- Added card-sm class -->
+                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Audit Logs</span>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Export Data
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                                            <a class="dropdown-item" href="#" id="exportExcel">Export to Excel</a>
+                                            <a class="dropdown-item" href="#" id="exportCsv">Export to CSV</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered zero-configuration">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr. No</th>
+                                                <th>Activity Name</th>
+                                                <th>Activity By</th>
+                                                <th>Activity Date</th>
+                                                <th>Activity Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($auditlogs as $index => $log)
+                                            <tr>
+                                                <td>{{ $index+1 }}</td>
+                                                <td>{{ $log->activity_name}}</td>
+                                                <td>{{ $log->username}}</td>
+                                                <td>{{ $log->activity_date}}</td>
+                                                <td>{{ $log->activity_time}}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div> --}}
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered zero-configuration">
-                            <thead>
-                                <tr>
-                                    <th>Sr. No</th>
-                                    <th>Activity Name</th>
-                                    <th>Activity By</th>
-                                    <th>Activity Date</th>
-                                    <th>Activity Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($auditlogs as $index => $log)
-                                <tr>
-                                    <td>{{ $index+1 }}</td>
-                                    <td>{{ $log->activity_name}}</td>
-                                    <td>{{ $log->username}}</td>
-                                    <td>{{ $log->activity_date}}</td>
-                                    <td>{{ $log->activity_time}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+        
 
             {{-- <div class="col-lg-12">
                 <div class="card">
@@ -1057,6 +1059,76 @@
     <!--**********************************
         Main wrapper end
     ***********************************-->
+
+    <!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    $('#exportExcel').click(function (e) {
+        e.preventDefault();
+        exportData('xlsx');
+    });
+
+    $('#exportCsv').click(function (e) {
+        e.preventDefault();
+        exportData('csv');
+    });
+});
+
+function exportData(format) {
+    $.ajax({
+        url: '/fetchauditlogs', // Update the URL to fetch audit log data
+        method: 'GET',
+        success: function (response) {
+            if (response.success) {
+                if (format === 'xlsx') {
+                    // Convert data to Excel
+                    console.log(response.data); // Make sure response.data has the correct structure
+                    const sheet = XLSX.utils.json_to_sheet(response.data);
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, sheet, 'Audit Log Data');
+                    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                    saveAsFile(excelBuffer, 'Audit_Log_Data.xlsx'); // Set custom filename
+                } else if (format === 'csv') {
+                    // Convert data to CSV
+                    const csv = convertToCsv(response.data);
+                    saveAsFile(csv, 'Audit_Log_Data.csv'); // Set custom filename
+                }
+            } else {
+                alert('Failed to fetch data.');
+            }
+        },
+        error: function () {
+            alert('Error occurred while fetching data.');
+        }
+    });
+}
+
+// Function to save file
+function saveAsFile(buffer, fileName) {
+    const blob = new Blob([buffer], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName; // Set the filename here
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// Function to convert JSON data to CSV format
+function convertToCsv(data) {
+    const header = Object.keys(data[0]);
+    const csv = [header.join(',')];
+    data.forEach(row => {
+        const values = header.map(key => row[key]);
+        csv.push(values.join(','));
+    });
+    return csv.join('\n');
+}
+</script>
+
 
     <!--**********************************
         Scripts

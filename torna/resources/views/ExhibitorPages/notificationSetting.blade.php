@@ -93,7 +93,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -113,7 +113,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -215,7 +215,7 @@
         <div class="content-body">
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 mt-3">
                         <div class="card">
                             <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">

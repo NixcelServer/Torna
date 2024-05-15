@@ -19,10 +19,10 @@ return new class extends Migration
             
             $table->integer('created_by')->nullable();
             $table->date('created_date');
-            $table->time('created_time', 45);
+            $table->time('created_time');
             $table->integer('deleted_by')->nullable();
             $table->date('deleted_date')->nullable();
-            $table->time('deleted_time', 45)->nullable();
+            $table->time('deleted_time')->nullable();
             $table->string('flag', 45)->default('show');
         });
     }

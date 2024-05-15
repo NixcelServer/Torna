@@ -56,14 +56,16 @@
 	          <li class="nav-item"><a href="" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="" class="nav-link">Contact</a></li>
 	          <li class="nav-item cta mr-md-2">
-				<a href="#" class="nav-link register-btn" data-toggle="popover" style="background-color: #FF6D00;" data-placement="bottom" data-content='
-					<a href="/organizerform" class="dropdown-item">As Organizer</a>
-					<a href="/exhibitorform" class="dropdown-item">As Exhibitor</a>
-				'>Register</a>
+				<a href="#" class="nav-link register-btn" data-toggle="popover" style="background-color: #FFBE07; color: black;" data-placement="bottom" data-content='
+    <a href="/organizerform" class="dropdown-item">As Organizer</a>
+    <a href="/exhibitorform" class="dropdown-item">As Exhibitor</a>
+'>Register</a>
+
 			</li>
 			<li class="nav-item cta mr-md-2">
-				<a href="/signin" class="nav-link">Sign In</a>
+				<a href="/signin" class="nav-link" style="background-color: #FFBE07; color: black;">Sign In</a>
 			</li>
+			
 
 	        </ul>
 	      </div>

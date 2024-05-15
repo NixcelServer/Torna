@@ -89,7 +89,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/ExDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -109,7 +109,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -335,25 +335,25 @@
                             <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Create Exhibition Form</h4>
             
                             <div class="card-body">
-                                <form method="POST" action="/createExhibitionE" enctype="multipart/form-data">
+                                <form method="POST" action="/createExhibitionE" enctype="multipart/form-data" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                     @csrf
             
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
-                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ old('exhibition_name') }}" required>
+                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ old('exhibition_name') }}" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                             @if ($errors->has('exhibition_name'))
                                                 <span id="exhibitionNameError" class="text-danger">{{ $errors->first('exhibition_name') }}</span>
                                             @endif
                                         </div>
                                         <div class="col-md-4">
                                             <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
-                                            <input id="from_date" name="from_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required >
+                                            <input id="from_date" name="from_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
             
                                         <div class="col-md-4">
                                             <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
-                                            <input id="to_date" name="to_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required>
+                                            <input id="to_date" name="to_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                             <span id="date-error" style="color: red; display: none;">To date should not be less than from date.</span>
 
                                         </div>
@@ -388,30 +388,30 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="start_time" class="col-form-label text-md-right">Start Time <span style="color: red;">*</span></label>
-                                            <input id="start_time" name="start_time" type="time" class="form-control" required>
+                                            <input id="start_time" name="start_time" type="time" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>            
                                         <div class="col-md-4">
                                             <label for="end_time" class="col-form-label text-md-right">End Time <span style="color: red;">*</span></label>
-                                            <input id="end_time" name="end_time" type="time" class="form-control" required>
+                                            <input id="end_time" name="end_time" type="time" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="venue" class="col-form-label text-md-right">Venue <span style="color: red;">*</span></label>
-                                            <input id="venue" name="venue" type="text" class="form-control" required>
+                                            <input id="venue" name="venue" type="text" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                     </div>     
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
-                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control">
+                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                             <small id="exhibitionWebsiteError" class="text-danger"></small>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
-                                            <input id="attach_document" name="attach_document" type="file" class="form-control">
+                                            <input id="attach_document" name="attach_document" type="file" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
-                                            <input id="registration_url" name="registration_url" type="text" class="form-control">
+                                            <input id="registration_url" name="registration_url" type="text" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                             <small id="registrationUrlError" class="text-danger"></small>
 
                                         </div>
@@ -419,11 +419,11 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
-                                            <input id="company_logo" name="company_logo" type="file" class="form-control">
+                                            <input id="company_logo" name="company_logo" type="file" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                         <div class="col-md-4">
                                             <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
-                                            <select name="industry_name" class="form-control" required>
+                                            <select name="industry_name" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                 <option value="">Select Industry</option>
                                                 @foreach($industries as $industry)
                                                 <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
@@ -435,13 +435,13 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked>
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                         <label class="form-check-label" for="Active">Active</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                         <label class="form-check-label" for="Inactive">Inactive</label>
                                                     </div>
                                                 </div>
@@ -451,7 +451,7 @@
                                     <br />
                                     <div class="form-group row justify-content-center mb-3">
                                         <div class="col-md-6 offset-md-4">
-                                            <button type="submit" class="btn btn-primary">
+                                            <button type="submit" class="btn btn-primary" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                 Register
                                             </button>
                                         </div>
@@ -485,7 +485,29 @@
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <?php if ($approvedStatus === false): ?>
+    <script>
+        // Ensure that SweetAlert2 library is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                title: 'You Cannot create exhibition! You are not approved !',
+                text: "",
+                icon: 'warning', // or 'info', 'success', 'error' as appropriate
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the notification settings page
+                    window.location.href = "/ExDashboard";
+                }
+            });
+        });
+    </script>
+    <?php endif; ?>
     <!--**********************************
         Scripts
     ***********************************-->

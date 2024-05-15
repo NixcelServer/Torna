@@ -47,7 +47,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header" style="background-color: #505050;">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/OrgDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -67,7 +67,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header" style="background-color: #505050;">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -110,9 +110,9 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar" style="background-color: #FF6D00;">           
+        <div class="nk-sidebar">           
             <div class="nk-nav-scroll">
-                <ul class="metismenu" style="background-color: #FF6D00;" id="menu">
+                <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
                         <a  href="/OrgDashboard" aria-expanded="false">
@@ -133,10 +133,10 @@
             
                     
                     <li>
-                        <a class="has-arrow" style="background-color: #FF6D00;"  href="javascript:void()" aria-expanded="false">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
-                        <ul aria-expanded="false" style="background-color: #FF6D00;">
+                        <ul aria-expanded="false">
                             <li ><a href="/createExhibitionform">Create New Exhibition</a></li>
                             <li><a href="/activeExhibitions">Active Exhibition</a></li>
                             <li><a href="/InactiveExhibitions">Inactive Exhibition</a></li>
@@ -271,48 +271,48 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            
-
-            <div class="container-fluid mt-3">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">InActive Exhibitions List</h4>
-                                <br/>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Exhibition Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            @foreach($inActiveExs as $key => $inActiveEx)
-                                            <tr>
-                                                <td>{{ $key + 1 }}</td>
-                                                <td>{{ $inActiveEx->ex_name }}</td>
-                                                <td>
-                                                <a href="/editExhibition/{{ $inActiveEx->encInActiveExId }}"class="btn btn-primary">Edit Exhibition</a>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                                                                        
-                                        </tbody>
-                                        
-                                    </table>
+                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">InActive Exhibitions List</h4>
+                        <br/>
+                        <div class="row">
+                            @foreach($inActiveExs as $key => $inActiveEx)
+                            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                                <div class="card">
+                                    @if($inActiveEx->company_logo)
+                                        <img src="data:image/png;base64,{{ $inActiveEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                    @endif
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $inActiveEx->exhibition_name }}</h5>
+                                        <div>
+                                            <div class="mr-3">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">Date:</span>
+                                                <span>{{ $inActiveEx->ex_from_date }}</span>
+                                                <span class="mx-2">-</span>
+                                                <span>{{ $inActiveEx->ex_to_date }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="/editExhibition/{{ $inActiveEx->encInActiveExId }}" class="btn mb-1 btn-outline-success">Edit Exhibition</a>
+                                    </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            
-            
-            <!-- #/ container -->
+            </div>
         </div>
+        
+        <!-- Add this to include Bootstrap CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        
+        
         <!--**********************************
             Content body end
         ***********************************-->

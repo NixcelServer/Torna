@@ -286,7 +286,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
         <div class="content-body">
-            <div class="container-fluid">
+            <div class="container-fluid mt-3">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -295,48 +295,47 @@
                                 <br/>
                                 <div class="row">
                                     @foreach($participatedExs as $key => $participatedEx)
-    <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
-        <div class="card">
-            @if($participatedEx->exDetails->company_logo)
+                                    <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
+                                        <div class="card" >
+                                            @if($participatedEx->exDetails->company_logo)
                                     <img src="data:image/png;base64,{{ $participatedEx->exDetails->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
                                     @endif
-            <div class="card-body">
-                <h5 class="card-title">{{ $participatedEx->exDetails->exhibition_name }}</h5>
-                <div>
-                    <div class="mr-3">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div>
-                        <span class="font-weight-bold">Date:</span>
-                        <span>{{ $participatedEx->exDetails->ex_from_date }}</span>
-                        <span class="mx-2">-</span>
-                        <span>{{ $participatedEx->exDetails->ex_to_date }}</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card-footer">
-                @if($participatedEx->emailServiceEnabled)
-                    <!-- Enable Generate URL button -->
-                    <a href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" class="btn mb-1 btn-outline-info">Generate URL</a>
-                    <!-- Enable Generate QR Code button -->
-                    <button class="btn mb-1 btn-outline-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode(this)">Generate QR Code</button>
-                    <iframe id="qrCodeFrame" style="display: none;"></iframe>
-                @else
-                    <!-- Disable Generate URL button -->
-                    <button class="btn mb-1 btn-outline-info" disabled>Generate URL</button>
-                    <!-- Disable Generate QR Code button -->
-                    <button class="btn mb-1 btn-outline-info" disabled>Generate QR Code</button>
-                @endif
-                
-                <!-- Additional buttons -->
-                <button class="btn mb-1 btn-outline-primary" onclick="openDocument('{{ $participatedEx->encExId }}', {{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
-                <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn mb-1 btn-outline-success">Collect Data</a>
-            </div>
-        </div>
-    </div>
-@endforeach
-
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $participatedEx->exDetails->exhibition_name }}</h5>
+                                                <div>
+                                                    <div class="mr-3">
+                                                        <i class="fas fa-calendar-alt"></i>
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-weight-bold">Date:</span>
+                                                        <span>{{ $participatedEx->exDetails->ex_from_date }}</span>
+                                                        <span class="mx-2">-</span>
+                                                        <span>{{ $participatedEx->exDetails->ex_to_date }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card-footer" >
+                                                <!-- Add your buttons here for Generate URL, Generate QR Code, Notify By, Collect Data -->
+                                                @if($participatedEx->emailServiceEnabled)
+                                            <!-- Enable Generate URL button -->
+                                            <a href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" class="btn mb-1 btn-outline-info">Generate URL</a>
+                                            <!-- Enable Generate QR Code button -->
+                                            <button class="btn mb-1 btn-outline-info" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
+                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
+                                        @else
+                                            <!-- Disable Generate URL button -->
+                                            <button class="btn mb-1 btn-outline-info" disabled>Generate URL</button>
+                                            <!-- Disable Generate QR Code button -->
+                                            <button class="btn mb-1 btn-outline-info" disabled>Generate QR Code</button>
+                                        @endif
+                                                <button class="btn mb-1 btn-outline-primary" onclick="openDocument('{{ $participatedEx->encExId }}',{{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
+                                                <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn mb-1 btn-outline-success">Collect Data</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -375,7 +374,7 @@
                                                             <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
                                                             <iframe id="qrCodeFrame" style="display: none;"></iframe>
                                                              data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
-                                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
+                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
 
                                                         @else
                                                             <!-- Disable Generate URL button -->
@@ -520,37 +519,42 @@
                             <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
                             
 
-                            <script>
-                                function generateQRCode(button) {
-                                    // Get the data-id attribute from the button
-                                    const exId = button.getAttribute('data-id');
-                                    // Generate the QR code using qrcode-generator library
-                                    const qr = qrcode(0, 'M');
-                                    qr.addData(`http://192.168.1.47:8000/visitordetails/${exId}`);
-                                    qr.make();
-                                    // Get the QR code SVG and convert it to a data URI
-                                    const svg = qr.createSvgTag();
-                                    const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
-                            
-                                    // Display the QR code in the iframe
-                                    const iframe = document.getElementById('qrCodeFrame');
-                                    iframe.src = dataUri;
-                                    iframe.style.display = 'block';
-                                }
-                            
-                                // Function to download the QR code
-                                function downloadQRCode() {
-                                    const iframe = document.getElementById('qrCodeFrame');
-                                    const svg = iframe.contentDocument.querySelector('svg');
-                            
-                                    // Create a temporary link element to trigger the download
-                                    const link = document.createElement('a');
-                                    link.href = 'data:image/svg+xml;base64,' + btoa(new XMLSerializer().serializeToString(svg));
-                                    link.download = 'qr-code.svg';
-                                    link.click();
-                                }
-                            </script>
-                            
+<script>
+    function generateQRCode() {
+        //console.log("Generating");
+    // Get the data-id attribute from the button
+    const exId = document.querySelector('.generate-qr-btn').getAttribute('data-id');
+    //console.log(exId);
+    // Generate the QR code using qrcode-generator library
+    const qr = qrcode(0, 'M');
+    qr.addData(`http://192.168.1.47:8000/visitordetails/${exId}`);
+    qr.make();
+    //console.log(qr);
+    // Get the QR code SVG and convert it to a data URI
+    const svg = qr.createSvgTag();
+    const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
+    //console.log(dataUri);
+
+    // Display the QR code in the iframe
+    const iframe = document.getElementById('qrCodeFrame');
+    console.log(iframe);
+    iframe.src = dataUri;
+    iframe.style.display = 'block';
+}
+
+// Function to download the QR code
+function downloadQRCode() {
+    const iframe = document.getElementById('qrCodeFrame');
+    const svg = iframe.contentDocument.querySelector('svg');
+
+    // Create a temporary link element to trigger the download
+    const link = document.createElement('a');
+    link.href = 'data:image/svg+xml;base64,' + btoa(new XMLSerializer().serializeToString(svg));
+    link.download = 'qr-code.svg';
+    link.click();
+}
+
+</script>
 
 
                             {{-- <body>

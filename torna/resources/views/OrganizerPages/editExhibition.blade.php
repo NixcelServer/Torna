@@ -275,14 +275,14 @@
                 <div class="row justify-content-center">
                     <div class="col-md-11">
                         <div class="card">
-                            <h2 class="card-header text-center mt-2">Edit Exhibition</h2>
+                            <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Edit Exhibition</h4>
                             <div class="card-body">
                                 <form method="POST" action="/updateExhibition" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group row">
                                         <div class="col-md-4">
                                             <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
-                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ $exhibition->ex_name }}" required>
+                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" value="{{ $exhibition->exhibition_name }}" required>
                                             <input id="encExhibitionId" name="encExhibitionId" type="hidden" value="{{ $exhibition->encExhibitionId }}" class="form-control">                                   
 
                                         </div>
@@ -312,7 +312,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-4">
                                             <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
-                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control" value="{{ $exhibition->ex_website }}">
+                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control" value="{{ $exhibition->exhibition_website }}">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
@@ -320,7 +320,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
-                                            <input id="registration_url" name="registration_url" type="text" class="form-control" value="{{ $exhibition->ex_reg_url }}">
+                                            <input id="registration_url" name="registration_url" type="text" class="form-control" value="{{ $exhibition->registration_url }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">

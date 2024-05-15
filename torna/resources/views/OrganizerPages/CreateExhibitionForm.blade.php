@@ -47,7 +47,7 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/OrgDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
@@ -67,7 +67,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -271,117 +271,94 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            
-
-            <div class="container mt-3">
+            <div class="container mt-4">
                 <div class="row justify-content-center">
                     <div class="col-md-11">
                         <div class="card">
-                            <h2 class="card-header text-center mt-2">Create Exhibition</h2>
-            
+                            <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                Create Exhibition
+                            </h4>
                             <div class="card-body">
-                                <form method="POST" action="/createExhibition" enctype="multipart/form-data">
+                                <form method="POST" action="/createExhibition" enctype="multipart/form-data" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                     @csrf
-            
                                     <div class="form-group row">
                                         <div class="col-md-4">
                                             <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
-                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required>
+                                            <input id="exhibition_name" name="exhibition_name" type="text" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
-                                            <input id="from_date" name="from_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required >
+                                            <input id="from_date" name="from_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
-            
                                         <div class="col-md-4">
                                             <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
-                                            <input id="to_date" name="to_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required>
+                                            <input id="to_date" name="to_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                             <span id="date-error" style="color: red; display: none;">To date should not be less than from date.</span>
-
                                         </div>
                                         <script>
-    document.getElementById('from_date').addEventListener('change', function() {
-        var toDateInput = document.getElementById('to_date');
-        var fromDateValue = this.value;
+                                            document.getElementById('from_date').addEventListener('change', function() {
+                                                var toDateInput = document.getElementById('to_date');
+                                                var fromDateValue = this.value;
         
-        // Set the minimum selectable date for "to date" input field
-        toDateInput.min = fromDateValue;
+                                                // Set the minimum selectable date for "to date" input field
+                                                toDateInput.min = fromDateValue;
         
-        // Reset the value of "to date" if it's before "from date"
-        if (toDateInput.value < fromDateValue) {
-            toDateInput.value = '';
-        }
-    });
-</script>
+                                                // Reset the value of "to date" if it's before "from date"
+                                                if (toDateInput.value < fromDateValue) {
+                                                    toDateInput.value = '';
+                                                }
+                                            });
+                                        </script>
                                         <script>
-    document.getElementById('to_date').addEventListener('change', function() {
-        var fromDate = document.getElementById('from_date').value;
-        var toDate = this.value;
-
-        if (fromDate && toDate < fromDate) {
-            document.getElementById('date-error').style.display = 'inline';
-            this.value = ''; // Clear the "to date" input
-        } else {
-            document.getElementById('date-error').style.display = 'none';
-        }
-    });
-</script>
+                                            document.getElementById('to_date').addEventListener('change', function() {
+                                                var fromDate = document.getElementById('from_date').value;
+                                                var toDate = this.value;
+        
+                                                if (fromDate && toDate < fromDate) {
+                                                    document.getElementById('date-error').style.display = 'inline';
+                                                    this.value = ''; // Clear the "to date" input
+                                                } else {
+                                                    document.getElementById('date-error').style.display = 'none';
+                                                }
+                                            });
+                                        </script>
                                     </div>
-            
-                                    <div class="row">
-                                        
-                                    </div>
-            
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="start_time" class="col-form-label text-md-right">Start Time <span style="color: red;">*</span></label>
-                                            <input id="start_time" name="start_time" type="time" class="form-control" required>
+                                            <input id="start_time" name="start_time" type="time" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
-            
                                         <div class="col-md-4">
                                             <label for="end_time" class="col-form-label text-md-right">End Time <span style="color: red;">*</span></label>
-                                            <input id="end_time" name="end_time" type="time" class="form-control" required>
+                                            <input id="end_time" name="end_time" type="time" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="venue" class="col-form-label text-md-right">Venue <span style="color: red;">*</span></label>
-                                            <input id="venue" name="venue" type="text" class="form-control" required>
+                                            <input id="venue" name="venue" type="text" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                     </div>
-            
-                                    <div class="form-group row">
-                                        
-            
-                                        {{-- <div class="col-md-6">
-                                            <label for="organized_by" class="col-form-label text-md-right">Organized By</label>
-                                            <input id="organized_by" name="organized_by" type="text" class="form-control" required>
-                                        </div> --}}
-                                    </div>
-            
-            
                                     <div class="form-group row">
                                         <div class="col-md-4">
                                             <label for="exhibition_website" class="col-form-label text-md-right">Exhibition Website</label>
-                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control">
+                                            <input id="exhibition_website" name="exhibition_website" type="text" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
-                                            <input id="attach_document" name="attach_document" type="file" class="form-control">
+                                            <input id="attach_document" name="attach_document" type="file" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
-                                            <input id="registration_url" name="registration_url" type="text" class="form-control">
+                                            <input id="registration_url" name="registration_url" type="text" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        
-            
                                         <div class="col-md-4">
                                             <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
-                                            <input id="company_logo" name="company_logo" type="file" class="form-control">
+                                            <input id="company_logo" name="company_logo" type="file" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
                                         <div class="col-md-4">
                                             <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
-                                            <select name="industry_name" class="form-control" required>
+                                            <select name="industry_name" class="form-control" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                 <option value="">Select Industry</option>
                                                 @foreach($industries as $industry)
                                                 <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
@@ -393,30 +370,23 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked>
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Active" value="Active" checked <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                         <label class="form-check-label" for="Active">Active</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive">
+                                                        <input class="form-check-input" type="radio" name="active_status" id="Inactive" value="Inactive" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                         <label class="form-check-label" for="Inactive">Inactive</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
                                     </div>
-            
-            
-            
-            
-            
                                     <br />
                                     <div class="form-group row justify-content-center mb-3">
                                         <div class="col-md-6 offset-md-4">
-                                            <button type="submit" class="btn btn-primary">
+                                            <button type="submit" class="btn btn-primary" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                 Register
                                             </button>
                                         </div>
@@ -427,14 +397,37 @@
                     </div>
                 </div>
             </div>
-            
-            
-            <!-- #/ container -->
         </div>
+        
         <!--**********************************
             Content body end
         ***********************************-->
-        
+       
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<?php if ($approvedStatus === false): ?>
+<script>
+    // Ensure that SweetAlert2 library is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        Swal.fire({
+            title: 'You Cannot create exhibition! You are not approved !',
+            text: "",
+            icon: 'warning', // or 'info', 'success', 'error' as appropriate
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the notification settings page
+                window.location.href = "/OrgDashboard";
+            }
+        });
+    });
+</script>
+<?php endif; ?>
+
         
         <!--**********************************
             Footer start
@@ -448,6 +441,10 @@
             Footer end
         ***********************************-->
     </div>
+
+
+   
+    
     <!--**********************************
         Main wrapper end
     ***********************************-->

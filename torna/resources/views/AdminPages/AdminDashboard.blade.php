@@ -21,64 +21,7 @@
     <link href="css/style.css" rel="stylesheet">
 
 </head>
-<style>
-    .sticky-nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000; /* Adjust z-index as needed */
-        background-color: #ffffff; /* Adjust background color as needed */
-        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-    }
-    .sticky-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000; /* Adjust z-index as needed */
-        background-color: #ffffff; /* Adjust background color as needed */
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-    }
-    .content-body {
-        padding-top: 80px; /* Adjust based on header height */
-    }
-    .sticky-sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh; /* Set height to viewport height */
-        background-color: #ffffff; /* Adjust background color as needed */
-        width: 230px; /* Adjust width as needed */
-        padding-top: 80px; /* Optional: Add padding to top */
-        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-    }
 
-    /* Optional: Adjust padding/margins for content to avoid overlap with the fixed sidebar */
-    .content-body {
-        margin-left: 250px; /* Adjust based on sidebar width */
-       
-    }
-    .sticky-content-body {
-        position: fixed;
-        top: 20px;
-        width: calc(100% - 250px); 
-        overflow-y: auto;
-        z-index: 999;
-        left: 1px;
-        height: 100vh;
-        padding-top: 100px; /* Optional: Add padding to top */
-        background-color: #ffffff; /* Optional: Add background color */
-        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-    }
-
-    /* Optional: Adjust padding/margins for content to avoid overlap with the fixed content body */
-    .container-fluid {
-        margin-top: 80px; /* Adjust based on header height */
-    }
-
-    
-</style>
 
 <body>
 
@@ -105,8 +48,8 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav sticky-nav">
-            <div class="nav-header">
+        <div class="nav">
+            <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
                 <div class="brand-logo">
                     <a href="">
                         <b class="logo-abbr"><img src="" alt=""> </b>
@@ -128,15 +71,15 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header sticky-header">
-            <div class="header">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">
+               
                 <div class="header-content clearfix">
                     
-                    {{-- <div class="nav-control">
+                    <div class="nav-control">
                         <div class="hamburger">
                             <span class="toggle-icon"><i class="icon-menu"></i></span>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="header-left">
                         <div class="input-group icons">
                             
@@ -166,7 +109,7 @@
                     </div>
                     
                 </div>
-            </div>
+            
         </div>
         
         <!--**********************************

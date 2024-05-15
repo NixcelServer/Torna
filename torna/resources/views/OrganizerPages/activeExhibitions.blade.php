@@ -47,12 +47,12 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header"  style="background-color: white;" >
+        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
                 <a href="/OrgDashboard">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
-                    <span class="brand-title" style="color: #ffa117; font-weight: bold; font-size: 20px;">
+                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
                         TORNA
                     </span>
                         <img src="" alt="">
@@ -67,7 +67,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header"style="background-color: #ffa117;">    
+        <div class="header" style="background-color: #FFBE07; height: 63px;">    
             <div class="header-content clearfix">
                 
                 <div class="nav-control">
@@ -271,66 +271,52 @@
             Content body start
         ***********************************-->
         <div class="content-body">
-            
-
-            <div class="container-fluid mt-3">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Active Exhibitions List</h4>
-                                <br/>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Exhibition Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            @foreach($activeExs as $key => $activeEx)
-<tr>
-    <td>{{ $key + 1 }}</td>
-    <td>{{ $activeEx->ex_name }}</td>
-    <td>
-        {{-- <a href="/updateExStatus/{{ $activeEx->encActiveExId }}"
-            class="btn btn-primary change-status-btn"
-            onclick="return confirm('Are you sure you want to change the status to Inactive?');">Change Status</a> --}}
-            <a href="/editExhibition/{{ $activeEx->encActiveExId }}"class="btn btn-primary">Edit Exhibition</a>
-    </td>
-</tr>
-@endforeach
-                                                                                        
-                                        </tbody>
-                                        
-                                    </table>
+                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Active Exhibitions List</h4>
+                        <br/>
+                        <div class="row">
+                            @foreach($activeExs as $key => $activeEx)
+                            <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
+                                <div class="card" >
+                                    @if($activeEx->company_logo)
+                                    <img src="data:image/png;base64,{{ $activeEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                    @endif
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $activeEx->exhibition_name }}</h5>
+                                        <div>
+                                            <div class="mr-3">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">Date:</span>
+                                                <span>{{ $activeEx->ex_from_date }}</span>
+                                                <span class="mx-2">-</span>
+                                                <span>{{ $activeEx->ex_to_date }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card-footer" >
+                                        <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn mb-1 btn-outline-success">Edit Exhibition</a>
+
+                                    </div>
+                                    
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            
-            
-            <!-- #/ container -->
+            </div>
         </div>
+        
+        <!-- Add this to include Bootstrap CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        
         <!--**********************************
             Content body end
-        ***********************************-->
-        
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        {{-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
-            </div>
-        </div> --}}
-        <!--**********************************
-            Footer end
         ***********************************-->
     </div>
     <!--**********************************
@@ -340,63 +326,6 @@
     <!--**********************************
         Scripts
     ***********************************-->
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const changeStatusButtons = document.querySelectorAll('.change-status-btn');
-    
-            changeStatusButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const exhibitionId = this.getAttribute('data-exhibition-id');
-                    console.log("in function",exhibitionId);
-                    debugger;
-                    const updateUrl = this.getAttribute('data-update-url');
-                    console.log(updateUrl);
-                    const confirmation = confirm('Are you sure you want to change the status to Inactive?');
-    
-                    if (confirmation) {
-                        fetch(updateUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                id: exhibitionId,
-                                status: 'Inactive' // You can modify this based on your requirements
-                            })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            alert(data.message); // Show success message
-                            // You can update the UI or perform other actions as needed
-                        })
-                        .catch(error => {
-                            console.error('Error updating status:', error);
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
-
-
-
-
-
-
-
-
     <script src="/plugins/common/common.min.js"></script>
     <script src="/js/custom.min.js"></script>
     <script src="/js/settings.js"></script>

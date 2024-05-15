@@ -79,17 +79,18 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar" style="background-color: #FFBE07; height: 63px;">
         <div class="container">
-            <div class="navbar-brand mx-auto">Welcome To NixcelSoft !</div>
+            <div class="navbar-brand mx-auto" style="font-weight: bold;">Welcome To NixcelSoft !</div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                     aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
-    
-            
         </div>
     </nav>
+    
+    
+    
     
 
 <style>
@@ -107,7 +108,7 @@
     <div class="card-body text-center">
         <h5 class="card-title">Exhibition Details</h5>
        
-        <p class="card-text">Exhibition Name: {{ $participatedEx->exDetails->ex_name }}</p>
+        <p class="card-text">Exhibition Name: {{ $participatedEx->exDetails->exhibition_name }}</p>
 
         @if($participatedEx->exDetails->company_logo)
     <img src="data:image/png;base64,{{ $participatedEx->exDetails->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 50%; height: 250px; object-fit: cover;">
