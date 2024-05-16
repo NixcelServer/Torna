@@ -59,17 +59,19 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
-            <div class="brand-logo">
-                <a href="/OrgDashboard">
-                    <b class="logo-abbr"><img src="" alt=""> </b>
-                    <span class="logo-compact"><img src="" alt=""></span>
-                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
-                        TORNA
-                    </span>
-                        <img src="" alt="">
-                    </span>
-                </a>
+        <div class="nav">
+            <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
+                <div class="brand-logo">
+                    <a href="">
+                        <b class="logo-abbr"><img src="" alt=""> </b>
+                        <span class="logo-compact"><img src="" alt=""></span>
+                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
+                            TORNA
+                        </span>
+                            <img src="" alt="">
+                        </span>
+                    </a>
+                </div>
             </div>
         </div>
         <!--**********************************
@@ -123,36 +125,50 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> 
+        <div class="nk-sidebar" style="margin-top: -17px;"> 
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
                         <a  href="/OrgDashboard" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
+                            <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
                         <a  href="/companysetupform-O" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company SetUp</span>
+                            <i class="bi bi-gear-fill"></i><span class="nav-text">Company SetUp</span>
                         </a>
                     </li>
                     <li>
                         <a  href="/industrymasterO" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                            <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
                         </a>
                     </li>
             
                     
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
+                            <i class="bi bi-calendar-week"></i><span class="nav-text">Exhibitions</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="/createExhibitionform">Create New Exhibition</a></li>
-                            <li><a href="/activeExhibitions">Active Exhibition</a></li>
-                            <li><a href="/InactiveExhibitions">Inactive Exhibition</a></li>
+                            <li>
+                                <a href="/createExhibitionform">
+                                    <i class="bi bi-plus-circle"></i><span class="nav-text">Create New Exhibition</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/activeExhibitions">
+                                    <i class="bi bi-calendar-check"></i><span class="nav-text">Active Exhibition</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/InactiveExhibitions">
+                                    <i class="bi bi-calendar-x"></i><span class="nav-text">Inactive Exhibition</span>
+                                </a>
+                            </li>
+                            
 
                         </ul>
                     </li>

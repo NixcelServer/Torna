@@ -33,36 +33,22 @@ class UpdateExhibitionStatus extends Command
         parent::__construct();
     }
 
+    
+
     public function handle()
-    {
-        //$currentDate = now()->toDateString();
-        $currentDate= Carbon::now()->format('Y-m-d');
-        $exhibitions = ExhibitionDetail::where('active_status', 'active')->get();
-        foreach($exhibitions as $exhibition)
-        {
-          $exhibitionDate =  Carbon::parse($exhibition->ex_to_date);
-          $day=$exhibitionDate->diffInDays($currentDate);
-
-          if($day > 0)
-          {
-            ExhibitionDetail::where('tbl_ex_id', $exhibition->tbl_ex_id)->update(['active_status' => 'Past']);
-
-          }
-          //Log::info($day);
+{
+    $currentDate = Carbon::now()->format('Y-m-d');
+    $exhibitions = ExhibitionDetail::where('active_status', 'active')->get();
+    
+    foreach($exhibitions as $exhibition) {
+        $exhibitionDate = Carbon::parse($exhibition->ex_to_date);
+        
+        if ($exhibitionDate->lessThan($currentDate)) {
+            ExhibitionDetail::where('tbl_ex_id', $exhibition->tbl_ex_id)
+                ->update(['active_status' => 'Past']);
         }
-        // // Fetch exhibitions whose end dates have passed
-        // $exhibitions = ExhibitionDetail::where('ex_to_date', '<', $currentDate)
-        //     ->where('active_status', 'Active')
-        //     ->get();
-
-        // // Update the active status to "Inactive"
-        // foreach ($exhibitions as $exhibition) {
-        //     $exhibition->active_status = 'Inactive';
-        //     $exhibition->save();
-
-        // }
-        // \Log::info($exhibitions);
-        // $this->info('Exhibition statuses updated successfully.');
     }
+}
+
 }
 

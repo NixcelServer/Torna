@@ -59,17 +59,19 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
-            <div class="brand-logo">
-                <a href="/ExDashboard">
-                    <b class="logo-abbr"><img src="" alt=""> </b>
-                    <span class="logo-compact"><img src="" alt=""></span>
-                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
-                        TORNA
-                    </span>
-                        <img src="" alt="">
-                    </span>
-                </a>
+        <div class="nav">
+            <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
+                <div class="brand-logo">
+                    <a href="">
+                        <b class="logo-abbr"><img src="" alt=""> </b>
+                        <span class="logo-compact"><img src="" alt=""></span>
+                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
+                            TORNA
+                        </span>
+                            <img src="" alt="">
+                        </span>
+                    </a>
+                </div>
             </div>
         </div>
         <!--**********************************
@@ -114,55 +116,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="nk-sidebar">           
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    {{-- <li class="nav-label">Dashboard</li> --}}
-                    <li>
-                        <a  href="/ExDashboard" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                        
-                    </li>
-                    <li>
-                        <a  href="/companysetupform" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
-                        </a>
-                    </li>
-                    
-            
-                    
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
-                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
-                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
-                            <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
-
-
-                        </ul>
-                    </li>
-                    <li>
-                        <a  href="/products" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a  href="/documents" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a  href="/notificationSetting" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Setting</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
@@ -170,52 +124,46 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">           
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> 
+        <div class="nk-sidebar" style="margin-top: -17px;"> 
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
-                    {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/ExDashboard" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                        
-                    </li>
-                    <li>
-                        <a  href="/companysetupform" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
+                        <a href="/ExDashboard" aria-expanded="false">
+                            <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
-                    
-            
-                    
+                    <li>
+                        <a href="/companysetupform" aria-expanded="false">
+                            <i class="bi bi-building menu-icon"></i><span class="nav-text">Company Details</span>
+                        </a>
+                    </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
+                            <i class="bi bi-calendar-week menu-icon"></i><span class="nav-text">Exhibitions</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
-                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
-                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
-                            <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
-
-
+                            <li><a href="/createExhibitionform-E"><i class="bi bi-plus-circle"></i><span class="nav-text">Create New Exhibition</span></a></li>
+                            <li><a href="/pastExhibitions"><i class="bi bi-calendar-check"></i><span class="nav-text">Past Exhibition</span></a></li>
+                            <li><a href="/upcomingExhibitions"><i class="bi bi-calendar-x"></i><span class="nav-text">Upcoming Exhibition</span></a></li>
+                            <li><a href="/participatedExhibitions"><i class="bi bi-calendar-event"></i><span class="nav-text">Participated Exhibitions</span></a></li>
                         </ul>
                     </li>
                     <li>
-                        <a  href="/products" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
+                        <a href="/products" aria-expanded="false">
+                            <i class="bi bi-archive menu-icon"></i><span class="nav-text">Products/Services</span>
                         </a>
                     </li>
                     <li>
-                        <a  href="/documents" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
+                        <a href="/documents" aria-expanded="false">
+                            <i class="bi bi-file-earmark-text menu-icon"></i><span class="nav-text">Documents</span>
                         </a>
                     </li>
                     <li>
-                        <a  href="/notificationSetting" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Setting</span>
+                        <a href="/notificationSetting" aria-expanded="false">
+                            <i class="bi bi-bell menu-icon"></i><span class="nav-text">Notification Setting</span>
                         </a>
-                    </li> 
+                    </li>
                 </ul>
             </div>
         </div>

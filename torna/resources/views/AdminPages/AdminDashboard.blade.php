@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
 
@@ -49,12 +50,12 @@
             Nav header start
         ***********************************-->
         <div class="nav">
-            <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
+            <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
                 <div class="brand-logo">
                     <a href="">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
+                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
                             TORNA
                         </span>
                             <img src="" alt="">
@@ -71,7 +72,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header" style="background-color: #FFBE07; height: 63px;">
+        <div class="header" style="background-color: #ffbe07; height: 63px;">
                
                 <div class="header-content clearfix">
                     
@@ -120,25 +121,24 @@
             Sidebar start
         ***********************************-->
         
-        <div class="nk-sidebar sticky-sidebar">           
+        <div class="nk-sidebar" style="margin-top: -17px;"> 
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
-                    {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/AdminDashboard" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
+                        <a href="/AdminDashboard" aria-expanded="false" >
+                            <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
                     </li>
                     <li>
-                        <a  href="/industrymaster" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Industry</span>
+                        <a  href="/industrymaster" aria-expanded="false" >
+                            <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
                         </a>
                         
                     </li>
                     <li>
-                        <a  href="/auditlog" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Audit Log</span>
+                        <a  href="/auditlog" aria-expanded="false" >
+                            <i class="bi bi-card-list"></i><span class="nav-text">Audit Log</span>
                         </a>
                         
                     </li>
@@ -152,37 +152,37 @@
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body sticky-content-body">
+        <div class="content-body">
             <div class="container-fluid mt-1">
                 <div class="row">
                     <!-- First row with three cards -->
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="card gradient-4">
+                    <div class="col-lg-4 col-md-6 col-sm-6" >
+                        <div class="card gradient-4 compact-card" >
                             <div class="card-body text-center">
                                 <a href="/unapprovedorgcount">
-                                    <h3 class="card-title text-white">Unapproved Organizer Count</h3>
+                                    <h4 class="card-title text-white mb-3">Unapproved Organizer Count</h4>
                                 </a>
-                                <h1>{{ $unapprovedOrgCount }}</h1>
+                                <h2  class="mb-0">{{ $unapprovedOrgCount }}</h2>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="card gradient-4">
+                        <div class="card gradient-4 compact-card">
                             <div class="card-body text-center">
                                 <a href="/approvedorgcount">
-                                    <h3 class="card-title text-white">Approved Organizer Count</h3>
+                                    <h4 class="card-title text-white mb-3">Approved Organizer Count</h4>
                                 </a>
-                                <h1>{{ $approvedOrgCount }}</h1>
+                                <h2  class="mb-0">{{ $approvedOrgCount }}</h2>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="card gradient-4">
+                        <div class="card gradient-4 compact-card">
                             <div class="card-body text-center">
                                 <a href="/rejectedorgcount">
-                                    <h3 class="card-title text-white">Rejected Organizer Count</h3>
+                                    <h4 class="card-title text-white mb-3">Rejected Organizer Count</h4>
                                 </a>
-                                <h1>{{ $rejectedOrgCount }}</h1>
+                                <h2  class="mb-0">{{ $rejectedOrgCount }}</h2>
                             </div>
                         </div>
                     </div>
@@ -191,32 +191,32 @@
                 <!-- Second row with three cards -->
                 <div class="row mt-4">
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="card gradient-2">
+                        <div class="card gradient-2 compact-card">
                             <div class="card-body text-center">
                                 <a href="/unapprovedexcount">
-                                    <h3 class="card-title text-white">Unapproved Exhibitor Count</h3>
+                                    <h4 class="card-title text-white mb-3">Unapproved Exhibitor Count</h4>
                                 </a>
-                                <h1>{{ $unapprovedExCount }}</h1>
+                                <h2  class="mb-0">{{ $unapprovedExCount }}</h2>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="card gradient-2">
+                        <div class="card gradient-2 compact-card">
                             <div class="card-body text-center">
                                 <a href="/approvedexcount">
-                                    <h3 class="card-title text-white">Approved Exhibitor Count</h3>
+                                    <h4 class="card-title text-white mb-3">Approved Exhibitor Count</h4>
                                 </a>
-                                <h1>{{ $approvedExCount }}</h1>
+                                <h2  class="mb-0">{{ $approvedExCount }}</h2>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="card gradient-2">
+                        <div class="card gradient-2 compact-card">
                             <div class="card-body text-center">
                                 <a href="/rejectedexcount">
-                                    <h3 class="card-title text-white">Rejected Exhibitor Count</h3>
+                                    <h4 class="card-title text-white mb-3">Rejected Exhibitor Count</h4>
                                 </a>
-                                <h1>{{ $rejectedExCount }}</h1>
+                                <h2 class="mb-0">{{ $rejectedExCount }}</h2>
                             </div>
                         </div>
                     </div>
