@@ -50,7 +50,7 @@
         <div class="nav">
             <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
                 <div class="brand-logo">
-                    <a href="">
+                    <a href="/ExDashboard">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
                         <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
@@ -194,15 +194,15 @@
                                     </div>
                                     <div class="card-footer">
                                         <button class="btn mb-1 {{ $upcomingEx->participated ? 'btn-sm btn-success' : 'btn-sm btn-outline-primary' }}" 
-                                            {{ $upcomingEx->participated ? 'disabled title=Already_Participated! data-toggle=tooltip' : '' }}
+                                            {{ $upcomingEx->participated ? 'disabled title=Already_Participated! data-toggle=tooltip' : ($approvedStatus === false ? 'disabled' : '') }}
                                             data-id="{{ $upcomingEx->encExId }}" 
                                             onclick="confirmParticipation(event)">
-                                        @if($upcomingEx->participated)
-                                            Participated
-                                        @else
-                                            Participate
-                                        @endif
-                                    </button>                                                                                                     
+                                            @if($upcomingEx->participated)
+                                                Participated
+                                            @else
+                                                Participate
+                                            @endif
+                                        </button>                                                                                                                                             
                                     </div>
                                 </div>
                             </div>
@@ -290,7 +290,29 @@
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <?php if ($approvedStatus === false): ?>
+    <script>
+        // Ensure that SweetAlert2 library is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                title: 'You Cannot participate in exhibition!</br>You are not approved!',
+                text: "",
+                icon: 'warning', // or 'info', 'success', 'error' as appropriate
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the notification settings page
+                    window.location.href = "/ExDashboard";
+                }
+            });
+        });
+    </script>
+    <?php endif; ?>
     <!--**********************************
         Scripts
     ***********************************-->

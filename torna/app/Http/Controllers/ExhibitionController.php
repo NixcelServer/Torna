@@ -648,8 +648,12 @@ class ExhibitionController extends Controller
 
     public function upcomingExhibitions()
     {
-        $user = session('user');
-        
+         $user = session('user');
+         $approvedStatus = false;
+         $userDetails = UserDetail::where('tbl_user_id', $user->tbl_user_id)->first();
+         if($userDetails->active_status == 'Approved'){
+            $approvedStatus = true;
+         }
 
         $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
 
@@ -708,7 +712,7 @@ class ExhibitionController extends Controller
          }
 
                 // dd($showReminder);
-                return view('ExhibitorPages/upcomingExhibitions', ['upcomingExs' => $upcomingExs,'showReminder'=>$showReminder]);
+                return view('ExhibitorPages/upcomingExhibitions', ['upcomingExs' => $upcomingExs,'showReminder'=>$showReminder,'approvedStatus'=>$approvedStatus]);
 
             }
 

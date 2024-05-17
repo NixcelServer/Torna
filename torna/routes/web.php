@@ -23,6 +23,7 @@ use App\Http\Controllers\ExhibitionController;
 Route::get('/', [AuthController::class, 'Home'])->name('Home');
 Route::get('/signin', [AuthController::class, 'loginPage']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/regorganizer', [AuthController::class, 'OrganizerRegistrationSubmitForm']);
 Route::post('/regexhibitor', [AuthController::class, 'ExhibitorRegistrationSubmitForm']);
 Route::get('/organizerform', [AuthController::class, 'OrganizerRegistrationForm']);
@@ -49,6 +50,9 @@ Route::middleware(['validLogin','preventBackHistory'])->group(function () {
         Route::post('/storeindustrydetails', [ExhibitionController::class, 'storeindustrydetails']);
 
         Route::get('/deleteindustry/{id}', [ExhibitionController::class, 'deleteindustry']);
+
+        Route::get('/fetchauditlogs', [ExhibitionController::class, 'fetchauditlogs']);
+
         
 
     });   
@@ -82,10 +86,9 @@ Route::middleware(['validLogin','preventBackHistory'])->group(function () {
 
         Route::post('/updatecompanydetails',[ExhibitionController::class,'updateCompanyDetails']);
 
-
-
-       
-
+        //Edit Exhibition Route 
+        Route::get('/editExhibition/{id}', [ExhibitionController::class, 'editExhibition']);
+        Route::post('/updateExhibition',[ExhibitionController::class,'updateExhibition']);
     });
 
     Route::group(['middleware' => ['web', 'isExhibitor']], function(){
@@ -127,109 +130,45 @@ Route::middleware(['validLogin','preventBackHistory'])->group(function () {
 
         Route::get('/sendmail/{id}',[NotifyController::class,'sendMail']);
 
+        Route::get('/collectdata/{id}', [ExhibitionController::class, 'collectdata'])->name('collectdata');
 
 
+        Route::get('/fetchvisitordata/{id}', [ExhibitionController::class, 'fetchvisitordata']);
+
+        //Notifications Settings
+        Route::get('/notificationSetting', [NotifyController::class, 'notificationSetting']);
+
+        //participate in exhibitions
+        Route::get('/participate/{id}',[ExhibitionController::class,'participate'])->name('participatedExhibitions');
+
+        Route::get('/pastExhibitions', [ExhibitionController::class, 'pastExhibitions']);
+
+        Route::get('/updateExStatus/{id}', [ExhibitionController::class, 'updateExStatus'])->name('updateExStatus');
 
 
     });
 
-
-
-
-Route::get('/logout', [AuthController::class, 'logout']);
-
-
-
-
-
-
-
-
 //Route::post('/regexhibitor', [ExhibitionController::class, 'ExhibitorRegistrationSubmitForm']);
 
-
-
-
 Route::post('/updateStatus', [ExhibitionController::class, 'updateStatus']);
-
-
-
-
-
-
-
-
-
-
-
-
 
 Route::get('/activeExhibitions', [ExhibitionController::class, 'activeExhibitions'])->name('activeExhibitions');
 Route::get('/InactiveExhibitions', [ExhibitionController::class, 'InactiveExhibitions']);
 
 
-Route::get('/updateExStatus/{id}', [ExhibitionController::class, 'updateExStatus'])->name('updateExStatus');
 //Route::post('/update-exhibition-status', [ExhibitionController::class, 'updateExStatus'])->name('updateExStatus');
-
-
-
-Route::get('/pastExhibitions', [ExhibitionController::class, 'pastExhibitions']);
-
-
-
-
-
-
-
-
 
 // Route::get('/assignproducts', [ExhibitionController::class, 'assignproducts'])->name('assignproducts');
 
 
-
-
-
-//company set up
-
-
-
 });
-
-
 
 Route::get('/pendingexcounts', [ExhibitionController::class, 'pendingexcounts']);
 
 Route::get('/participatedExhibitions', [ExhibitionController::class, 'participatedExhibitions']);
 
-Route::get('/visitordetails/{id}', [ExhibitionController::class, 'visitorsdetails'])->name('visitorsdetails');
-
-
-
-//participate in exhibitions
-Route::get('/participate/{id}',[ExhibitionController::class,'participate'])->name('participatedExhibitions');
-
-
-//Notifications Settings
-Route::get('/notificationSetting', [NotifyController::class, 'notificationSetting']);
-
-
+//Visitor Details Routes
 Route::post('/regvisitor',[ExhibitionController::class, 'regVisitor']  );
-
-
-Route::get('/collectdata/{id}', [ExhibitionController::class, 'collectdata'])->name('collectdata');
-
-
-
-
-
-
-Route::get('/fetchvisitordata/{id}', [ExhibitionController::class, 'fetchvisitordata']);
-Route::get('/fetchauditlogs', [ExhibitionController::class, 'fetchauditlogs']);
-
-
-//Edit Exhibition Route 
-Route::get('/editExhibition/{id}', [ExhibitionController::class, 'editExhibition']);
-Route::post('/updateExhibition',[ExhibitionController::class,'updateExhibition']);
-
+Route::get('/visitordetails/{id}', [ExhibitionController::class, 'visitorsdetails'])->name('visitorsdetails');
 
 ?>

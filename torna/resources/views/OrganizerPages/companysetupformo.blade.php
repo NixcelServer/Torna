@@ -28,7 +28,7 @@
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+{{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> --}}
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -62,7 +62,7 @@
         <div class="nav">
             <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
                 <div class="brand-logo">
-                    <a href="">
+                    <a href="/OrgDashboard">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
                         <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">

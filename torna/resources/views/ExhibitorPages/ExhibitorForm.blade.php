@@ -147,10 +147,17 @@
     });
 
 </script>
-
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<style>
+    /* Custom styles for the Register and Sign In buttons */
+    .register-btn,
+    .nav-link[href="/signin"] {
+        background-color: #FFBE07 !important; /* Set background color to #FFBE07 */
+        border-color: #FFBE07 !important; /* Set border color to #FFBE07 */
+    }
+</style>
+<nav class="navbar navbar-expand-lg navbar-light ftco_navbar bg-light ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="">Nixcel<span>Exhibition.</span></a>
+        <a class="navbar-brand" href="/">Nixcel<span>Exhibition.</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                 aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="oi oi-menu"></span> Menu
@@ -158,12 +165,12 @@
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="/" class="nav-link text-white">Home</a></li>
-                <li class="nav-item"><a href="" class="nav-link text-white">About</a></li>
-                <li class="nav-item"><a href="" class="nav-link text-white">Exhibitions</a></li>
-                <li class="nav-item"><a href="" class="nav-link text-white">Schedule</a></li>
-                <li class="nav-item"><a href="" class="nav-link text-white">Blog</a></li>
-                <li class="nav-item"><a href="" class="nav-link text-white">Contact</a></li>
+                <li class="nav-item active"><a href="/" class="nav-link text-black">Home</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">About</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">Exhibitions</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">Schedule</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">Blog</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">Contact</a></li>
                 <li class="nav-item cta mr-md-2">
                     <a href="#" class="nav-link register-btn" data-toggle="popover" data-placement="bottom"
                        data-content='

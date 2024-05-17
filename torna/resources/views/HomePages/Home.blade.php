@@ -38,9 +38,20 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   </head>
+
+  <style>
+    /* Custom styles for the Register and Sign In buttons */
+    .register-btn,
+    .nav-link[href="/signin"] {
+        background-color: #FFBE07 !important; /* Set background color to #FFBE07 */
+        border-color: #FFBE07 !important; /* Set border color to #FFBE07 */
+    }
+</style>
+
+
   <body>
     
-	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	  <nav class="navbar navbar-expand-lg navbar-light ftco_navbar bg-light ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
 	      <a class="navbar-brand" href="">Nixcel<span>Exhibition.</span></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,14 +67,14 @@
 	          <li class="nav-item"><a href="" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="" class="nav-link">Contact</a></li>
 	          <li class="nav-item cta mr-md-2">
-				<a href="#" class="nav-link register-btn" data-toggle="popover" style="background-color: #FFBE07; color: black;" data-placement="bottom" data-content='
+				<a href="#" class="nav-link register-btn" data-toggle="popover" data-placement="bottom" data-content='
     <a href="/organizerform" class="dropdown-item">As Organizer</a>
     <a href="/exhibitorform" class="dropdown-item">As Exhibitor</a>
 '>Register</a>
 
 			</li>
 			<li class="nav-item cta mr-md-2">
-				<a href="/signin" class="nav-link" style="background-color: #FFBE07; color: black;">Sign In</a>
+				<a href="/signin" class="nav-link" >Sign In</a>
 			</li>
 			
 
@@ -81,8 +92,8 @@
 	</script>
     <!-- END nav -->
     
-    <div class="hero-wrap js-fullheight" style="background-image: url('images/bg_1.jpg');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
+    <div class="hero-wrap js-fullheight" style="background-image: url('images/imgs/bg_1.jpg');" data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
       <div class="container" >
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true" style="color: #FF6D00;">
           <div class="col-xl-10 ftco-animate" data-scrollax=" properties: { translateY: '70%' }" style="color: #FF6D00;">
@@ -712,7 +723,7 @@
       </div>
     </section>
 
-    <section class="ftco-gallery">
+    {{-- <section class="ftco-gallery">
     	<div class="container-wrap">
     		<div class="row no-gutters">
 					<div class="col-md-3 ftco-animate">
@@ -745,7 +756,7 @@
 					</div>
         </div>
     	</div>
-    </section>
+    </section> --}}
 
     <footer class="ftco-footer ftco-bg-dark ftco-section">
       <div class="container">

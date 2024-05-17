@@ -50,7 +50,7 @@
         <div class="nav">
             <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
                 <div class="brand-logo">
-                    <a href="">
+                    <a href="/ExDashboard">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
                         <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">

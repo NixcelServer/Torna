@@ -50,7 +50,7 @@
         <div class="nav">
             <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
                 <div class="brand-logo">
-                    <a href="">
+                    <a href="/ExDashboard">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
                         <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
@@ -203,9 +203,9 @@
                     <iframe id="qrCodeFrame" style="display: none;"></iframe>
                 @else
                     <!-- Disable Generate URL button -->
-                    <button class="btn btn-sm mb-1 btn-outline-primary" disabled>Generate URL</button>
+                    <button class="btn btn-sm mb-1 btn-outline-primary" disabled title=First_Select_Notification_Method! data-toggle=tooltip>Generate URL</button>
                     <!-- Disable Generate QR Code button -->
-                    <button class="btn btn-sm mb-1 btn-outline-secondary" disabled>Generate QR Code</button>
+                    <button class="btn btn-sm mb-1 btn-outline-secondary" disabled title=First_Select_Notification_Method! data-toggle=tooltip>Generate QR Code</button>
                 @endif
                 
                 <!-- Additional buttons -->

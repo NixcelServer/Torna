@@ -103,8 +103,15 @@ public function notificationSetting(){
 
     $user = session('user');
     $emailDetails = EmailSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
+    // $emailDetails = EmailSetting::where('tbl_user_id', $user->tbl_user_id)->value('tbl_email_setting_id');
+    // $emailDetails = EmailSetting::where('tbl_email_setting_id', $emailDetails)->first();
+// First, fetch the tbl_email_setting_id based on tbl_user_id
+    //$emailDetails = EmailSetting::where('tbl_user_id', 69)->where('flag', 'show')->first();
+
   //  $smsDetails = SMSSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
     // $whatsappDetails = WhatsappSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
+    //dd($user);
+    //dd($emailDetails);
     return view('ExhibitorPages.notificationSetting',['emailDetails'=>$emailDetails]);
 }
     

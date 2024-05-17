@@ -96,7 +96,7 @@
         <div class="nav">
             <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
                 <div class="brand-logo">
-                    <a href="">
+                    <a href="/ExDashboard">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
                         <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
@@ -250,7 +250,7 @@
                                             @if ($emailDetails !== null)
                                                 <input type="text" class="form-control" id="val-username-smtp" name="username" value="{{$emailDetails->username}}"placeholder="SMTP username">
                                                 @else
-                                                <input type="text" class="form-control" id="val-username-smtp" name="username" placeholder="SMTP username">
+                                                <input type="text" class="form-control" id="val-username-smtp" name="username"  placeholder="SMTP username">
                                                 @endif
                                             </div>
                                         </div>
@@ -263,7 +263,7 @@
                                                 <input type="password" class="form-control" id="val-password-smtp" name="password"  placeholder="SMTP password">
                                                 @endif
                                             </div>
-                                        </div>
+                                        </div>                         
                                         <br/>
                                         <div class="form-group row">
                                             <div class="col-lg-8 ml-auto">
