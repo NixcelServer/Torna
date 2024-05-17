@@ -184,7 +184,7 @@
                                                 <td>{{ $organizer->email }}</td>
                                                 <td>{{ $organizer->contact_no }}</td>
                                                 <td>
-                                                    <button class="btn btn-primary" onclick="openDocument('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}', '{{ $organizer->company_logo }}')">
+                                                    <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}', '{{ $organizer->company_logo }}')">
                                                         View
                                                     </button>
                                                 </td>

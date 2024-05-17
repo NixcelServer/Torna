@@ -315,7 +315,7 @@
                                     </div>
                                     
                                     <div class="card-footer" >
-                                        <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn mb-1 btn-outline-success">Edit Exhibition</a>
+                                        <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-success">Edit Exhibition</a>
 
                                     </div>
                                     

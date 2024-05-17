@@ -327,7 +327,7 @@
                                                 <td>{{ $industry->industry_name }}</td>
                                                 <td>
                                                     @if($industry->delete_disabled)
-                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}" disabled>Delete</button>
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}" disabled title="This industry is created by admin so cannot be deleted !" data-toggle="tooltip">Delete</button>
                                                     @else
                                                         <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button>
                                                     @endif

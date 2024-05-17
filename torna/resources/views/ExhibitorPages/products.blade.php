@@ -190,8 +190,8 @@
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
                                             <tr>
-                                                <th>Sr No</th>
-                                                <th>product_name</th>
+                                                <th>Sr. No</th>
+                                                <th>Product Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -202,7 +202,7 @@
                                                 <td>{{ $product->product_name }}</td>
                                                 <td>
                                                     @if($product->assignedProdCount > 0)
-                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}" disabled title="This Service Assigned to the document so this service cannot deleted">Delete</button>
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}" disabled title="Service is assigned to this document, so this service cannot be deleted" data-toggle="tooltip">Delete</button> <i class="bi bi-file-earmark-pdf" data-toggle="tooltip" title="Document attached"></i>
                                                     @else
                                                         <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
                                                     @endif

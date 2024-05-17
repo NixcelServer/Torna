@@ -267,7 +267,7 @@
                                         <br/>
                                         <div class="form-group row">
                                             <div class="col-lg-8 ml-auto">
-                                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                                                <button type="submit" class="btn btn-sm btn-primary">Save Settings</button>
                                             </div>
                                         </div>
                                         <!-- End of new fields -->
@@ -309,7 +309,7 @@
                                         <!-- Submit button -->
                                         <div class="form-group row">
                                             <div class="col-lg-8 ml-auto">
-                                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                                                <button type="submit" class="btn btn-sm btn-primary">Save Settings</button>
                                             </div>
                                         </div>
                                     </form>
@@ -362,7 +362,7 @@
                                        <br/>
                                         <div class="form-group row">
                                             <div class="col-lg-8 ml-auto">
-                                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                                                <button type="submit" class="btn btn-sm btn-primary">Save Settings</button>
                                             </div>
                                         </div>
                                     </form>

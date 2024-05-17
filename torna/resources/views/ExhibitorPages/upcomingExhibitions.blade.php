@@ -193,8 +193,8 @@
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn mb-1 {{ $upcomingEx->participated ? 'btn-success' : 'btn-outline-primary' }}" 
-                                            {{ $upcomingEx->participated ? 'disabled title=Participated!' : '' }}
+                                        <button class="btn mb-1 {{ $upcomingEx->participated ? 'btn-sm btn-success' : 'btn-sm btn-outline-primary' }}" 
+                                            {{ $upcomingEx->participated ? 'disabled title=Already_Participated! data-toggle=tooltip' : '' }}
                                             data-id="{{ $upcomingEx->encExId }}" 
                                             onclick="confirmParticipation(event)">
                                         @if($upcomingEx->participated)
@@ -202,8 +202,7 @@
                                         @else
                                             Participate
                                         @endif
-                                    </button>
-                                                                                                       
+                                    </button>                                                                                                     
                                     </div>
                                 </div>
                             </div>
