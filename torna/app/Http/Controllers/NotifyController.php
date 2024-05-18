@@ -127,7 +127,9 @@ public function storeEmailSettings(Request $request)
     $email->password = $request->password;
     $email->save();
     
-    return redirect()->back();
+    //return redirect()->back();
+    return redirect('/participatedExhibitions');
+
 }
 
 public function storeSMSSettings(Request $request)

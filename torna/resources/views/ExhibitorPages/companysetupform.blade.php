@@ -83,7 +83,7 @@
         <div class="nav">
             <div class="nav-header" style="background-color: #ffffdb; height: 63px; display: flex; align-items: center; justify-content: center;">
                 <div class="brand-logo">
-                    <a href="/ExDashboard">
+                    <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
                         <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
@@ -150,7 +150,7 @@
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li>
-                        <a href="/ExDashboard" aria-expanded="false">
+                        <a href="/upcomingExhibitions" aria-expanded="false">
                             <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>

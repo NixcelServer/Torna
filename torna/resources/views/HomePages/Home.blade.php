@@ -46,6 +46,14 @@
         background-color: #FFBE07 !important; /* Set background color to #FFBE07 */
         border-color: #FFBE07 !important; /* Set border color to #FFBE07 */
     }
+
+	/* Hover styles */
+.register-btn:hover,
+.nav-link[href="/signin"]:hover {
+    background-color: #FFBE07 !important; /* Set background color to white on hover */
+    border-color: #FFBE07 !important;     /* Set border color to white on hover */
+    color: #FFFFFF !important;            /* Set text color to #FFBE07 on hover */
+}
 </style>
 
 
@@ -95,7 +103,7 @@
     <div class="hero-wrap js-fullheight" style="background-image: url('images/imgs/bg_1.jpg');" data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
       <div class="container" >
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true" style="color: #FF6D00;">
+        {{-- <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true" style="color: #FF6D00;">
           <div class="col-xl-10 ftco-animate" data-scrollax=" properties: { translateY: '70%' }" style="color: #FF6D00;">
             <h1 class="mb-4"  data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color: #FF6D00; !important;" > Developer <br><span style="color: #FF6D00;" >Exhibition 2024</span></h1>
             <p class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }" style="color: #FF6D00;">May 21-24, 2024. Pimpri-Chinchwad, Pune</p>
@@ -106,7 +114,78 @@
 						  <div class="time pl-4" id="seconds"></div>
 						</div>
           </div>
-        </div>
+        </div> --}}
+		<div class="row no-gutters align-items-center justify-content-start" style="margin-top: 170px;">
+			<div class="col-xl-10">
+				<h1 class="mb-4" style="color: #FF6D00; font-size: 60px;">Developer <br><span style="color: #FF6D00; font-weight: bold; font-size: 60px;">Exhibition 2024</span></h1>
+				<p class="mb-4" style="color: #FF6D00;">May 21-24, 2024. Pimpri-Chinchwad, Pune</p>
+				<div id="timer" class="d-flex mb-3">
+					<div class="time" id="dayss"></div>
+					<div class="time pl-4" id="hourss"></div>
+					<div class="time pl-4" id="minutess"></div>
+					<div class="time pl-4" id="secondss"></div>
+				</div>
+				<div class="d-flex">
+					<div class="time-label">Days</div>
+					<div class="time-label pl-4">Hours</div>
+					<div class="time-label pl-4">Minutes</div>
+					<div class="time-label pl-4">Seconds</div>
+				</div>
+			</div>
+		</div>
+		<style>
+			.time-label {
+				color: #888;
+				font-size: 14px;
+				margin-right: 60px; /* Adjust the margin as needed */
+			}
+			.time-label pl-4 {
+				color: #888;
+				font-size: 14px;
+				margin-right: 50px; /* Adjust the margin as needed */
+			}
+		</style>
+		<script>
+			// Set the target date to May 21, 2024
+			const targetDate = new Date('2024-05-21T00:00:00');
+		
+			function updateTimer() {
+				// Get the current date and time
+				const now = new Date();
+		
+				// Calculate the time difference in milliseconds
+				const diff = targetDate.getTime() - now.getTime();
+		
+				// Ensure the countdown doesn't show negative values
+				if (diff <= 0) {
+					document.getElementById('timer').innerHTML = '<div class="time">00</div><div class="time pl-4">00</div><div class="time pl-4">00</div><div class="time pl-4">00</div>';
+					return; // Stop the countdown
+				}
+		
+				// Convert milliseconds to days, hours, minutes, and seconds
+				const dayss = Math.floor(diff / (1000 * 60 * 60 * 24));
+				const hourss = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				const minutess = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+				const secondss = Math.floor((diff % (1000 * 60)) / 1000);
+		
+				// Update the timer elements in the HTML
+				document.getElementById('dayss').innerText = padZero(dayss);
+				document.getElementById('hourss').innerText = padZero(hourss);
+				document.getElementById('minutess').innerText = padZero(minutess);
+				document.getElementById('secondss').innerText = padZero(secondss);
+			}
+		
+			// Helper function to pad zeros for single-digit numbers
+			function padZero(num) {
+				return num.toString().padStart(2, '0');
+			}
+		
+			// Update the timer every second
+			setInterval(updateTimer, 1000);
+		
+			// Initial call to update the timer immediately
+			updateTimer();
+		</script>
       </div>
     </div>
 

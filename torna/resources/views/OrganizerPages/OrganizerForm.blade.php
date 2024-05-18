@@ -87,6 +87,14 @@
         background-color: #FFBE07 !important; /* Set background color to #FFBE07 */
         border-color: #FFBE07 !important; /* Set border color to #FFBE07 */
     }
+
+    /* Hover styles */
+.register-btn:hover,
+.nav-link[href="/signin"]:hover {
+    background-color: #FFBE07 !important; /* Set background color to white on hover */
+    border-color: #FFBE07 !important;     /* Set border color to white on hover */
+    color: #FFFFFF !important;            /* Set text color to #FFBE07 on hover */
+}
 </style>
 
 

@@ -53,7 +53,7 @@
         ***********************************-->
         <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
             <div class="brand-logo">
-                <a href="">
+                <a href="/upcomingExhibitions">
                     <b class="logo-abbr"><img src="" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
@@ -120,7 +120,7 @@
                 <ul class="metismenu" id="menu">
                     {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
-                        <a  href="/ExDashboard" aria-expanded="false">
+                        <a  href="/upcomingExhibitions" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                         
