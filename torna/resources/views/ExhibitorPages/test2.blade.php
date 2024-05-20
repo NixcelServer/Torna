@@ -1,894 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    
-    <!-- theme meta -->
-    <meta name="theme-name" content="quixlab" />
-  
     <title>Nixcel Exhibition</title>
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
-    <!-- Pignose Calender -->
-    <link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
-    <!-- Chartist -->
-    <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
-    <!-- Custom Stylesheet -->
-    <link href="/css/style.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="WebsiteAssets/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="WebsiteAssets/css/animate.css">
+
+    <link rel="stylesheet" href="WebsiteAssets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="WebsiteAssets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="WebsiteAssets/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="WebsiteAssets/css/aos.css">
+
+    <link rel="stylesheet" href="WebsiteAssets/css/ionicons.min.css">
+
+    <link rel="stylesheet" href="WebsiteAssets/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="WebsiteAssets/css/jquery.timepicker.css">
+
+
+    <link rel="stylesheet" href="WebsiteAssets/css/flaticon.css">
+    <link rel="stylesheet" href="WebsiteAssets/css/icomoon.css">
+    <link rel="stylesheet" href="WebsiteAssets/css/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-    <!--*******************
-        Preloader start
-    ********************-->
-    <div id="preloader">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-            </svg>
-        </div>
-    </div>
-    <!--*******************
-        Preloader end
-    ********************-->
-
+    <div id="loader" class="loader">
+        <div class="spinner"></div>
+        <div class="loading-text">Registration Loading! Please wait a few seconds...</div>
     
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
-    <div id="main-wrapper">
+    </div>
+    <style>
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff; /* Full white background */
+            z-index: 9999;
+            display: none;
+        }
+    
+        .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            border: 5px solid transparent;
+            border-top-color: rgba(99, 168, 59, 0.925); /* Change the color as needed */
+            animation: spin 1s linear infinite;
+        }
+    
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    
+        .loading-text {
+            position: fixed;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000000;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 
-        <!--**********************************
-            Nav header start
-        ***********************************-->
-        <div class="nav-header" style="background-color: #FFBE07; height: 63px;" >
-            <div class="brand-logo">
-                <a href="/ExDashboard">
-                    <b class="logo-abbr"><img src="" alt=""> </b>
-                    <span class="logo-compact"><img src="" alt=""></span>
-                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">
-                        TORNA
-                    </span>
-                        <img src="" alt="">
-                    </span>
-                </a>
-            </div>
-        </div>
-        <!--**********************************
-            Nav header end
-        ***********************************-->
-
-        <!--**********************************
-            Header start
-        ***********************************-->
-        <div class="header" style="background-color: #FFBE07; height: 63px;">    
-            <div class="header-content clearfix">
-                
-                <div class="nav-control">
-                    <div class="hamburger">
-                        <span class="toggle-icon"><i class="icon-menu"></i></span>
-                    </div>
-                </div>
-                <div class="header-left">
-                    <div class="input-group icons">
-                        
-                    </div>
-                </div>
-                <div class="header-right">
-                    <ul class="clearfix">
-                        <li class="icons dropdown">
-                            <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
-                                <span class="activity active"></span>
-                                <img src="images/user/1.png" height="40" width="40" alt="">
-                            </div>
-                            <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
-                                @php
-                                $user = Session::get('user');
-                                @endphp
-                                <div class="dropdown-content-body">
-                                    <ul>
-                                        <li><span>Hello {{ $user->first_name }}</span></li>
-                                        <li><a href="/logout"><i class="icon-key"></i> <span>Logout</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
-
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
-        <div class="nk-sidebar">           
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    {{-- <li class="nav-label">Dashboard</li> --}}
-                    <li>
-                        <a  href="/ExDashboard" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                        
-                    </li>
-                    <li>
-                        <a  href="/companysetupform" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Company Details </span>
-                        </a>
-                    </li>
-                    
-            
-                    
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Exhibitions</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="/createExhibitionform-E">Create New Exhibition</a></li>
-                            <li><a href="/pastExhibitions">Past Exhibition</a></li>
-                            <li><a href="/upcomingExhibitions">Upcoming Exhibition</a></li>
-                            <li><a href="/participatedExhibitions">Participated Exhibitions</a></li>
-
-
-                        </ul>
-                    </li>
-                    <li>
-                        <a  href="/products" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Products/Services</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a  href="/documents" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Documents</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a  href="/notificationSetting" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Notification Setting</span>
-                        </a>
-                    </li>
-                   
-                    {{-- <li class="nav-label">Apps</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-envelope menu-icon"></i> <span class="nav-text">Email</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./email-inbox.html">Inbox</a></li>
-                            <li><a href="./email-read.html">Read</a></li>
-                            <li><a href="./email-compose.html">Compose</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-screen-tablet menu-icon"></i><span class="nav-text">Apps</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./app-profile.html">Profile</a></li>
-                            <li><a href="./app-calender.html">Calender</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-graph menu-icon"></i> <span class="nav-text">Charts</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./chart-flot.html">Flot</a></li>
-                            <li><a href="./chart-morris.html">Morris</a></li>
-                            <li><a href="./chart-chartjs.html">Chartjs</a></li>
-                            <li><a href="./chart-chartist.html">Chartist</a></li>
-                            <li><a href="./chart-sparkline.html">Sparkline</a></li>
-                            <li><a href="./chart-peity.html">Peity</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">UI Components</li>
-                    <li> --}}
-                        {{-- <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-grid menu-icon"></i><span class="nav-text">UI Components</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./ui-accordion.html">Accordion</a></li>
-                            <li><a href="./ui-alert.html">Alert</a></li>
-                            <li><a href="./ui-badge.html">Badge</a></li>
-                            <li><a href="./ui-button.html">Button</a></li>
-                            <li><a href="./ui-button-group.html">Button Group</a></li>
-                            <li><a href="./ui-cards.html">Cards</a></li>
-                            <li><a href="./ui-carousel.html">Carousel</a></li>
-                            <li><a href="./ui-dropdown.html">Dropdown</a></li>
-                            <li><a href="./ui-list-group.html">List Group</a></li>
-                            <li><a href="./ui-media-object.html">Media Object</a></li>
-                            <li><a href="./ui-modal.html">Modal</a></li>
-                            <li><a href="./ui-pagination.html">Pagination</a></li>
-                            <li><a href="./ui-popover.html">Popover</a></li>
-                            <li><a href="./ui-progressbar.html">Progressbar</a></li>
-                            <li><a href="./ui-tab.html">Tab</a></li>
-                            <li><a href="./ui-typography.html">Typography</a></li> --}}
-                        <!-- </ul>
-                    </li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-layers menu-icon"></i><span class="nav-text">Components</span>
-                        </a>
-                        <ul aria-expanded="false"> -->
-                            {{-- <li><a href="./uc-nestedable.html">Nestedable</a></li>
-                            <li><a href="./uc-noui-slider.html">Noui Slider</a></li>
-                            <li><a href="./uc-sweetalert.html">Sweet Alert</a></li>
-                            <li><a href="./uc-toastr.html">Toastr</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="widgets.html" aria-expanded="false">
-                            <i class="icon-badge menu-icon"></i><span class="nav-text">Widget</span>
-                        </a>
-                    </li>
-                    <li class="nav-label">Forms</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-note menu-icon"></i><span class="nav-text">Forms</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./form-basic.html">Basic Form</a></li>
-                            <li><a href="./form-validation.html">Form Validation</a></li>
-                            <li><a href="./form-step.html">Step Form</a></li>
-                            <li><a href="./form-editor.html">Editor</a></li>
-                            <li><a href="./form-picker.html">Picker</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Table</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-menu menu-icon"></i><span class="nav-text">Table</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./table-basic.html" aria-expanded="false">Basic Table</a></li>
-                            <li><a href="./table-datatable.html" aria-expanded="false">Data Table</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-label">Pages</li>
-                    <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-notebook menu-icon"></i><span class="nav-text">Pages</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./page-login.html">Login</a></li>
-                            <li><a href="./page-register.html">Register</a></li>
-                            <li><a href="./page-lock.html">Lock Screen</a></li>
-                            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">Error</a>
-                                <ul aria-expanded="false">
-                                    <li><a href="./page-error-404.html">Error 404</a></li>
-                                    <li><a href="./page-error-403.html">Error 403</a></li>
-                                    <li><a href="./page-error-400.html">Error 400</a></li>
-                                    <li><a href="./page-error-500.html">Error 500</a></li>
-                                    <li><a href="./page-error-503.html">Error 503</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li> --}}
-                </ul>
-            </div>
-        </div>
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
-
-        <!--**********************************
-            Content body start
-        ***********************************-->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-        <div class="content-body">
-            <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">Participated Exhibitions List</h4>
-                            <div class="card-body">
-                                <br/>
-                                <div class="row">
-                                    @foreach($participatedExs as $key => $participatedEx)
-                                    <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
-                                        <div class="card" >
-                                            @if($participatedEx->exDetails->company_logo)
-                                    <img src="data:image/png;base64,{{ $participatedEx->exDetails->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
-                                    @endif
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $participatedEx->exDetails->exhibition_name }}</h5>
-                                                <div>
-                                                    <div class="mr-3">
-                                                        <i class="fas fa-calendar-alt"></i>
-                                                    </div>
-                                                    <div>
-                                                        <span class="font-weight-bold">Date:</span>
-                                                        <span>{{ $participatedEx->exDetails->ex_from_date }}</span>
-                                                        <span class="mx-2">-</span>
-                                                        <span>{{ $participatedEx->exDetails->ex_to_date }}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="card-footer" >
-                                                <!-- Add your buttons here for Generate URL, Generate QR Code, Notify By, Collect Data -->
-                                                @if($participatedEx->emailServiceEnabled)
-                                            <!-- Enable Generate URL button -->
-                                            <a href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" class="btn mb-1 btn-outline-info">Generate URL</a>
-                                            <!-- Enable Generate QR Code button -->
-                                            <button class="btn mb-1 btn-outline-info" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
-                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
-                                        @else
-                                            <!-- Disable Generate URL button -->
-                                            <button class="btn mb-1 btn-outline-info" disabled>Generate URL</button>
-                                            <!-- Disable Generate QR Code button -->
-                                            <button class="btn mb-1 btn-outline-info" disabled>Generate QR Code</button>
-                                        @endif
-                                                <button class="btn mb-1 btn-outline-primary" onclick="openDocument('{{ $participatedEx->encExId }}',{{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
-                                                <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn mb-1 btn-outline-success">Collect Data</a>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        {{-- <div class="content-body">
-            <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Participated Exhibitions List</h4>
-                                <br/>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Exhibition Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($participatedExs as $key => $participatedEx) 
-                                                <tr>
-                                                    <td>{{ (int)$key + 1 }}</td>
-                                                    <td>{{ $participatedEx->exDetails->exhibition_name }}</td>
-                                                    <td>
-                                                        @if($participatedEx->emailServiceEnabled)
-                                                            <!-- Enable Generate URL button -->
-                                                            <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" target="_blank">Generate URL</a>
-                                                            <!-- Enable Generate QR Code button -->
-                                                            <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
-                                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
-                                                             data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
-                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
-
-                                                        @else
-                                                            <!-- Disable Generate URL button -->
-                                                            <button class="btn btn-sm btn-info generate-url-btn" disabled>Generate URL</button>
-                                                            <!-- Disable Generate QR Code button -->
-                                                            <button class="btn btn-sm btn-info generate-qr-btn" disabled>Generate QR Code</button>
-                                                        @endif
-                                                        
-                                                        <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}',{{ json_encode($participatedEx->selectedOptions ?? []) }})">
-                                                            Notify By
-                                                        </button>
-                                                        <a class="btn btn-sm btn-success" href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}">Collect Data</a>
-                                                    </td>                                                
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                        
-                                        
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-            
-            <!-- #/ container -->
-        </div> --}}
-        <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h5 class="modal-title w-100" id="documentModalLabel">Notification Methods</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <body>
-                                <h3 class="mb-3">Select notification method:</h3>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailImmediateOption">
-                                    <label class="form-check-label" for="emailOption">Email (Immediate After Registration)</label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="emailAfter" id="emailAfterOption">
-                                    <label class="form-check-label" for="emailOption">Email (After Exhibition)</label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="whatsapp" id="whatsappOption">
-                                    <label class="form-check-label" for="whatsappOption">WhatsApp</label>
-                                </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="sms" id="smsOption">
-                                    <label class="form-check-label" for="smsOption">SMS</label>
-                                </div>
-                                <div class="modal-body">
-                <!-- Hidden input fields to store user ID and company ID -->
-                <input type="hidden" id="encExId">
-
-            </div>
-                                <button class="btn btn-primary" onclick="parent.submitNotifyOptions(getSelectedOptions())">Submit</button>
-                            
-                                <!-- Bootstrap JS and custom script to get selected options -->
-                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                                <!-- SweetAlert -->
-                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                                <script>
-                                    function getSelectedOptions() {
-                                        const selectedOptions = [];
-                                        document.querySelectorAll('input[name=notifyOption]:checked').forEach(option => {
-                                            selectedOptions.push(option.value);
-                                        });
-                                        return selectedOptions;
-                                    }
-                            
-                                    function submitNotifyOptions() {
-
-                                        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                                        // Get selected options when the button is clicked
-                                            const selectedOptions = getSelectedOptions();
-
-                                            
-                                            // Check if any options are selected
-                                            if (selectedOptions.length === 0) {
-                                                // Show an error message or handle the case where no options are selected
-                                                console.error('No options selected!');
-                                                return;
-                                            }
-
-                                            console.log('Selected options:', selectedOptions);
-                                            $.ajax({
-                                                url: '/selected-options-to-notify',
-                                                type: 'POST',
-                                                data: JSON.stringify({ options: selectedOptions,
-                                                                        encExId: $('#encExId').val(), // Get the encrypted user ID from the hidden input field
-                                                                           }),
-                                                contentType: 'application/json',
-                                                headers: {
-                                                    'X-CSRF-TOKEN': csrfToken // Include CSRF token in request headers
-                                                },
-                                                success: function(response) {
-                                                    console.log('Backend response:', response);
-                                                    showSuccessPopup(); // Show success popup after successful backend call
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error('Error:', error);
-                                                    // showErrorPopup(); // Show error popup if backend call fails
-                                                }
-                                            });
-                                        }
-                            
-                                    function showSuccessPopup() {
-                                        Swal.fire({
-                                            title: 'Submitted!',
-                                            text: 'Your notification methods have been successfully submitted.',
-                                            icon: 'success',
-                                            confirmButtonText: 'OK'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                // Redirect to the main page (replace 'main.html' with the actual page URL)
-                                                window.location.href = 'participatedExhibitions';
-                                            }
-                                        });
-                                    }
-                                    function showErrorPopup() {
-                                            Swal.fire({
-                                                title: 'Error!',
-                                                text: 'There was an error submitting your notification methods.',
-                                                icon: 'error',
-                                                confirmButtonText: 'OK'
-                                            });
-                                        }
-                                   
-                                </script>
-                            </body>
-                            <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
-                            
+{{-- validation-scripts --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    function generateQRCode() {
-        //console.log("Generating");
-    // Get the data-id attribute from the button
-    const exId = document.querySelector('.generate-qr-btn').getAttribute('data-id');
-    //console.log(exId);
-    // Generate the QR code using qrcode-generator library
-    const qr = qrcode(0, 'M');
-    qr.addData(`http://192.168.1.47:8000/visitordetails/${exId}`);
-    qr.make();
-    //console.log(qr);
-    // Get the QR code SVG and convert it to a data URI
-    const svg = qr.createSvgTag();
-    const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
-    //console.log(dataUri);
+    $(document).ready(function() {
+        $('#first_name, #last_name').on('input', function() {
+            var val = $(this).val();
+            $(this).val(val.toUpperCase());
+        });
+    });
 
-    // Display the QR code in the iframe
-    const iframe = document.getElementById('qrCodeFrame');
-    console.log(iframe);
-    iframe.src = dataUri;
-    iframe.style.display = 'block';
-}
 
-// Function to download the QR code
-function downloadQRCode() {
-    const iframe = document.getElementById('qrCodeFrame');
-    const svg = iframe.contentDocument.querySelector('svg');
+    $(document).ready(function() {
+            $('#contact_no').on('input', function() {
+                var val = $(this).val();
+                if (val.length !== 10 || isNaN(val)) {
+                    $('#contactError').text('Contact number should be 10 digits long and contain only numbers.');
+                    $(this).addClass('is-invalid');
+                } else {
+                    $('#contactError').text('');
+                    $(this).removeClass('is-invalid');
+                }
+            });
+        });
 
-    // Create a temporary link element to trigger the download
-    const link = document.createElement('a');
-    link.href = 'data:image/svg+xml;base64,' + btoa(new XMLSerializer().serializeToString(svg));
-    link.download = 'qr-code.svg';
-    link.click();
-}
+
+        $(document).ready(function() {
+            $('#password').on('input', function() {
+                var val = $(this).val();
+                if (val.length < 8) {
+                    $('#passwordError').text('Password should be at least 8 characters long.');
+                    $(this).addClass('is-invalid');
+                } else if (!/[A-Z]/.test(val) || !/[a-z]/.test(val) || !/\d/.test(val)) {
+                    $('#passwordError').text('Password should contain at least one uppercase letter, one lowercase letter, and one digit.');
+                    $(this).addClass('is-invalid');
+                } else {
+                    $('#passwordError').text('');
+                    $(this).removeClass('is-invalid');
+                }
+            });
+        });
+
+
+        
+    document.addEventListener("DOMContentLoaded", function() {
+        const emailInput = document.getElementById('email');
+        //emailError.textContent = 'Only company domain emails are allowed.';
+        emailInput.addEventListener('input', function() {
+            const email = this.value.trim().toLowerCase();
+            const isGmail = email.endsWith('@gmail.com');
+
+            if (isGmail) {
+                this.setCustomValidity("Gmail addresses are not allowed, Only company domain emails are allowed.");
+            } else {
+                this.setCustomValidity("");
+            }
+        });
+    });
 
 </script>
-
-
-                            {{-- <body>
-                                <h3 class="mb-3">Select notification method:</h3>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailOption">
-                                    <label class="form-check-label" for="emailOption">Email</label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="whatsapp" id="whatsappOption">
-                                    <label class="form-check-label" for="whatsappOption">WhatsApp</label>
-                                </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="sms" id="smsOption">
-                                    <label class="form-check-label" for="smsOption">SMS</label>
-                                </div>
-                                <button class="btn btn-primary" id="submitBtn">Submit</button>
-                            
-                                <!-- Bootstrap JS and custom script to get selected options -->
-                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></s>
-                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></scrip>
-                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                                <!-- SweetAlert -->
-                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                                <script>
-                                    $(document).ready(function() {
-                                        $('#submitBtn').click(function() {
-                                            const selectedOptions = getSelectedOptions();
-                                            console.log('Selected all options:', selectedOptions);
-                            
-                                            // Make an AJAX request to the backend endpoint
-                                            $.ajax({
-                                                url: '/selected-options-to-notify',
-                                                type: 'POST',
-                                                data: JSON.stringify({ options: selectedOptions }),
-                                                contentType: 'application/json',
-                                                success: function(response) {
-                                                    console.log('Backend response:', response);
-                                                    debugger;
-                                                    showSuccessPopup(); // Show success popup after successful backend call
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error('Error:', error);
-                                                    showErrorPopup(); // Show error popup if backend call fails
-                                                }
-                                            });
-                                        });
-                            
-                                        function getSelectedOptions() {
-                                            const selectedOptions = [];
-                                            document.querySelectorAll('input[name=notifyOption]:checked').forEach(option => {
-                                                selectedOptions.push(option.value);
-                                            });
-                                            return selectedOptions;
-                                        }
-                            
-                                        function showSuccessPopup() {
-                                            Swal.fire({
-                                                title: 'Submitted!',
-                                                text: 'Your notification methods have been successfully submitted.',
-                                                icon: 'success',
-                                                confirmButtonText: 'OK'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    // Redirect to the main page (replace 'main.html' with the actual page URL)
-                                                    window.location.href = '/participatedExhibitions';
-                                                }
-                                            });
-                                        }
-                            
-                                        function showErrorPopup() {
-                                            Swal.fire({
-                                                title: 'Error!',
-                                                text: 'There was an error submitting your notification methods.',
-                                                icon: 'error',
-                                                confirmButtonText: 'OK'
-                                            });
-                                        }
-                                    });
-                                </script>
-                            </body> --}}
-
-                            <script>
-                                function generateURL() {
-    // Get the data-id attribute from the button
-    const exId = document.querySelector('.generate-url-btn').getAttribute('data-id');
-    
-    // Construct the URL based on your route
-    const url = `/nixcelsoft/exhibitionname/encid`;
-    
-    // Open the URL in a new tab
-    window.open(url, '_blank');
+<style>
+    /* Custom styles for the Register and Sign In buttons */
+    .register-btn,
+    .nav-link[href="/signin"] {
+        background-color: #FFBE07 !important; /* Set background color to #FFBE07 */
+        border-color: #FFBE07 !important; /* Set border color to #FFBE07 */
+    }
+    /* Hover styles */
+.register-btn:hover,
+.nav-link[href="/signin"]:hover {
+    background-color: #FFBE07 !important; /* Set background color to white on hover */
+    border-color: #FFBE07 !important;     /* Set border color to white on hover */
+    color: #FFFFFF !important;            /* Set text color to #FFBE07 on hover */
 }
+</style>
+<nav class="navbar navbar-expand-lg navbar-light ftco_navbar bg-light ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">Nixcel<span>Exhibition.</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
 
-                            </script>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="/" class="nav-link text-black">Home</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">About</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">Exhibitions</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">Schedule</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">Blog</a></li>
+                <li class="nav-item"><a href="/" class="nav-link text-black">Contact</a></li>
+                <li class="nav-item cta mr-md-2">
+                    <a href="#" class="nav-link register-btn" data-toggle="popover" data-placement="bottom"
+                       data-content='
+                            <a href="/organizerform" class="dropdown-item">As Organizer</a>
+                            <a href="/exhibitorform" class="dropdown-item">As Exhibitor</a>
+                        '>Register</a>
+                </li>
+                <li class="nav-item cta mr-md-2">
+                    <a href="/signin" class="nav-link">Sign In</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<style>
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left: 4px;
+    }
+    .containerinbody {
+    max-width: 900px; /* Set the maximum width of the container */
+    margin-top: 5px; /* Adjust top margin as needed */
+    margin-bottom: 10px; 
+   
+    margin-left: 10; /* Remove any default left margin */
+
+}
+</style>
+<div class="container mt-5">
+    <div class="containerinbody">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header text-center font-weight-bold display-5">Exhibitor Registration Form</div>
+
+                <div class="card-body">
+                    <form id="exRegistration" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="first_name" class="col-form-label text-md-right">First Name <span style="color: red;">*</span></label>
+                                <input id="first_name" name="first_name" type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="last_name" class="col-form-label text-md-right">Last Name <span style="color: red;">*</span></label>
+                                <input id="last_name" name="last_name" type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="contact_no" class="col-form-label text-md-right required-field">Contact Number</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1" style="width: 50px;">+91</span>
+                                    </div>
+                                    <input id="contact_no" name="contact_no" type="text" class="form-control" required>
+                                </div>
+                                <small id="contact_noError" class="text-danger"></small>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="company_name" class="col-form-label text-md-right">Company Name <span style="color: red;">*</span></label>
+                                    <input id="company_name" name="company_name" type="text" class="form-control" required>
+                                    <small id="company_nameError" class="text-danger"></small>
+                                </div>
+                            </div>
+                        
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="email" class="col-form-label text-md-right">Email ID <span style="color: red;">*</span></label>
+                                    <input id="email" name="email" type="email" class="form-control" required>
+                                    <small id="emailError" class="text-danger"></small>
+                                </div>
+                            </div>
+                        
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
+                                    <select name="industry_name" class="form-control" required>
+                                        <option value="">Select Industry</option>
+                                        @foreach($industries as $industry)
+                                            <option value="{{ $industry->industry_name }}">{{ $industry->industry_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="company_logo" class="col-form-label text-md-right">Upload Logo</label>
+                                    <input id="logo" name="company_logo" type="file" class="form-control-file" accept="image/*">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="password" class="col-form-label text-md-right">Password <span style="color: red;">*</span></label>
+                                    <input id="password" name="password" type="password" class="form-control" required>
+                                    <small id="passwordError" class="text-danger"></small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="confirm_password" class="col-form-label text-md-right">Confirm Password <span style="color: red;">*</span></label>
+                                    <input id="confirm_password" name="confirm_password" type="password" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row">
                             
+                        </div>
+
+                        <div class="row">
                             
                             
                         </div>
-                    </div>
+        
+                        <br />
+                        <div class="form-group row justify-content-center mb-3">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary register-btnn">Register</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-        <script>
-            function openDocument(encExId,selectedOptions ) {
-                document.getElementById('encExId').value = encExId;
-
-                $('input[name="notifyOption"]').prop('checked', false);
-
-                selectedOptions.forEach(option => {
-            document.getElementById(option + 'Option').checked = true;
-        });
-    
-                
-                $('#documentModal').modal('show');
-            }
-        
-            $('#approveDocumentBtn').on('click', function () {
-                var companyName = $('#companyName').text();
-                var compId = $('#compId').text();
-                var email = $('#email').text();
-                var contactNo = $('#contactNo').text();
-                var activeStatus = 'Approved';
-                $.ajax({
-                    type: 'POST',
-                    url: '/updateStatus',
-                    data: {
-                        companyName: companyName,
-                        email: email,
-                        contactNo: contactNo,
-                        compId: compId,
-                        activeStatus: activeStatus
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        verifyDocument(true);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        
-            $('#rejectDocumentBtn').on('click', function () {
-                verifyDocument(false);
-            });
-        
-            function verifyDocument(Approved) {
-                var companyName = $('#companyName').text();
-                var compId = $('#compId').text();
-                var email = $('#email').text();
-                var contactNo = $('#contactNo').text();
-                var activeStatus = Approved ? 'Approved' : 'rejected';
-                $.ajax({
-                    type: 'POST',
-                    url: '/updateStatus',
-                    data: {
-                        companyName: companyName,
-                        compId: compId,
-                        email: email,
-                        contactNo: contactNo,
-                        activeStatus: activeStatus
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        var status = Approved ? 'Approved' : 'Rejected';
-                        var message = companyName + ' has been ' + status;
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Organizer ' + status + '!',
-                            text: message,
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(function () {
-                            console.log(companyName + ' ' + status);
-                            $('#documentModal').modal('hide');
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            }
-        </script>
-        <!--**********************************
-            Content body end
-        ***********************************-->
-        <script>
-            function confirmParticipation(event) {
-                event.preventDefault();
-        
-                Swal.fire({
-                    title: 'Are you Exited to participate?',
-                    text: "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, participate!',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Handle participation logic here, e.g., submit a form or make an AJAX request
-                        const exhibitionId = event.target.dataset.id;
-                        // Example AJAX request
-                        // $.post('/participate', { exhibitionId: exhibitionId }, function(response) {
-                        //     // Handle response from server
-                        // });
-                        Swal.fire('Participation confirmed!', '', 'success');
-                    }
-                });
-            }
-        </script>
-        
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        {{-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
-            </div>
-        </div> --}}
-        <!--**********************************
-            Footer end
-        ***********************************-->
-        
-
-        
     </div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
+</div>
 
-    <!--**********************************
-        Scripts
-    ***********************************-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const changeStatusButtons = document.querySelectorAll('.change-status-btn');
-    
-            changeStatusButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const exhibitionId = this.getAttribute('data-exhibition-id');
-                    console.log("in function",exhibitionId);
-                    debugger;
-                    const updateUrl = this.getAttribute('data-update-url');
-                    console.log(updateUrl);
-                    const confirmation = confirm('Are you sure you want to change the status to Inactive?');
-    
-                    if (confirmation) {
-                        fetch(updateUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                id: exhibitionId,
-                                status: 'Inactive' // You can modify this based on your requirements
-                            })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            alert(data.message); // Show success message
-                            // You can update the UI or perform other actions as needed
-                        })
-                        .catch(error => {
-                            console.error('Error updating status:', error);
-                        });
+<script>
+    $(document).ready(function () {
+        // Initialize popover with trigger event set to 'click'
+        $('.register-btnn').popover({
+            html: true,
+            trigger: 'click' // Specify trigger event
+        });
+
+        // Add event listener to form submission
+        $('#exRegistration').on('submit', function (e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+    $('#loader').show();
+            
+
+            // Submit the form using AJAX
+            $.ajax({
+                type: 'POST',
+    url: '/regexhibitor', // Update the URL to your form submission endpoint
+    data: new FormData($(this)[0]), // Use FormData to handle multipart/form-data
+    processData: false, // Prevent jQuery from automatically processing data
+    contentType: false, // Prevent jQuery from setting contentType
+    enctype: 'multipart/form-data', // Specify the enctype directly // Set processData to false when sending FormData
+                success: function (response) {
+                    
+                    // Check if the registration was successful
+                    if (response.success) {
+                        $('#loader').hide();
+                        // Show the success message
+                        showRegistrationSuccessMessage();
+                        window.location.href = '/';   
+                                           // Optionally, you can redirect the user to another page after success
+                        // window.location.href = '/success-page'; // Update the URL as needed
+                    } else {
+                        $('#loader').hide();
+                        // Handle errors or other responses here
+                        console.log(response);
                     }
+                },
+                error: function (error) {
+                    $('#loader').hide();
+                    console.log("AJAX request failed!");
+                
+                var errors = error.responseJSON.errors; // Make sure 'errors' is extracted correctly
+    
+
+                $.each(errors, function(field, messages) {
+                    // Construct the ID of the error message element
+                
+                    var errorMessageId = field + 'Error';
+
+                    // Display the first error message for the field
+                    $('#' + errorMessageId).text(messages[0]);
                 });
+
+                }
             });
         });
-    </script> --}}
 
+        function showRegistrationSuccessMessage() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Registration Successful',
+                text: 'Your registration has been successfully submitted.',
+                showConfirmButton: false,
+                timer: 2000 // 2 seconds
+            });
+        }
+    });
+</script>
 
+<script>
+    $(document).ready(function () {
+        $('.register-btn').popover({
+            html: true
+        });
+    });
+</script>
+<!-- END nav -->
 
+<!-- Loader -->
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#F96D00"/>
+    </svg>
+</div>
 
-
-
-
-
-    <script src="/plugins/common/common.min.js"></script>
-    <script src="/js/custom.min.js"></script>
-    <script src="/js/settings.js"></script>
-    <script src="/js/gleek.js"></script>
-    <script src="/js/styleSwitcher.js"></script>
-
-    <!-- Chartjs -->
-    <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
-    <!-- Circle progress -->
-    <script src="/plugins/circle-progress/circle-progress.min.js"></script>
-    <!-- Datamap -->
-    <script src="/plugins/d3v3/index.js"></script>
-    <script src="/plugins/topojson/topojson.min.js"></script>
-    <script src="/plugins/datamaps/datamaps.world.min.js"></script>
-    <!-- Morrisjs -->
-    <script src="/plugins/raphael/raphael.min.js"></script>
-    <script src="/plugins/morris/morris.min.js"></script>
-    <!-- Pignose Calender -->
-    <script src="/plugins/moment/moment.min.js"></script>
-    <script src="/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
-    <!-- ChartistJS -->
-    <script src="/plugins/chartist/js/chartist.min.js"></script>
-    <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
-    <script src="/js/dashboard/dashboard-1.js"></script>
+<script src="WebsiteAssets/js/jquery.min.js"></script>
+<script src="WebsiteAssets/js/jquery-migrate-3.0.1.min.js"></script>
+<script src="WebsiteAssets/js/popper.min.js"></script>
+<script src="WebsiteAssets/js/bootstrap.min.js"></script>
+<script src="WebsiteAssets/js/jquery.easing.1.3.js"></script>
+<script src="WebsiteAssets/js/jquery.waypoints.min.js"></script>
+<script src="WebsiteAssets/js/jquery.stellar.min.js"></script>
+<script src="WebsiteAssets/js/owl.carousel.min.js"></script>
+<script src="WebsiteAssets/js/jquery.magnific-popup.min.js"></script>
+<script src="WebsiteAssets/js/aos.js"></script>
+<script src="WebsiteAssets/js/jquery.animateNumber.min.js"></script>
+<script src="WebsiteAssets/js/bootstrap-datepicker.js"></script>
+<script src="WebsiteAssets/js/jquery.timepicker.min.js"></script>
+<script src="WebsiteAssets/js/scrollax.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script src="WebsiteAssets/js/google-map.js"></script>
+<script src="WebsiteAssets/js/main.js"></script>
 
 </body>
-
 </html>
