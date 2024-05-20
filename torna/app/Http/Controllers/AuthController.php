@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\EncryptionDecryptionHelper;
 use App\Models\CompanyDetail;
+use App\Models\UserOtp;
 use App\Models\ExhibitionDetail;
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EmailHelper;
@@ -369,4 +370,130 @@ class AuthController extends Controller
         
          return view('AdminPages.AuditLog',['auditlogs'=>$auditlogs]);
     }
+
+
+    public function RegistrationWithEmail()
+    {
+        return view('HomePages/Registration');
+    }
+
+    public function generateOTP()
+{
+    // Generate a random 6-digit OTP
+    $otp = mt_rand(100000, 999999);
+
+    // Store the OTP in a session variable for later verification
+    session(['otp' => $otp]);
+
+    return $otp;
+}
+
+    // public function registerwithmail(Request $request)
+    // {
+    //     //dd($request);
+    //     // Generate OTP
+    // $otp = $this->generateOTP();
+
+    // // Debug output to check if OTP is generated
+    // dd('OTP generated: ' . $otp);
+
+    // // Return the view for registration
+    // return view('HomePages/Registration');
+        
+    // }
+    public function registerwithmail(Request $request)
+{
+    // Validate the incoming request data
+    $validatedData = $request->validate([
+        'email' => 'required|email|unique:users,email',
+    ]);
+
+    // Generate OTP
+    $otp = $this->generateOTP();
+
+    // Create a new user record in the database
+    $user = new UserOtp();
+    $user->email = $validatedData['email'];
+    $user->otp = $otp; // Assuming you have an 'otp' column in your users table
+    $user->expire_at = now()->addMinutes(3);
+    $user->save();
+
+    EmailHelper::sendOtp($otp,$request->email);
+    // return view('HomePages/VerifyOtp');
+    $encryptedId = EncryptionDecryptionHelper::encdecId($user->tbl_user_otp_id, 'encrypt');
+
+    return redirect()->route('verifyotp');
+    // Debug output to check if OTP is generated and user is saved
+    //dd('User registered with email: ' . $user->email . ' and OTP: ' . $otp . ' Expiration At: ' .  $user->expire_at);
+
+    // Return the view for registration
+   
+}
+public function verifyOTP()
+    {
+        
+
+        // Retrieve the email based on the tbl_user_otp_id
+        $email = UserOtp::orderBy('tbl_user_otp_id', 'desc')->value('email');
+
+        //dd($email);
+
+        // Pass the email to the view
+        return view('HomePages/VerifyOtp', ['email' => $email]);
+    }
+
+
+// public function verifyotppost(Request $request)
+// {
+//     //dd($request);
+//     //dd('hii');
+//     // Validate the OTP input
+//     $validatedData = $request->validate([
+//         'email' => 'required|email',
+//         'otp' => 'required',
+//     ]);
+
+    
+//     // Retrieve the email and OTP from the session
+//     $sessionEmail = session('email');
+//     $sessionOTP = session('otp');
+
+//     // Check if the input email matches the session email and OTP matches the session OTP
+//     if ($validatedData['email'] === $sessionEmail && $validatedData['otp'] == $sessionOTP) {
+//         dd("success");
+//         // OTP verification successful, redirect to VerifyOtp route
+//         return redirect('/organizerform');
+//     } else {
+//         // OTP verification failed
+//         return redirect()->back()->withErrors(['otp' => 'Invalid OTP']);
+//     }
+// }
+
+public function verifyotppost(Request $request)
+{
+    //dd($request);
+    // Validate the OTP input
+    $validatedData = $request->validate([
+        'email' => 'required|email',
+        'otp' => 'required',
+    ]);
+
+    // Retrieve the email and OTP from the request
+    $inputEmail = $request->input('email');
+    $inputOTP = $request->input('otp');
+
+    // Fetch the OTP record from the database
+    $otpRecord = UserOtp::where('email', $inputEmail)->orderBy('created_at', 'desc')->first();
+
+    // Check if the OTP record exists and if the input OTP matches the stored OTP
+    if ($otpRecord && $inputOTP == $otpRecord->otp) {
+        // OTP verification successful, redirect to organizer form
+        return redirect('/organizerform');
+    } else {
+        // OTP verification failed
+        return redirect()->back()->withErrors(['otp' => 'Invalid OTP']);
+    }
+}
+
+    
 }
