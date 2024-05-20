@@ -33,6 +33,19 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    $(document).ready(function () {
+        $('#password, #confirm_password').on('keyup', function () {
+            if ($('#password').val() === $('#confirm_password').val()) {
+                $('#confirm_password').removeClass('is-invalid').addClass('is-valid');
+                $('#confirmPasswordError').text(''); // Clear error message if passwords match
+            } else {
+                $('#confirm_password').removeClass('is-valid').addClass('is-invalid');
+                $('#confirmPasswordError').text('Passwords do not match'); // Show error message if passwords don't match
+            }
+        });
+    });
+
+
     $(document).ready(function() {
         $('#first_name, #last_name').on('input', function() {
             var val = $(this).val();
@@ -374,6 +387,7 @@
                         <div class="form-group">
                             <label for="confirm_password" class="col-form-label text-md-right">Confirm Password <span style="color: red;">*</span></label>
                             <input id="confirm_password" name="confirm_password" type="password" class="form-control" required>
+                            <small id="confirmPasswordError" class="text-danger"></small>
                         </div>
                     </div>
                 </div>
@@ -391,7 +405,7 @@
                 <br />
                 <div class="form-group row justify-content-center mb-3">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary register-btnn">Register</button>
+                        <button type="submit" class="btn btn-success register-btnn">Register</button>
                     </div>
                 </div>
             </form>

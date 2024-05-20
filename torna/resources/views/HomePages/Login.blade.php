@@ -46,6 +46,7 @@
     </style>
 </head>
 
+
 <body class="h-100">
 
     <!--*******************
@@ -71,6 +72,24 @@
                         <div class="card-body pt-5">
                             <a class="text-center" href=""><h4>Login</h4></a>
 
+                            <!-- Display errors here -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            <!-- Session error message -->
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
                             <form class="mt-5 mb-5 login-input" method="POST" action="/login">
                                 @csrf
                                 <div class="form-group">
@@ -80,8 +99,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password"
-                                        placeholder="Enter your password">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
+                                    <span id="lockoutMessage" class="text-danger"></span>
                                 </div>
                                 <button class="btn login-form__btn submit w-100">Sign In</button>
                             </form>
@@ -93,7 +112,8 @@
             <div class="col-lg-6 exhibition-image"></div>
         </div>
     </div>
-
+   
+    
     <!--**********************************
         Scripts
     ***********************************-->

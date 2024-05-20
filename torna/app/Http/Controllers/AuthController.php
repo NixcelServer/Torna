@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Date;
 use App\Helpers\EmailHelper;
 use App\Helpers\AuditLogHelper;
 use App\Models\AuditLogDetail;
+use Illuminate\Support\Facades\RateLimiter;
+
 
 
 use Illuminate\Support\Facades\Session;
@@ -29,52 +31,113 @@ class AuthController extends Controller
     {
         return view('HomePages/Login');
     }
+    // public function login(Request $request)
+
+    // {
+    //     //check if user exists 
+
+    //     $user = UserDetail::where('email', $request->email)->first();
+
+    //     //check if user is found
+    //     if (!$user) {
+    //         return redirect()->back()->with('error', 'Invalid email. Please enter a valid email.');
+    //     }
+
+    //     //get the password from request
+    //     $password = $request->password;
+
+    //     //encrypt the password
+    //     $encrypted_pass = EncryptionDecryptionHelper::encryptData($password);
+
+
+    //     //if user exists validate password and redirect to respective page
+    //     if (strcmp($user->password, $encrypted_pass) === 0) {
+
+    //         //enter the user activity into auditlog
+    //         //  $activity_name = "login";
+    //         //  $activity_by = $user->tbl_user_id;
+
+    //         Auth::login($user);
+
+    //         Session::put('user', $user);
+    //         AuditLogHelper::logDetails('login', $user->tbl_user_id);
+
+    //         if ($user->role_id == '1') {
+    //             return redirect('/AdminDashboard');
+    //         } else if ($user->role_id == '2') {
+    //             return redirect('/activeExhibitions');
+    //         } else {
+    //             return redirect('/upcomingExhibitions');
+    //         }
+    //         // dd("success");
+    //         //get the user id and iterate over rolemodules to get the data of modules assigned to him
+    //         // $role_id = $user->tbl_role_id;
+
+    //     } else {
+    //         // if passwords are not same display following msg
+    //         return redirect()->back()->withInput()->with('error', 'Invalid password. Please enter a valid password.');
+    //     }
+    // }
+
     public function login(Request $request)
-
     {
-        //check if user exists 
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
 
+        // Check if user exists
         $user = UserDetail::where('email', $request->email)->first();
 
-        //check if user is found
+        // Check if user is found
         if (!$user) {
             return redirect()->back()->with('error', 'Invalid email. Please enter a valid email.');
         }
 
-        //get the password from request
+        $email = $request->email;
         $password = $request->password;
 
-        //encrypt the password
+        $maxAttempts = 5; // Maximum number of attempts allowed
+        $decayMinutes = 1; // Lockout period in minutes
+
+        if (RateLimiter::tooManyAttempts($this->throttleKey($email), $maxAttempts)) {
+            $seconds = RateLimiter::availableIn($this->throttleKey($email));
+            return redirect()->back()->withErrors([
+                'error' => "Too many attempts. Please try again in $seconds seconds.",
+            ]);
+        }
+
+        // Encrypt the password
         $encrypted_pass = EncryptionDecryptionHelper::encryptData($password);
 
-
-        //if user exists validate password and redirect to respective page
+        // If user exists, validate password and redirect to respective page
         if (strcmp($user->password, $encrypted_pass) === 0) {
-
-            //enter the user activity into auditlog
-            //  $activity_name = "login";
-            //  $activity_by = $user->tbl_user_id;
+            // Clear rate limit attempts
+            RateLimiter::clear($this->throttleKey($email));
 
             Auth::login($user);
-
             Session::put('user', $user);
             AuditLogHelper::logDetails('login', $user->tbl_user_id);
 
             if ($user->role_id == '1') {
                 return redirect('/AdminDashboard');
-            } else if ($user->role_id == '2') {
+            } elseif ($user->role_id == '2') {
                 return redirect('/activeExhibitions');
             } else {
                 return redirect('/upcomingExhibitions');
             }
-            // dd("success");
-            //get the user id and iterate over rolemodules to get the data of modules assigned to him
-            // $role_id = $user->tbl_role_id;
-
         } else {
-            // if passwords are not same display following msg
+            // Increment the rate limit attempts
+            RateLimiter::hit($this->throttleKey($email), $decayMinutes * 60);
+
+            // If passwords do not match, display following message
             return redirect()->back()->withInput()->with('error', 'Invalid password. Please enter a valid password.');
         }
+    }
+
+    protected function throttleKey($email)
+    {
+        return strtolower($email) . '|' . request()->ip();
     }
 
 
