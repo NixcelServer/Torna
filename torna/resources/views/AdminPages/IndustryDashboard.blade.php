@@ -33,6 +33,7 @@
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 
@@ -127,7 +128,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-       <div class="nk-sidebar" style="margin-top: -17px;"> 
+        <div class="nk-sidebar" style="margin-top: -17px;"> 
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li>
@@ -147,6 +148,36 @@
                             <i class="bi bi-card-list"></i><span class="nav-text">Audit Log</span>
                         </a>
                         
+                    </li>
+                    <li>
+                        <a href="/unapprovedorgcount" aria-expanded="false" >
+                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/approvedorgcount" aria-expanded="false" >
+                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/rejectedorgcount" aria-expanded="false" >
+                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/unapprovedexcount" aria-expanded="false" >
+                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/approvedexcount" aria-expanded="false" >
+                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/rejectedexcount" aria-expanded="false" >
+                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -185,9 +216,16 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $industry->industry_name }}</td>
-                                                <td>
+                                                {{-- <td>
                                                     <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $industry->enc_id }}" data-count="{{ $industry->count }}">Delete</button>
+                                                </td> --}}
+                                                <td>
+                                                    <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}" data-count="{{ $industry->count }}">
+                                                        <i class="far fa-trash-alt"></i> <!-- Use "far" for regular style -->
+                                                    </button>
                                                 </td>
+                                                
+                                                
                                                 
                                             </tr>
                                             @endforeach
@@ -243,7 +281,16 @@
             console.log(count);
             if (count > 0) {
                     // Display a pop-up message
-                    alert('Cannot delete industry because it is assigned to a company');
+                    //alert('Cannot delete industry because it is assigned to a company');
+                    Swal.fire({
+                title: '',
+                text: "Cannot delete industry because it is assigned to a company",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            })
                 }
                 else{
                     Swal.fire({

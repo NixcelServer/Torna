@@ -138,6 +138,36 @@
                                 </a>
                                 
                             </li>
+                            <li>
+                                <a href="/unapprovedorgcount" aria-expanded="false" >
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedorgcount" aria-expanded="false" >
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedorgcount" aria-expanded="false" >
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/unapprovedexcount" aria-expanded="false" >
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedexcount" aria-expanded="false" >
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedexcount" aria-expanded="false" >
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

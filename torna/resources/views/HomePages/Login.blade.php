@@ -36,7 +36,7 @@
         }
 
         .exhibition-image {
-            background-image: url('https://hire4event.com/blogs/wp-content/uploads/2019/02/EXHIBITION-MANAGEMENT-COMPANIES-NOIDA.jpg'); /* Add your exhibition image path */
+            background-image: url('https://images.unsplash.com/photo-1535957998253-26ae1ef29506?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8b2ZmaWNlfGVufDB8fDB8fHww'); /* Add your exhibition image path */
             background-size: cover;
             background-position: center;
             height: 100vh;

@@ -157,7 +157,7 @@ class AuthController extends Controller
 
     public function OrganizerRegistrationSubmitForm(Request $request)
     {
-        
+        //dd($request);
         $request->validate([
             'company_name' => 'unique:mst_tbl_company_details',
             'email' => 'unique:mst_tbl_user_details|email',
@@ -174,7 +174,9 @@ class AuthController extends Controller
         $company->company_name = $request->company_name;
         $company->contact_no = $request->contact_no;
         $company->email = $request->email;
-
+        $company->registered_date = Date::now()->toDateString();
+        $company->registered_time = Date::now()->toTimeString();
+       
         
         if ($request->hasFile('company_logo')) {
             $image = $request->file('company_logo');
@@ -250,6 +252,8 @@ class AuthController extends Controller
         $exhibitor->contact_no = $request->contact_no;
         $exhibitor->industry_name = $request->industry_name;
         $exhibitor->email = $request->email;
+        $exhibitor->registered_date = Date::now()->toDateString();
+        $exhibitor->registered_time = Date::now()->toTimeString();
 
         // Handle company logo upload if a file was uploaded
         if ($request->hasFile('company_logo')) {
@@ -332,22 +336,25 @@ class AuthController extends Controller
 
     public function OrganizerRegistrationForm()
     {
-        
+        // Retrieve the email based on the tbl_user_otp_id
+        $email = UserOtp::orderBy('tbl_user_otp_id', 'desc')->value('email');
         $industries = Industry::where('flag', 'show')->get();
 
         foreach ($industries as $industry) {
             $industry->encIndId = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
         }
-        return view('OrganizerPages/OrganizerForm');
+        return view('OrganizerPages/OrganizerForm', ['email' => $email]);
     }
     public function ExhibitorForm()
     {
+        // Retrieve the email based on the tbl_user_otp_id
+        $email = UserOtp::orderBy('tbl_user_otp_id', 'desc')->value('email');
         $industries = Industry::where('flag', 'show')->get();
 
         foreach ($industries as $industry) {
             $industry->encIndId = EncryptionDecryptionHelper::encdecId($industry->tbl_industry_id, 'encrypt');
         }
-        return view('ExhibitorPages/ExhibitorForm', ['industries' => $industries]);
+        return view('ExhibitorPages/ExhibitorForm', ['industries' => $industries, 'email' => $email]);
     }
     // public function Login()
     // {
@@ -356,7 +363,7 @@ class AuthController extends Controller
 
     public function auditLogDetails()
     {
-        $auditlogs = AuditLogDetail::orderBy('activity_date','desc')->get();
+        $auditlogs = AuditLogDetail::orderBy('activity_time','desc')->get();
 
         foreach($auditlogs as $auditlog){
          
@@ -375,6 +382,10 @@ class AuthController extends Controller
     public function RegistrationWithEmail()
     {
         return view('HomePages/Registration');
+    }
+    public function RegistrationWithEmailEx()
+    {
+        return view('HomePages/RegistrationEx');
     }
 
     public function generateOTP()
@@ -429,6 +440,34 @@ class AuthController extends Controller
     // Return the view for registration
    
 }
+public function registerwithmailEx(Request $request)
+{
+    // Validate the incoming request data
+    $validatedData = $request->validate([
+        'email' => 'required|email|unique:users,email',
+    ]);
+
+    // Generate OTP
+    $otp = $this->generateOTP();
+
+    // Create a new user record in the database
+    $user = new UserOtp();
+    $user->email = $validatedData['email'];
+    $user->otp = $otp; // Assuming you have an 'otp' column in your users table
+    $user->expire_at = now()->addMinutes(3);
+    $user->save();
+
+    EmailHelper::sendOtp($otp,$request->email);
+    // return view('HomePages/VerifyOtp');
+    $encryptedId = EncryptionDecryptionHelper::encdecId($user->tbl_user_otp_id, 'encrypt');
+
+    return redirect()->route('verifyotpex');
+    // Debug output to check if OTP is generated and user is saved
+    //dd('User registered with email: ' . $user->email . ' and OTP: ' . $otp . ' Expiration At: ' .  $user->expire_at);
+
+    // Return the view for registration
+   
+}
 public function verifyOTP()
     {
         
@@ -441,6 +480,19 @@ public function verifyOTP()
         // Pass the email to the view
         return view('HomePages/VerifyOtp', ['email' => $email]);
     }
+
+    public function verifyOTPEx()
+    {
+        
+
+        // Retrieve the email based on the tbl_user_otp_id
+        $email = UserOtp::orderBy('tbl_user_otp_id', 'desc')->value('email');
+
+        //dd($email);
+
+        // Pass the email to the view
+        return view('HomePages/VerifyOtpEx', ['email' => $email]);
+    }    
 
 
 // public function verifyotppost(Request $request)
@@ -495,5 +547,30 @@ public function verifyotppost(Request $request)
     }
 }
 
+public function verifyotppostEx(Request $request)
+{
+    //dd($request);
+    // Validate the OTP input
+    $validatedData = $request->validate([
+        'email' => 'required|email',
+        'otp' => 'required',
+    ]);
+
+    // Retrieve the email and OTP from the request
+    $inputEmail = $request->input('email');
+    $inputOTP = $request->input('otp');
+
+    // Fetch the OTP record from the database
+    $otpRecord = UserOtp::where('email', $inputEmail)->orderBy('created_at', 'desc')->first();
+
+    // Check if the OTP record exists and if the input OTP matches the stored OTP
+    if ($otpRecord && $inputOTP == $otpRecord->otp) {
+        // OTP verification successful, redirect to organizer form
+        return redirect('/exhibitorform');
+    } else {
+        // OTP verification failed
+        return redirect()->back()->withErrors(['otp' => 'Invalid OTP']);
+    }
+}
     
 }

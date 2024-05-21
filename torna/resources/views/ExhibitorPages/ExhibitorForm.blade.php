@@ -350,7 +350,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="email" class="col-form-label text-md-right">Email ID <span style="color: red;">*</span></label>
-                            <input id="email" name="email" type="email" class="form-control" required>
+                            <input id="email" value="{{ $email }}" name="email" type="email" class="form-control" readonly>
                             <small id="emailError" class="text-danger"></small>
                         </div>
                     </div>

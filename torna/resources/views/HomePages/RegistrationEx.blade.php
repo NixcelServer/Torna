@@ -79,8 +79,8 @@
     <body>
         <div class="container" id="registrationContainer">
             <div class="form-container">
-                <h1>Organizer Registration</h1>
-                <form class="form-containerb" id="registrationForm" action="/registerwithmail" method="POST">
+                <h1>Exhibitor Registration</h1>
+                <form class="form-containerb" id="registrationForm" action="/registerwithmailEx" method="POST">
                     @csrf
                     <input type="email" name="email" id="emailInput" placeholder="Your email" required>
                     <button type="submit" id="registerBtn">Register for free</button>

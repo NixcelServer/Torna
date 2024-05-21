@@ -148,6 +148,36 @@
                                 </a>
                                 
                             </li>
+                            <li>
+                                <a href="/unapprovedorgcount" aria-expanded="false" >
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedorgcount" aria-expanded="false" >
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedorgcount" aria-expanded="false" >
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/unapprovedexcount" aria-expanded="false" >
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedexcount" aria-expanded="false" >
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedexcount" aria-expanded="false" >
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -170,9 +200,12 @@
                                         <thead>
                                             <tr>
                                                 <th>Sr No</th>
+                                                <th>Fisrt Name</th>
+                                                <th>Last Name</th>
                                                 <th>Company Name</th>
                                                 <th>Email</th>
                                                 <th>Contact No</th>
+                                                <th>Requested Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -180,11 +213,15 @@
                                             @foreach($companies as $key => $organizer)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
+                                                <td>{{ $organizer->first_name }}</td>
+                                                <td>{{ $organizer->last_name }}</td>
                                                 <td>{{ $organizer->company_name }}</td>
                                                 <td>{{ $organizer->email }}</td>
                                                 <td>{{ $organizer->contact_no }}</td>
+                                                <td>{{ $organizer->created_at }}</td>
+                                                {{-- <td>{{ $organizer->registered_date }}</td> --}}
                                                 <td>
-                                                    <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}', '{{ $organizer->company_logo }}')">
+                                                    <button class="btn btn-sm btn-primary" style="background-color: #FFBE07; border-color: #FFBE07; color: #000;" onclick="openDocument('{{ $organizer->first_name }}','{{ $organizer->last_name }}','{{ $organizer->company_name }}', '{{ $organizer->email }}', '{{ $organizer->contact_no }}', '{{ $organizer->tbl_comp_id }}', '{{ $organizer->company_logo }}')">
                                                         View
                                                     </button>
                                                 </td>
@@ -216,8 +253,11 @@
                         <div class="container">
                            
                             <div class="col">
-                            <img id="companyLogo" src="" alt="Company Logo" style="max-width: 100%; height: auto;">
-
+                                <img id="companyLogo" src="" alt="Company Logo" style="width: 735px; height: 200px;">
+                            </br>
+                        </br>
+                                <p><strong>First Name:</strong> <span id="firstName"></span></p>
+                                    <p><strong>Last Name:</strong> <span id="lastName"></span></p>
                                 <p><strong>Company Name:</strong> <span id="companyName"></span></p>
                                 <p><strong>Email:</strong> <span id="email"></span></p>
                                 <p><strong>Contact No:</strong> <span id="contactNo"></span></p>
@@ -238,13 +278,44 @@
                 </div>
             </div>
         </div>
-    
+        <style>
+            .modal-content {
+     border-radius: 10px;
+     overflow: hidden;
+ }
+ 
+ .modal-header {
+     background-color: #f8f9fa;
+     border-bottom: 1px solid #e9ecef;
+ }
+ 
+ .modal-body {
+     padding: 2rem;
+ }
+ 
+ .modal-body p {
+     margin: 0;
+     font-size: 1.1rem;
+ }
+ 
+ #companyLogo {
+     max-width: 100%;
+     height: auto;
+     border-radius: 10px;
+     border: 1px solid #ddd;
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ }
+ 
+ 
+         </style>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            function openDocument(companyName, email, contactNo, compId, companyLogo ) {
+            function openDocument(firstName, lastName, companyName, email, contactNo, compId, companyLogo ) {
+                $('#firstName').text(firstName);
+                $('#lastName').text(lastName);
                 $('#companyName').text(companyName);
                 $('#email').text(email);
                 $('#contactNo').text(contactNo);

@@ -68,13 +68,12 @@ class ExhibitionController extends Controller
 
     public function unapprovedorgcount()
     {
-
         $companies = UserDetail::where('active_status', 'Pending')->where('role_id', 2)->get();
 
         foreach ($companies as $company) {
             $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
             $company->company_logo = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_logo');
-
+            $company->registered_date = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('registered_date');
         }
         return view('AdminPages/UnApprovedOrgList', ['companies' => $companies]);
     }

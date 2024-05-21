@@ -29,12 +29,19 @@ Route::post('/regexhibitor', [AuthController::class, 'ExhibitorRegistrationSubmi
 Route::get('/organizerform', [AuthController::class, 'OrganizerRegistrationForm']);
 Route::get('/exhibitorform', [AuthController::class, 'ExhibitorForm']);
 
-//New Registration Form With Email Address
+//New Orgnizer Registration Form With Email Address
 Route::get('/registration', [AuthController::class, 'RegistrationWithEmail']);
 Route::post('/registerwithmail', [AuthController::class, 'registerwithmail']);
 
 Route::get('/verifyotp', [AuthController::class, 'verifyOTP'])->name('verifyotp');
 Route::post('/verifyotppost', [AuthController::class, 'verifyotppost']);
+
+//New Exhibitor Registration Form With Email Address
+Route::get('/registrationE', [AuthController::class, 'RegistrationWithEmailEx']);
+Route::post('/verifyotppostEx', [AuthController::class, 'verifyotppostEx']);
+Route::post('/registerwithmailEx', [AuthController::class, 'registerwithmailEx']);
+Route::get('/verifyotpex', [AuthController::class, 'verifyOTPEx'])->name('verifyotpex');
+
 
 
 

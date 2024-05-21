@@ -339,7 +339,7 @@
                     </div>                           
                     <div class="col-md-6">
                         <label for="email" class="col-form-label text-md-right required-field">Email ID</label>
-                        <input id="email" name="email" type="email" class="form-control" required>
+                        <input id="email" value="{{ $email }}" name="email" type="email" class="form-control" readonly>
                        <small id="emailError" class="text-danger"></small>
                     </div>
                 </div>

@@ -79,20 +79,23 @@
     <body>
         <div class="container" id="registrationContainer">
             <div class="form-container">
-                <h1>Organizer Registration</h1>
-                <form class="form-containerb" id="registrationForm" action="/registerwithmail" method="POST">
+                <h1>Register for free</h1>
+                <form class="form-containerb" id="registrationForm" action="/verifyotppostEx" method="POST">
                     @csrf
-                    <input type="email" name="email" id="emailInput" placeholder="Your email" required>
-                    <button type="submit" id="registerBtn">Register for free</button>
+                    <input type="hidden" name="email" id="otpEmail" value="{{ $email }}">
+                    <input type="text" name="otp" id="otpInput" placeholder="Enter OTP" required>
+                    <button type="submit" id="verifyBtn">Verify</button>
                 </form>
                 <div class="disclaimer">
                     By clicking "Register for free", you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. We'll occasionally send you account related emails.
                 </div>
             </div>
+            
             <div class="illustration">
                 <img src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bG9naW4lMjBwYWdlfGVufDB8fDB8fHww" alt="Illustration">
             </div>
         </div> 
-    </body>   
+    </body>
+    
 </body>
 </html>

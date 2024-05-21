@@ -22,7 +22,48 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <style>                                    
+        .compact-card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 1, 1, 1);
+            background: #fff;
+            transition: transform 0.3s;
+        }
+        .compact-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .icon-container {
+            margin-bottom: 15px;
+        }
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .d-inline-block {
+            text-align: center;
+        }
+        .d-inline-block h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .d-inline-block a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .d-inline-block a:hover {
+            text-decoration: underline;
+        }
+        .small-title {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
 
+        
+    </style>
 
 </head>
 
@@ -145,6 +186,36 @@
                         </a>
                         
                     </li>
+                    <li>
+                        <a href="/unapprovedorgcount" aria-expanded="false" >
+                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/approvedorgcount" aria-expanded="false" >
+                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/rejectedorgcount" aria-expanded="false" >
+                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/unapprovedexcount" aria-expanded="false" >
+                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/approvedexcount" aria-expanded="false" >
+                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/rejectedexcount" aria-expanded="false" >
+                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -167,109 +238,98 @@
                             </div>
                             <div class="card-body">
                                 <div class="row justify-content-center">
-                                    <div class="col-lg-2 col-sm-6">
-                                        <div class="compact-card gradient-9">
-                                            <div class="card-body">
-                                                <h1 class="card-title text-white">Organiser </br></br></h1>
-                                                <div class="d-inline-block">
-                                                    <span class="float-right display-5 opacity-9"><i class="fa fa-arrow-right"></i></span>
-                                                    <a href="" class="text-white mb-0"></a>
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="compact-card small-card">
+                                            <div class="card-body text-center">
+                                                <div class="icon-container">
+                                                    <i class="fa fa-exclamation-circle fa-2x"></i>
                                                 </div>
-                                                
+                                                <h4 class="card-title small-title">Unapproved Organizer Count</h4>
+                                                <div class="d-inline-block">
+                                                    <h3 class="small-count">{{ $unapprovedOrgCount }}</h3>
+                                                    <a href="/unapprovedorgcount" class="small-link">View All</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="compact-card gradient-1">
-                                            <div class="card-body">
-                                                <h1 class="card-title text-white">Unapproved Organizer Count</h1>
-                                                <div class="d-inline-block">
-                                                    <h2 class="text-white">{{ $unapprovedOrgCount }}</h2>
-                                                    <a href="/unapprovedorgcount" class="text-white mb-0">View All</a>
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="compact-card small-card">
+                                            <div class="card-body text-center">
+                                                <div class="icon-container">
+                                                    <i class="fa-solid fa-person-circle-check fa-2x"></i>
                                                 </div>
-                                                <span class="float-right display-5 opacity-5"><i class="fa fa-exclamation-circle"></i></span>
+                                                <h2 class="card-title small-title">Approved Organizer Count</h2>
+                                                <div class="d-inline-block">
+                                                    <h3 class="small-count">{{ $approvedOrgCount }}</h3>
+                                                    <a href="/approvedorgcount" class="small-link">View All</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="compact-card gradient-2">
-                                            <div class="card-body">
-                                                <h3 class="card-title text-white">Approved Organizer Count</h3>
-                                                <div class="d-inline-block">
-                                                    <h2 class="text-white">{{ $approvedOrgCount }}</h2>
-                                                    <a href="/approvedorgcount" class="text-white mb-0">View All</a>
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="compact-card small-card">
+                                            <div class="card-body text-center">
+                                                <div class="icon-container">
+                                                    <i class="fa fa-ban fa-2x"></i>
                                                 </div>
-                                                <span class="float-right display-5 opacity-5"><i class="fa-solid fa-person-circle-check"></i></span>
+                                                <h2 class="card-title small-title">Rejected Organizer Count</h2>
+                                                <div class="d-inline-block">
+                                                    <h3 class="small-count">{{ $rejectedOrgCount }}</h3>
+                                                    <a href="/rejectedorgcount" class="small-link">View All</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="compact-card gradient-3">
-                                            <div class="card-body">
-                                                <h3 class="card-title text-white">Rejected Organizer Count</h3>
-                                                <div class="d-inline-block">
-                                                    <h2 class="text-white">{{ $rejectedOrgCount }}</h2>
-                                                    <a href="/rejectedorgcount" class="text-white mb-0">View All</a>
-                                                </div>
-                                                <span class="float-right display-5 opacity-5"><i class="fa fa-ban"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>                  
                                 </div>
-                                <br />
+                                
+                                
                                 <br />
                                 <div class="row justify-content-center">
-                                    <div class="col-lg-2 col-sm-6">
-                                        <div class="compact-card gradient-9">
-                                            <div class="card-body">
-                                                <h1 class="card-title text-white">Exhibitor </br></br></h1>
-                                                <div class="d-inline-block">
-                                                    <span class="float-right display-5 opacity-9"><i class="fa fa-arrow-right"></i></span>
-                                                    <a href="" class="text-white mb-0"></a>
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="compact-card small-card">
+                                            <div class="card-body text-center">
+                                                <div class="icon-container">
+                                                    <i class="fa fa-exclamation-circle fa-2x"></i>
                                                 </div>
-                                                
+                                                <h2 class="card-title small-title">Unapproved Exhibitor Count</h2>
+                                                <div class="d-inline-block">
+                                                    <h3 class="small-count">{{ $unapprovedExCount }}</h3>
+                                                    <a href="/unapprovedexcount" class="small-link">View All</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="compact-card gradient-1">
-                                            <div class="card-body">
-                                                <h3 class="card-title text-white">Unapproved Exhibitor Count</h3>
-                                                <div class="d-inline-block">
-                                                    <h2 class="text-white">{{ $unapprovedExCount }}</h2>
-                                                    <a href="/unapprovedexcount" class="text-white mb-0">View All</a>
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="compact-card small-card">
+                                            <div class="card-body text-center">
+                                                <div class="icon-container">
+                                                    <i class="fa-solid fa-person-circle-check fa-2x"></i>
                                                 </div>
-                                                <span class="float-right display-5 opacity-5"><i class="fa fa-exclamation-circle"></i></i></span>
+                                                <h2 class="card-title small-title">Approved Exhibitor Count</h2>
+                                                <div class="d-inline-block">
+                                                    <h3 class="small-count">{{ $approvedExCount }}</h3>
+                                                    <a href="/approvedexcount" class="small-link">View All</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="compact-card gradient-2">
-                                            <div class="card-body">
-                                                <h3 class="card-title text-white">Approved Exhibitor Count</h3>
-                                                <div class="d-inline-block">
-                                                    <h2 class="text-white">{{ $approvedExCount }}</h2>
-                                                    <a href="/approvedexcount" class="text-white mb-0">View All</a>
+                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                        <div class="compact-card small-card">
+                                            <div class="card-body text-center">
+                                                <div class="icon-container">
+                                                    <i class="fa fa-ban fa-2x"></i>
                                                 </div>
-                                                <span class="float-right display-5 opacity-5"><i class="fa-solid fa-person-circle-check"></i></span>
+                                                <h2 class="card-title small-title">Rejected Exhibitor Count</h2>
+                                                <div class="d-inline-block">
+                                                    <h3 class="small-count">{{ $rejectedExCount }}</h3>
+                                                    <a href="/rejectedexcount" class="small-link">View All</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="col-lg-3 col-sm-6">
-                                        <div class="compact-card gradient-3">
-                                            <div class="card-body">
-                                                <h3 class="card-title text-white">Rejected Exhibitor </br> Count</h3>
-                                                <div class="d-inline-block">
-                                                    <h2 class="text-white">{{ $rejectedExCount }}</h2>
-                                                    <a href="/rejectedexcount" class="text-white mb-0">View All</a>
-                                                </div>
-                                                <span class="float-right display-5 opacity-5"><i class="fa fa-ban"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
                                 </div>
+                                
+                                
                                
                             </div>
                         </div>

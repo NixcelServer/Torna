@@ -96,8 +96,8 @@
 	          <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
 	          <li class="nav-item cta mr-md-2">
 				<a href="#" class="nav-link register-btn" data-toggle="popover" data-placement="bottom" data-content='
-    <a href="/organizerform" class="dropdown-item">As Organizer</a>
-    <a href="/exhibitorform" class="dropdown-item">As Exhibitor</a>
+    <a href="/registration" class="dropdown-item">As Organizer</a>
+    <a href="/registrationE" class="dropdown-item">As Exhibitor</a>
 '>Register</a>
 
 			</li>
