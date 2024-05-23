@@ -19,8 +19,21 @@
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
+<style>
+    .card {
+        border-radius: 25px;
+        box-shadow: 0 4px 8px rgba(0, 1, 1, 1);
+        background: #fff;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.04); /* Scale the card up slightly on hover */
+    }
+</style>
 
 <body>
 
@@ -294,7 +307,7 @@
                         <br/>
                         <div class="row">
                             @foreach($activeExs as $key => $activeEx)
-                            <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
+                            {{-- <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
                                 <div class="card" >
                                     @if($activeEx->company_logo)
                                     <img src="data:image/png;base64,{{ $activeEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
@@ -320,6 +333,156 @@
                                     </div>
                                     
                                 </div>
+                            </div> --}}
+                            {{-- <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
+                                <div class="card">
+                                    @if($activeEx->company_logo)
+                                    <img src="data:image/png;base64,{{ $activeEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                    @endif
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $activeEx->exhibition_name }}</h5>
+                                        <div>
+                                            <div class="mr-3">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">Date:</span>
+                                                <span>{{ $activeEx->ex_from_date }}</span>
+                                                <span class="mx-2">-</span>
+                                                <span>{{ $activeEx->ex_to_date }}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="mr-3">
+                                                <i class="fas fa-clock"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">Time:</span>
+                                                <span>{{ $activeEx->start_time }}</span>
+                                                <span class="mx-2">-</span>
+                                                <span>{{ $activeEx->end_time }}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="mr-3">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">Venue:</span>
+                                                <span>{{ $activeEx->venue }}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="mr-3">
+                                                <i class="fas fa-globe"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">Website:</span>
+                                                <a href="{{ $activeEx->website }}" target="_blank">{{ $activeEx->website }}</a>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="mr-3">
+                                                <i class="fas fa-external-link-alt"></i>
+                                            </div>
+                                            <div>
+                                                <span class="font-weight-bold">Register:</span>
+                                                <a href="{{ $activeEx->registration_url }}" target="_blank">Register Here</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-success">Edit Exhibition</a>
+                                    </div>
+                                </div>
+                            </div> --}}
+                            <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
+                                <div class="card">
+                                    @if($activeEx->company_logo)
+                                    <img src="data:image/png;base64,{{ $activeEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                    @endif
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="background-color: yellow; padding: 0.2em 0.4em; border-radius: 4px; ">
+                                            {{ $activeEx->exhibition_name }}
+                                        </h5>
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                                    <span class="font-weight-bold">Date:</span>
+                                                </div>
+                                                <div>
+                                                    <span>{{ $activeEx->ex_from_date }}</span>
+                                                    <span class="mx-2">-</span>
+                                                    <span>{{ $activeEx->ex_to_date }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-clock mr-2"></i>
+                                                    <span class="font-weight-bold">Time:</span>
+                                                </div>
+                                                <div>
+                                                    <span>{{ $activeEx->start_time }}</span>
+                                                    <span class="mx-2">-</span>
+                                                    <span>{{ $activeEx->end_time }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row mt-2">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                                    <span class="font-weight-bold">Venue:</span>
+                                                </div>
+                                                <div>
+                                                    <span>{{ $activeEx->venue }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-globe mr-2"></i>
+                                                    <span class="font-weight-bold">Website:</span>
+                                                </div>
+                                                <div>
+                                                    <a href="{{ $activeEx->exhibition_website }}" target="_blank">{{ $activeEx->exhibition_website }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row mt-2">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                                    <span class="font-weight-bold">Register:</span>
+                                                </div>
+                                                <div>
+                                                    <a href="{{ $activeEx->registration_url }}" target="_blank">{{ $activeEx->registration_url }}</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-file-alt mr-2"></i>
+                                                    <span class="font-weight-bold">Document:</span>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-sm btn-primary view-document-btn" data-toggle="modal" data-target="#documentModal">View Document</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-2">
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-success">Edit Exhibition</a>
+                                    </div>
+                                </div>
                             </div>
                             @endforeach
                         </div>
@@ -338,7 +501,24 @@
     <!--**********************************
         Main wrapper end
     ***********************************-->
+    <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentModalLabel">View Document</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Embed the document content from the preloaded data -->
+                    <embed src="data:application/pdf;base64,{{ $activeEx->attach_document }}" type="application/pdf" width="100%" height="500px" />
+                </div>
+            </div>
+        </div>
+    </div>
 
+    
     <!--**********************************
         Scripts
     ***********************************-->
@@ -369,6 +549,9 @@
 
 
     <script src="/js/dashboard/dashboard-1.js"></script>
+
+
+    
 
 </body>
 

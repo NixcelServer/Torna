@@ -62,6 +62,8 @@ class ExhibitionController extends Controller
 
         foreach ($companies as $company) {
             $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+            $company->company_logo = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_logo');
+
         }
         return view('AdminPages/ApprovedOrgList', ['companies' => $companies]);
     }
@@ -84,6 +86,8 @@ class ExhibitionController extends Controller
 
         foreach ($companies as $company) {
             $company->company_name = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_name');
+            $company->company_logo = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('company_logo');
+
         }
         return view('AdminPages/ApprovedExList', ['companies' => $companies]);
     }
@@ -348,10 +352,19 @@ class ExhibitionController extends Controller
         $exhibition->created_date = Date::now()->toDateString();
         $exhibition->created_time = Date::now()->toTimeString();
         $exhibition->exhibition_website = $request->exhibition_website;
-        $exhibition->attach_document = $request->attach_document;
+        //$exhibition->attach_document = $request->attach_document;
         $exhibition->registration_url = $request->registration_url;
 
-
+        if ($request->hasFile('attach_document')) {
+            $file = $request->file('attach_document');
+            
+            // Get the file contents as binary data
+            $binaryData = file_get_contents($file->path());
+        
+            // Store the binary data in the document_attachment column
+            $exhibition->attach_document = $binaryData;
+        }
+        
 //dd($exhibition);
         //Handle company logo upload if a file was uploaded
         if ($request->hasFile('company_logo')) {
@@ -444,12 +457,14 @@ class ExhibitionController extends Controller
     {
         $user = session('user');
         $activeExs = ExhibitionDetail::where('tbl_comp_id',$user->tbl_comp_id)->where('active_status', 'Active')->where('flag', 'show')->get();
-
+        //dd($activeExs);
 
         //dd($activeExs);
         foreach ($activeExs as $activeEx) {
             $activeEx->encActiveExId = EncryptionDecryptionHelper::encdecId($activeEx->tbl_ex_id, 'encrypt');
+            $activeEx->attach_document = base64_encode($activeEx->attach_document);
         }
+        //dd($activeEx);
 
         return view('OrganizerPages/activeExhibitions', ['activeExs' => $activeExs]);
     }
@@ -496,6 +511,7 @@ class ExhibitionController extends Controller
 
         foreach ($inActiveExs as $inActiveEx) {
             $inActiveEx->encInActiveExId = EncryptionDecryptionHelper::encdecId($inActiveEx->tbl_ex_id, 'encrypt');
+            $inActiveEx->attach_document = base64_encode($inActiveEx->attach_document);
         }
 
         return view('OrganizerPages/InactiveExhibitions', ['inActiveExs' => $inActiveExs]);
@@ -908,7 +924,6 @@ public function companysetupformo()
         $company->comp_address = $request->address;
         $company->comp_website = $request->website;
         $company->industry_name = $request->industry_name;
-
         $company->contact_no = $request->contact_no;
         $company->email = $request->email;
         $company->updated_by = session('user')->tbl_user_id;
@@ -1337,11 +1352,16 @@ public function updateExhibition(Request $request)
         $exhibition->company_logo = $base64Image;
     }
     if ($request->hasFile('attach_document')) {
-        $document = $request->file('attach_document');
-        $base64Document = base64_encode(file_get_contents($document->path()));
-        $exhibition->attach_document = $base64Document;
+        $file = $request->file('attach_document');
+        
+        // Get the file contents as binary data
+        $binaryData = file_get_contents($file->path());
+    
+        // Store the binary data in the document_attachment column
+        $exhibition->attach_document = $binaryData;
     }
-   // dd($exhibition);
+    
+    //dd($exhibition);
     // try {
        //dd($exhibition);
         $exhibition->save();

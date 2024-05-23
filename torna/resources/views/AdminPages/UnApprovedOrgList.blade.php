@@ -127,7 +127,7 @@
             Sidebar start
         ***********************************-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> 
-<div class="nk-sidebar" style="margin-top: -17px;"> 
+        <div class="nk-sidebar" style="margin-top: -17px;"> 
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li>
@@ -149,35 +149,50 @@
                         
                     </li>
                     <li>
-                        <a href="/unapprovedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-people menu-icon"></i><span class="nav-text">Organizer Counts</span>
                         </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                <a href="/unapprovedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="/approvedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-person-lines-fill menu-icon"></i><span class="nav-text">Exhibitor Counts</span>
                         </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                <a href="/unapprovedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
-                        <a href="/rejectedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/unapprovedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/approvedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/rejectedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
         </div>
@@ -257,16 +272,24 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col">
-                                <img id="companyLogo" src="" alt="Company Logo" style="width: 735px; height: 200px;">
-                            </br>
-                            </br>
-                                    <p><strong>First Name:</strong> <span id="firstName"></span></p>
-                                    <p><strong>Last Name:</strong> <span id="lastName"></span></p>
-                                    <p><strong>Company Name:</strong> <span id="companyName"></span></p>
-                                    <p><strong>Email:</strong> <span id="email"></span></p>
-                                    <p><strong>Contact No:</strong> <span id="contactNo"></span></p>                                    
-                                    <p><strong><span style="color: white;">Company Id:</span></strong> <span id="compId" style="color: white;"></span></p>
+                                    <img id="companyLogo" src="" alt="Company Logo" style="width: 735px; height: 200px;">
+                                </br>
+                                </br>
+                                    <div class="row">
+                                        <p style="margin-right: 20px;"><strong>First Name:</strong> <span id="firstName"></span></p>
+                                        <p style="margin-right: 20px;"><strong>Last Name:</strong> <span id="lastName"></span></p>
+                                        <p><strong>Contact No:</strong> <span id="contactNo"></span></p>
+                                    </div>
+                                </br>
+                                    <div class="row">
+                                        <p style="margin-right: 20px;"><strong>Company Name:</strong> <span id="companyName"></span></p>
+                                        <p><strong>Email:</strong> <span id="email"></span></p>
+                                    </div>
+                                    
+                                    <p><strong><span style="color: white;">Company Id:</span></strong> 
+                                    <span id="compId" style="color: white;"></span></p>
                                 </div>
+                                
                             </div>
                             <div class="row mt-3">
                                 <div class="col text-center">
@@ -369,6 +392,10 @@
         
 
         <style>
+            
+
+
+
            .modal-content {
     border-radius: 10px;
     overflow: hidden;

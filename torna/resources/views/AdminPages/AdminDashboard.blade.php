@@ -187,35 +187,50 @@
                         
                     </li>
                     <li>
-                        <a href="/unapprovedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-people menu-icon"></i><span class="nav-text">Organizer Counts</span>
                         </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                <a href="/unapprovedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="/approvedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-person-lines-fill menu-icon"></i><span class="nav-text">Exhibitor Counts</span>
                         </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                <a href="/unapprovedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
-                        <a href="/rejectedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/unapprovedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/approvedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/rejectedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
         </div>
@@ -242,7 +257,7 @@
                                         <div class="compact-card small-card">
                                             <div class="card-body text-center">
                                                 <div class="icon-container">
-                                                    <i class="fa fa-exclamation-circle fa-2x"></i>
+                                                    <i class="fa fa-exclamation-circle fa-2x" style="color: orange;"></i>
                                                 </div>
                                                 <h4 class="card-title small-title">Unapproved Organizer Count</h4>
                                                 <div class="d-inline-block">
@@ -256,7 +271,7 @@
                                         <div class="compact-card small-card">
                                             <div class="card-body text-center">
                                                 <div class="icon-container">
-                                                    <i class="fa-solid fa-person-circle-check fa-2x"></i>
+                                                    <i class="fa-solid fa-person-circle-check fa-2x" style="color: green;"></i>
                                                 </div>
                                                 <h2 class="card-title small-title">Approved Organizer Count</h2>
                                                 <div class="d-inline-block">
@@ -270,7 +285,7 @@
                                         <div class="compact-card small-card">
                                             <div class="card-body text-center">
                                                 <div class="icon-container">
-                                                    <i class="fa fa-ban fa-2x"></i>
+                                                    <i class="fa fa-ban fa-2x" style="color: red;"></i>
                                                 </div>
                                                 <h2 class="card-title small-title">Rejected Organizer Count</h2>
                                                 <div class="d-inline-block">
@@ -289,7 +304,7 @@
                                         <div class="compact-card small-card">
                                             <div class="card-body text-center">
                                                 <div class="icon-container">
-                                                    <i class="fa fa-exclamation-circle fa-2x"></i>
+                                                    <i class="fa fa-exclamation-circle fa-2x" style="color: orange;"></i>
                                                 </div>
                                                 <h2 class="card-title small-title">Unapproved Exhibitor Count</h2>
                                                 <div class="d-inline-block">
@@ -303,7 +318,7 @@
                                         <div class="compact-card small-card">
                                             <div class="card-body text-center">
                                                 <div class="icon-container">
-                                                    <i class="fa-solid fa-person-circle-check fa-2x"></i>
+                                                    <i class="fa-solid fa-person-circle-check fa-2x" style="color: green;"></i>
                                                 </div>
                                                 <h2 class="card-title small-title">Approved Exhibitor Count</h2>
                                                 <div class="d-inline-block">
@@ -317,7 +332,7 @@
                                         <div class="compact-card small-card">
                                             <div class="card-body text-center">
                                                 <div class="icon-container">
-                                                    <i class="fa fa-ban fa-2x"></i>
+                                                    <i class="fa fa-ban fa-2x" style="color: red;"></i>
                                                 </div>
                                                 <h2 class="card-title small-title">Rejected Exhibitor Count</h2>
                                                 <div class="d-inline-block">

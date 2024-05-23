@@ -31,6 +31,18 @@
 {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script> --}}
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<style>
+    /* Hide the "No file chosen" text */
+    input[type="file"] {
+        color: transparent;
+    }
+
+    /* Show only the file name when a file is selected */
+    input[type="file"]::file-selector-button::before {
+        content: 'Upload Logo';
+        color: black;
+    }
+</style>
 
 </head>
 
@@ -330,17 +342,29 @@
                                         <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
                                     </div>
                                 </div>
+                                <br />
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="last_name" class="col-form-label text-md-right">Company Website</label>
-                                        <input id="last_name" name="website" type="text" value="{{ $company->comp_website }}" class="form-control" name="last_name" required>
+                                        <label for="logo" class="col-form-label text-md-right">Upload Company Logo</label>
+                                        <input id="logo" name="company_logo" type="file" class="form-control-file" accept="image/*" onchange="previewImage(event)">
+                                    </div>
+                                    <div id="imagePreview" class="col-md-6">
+                                        <label for="preview" class="col-form-label text-md-right">Company Logo</label>
+                                        @if($company->company_logo)
+                                            <img id="preview" src="data:image/png;base64,{{ $company->company_logo }}" alt="Company Logo" style="width: 100px; height: 100px;">
+                                        @else
+                                            <img id="preview" src="default-image.jpg" alt="Default Image" style="width: 100px; height: 100px;">
+                                        @endif
                                     </div>
                                     
-                                    <div class="col-md-6">
-                                        <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
-                                        <input id="logo" name="logo" type="file" class="form-control-file" accept="image/*">
-                                    </div>
                                 </div>
+                               
+        <div class="row">
+            <div class="col-md-6">
+                <label for="last_name" class="col-form-label text-md-right">Company Website</label>
+                <input id="last_name" name="website" type="text" value="{{ $company->comp_website }}" class="form-control" name="last_name" required>
+            </div>
+        </div>
         <br />
                                 <div class="form-group row justify-content-center mb-3">
                                     <div class="col-md-6 offset-md-4">
@@ -372,7 +396,23 @@
     <!--**********************************
         Main wrapper end
     ***********************************-->
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('preview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
 
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
     <!--**********************************
         Scripts
     ***********************************-->

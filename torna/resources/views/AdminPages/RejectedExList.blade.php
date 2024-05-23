@@ -118,59 +118,74 @@
         ***********************************-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> 
         <div class="nk-sidebar" style="margin-top: -17px;"> 
-                    <div class="nk-nav-scroll">
-                        <ul class="metismenu" id="menu">
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                    <li>
+                        <a href="/AdminDashboard" aria-expanded="false" >
+                            <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
+                        </a>
+                        
+                    </li>
+                    <li>
+                        <a  href="/industrymaster" aria-expanded="false" >
+                            <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
+                        </a>
+                        
+                    </li>
+                    <li>
+                        <a  href="/auditlog" aria-expanded="false" >
+                            <i class="bi bi-card-list"></i><span class="nav-text">Audit Log</span>
+                        </a>
+                        
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-people menu-icon"></i><span class="nav-text">Organizer Counts</span>
+                        </a>
+                        <ul aria-expanded="false">
                             <li>
-                                <a href="/AdminDashboard" aria-expanded="false" >
-                                    <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
-                                </a>
-                                
-                            </li>
-                            <li>
-                                <a  href="/industrymaster" aria-expanded="false" >
-                                    <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
-                                </a>
-                                
-                            </li>
-                            <li>
-                                <a  href="/auditlog" aria-expanded="false" >
-                                    <i class="bi bi-card-list"></i><span class="nav-text">Audit Log</span>
-                                </a>
-                                
-                            </li>
-                            <li>
-                                <a href="/unapprovedorgcount" aria-expanded="false" >
+                                <a href="/unapprovedorgcount" aria-expanded="false">
                                     <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/approvedorgcount" aria-expanded="false" >
+                                <a href="/approvedorgcount" aria-expanded="false">
                                     <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/rejectedorgcount" aria-expanded="false" >
+                                <a href="/rejectedorgcount" aria-expanded="false">
                                     <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-person-lines-fill menu-icon"></i><span class="nav-text">Exhibitor Counts</span>
+                        </a>
+                        <ul aria-expanded="false">
                             <li>
-                                <a href="/unapprovedexcount" aria-expanded="false" >
+                                <a href="/unapprovedexcount" aria-expanded="false">
                                     <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/approvedexcount" aria-expanded="false" >
+                                <a href="/approvedexcount" aria-expanded="false">
                                     <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/rejectedexcount" aria-expanded="false" >
+                                <a href="/rejectedexcount" aria-expanded="false">
                                     <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
                                 </a>
                             </li>
                         </ul>
-                    </div>
-                </div>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -192,6 +207,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Sr No</th>
+                                                <th>Fisrt Name</th>
+                                                <th>Last Name</th>
                                                 <th>Company Name</th>
                                                 <th>Email</th>
                                                 <th>Contact No</th>
@@ -202,6 +219,8 @@
                                             @foreach($companies as $key => $organizer)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
+                                                <td>{{ $organizer->first_name }}</td>
+                                                <td>{{ $organizer->last_name }}</td>
                                                 <td>{{ $organizer->company_name }}</td>
                                                 <td>{{ $organizer->email }}</td>
                                                 <td>{{ $organizer->contact_no }}</td>

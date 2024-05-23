@@ -31,6 +31,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
 
@@ -307,7 +308,7 @@
                             <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Industries</span>
-                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addIndustryModal">Add New Industry</button>
+                                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#addIndustryModal">Add New Industry</button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -325,13 +326,25 @@
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $industry->industry_name }}</td>
-                                                <td>
+                                                {{-- <td>
                                                     @if($industry->delete_disabled)
                                                         <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}" disabled title="This industry is created by admin so cannot be deleted !" data-toggle="tooltip">Delete</button>
                                                     @else
                                                         <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}">Delete</button>
                                                     @endif
+                                                </td> --}}
+                                                <td>
+                                                    @if($industry->delete_disabled)
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}" disabled title="This industry is created by admin so cannot be deleted !" data-toggle="tooltip">
+                                                            <i class="far fa-trash-alt"></i> <!-- Use "far" for regular style -->
+                                                        </button>
+                                                    @else
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $industry->enc_id }}" data-count="{{ $industry->count }}">
+                                                            <i class="far fa-trash-alt"></i> <!-- Use "far" for regular style -->
+                                                        </button>
+                                                    @endif
                                                 </td>
+                                                
                                                 
                                                 
                                             </tr>

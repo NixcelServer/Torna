@@ -118,59 +118,74 @@
         ***********************************-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> 
         <div class="nk-sidebar" style="margin-top: -17px;"> 
-                    <div class="nk-nav-scroll">
-                        <ul class="metismenu" id="menu">
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                    <li>
+                        <a href="/AdminDashboard" aria-expanded="false" >
+                            <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
+                        </a>
+                        
+                    </li>
+                    <li>
+                        <a  href="/industrymaster" aria-expanded="false" >
+                            <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
+                        </a>
+                        
+                    </li>
+                    <li>
+                        <a  href="/auditlog" aria-expanded="false" >
+                            <i class="bi bi-card-list"></i><span class="nav-text">Audit Log</span>
+                        </a>
+                        
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-people menu-icon"></i><span class="nav-text">Organizer Counts</span>
+                        </a>
+                        <ul aria-expanded="false">
                             <li>
-                                <a href="/AdminDashboard" aria-expanded="false" >
-                                    <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
-                                </a>
-                                
-                            </li>
-                            <li>
-                                <a  href="/industrymaster" aria-expanded="false" >
-                                    <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
-                                </a>
-                                
-                            </li>
-                            <li>
-                                <a  href="/auditlog" aria-expanded="false" >
-                                    <i class="bi bi-card-list"></i><span class="nav-text">Audit Log</span>
-                                </a>
-                                
-                            </li>
-                            <li>
-                                <a href="/unapprovedorgcount" aria-expanded="false" >
+                                <a href="/unapprovedorgcount" aria-expanded="false">
                                     <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/approvedorgcount" aria-expanded="false" >
+                                <a href="/approvedorgcount" aria-expanded="false">
                                     <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/rejectedorgcount" aria-expanded="false" >
+                                <a href="/rejectedorgcount" aria-expanded="false">
                                     <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-person-lines-fill menu-icon"></i><span class="nav-text">Exhibitor Counts</span>
+                        </a>
+                        <ul aria-expanded="false">
                             <li>
-                                <a href="/unapprovedexcount" aria-expanded="false" >
+                                <a href="/unapprovedexcount" aria-expanded="false">
                                     <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/approvedexcount" aria-expanded="false" >
+                                <a href="/approvedexcount" aria-expanded="false">
                                     <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/rejectedexcount" aria-expanded="false" >
+                                <a href="/rejectedexcount" aria-expanded="false">
                                     <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
                                 </a>
                             </li>
                         </ul>
-                    </div>
-                </div>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -195,6 +210,7 @@
                                                 <th>Company Name</th>
                                                 <th>Email</th>
                                                 <th>Contact No</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -205,6 +221,11 @@
                                                 <td>{{ $exhibitor->company_name }}</td>
                                                 <td>{{ $exhibitor->email }}</td>
                                                 <td>{{ $exhibitor->contact_no }}</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary" style="background-color: #FFBE07; border-color: #FFBE07; color: #000;" onclick="openDocument('{{ $exhibitor->first_name }}','{{ $exhibitor->last_name }}','{{ $exhibitor->company_name }}', '{{ $exhibitor->email }}', '{{ $exhibitor->contact_no }}', '{{ $exhibitor->tbl_comp_id }}', '{{ $exhibitor->company_logo }}')">
+                                                        View
+                                                    </button>
+                                                </td>
                                             </tr>
                                             @endforeach
                                                                                         
@@ -957,6 +978,59 @@
             Footer end
         ***********************************-->
     </div>
+    <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title w-100" id="documentModalLabel">Exhibitor Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                           
+                            <div class="row">
+                                <div class="col">
+                                    <img id="companyLogo" src="" alt="Company Logo" style="width: 735px; height: 200px;">
+                                </br>
+                                </br>
+                                <div class="row">
+                                    <p style="margin-right: 20px; color: black;"><strong>First Name:</strong> <span id="firstName"></span></p>
+                                    <p style="margin-right: 20px; color: black;"><strong>Last Name:</strong> <span id="lastName"></span></p>
+                                    <p style="color: black;"><strong>Contact No:</strong> <span id="contactNo"></span></p>
+                                </div>
+                                
+                                </br>
+                                    <div class="row">
+                                        <p style="margin-right: 20px; color: black;"><strong>Company Name:</strong> <span id="companyName"></span></p>
+                                        <p style="color: black;"><strong>Email:</strong> <span id="email"></span></p>
+                                    </div>
+                                    
+                                    <p><strong><span style="color: white;">Company Id:</span></strong> 
+                                    <span id="compId" style="color: white;"></span></p>
+                                </div>
+                                
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function openDocument(firstName, lastName, companyName, email, contactNo, compId, companyLogo) {
+                $('#firstName').text(firstName);
+                $('#lastName').text(lastName);               
+                $('#companyName').text(companyName);
+                $('#email').text(email);
+                $('#companyLogo').attr('src', 'data:image/png;base64,' + companyLogo);
+                $('#contactNo').text(contactNo);
+                $('#compId').text(compId);
+                $('#documentModal').modal('show');
+            }
+        </script>
     <!--**********************************
         Main wrapper end
     ***********************************-->

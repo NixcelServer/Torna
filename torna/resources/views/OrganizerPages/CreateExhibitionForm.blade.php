@@ -361,6 +361,7 @@
                                         <div class="col-md-4">
                                             <label for="attach_document" class="col-form-label text-md-right">Attach Document</label>
                                             <input id="attach_document" name="attach_document" type="file" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
+                                            <small class="form-text text-muted">Please Attach Document in PDF format.</small>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
@@ -371,6 +372,7 @@
                                         <div class="col-md-4">
                                             <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
                                             <input id="company_logo" name="company_logo" type="file" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
+                                            <small class="form-text text-muted">Please upload an image in JPG or JPEG format.</small>
                                         </div>
                                         <div class="col-md-4">
                                             <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>

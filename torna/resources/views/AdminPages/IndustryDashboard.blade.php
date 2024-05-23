@@ -150,35 +150,50 @@
                         
                     </li>
                     <li>
-                        <a href="/unapprovedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-people menu-icon"></i><span class="nav-text">Organizer Counts</span>
                         </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                <a href="/unapprovedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedorgcount" aria-expanded="false">
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
-                        <a href="/approvedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Organizer Count</span>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="bi bi-person-lines-fill menu-icon"></i><span class="nav-text">Exhibitor Counts</span>
                         </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                <a href="/unapprovedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/approvedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rejectedexcount" aria-expanded="false">
+                                    <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
-                        <a href="/rejectedorgcount" aria-expanded="false" >
-                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Organizer Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/unapprovedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-x-fill"></i><span class="nav-text" style="font-size: smaller;">Unapproved Exhibitor Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/approvedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-check-fill"></i><span class="nav-text" style="font-size: smaller;">Approved Exhibitor Count</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/rejectedexcount" aria-expanded="false" >
-                            <i class="bi bi-person-dash-fill"></i><span class="nav-text" style="font-size: smaller;">Rejected Exhibitor Count</span>
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
         </div>
@@ -197,7 +212,7 @@
                             <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Industries</span>
-                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addIndustryModal">Add New Industry</button>
+                                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#addIndustryModal">Add New Industry</button>
                                 </div>
                             </div>
                             <div class="card-body">
