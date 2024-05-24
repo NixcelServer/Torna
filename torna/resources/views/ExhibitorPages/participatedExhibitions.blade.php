@@ -20,8 +20,22 @@
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 </head>
+<style>
+    .cardE {
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 1, 1, 1);
+        background: #fff;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .cardE:hover {
+        transform: scale(1.04); /* Scale the card up slightly on hover */
+    }
+</style>
 <body>
 
     <!--*******************
@@ -174,53 +188,105 @@
                                 <br/>
                                 <div class="row">
                                     @foreach($participatedExs as $key => $participatedEx)
-    <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
-        <div class="card">
-            @if($participatedEx->exDetails->company_logo)
-                                    <img src="data:image/png;base64,{{ $participatedEx->exDetails->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
-                                    @endif
-            <div class="card-body">
-                <h5 class="card-title">{{ $participatedEx->exDetails->exhibition_name }}</h5>
-                <div>
-                    <div class="mr-3">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div>
-                        <span class="font-weight-bold">Date:</span>
-                        <span>{{ $participatedEx->exDetails->ex_from_date }}</span>
-                        <span class="mx-2">-</span>
-                        <span>{{ $participatedEx->exDetails->ex_to_date }}</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card-footer">
-                @if($participatedEx->emailServiceEnabled)
-                    <!-- Enable Generate URL button -->
-                    <a href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-primary" target="_blank">Generate URL</a>
-                    <!-- Enable Generate QR Code button -->
-                    <button class="btn btn-sm mb-1 btn-outline-secondary generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode(this)">Generate QR Code</button>
-                    <iframe id="qrCodeFrame" style="display: none;"></iframe>
-                @else
-                    <!-- Disable Generate URL button -->
-                    <button class="btn btn-sm mb-1 btn-outline-primary" disabled title=First_Select_Notification_Method! data-toggle=tooltip>Generate URL</button>
-                    <!-- Disable Generate QR Code button -->
-                    <button class="btn btn-sm mb-1 btn-outline-secondary" disabled title=First_Select_Notification_Method! data-toggle=tooltip>Generate QR Code</button>
-                @endif
-                
-                <!-- Additional buttons -->
-                <button class="btn btn-sm mb-1 btn-outline-info" onclick="openDocument('{{ $participatedEx->encExId }}', {{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
-                <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-warning">Collect Data</a>
-            </div>
-        </div>
-    </div>
-@endforeach
-
+                                    <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
+                                        <div class="cardE">
+                                            @if($participatedEx->exDetails->company_logo)
+                                            <img src="data:image/png;base64,{{ $participatedEx->exDetails->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                            @endif
+                                            <div class="card-body">
+                                                <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
+                                                    {{ $participatedEx->exDetails->exhibition_name }}
+                                                </h5>
+                                                
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-calendar-alt mr-2"></i>
+                                                            <span class="font-weight-bold">Date:</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>{{ $participatedEx->exDetails->ex_from_date }}</span>
+                                                            <span class="mx-2">-</span>
+                                                            <span>{{ $participatedEx->exDetails->ex_to_date }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-clock mr-2"></i>
+                                                            <span class="font-weight-bold">Time:</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>{{ $participatedEx->exDetails->start_time }}</span>
+                                                            <span class="mx-2">-</span>
+                                                            <span>{{ $participatedEx->exDetails->end_time }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row mt-2">
+                                                    <div class="col-6">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-map-marker-alt mr-2"></i>
+                                                            <span class="font-weight-bold">Venue:</span>
+                                                        </div>
+                                                        <div>
+                                                            <span>{{ $participatedEx->exDetails->venue }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-globe mr-2"></i>
+                                                            <span class="font-weight-bold">Website:</span>
+                                                        </div>
+                                                        <div>
+                                                            <a href="{{ $participatedEx->exDetails->exhibition_website }}" target="_blank">{{ $participatedEx->exDetails->exhibition_website }}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="row mt-2">
+                                                    <div class="col-6">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-external-link-alt mr-2"></i>
+                                                            <span class="font-weight-bold">Register:</span>
+                                                        </div>
+                                                        <div>
+                                                            <a href="{{ $participatedEx->exDetails->registration_url }}" target="_blank">{{ $participatedEx->exDetails->registration_url }}</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fas fa-file-alt mr-2"></i>
+                                                            <span class="font-weight-bold">Document:</span>
+                                                        </div>
+                                                        <div>
+                                                            <button class="btn btn-sm btn-primary view-document-btn" data-toggle="modal" data-target="#documentModalview" data-document="{{ $participatedEx->attach_document }}" >View Document</button>
+                                                        </div>                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                @if($participatedEx->emailServiceEnabled)
+                                                    <a href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-primary" target="_blank">Generate URL</a>
+                                                    <button class="btn btn-sm mb-1 btn-outline-secondary generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode(this)">Generate QR Code</button>
+                                                    <iframe id="qrCodeFrame" style="display: none;"></iframe>
+                                                @else
+                                                    <button class="btn btn-sm mb-1 btn-outline-primary" disabled title="First_Select_Notification_Method!" data-toggle="tooltip">Generate URL</button>
+                                                    <button class="btn btn-sm mb-1 btn-outline-secondary" disabled title="First_Select_Notification_Method!" data-toggle="tooltip">Generate QR Code</button>
+                                                @endif
+                                                
+                                                <button class="btn btn-sm mb-1 btn-outline-info" onclick="openDocument('{{ $participatedEx->encExId }}', {{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
+                                                <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-warning">Collect Data</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
         
@@ -283,6 +349,35 @@
             
             <!-- #/ container -->
         </div> --}}
+        <div class="modal fade" id="documentModalview" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="documentModalLabel">View Document</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Embed the document content dynamically -->
+                        <embed id="documentEmbed" type="application/pdf" width="100%" height="500px" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            $('.view-document-btn').on('click', function() {
+                var documentData = $(this).data('document');
+                $('#documentEmbed').attr('src', 'data:application/pdf;base64,' + documentData);
+            });
+        });
+        </script>
+
+
+
         <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">

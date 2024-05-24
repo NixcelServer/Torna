@@ -427,9 +427,19 @@ class ExhibitionController extends Controller
         $exhibition->created_by = $user->tbl_user_id;
         $exhibition->created_date = Date::now()->toDateString();
         $exhibition->created_time = Date::now()->toTimeString();
-       // $exhibition->exhibition_website = $request->exhibition_website;
-        $exhibition->attach_document = $request->attach_document;
+       //$exhibition->exhibition_website = $request->exhibition_website;
+        //$exhibition->attach_document = $request->attach_document;
         //$exhibition->registration_url = $request->registration_url;
+
+        if ($request->hasFile('attach_document')) {
+            $file = $request->file('attach_document');
+            
+            // Get the file contents as binary data
+            $binaryData = file_get_contents($file->path());
+        
+            // Store the binary data in the document_attachment column
+            $exhibition->attach_document = $binaryData;
+        }
 
         
 
@@ -701,6 +711,8 @@ class ExhibitionController extends Controller
         foreach ($upcomingExs as $upcomingEx) {
             $upcomingEx->encExId = EncryptionDecryptionHelper::encdecId($upcomingEx->tbl_ex_id, 'encrypt');
             $upcomingEx->participated = Participate::where('tbl_ex_id', $upcomingEx->tbl_ex_id)->where('tbl_user_id', $user->tbl_user_id)->exists();
+            $upcomingEx->attach_document = base64_encode($upcomingEx->attach_document);
+
 
             if ($upcomingEx->participated) {
                 // Check if email service is enabled in emailSetting table
@@ -756,26 +768,65 @@ class ExhibitionController extends Controller
     }
     
 
+     // this is my old past exhibition function 
+    // public function pastExhibitions()
+    // {
+        
 
+    //     $user = session('user');
+    //     //$decPastId = EncryptionDecryptionHelper::encdecId($id,'decrypt');
+    //     $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
+    //     // $industry_name = $company->industry_name;
+    //     // dd($industry_name);
+    //     $pastcomingExs = ExhibitionDetail::where('active_status', 'Past')->where('industry', $company->industry_name)->where('flag', 'show')->get();
+    //     //dd($pastcomingExs);
+
+
+    //     foreach ($pastcomingExs as $pastcomingEx) {
+    //         $pastcomingEx->encPastExId = EncryptionDecryptionHelper::encdecId($pastcomingEx->tbl_ex_id, 'encrypt');
+    //     }
+
+    //     //dd($pastcomingExs);
+
+    //     return view('ExhibitorPages/pastExhibitions', ['pastcomingExs' => $pastcomingExs]);
+    // }
     public function pastExhibitions()
-    {
+{
+    $user = session('user');
+    $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
+    $userId = $user->tbl_user_id; // Assuming you have user ID stored in session
+    
+    // Fetch exhibitions based on industry and past status
+    $pastcomingExs = ExhibitionDetail::where('active_status', 'Past')
+                                      ->where('industry', $company->industry_name)
+                                      ->where('flag', 'show')
+                                      ->get();
 
-        $user = session('user');
-        $company = CompanyDetail::where('tbl_comp_id', $user->tbl_comp_id)->first();
-        // $industry_name = $company->industry_name;
-        // dd($industry_name);
-        $pastcomingExs = ExhibitionDetail::where('active_status', 'Past')->where('industry', $company->industry_name)->where('flag', 'show')->get();
-        //dd($pastcomingExs);
+    // Fetch participation details for the logged-in user
+    // Fetch participation details for the logged-in user
+    $participationDetails = Participate::where('tbl_user_id', $userId)->get();
+    
+    foreach ($pastcomingExs as $pastcomingEx) {
+        $pastcomingEx->encPastExId = EncryptionDecryptionHelper::encdecId($pastcomingEx->tbl_ex_id, 'encrypt');
 
+        // Find the participation detail for the current exhibition
+        $participation = $participationDetails->firstWhere('tbl_ex_id', $pastcomingEx->tbl_ex_id);
 
-        foreach ($pastcomingExs as $pastcomingEx) {
-            $pastcomingEx->encInActiveExId = EncryptionDecryptionHelper::encdecId($pastcomingEx->tbl_ex_id, 'encrypt');
+        // Check if the user participated in this exhibition
+        if ($participation) {
+            $pastcomingEx->participated = true;
+            $pastcomingEx->encParticipatedId = EncryptionDecryptionHelper::encdecId($participation->tbl_participation_id, 'encrypt');
+        } else {
+            $pastcomingEx->participated = false;
+            $pastcomingEx->encParticipatedId = null;
         }
-
-
-
-        return view('ExhibitorPages/pastExhibitions', ['pastcomingExs' => $pastcomingExs]);
+        // Check if the current exhibition is in the list of participated exhibitions
+       // $pastcomingEx->participated = in_array($pastcomingEx->tbl_ex_id, $participationDetails);
     }
+//dd($pastcomingEx);
+    return view('ExhibitorPages/pastExhibitions', ['pastcomingExs' => $pastcomingExs]);
+}
+
 
 
    
@@ -1033,11 +1084,17 @@ public function companysetupformo()
     foreach ($participatedExs as $participatedEx) {
         $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
         $participatedEx->notify = Notify::where('tbl_user_id', $user->tbl_user_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->first();
-    
+    //dd($participatedEx);
         $encExhibitionID = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id, 'encrypt');
         $participatedEx->encExId = $encExhibitionID;
         $participatedEx->encParticipationId = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_participation_id, 'encrypt');
         
+        // Base64 encode the attach_document field
+        if (isset($participatedEx->attach_document)) {
+            $participatedEx->attach_document = base64_encode($participatedEx->attach_document);
+        }
+        
+
         $selectedOptions = [];
         $participatedEx->selectedOptions = $selectedOptions;
     if($participatedEx->notify){    
@@ -1210,9 +1267,9 @@ error_log("Decoded company logo: " . $participatedEx->exDetails->company_logo);
 
 public function collectdata($id){
     $participatedEx = Participate::where('tbl_participation_id',EncryptionDecryptionHelper::encdecId($id,'decrypt'))->first();
-    
-    $user = UserDetail::where('tbl_user_id',$participatedEx->tbl_user_id)->first();
     // dd($participatedEx);
+    $user = UserDetail::where('tbl_user_id',$participatedEx->tbl_user_id)->first();
+     
     $visitors = Visitor::where('tbl_comp_id',$user->tbl_comp_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->get();
     $decParticipatedExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
     //dd($decExId);
@@ -1237,6 +1294,62 @@ public function collectdata($id){
     return view('VisitorPages/collectdata',['visitors'=>$visitors,'showActionColumn'=>$showActionColumn,'exhibition'=>$exhibition]);
 
 }
+
+// public function collectdata($id)
+// {
+//     $decParticipationId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+//     $participatedEx = Participate::where('tbl_participation_id', $decParticipationId)->first();
+    
+//     // Check if participatedEx is null
+//     if (!$participatedEx) {
+//         return redirect()->back()->with('error', 'Participation record not found.');
+//     }
+    
+//     $user = UserDetail::where('tbl_user_id', $participatedEx->tbl_user_id)->first();
+    
+//     // Check if user is null
+//     if (!$user) {
+//         return redirect()->back()->with('error', 'User record not found.');
+//     }
+    
+//     $visitors = Visitor::where('tbl_comp_id', $user->tbl_comp_id)
+//                         ->where('tbl_ex_id', $participatedEx->tbl_ex_id)
+//                         ->get();
+    
+//     $exhibition = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
+    
+//     // Check if exhibition is null
+//     if (!$exhibition) {
+//         return redirect()->back()->with('error', 'Exhibition record not found.');
+//     }
+    
+//     $exhibition->encExId = EncryptionDecryptionHelper::encdecId($exhibition->tbl_ex_id, 'encrypt');
+//     $notify = Notify::where('tbl_user_id', $participatedEx->tbl_user_id)
+//                     ->where('tbl_ex_id', $participatedEx->tbl_ex_id)
+//                     ->first();
+    
+//     // Check if notify is null
+//     if (!$notify) {
+//         return redirect()->back()->with('error', 'Notification record not found.');
+//     }
+    
+//     $showActionColumn = false;
+//     if ($notify->email_after_service === 'enabled') {
+//         $showActionColumn = true;
+//     }
+
+//     foreach ($visitors as $visitor) {
+//         $visitor->service_name = ProductDetail::where('tbl_product_id', $visitor->service)->value('product_name');
+//         $visitor->encVisitorId = EncryptionDecryptionHelper::encdecId($visitor->tbl_visitor_detail_id, 'encrypt');
+//     }
+    
+//     return view('VisitorPages.collectdata', [
+//         'visitors' => $visitors,
+//         'showActionColumn' => $showActionColumn,
+//         'exhibition' => $exhibition
+//     ]);
+// }
+
 
 public function fetchvisitordata($id)
 {

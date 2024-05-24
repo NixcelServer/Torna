@@ -19,9 +19,21 @@
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
+<style>
+    .cardE {
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 1, 1, 1);
+        background: #fff;
+        transition: transform 0.3s ease-in-out;
+    }
 
+    .cardE:hover {
+        transform: scale(1.04); /* Scale the card up slightly on hover */
+    }
+</style>
 <body>
 
     <!--*******************
@@ -172,42 +184,159 @@
                                 <br/>
                                 <div class="row">
                                     @foreach($pastcomingExs as $key => $pastcomingEx)
-                                    <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
-                                        <div class="card">
-                                            @if($pastcomingEx->company_logo)
-                                            <img src="data:image/png;base64,{{ $pastcomingEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
-                                            @endif
-                                            <!-- If you have a logo for past exhibitions, add it here -->
-                                            <!-- Example: <img src="path_to_your_logo" class="card-img-top" alt="Company Logo"> -->
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $pastcomingEx->exhibition_name }}</h5>
-                                                <div>
-                                                    <div class="mr-3">
-                                                        <i class="fas fa-calendar-alt"></i>
-                                                    </div>
-                                                    <div>
-                                                        <b class="font-weight-bold">Date:</b>
-                                                        <span>{{ $pastcomingEx->ex_from_date }}</span>
-                                                        <span class="mx-2">-</span>
-                                                        <span>{{ $pastcomingEx->ex_to_date }}</span>
+                                        @if($pastcomingEx->participated)
+                                            <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
+                                                <div class="cardE">
+                                                    @if($pastcomingEx->company_logo)
+                                                    <img src="data:image/png;base64,{{ $pastcomingEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                                    @endif
+                                                    <div class="card-body">
+                                                        <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
+                                                            {{ $pastcomingEx->exhibition_name }}
+                                                        </h5>
+                                                        
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                                                    <span class="font-weight-bold">Date:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>{{ $pastcomingEx->ex_from_date }}</span>
+                                                                    <span class="mx-2">-</span>
+                                                                    <span>{{ $pastcomingEx->ex_to_date }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-clock mr-2"></i>
+                                                                    <span class="font-weight-bold">Time:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>{{ $pastcomingEx->start_time }}</span>
+                                                                    <span class="mx-2">-</span>
+                                                                    <span>{{ $pastcomingEx->end_time }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                        
+                                                        <div class="row mt-2">
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                                                    <span class="font-weight-bold">Venue:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>{{ $pastcomingEx->venue }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-globe mr-2"></i>
+                                                                    <span class="font-weight-bold">Website:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <a href="{{ $pastcomingEx->exhibition_website }}" target="_blank">{{ $pastcomingEx->exhibition_website }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                        
+                                                        <div class="row mt-2">
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                                                    <span class="font-weight-bold">Register:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <a href="{{ $pastcomingEx->registration_url }}" target="_blank">{{ $pastcomingEx->registration_url }}</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-database mr-2"></i>
+                                                                    <span class="font-weight-bold">Collect Data:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <a href="{{ route('collectdata', ['id' => $pastcomingEx->encParticipatedId]) }}" class="btn btn-sm mb-1 btn-outline-warning">Collect Data</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <!-- You can add more details here as needed -->
                                             </div>
-                                            {{-- <div class="card-footer">
-                                                <!-- Customize this button link as per your requirement -->
-                                                <a href="/viewPastExhibition/{{ $pastcomingEx->encPastExId }}" class="btn mb-1 btn-outline-primary">View Details</a>
-                                            </div> --}}
-                                        </div>
-                                    </div>
+                                        @else
+                                        <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
+                                            <div class="cardE" style="opacity: 0.5;">
+                                                    @if($pastcomingEx->company_logo)
+                                                    <img src="data:image/png;base64,{{ $pastcomingEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                                    @endif
+                                                    <div class="card-body">
+                                                        <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
+                                                            {{ $pastcomingEx->exhibition_name }}
+                                                        </h5>
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                                                    <span class="font-weight-bold">Date:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>{{ $pastcomingEx->ex_from_date }}</span>
+                                                                    <span class="mx-2">-</span>
+                                                                    <span>{{ $pastcomingEx->ex_to_date }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-clock mr-2"></i>
+                                                                    <span class="font-weight-bold">Time:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>{{ $pastcomingEx->start_time }}</span>
+                                                                    <span class="mx-2">-</span>
+                                                                    <span>{{ $pastcomingEx->end_time }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                                                    <span class="font-weight-bold">Venue:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <span>{{ $pastcomingEx->venue }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="d-flex align-items-center">
+                                                                    <i class="fas fa-globe mr-2"></i>
+                                                                    <span class="font-weight-bold">Website:</span>
+                                                                </div>
+                                                                <div>
+                                                                    <a href="{{ $pastcomingEx->exhibition_website }}" target="_blank">{{ $pastcomingEx->exhibition_website }}</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </br>
+                                                    
+                                                        <p class="text-center" style="color: black;">You did not participate in this exhibition.</p>
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         
         <!--**********************************
             Content body end
@@ -229,7 +358,22 @@
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
+    <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentModalLabel">View Document</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Embed the document content from the preloaded data -->
+                    <embed src="data:application/pdf;base64,{{ $pastcomingEx->attach_document }}" type="application/pdf" width="100%" height="500px" />
+                </div>
+            </div>
+        </div>
+    </div>
     <!--**********************************
         Scripts
     ***********************************-->

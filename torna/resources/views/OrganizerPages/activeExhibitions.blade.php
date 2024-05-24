@@ -306,103 +306,14 @@
                         <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Active Exhibitions List</h4>
                         <br/>
                         <div class="row">
-                            @foreach($activeExs as $key => $activeEx)
-                            {{-- <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
-                                <div class="card" >
-                                    @if($activeEx->company_logo)
-                                    <img src="data:image/png;base64,{{ $activeEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
-                                    @endif
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $activeEx->exhibition_name }}</h5>
-                                        <div>
-                                            <div class="mr-3">
-                                                <i class="fas fa-calendar-alt"></i>
-                                            </div>
-                                            <div>
-                                                <span class="font-weight-bold">Date:</span>
-                                                <span>{{ $activeEx->ex_from_date }}</span>
-                                                <span class="mx-2">-</span>
-                                                <span>{{ $activeEx->ex_to_date }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="card-footer" >
-                                        <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-success">Edit Exhibition</a>
-
-                                    </div>
-                                    
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
-                                <div class="card">
-                                    @if($activeEx->company_logo)
-                                    <img src="data:image/png;base64,{{ $activeEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
-                                    @endif
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $activeEx->exhibition_name }}</h5>
-                                        <div>
-                                            <div class="mr-3">
-                                                <i class="fas fa-calendar-alt"></i>
-                                            </div>
-                                            <div>
-                                                <span class="font-weight-bold">Date:</span>
-                                                <span>{{ $activeEx->ex_from_date }}</span>
-                                                <span class="mx-2">-</span>
-                                                <span>{{ $activeEx->ex_to_date }}</span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="mr-3">
-                                                <i class="fas fa-clock"></i>
-                                            </div>
-                                            <div>
-                                                <span class="font-weight-bold">Time:</span>
-                                                <span>{{ $activeEx->start_time }}</span>
-                                                <span class="mx-2">-</span>
-                                                <span>{{ $activeEx->end_time }}</span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="mr-3">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                            </div>
-                                            <div>
-                                                <span class="font-weight-bold">Venue:</span>
-                                                <span>{{ $activeEx->venue }}</span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="mr-3">
-                                                <i class="fas fa-globe"></i>
-                                            </div>
-                                            <div>
-                                                <span class="font-weight-bold">Website:</span>
-                                                <a href="{{ $activeEx->website }}" target="_blank">{{ $activeEx->website }}</a>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="mr-3">
-                                                <i class="fas fa-external-link-alt"></i>
-                                            </div>
-                                            <div>
-                                                <span class="font-weight-bold">Register:</span>
-                                                <a href="{{ $activeEx->registration_url }}" target="_blank">Register Here</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-success">Edit Exhibition</a>
-                                    </div>
-                                </div>
-                            </div> --}}
+                            @foreach($activeExs as $key => $activeEx)                          
                             <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
                                 <div class="card">
                                     @if($activeEx->company_logo)
                                     <img src="data:image/png;base64,{{ $activeEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
                                     @endif
                                     <div class="card-body">
-                                        <h5 class="card-title" style="background-color: yellow; padding: 0.2em 0.4em; border-radius: 4px; ">
+                                        <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
                                             {{ $activeEx->exhibition_name }}
                                         </h5>
                                         
@@ -473,11 +384,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="row mt-2">
-                                            
-                                        </div>
-                                        
                                     </div>
                                     <div class="card-footer">
                                         <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-success">Edit Exhibition</a>

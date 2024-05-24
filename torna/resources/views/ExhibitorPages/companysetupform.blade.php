@@ -36,6 +36,18 @@
 {{-- form validations scripts  --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<style>
+    /* Hide the "No file chosen" text */
+    input[type="file"] {
+        color: transparent;
+    }
+
+    /* Show only the file name when a file is selected */
+    input[type="file"]::file-selector-button::before {
+        content: 'Upload Logo';
+        color: black;
+    }
+</style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var contactNoInput = document.getElementById('contact_no');
@@ -248,10 +260,19 @@
                                         </select>
                                     </div>
                                 </div>
+                            </br>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="logo" class="col-form-label text-md-right">Upload Logo</label>
-                                        <input id="logo" name="company_logo" type="file" class="form-control-file" accept="image/*" >
+                                        <label for="logo" class="col-form-label text-md-right">Upload Company Logo</label>
+                                        <input id="logo" name="company_logo" type="file" class="form-control-file" accept="image/*" onchange="previewImage(event)">
+                                    </div>
+                                    <div id="imagePreview" class="col-md-6">
+                                        <label for="preview" class="col-form-label text-md-right">Company Logo</label>
+                                        @if($company->company_logo)
+                                            <img id="preview" src="data:image/png;base64,{{ $company->company_logo }}" alt="Company Logo" style="width: 100px; height: 100px;">
+                                        @else
+                                            <img id="preview" src="default-image.jpg" alt="Default Image" style="width: 100px; height: 100px;">
+                                        @endif
                                     </div>
                                 </div>
         <br />
@@ -285,7 +306,23 @@
     <!--**********************************
         Main wrapper end
     ***********************************-->
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('preview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
 
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
     <!--**********************************
         Scripts
     ***********************************-->

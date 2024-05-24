@@ -334,7 +334,7 @@
                                         <img src="data:image/png;base64,{{ $inActiveEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
                                     @endif
                                     <div class="card-body">
-                                        <h5 class="card-title" style="background-color: yellow; padding: 0.2em 0.4em; border-radius: 4px; ">
+                                        <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black; ">
                                             {{ $inActiveEx->exhibition_name }}
                                         </h5>
                                         <div class="row">

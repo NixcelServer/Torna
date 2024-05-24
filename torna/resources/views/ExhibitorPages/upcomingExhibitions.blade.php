@@ -19,9 +19,21 @@
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
+<style>
+    .card {
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 1, 1, 1);
+        background: #fff;
+        transition: transform 0.3s ease-in-out;
+    }
 
+    .card:hover {
+        transform: scale(1.04); /* Scale the card up slightly on hover */
+    }
+</style>
 <body>
 
     <!--*******************
@@ -167,7 +179,7 @@
 
         <div class="content-body">
             <div class="container-fluid">
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-12">
                         <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Upcoming Exhibitions List</h4>
                         <br/>
@@ -208,6 +220,126 @@
                             </div>
                             @endforeach
                         </div>
+                    </div>
+                </div> --}}
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">Upcoming Exhibitions List</h4>
+                        <br/>
+                        <div class="row">
+                            @foreach($upcomingExs as $key => $upcomingEx)
+                            <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
+                                <div class="card">
+                                    @if($upcomingEx->company_logo)
+                                    <img src="data:image/png;base64,{{ $upcomingEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                                    @endif
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
+                                            {{ $upcomingEx->exhibition_name }}
+                                        </h5>
+                                        
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                                    <span class="font-weight-bold">Date:</span>
+                                                </div>
+                                                <div>
+                                                    <span>{{ $upcomingEx->ex_from_date }}</span>
+                                                    <span class="mx-2">-</span>
+                                                    <span>{{ $upcomingEx->ex_to_date }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-clock mr-2"></i>
+                                                    <span class="font-weight-bold">Time:</span>
+                                                </div>
+                                                <div>
+                                                    <span>{{ $upcomingEx->start_time }}</span>
+                                                    <span class="mx-2">-</span>
+                                                    <span>{{ $upcomingEx->end_time }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row mt-2">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                                    <span class="font-weight-bold">Venue:</span>
+                                                </div>
+                                                <div>
+                                                    <span>{{ $upcomingEx->venue }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-globe mr-2"></i>
+                                                    <span class="font-weight-bold">Website:</span>
+                                                </div>
+                                                <div>
+                                                    <a href="{{ $upcomingEx->exhibition_website }}" target="_blank">{{ $upcomingEx->exhibition_website }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="row mt-2">
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                                    <span class="font-weight-bold">Register:</span>
+                                                </div>
+                                                <div>
+                                                    <a href="{{ $upcomingEx->registration_url }}" target="_blank">{{ $upcomingEx->registration_url }}</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-file-alt mr-2"></i>
+                                                    <span class="font-weight-bold">Document:</span>
+                                                </div>
+                                                <div>
+                                                    <button class="btn btn-sm btn-primary view-document-btn" data-toggle="modal" data-target="#documentModal">View Document</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn mb-1 {{ $upcomingEx->participated ? 'btn-sm btn-success' : 'btn-sm btn-outline-primary' }}" 
+                                            {{ $upcomingEx->participated ? 'disabled title=Already_Participated! data-toggle=tooltip' : ($approvedStatus === false ? 'disabled' : '') }}
+                                            data-id="{{ $upcomingEx->encExId }}" 
+                                            onclick="confirmParticipation(event)">
+                                            @if($upcomingEx->participated)
+                                                Participated
+                                            @else
+                                                Participate
+                                            @endif
+                                        </button>                                                                                                  
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="documentModalLabel">View Document</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Embed the document content from the preloaded data -->
+                        <embed src="data:application/pdf;base64,{{ $upcomingEx->attach_document }}" type="application/pdf" width="100%" height="500px" />
                     </div>
                 </div>
             </div>

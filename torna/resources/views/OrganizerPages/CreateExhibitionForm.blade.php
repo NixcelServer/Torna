@@ -401,8 +401,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br />
-                                    <div class="form-group row justify-content-center mb-3">
+                                  
+                                    <div class="form-group row justify-content-center mb-1">
                                         <div class="col-md-6 offset-md-4">
                                             <button type="submit" class="btn btn-primary" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                 Register
