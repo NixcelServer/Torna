@@ -427,9 +427,9 @@ class ExhibitionController extends Controller
         $exhibition->created_by = $user->tbl_user_id;
         $exhibition->created_date = Date::now()->toDateString();
         $exhibition->created_time = Date::now()->toTimeString();
-       //$exhibition->exhibition_website = $request->exhibition_website;
+        $exhibition->exhibition_website = $request->exhibition_website;
         //$exhibition->attach_document = $request->attach_document;
-        //$exhibition->registration_url = $request->registration_url;
+        $exhibition->registration_url = $request->registration_url;
 
         if ($request->hasFile('attach_document')) {
             $file = $request->file('attach_document');
@@ -738,7 +738,7 @@ class ExhibitionController extends Controller
 
          }
 
-                // dd($showReminder);
+                 //dd($upcomingEx);
                 return view('ExhibitorPages/upcomingExhibitions', ['upcomingExs' => $upcomingExs,'showReminder'=>$showReminder,'approvedStatus'=>$approvedStatus]);
 
             }
@@ -1078,22 +1078,27 @@ public function companysetupformo()
                         ->where('active_status', 'active')
                         ->where('flag', 'show')
                         ->get();
+    $participatedExhibitions = Participate::where('tbl_user_id', $user->tbl_user_id)
+                        ->where('active_status', 'active')
+                        ->where('flag', 'show')
+                        ->get();                    
 
     $emailSettings = EmailSetting::where('tbl_user_id',$user->tbl_user_id)->where('flag','show')->first();
 
+    // foreach ($participatedExhibitions as $participatedExhibition) {
+    //     $participatedExhibition = ExhibitionDetail::where('tbl_ex_id', $participatedExhibition->tbl_ex_id)->first();
+    //     $participatedExhibition->attach_document = base64_encode($participatedExhibition->attach_document);
+    // }
+    // dd($participatedExhibition->attach_document);
+
     foreach ($participatedExs as $participatedEx) {
         $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
+        $participatedEx->attach_document = base64_encode($participatedEx->exDetails->attach_document);
         $participatedEx->notify = Notify::where('tbl_user_id', $user->tbl_user_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->first();
     //dd($participatedEx);
         $encExhibitionID = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id, 'encrypt');
         $participatedEx->encExId = $encExhibitionID;
         $participatedEx->encParticipationId = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_participation_id, 'encrypt');
-        
-        // Base64 encode the attach_document field
-        if (isset($participatedEx->attach_document)) {
-            $participatedEx->attach_document = base64_encode($participatedEx->attach_document);
-        }
-        
 
         $selectedOptions = [];
         $participatedEx->selectedOptions = $selectedOptions;
@@ -1127,9 +1132,9 @@ public function companysetupformo()
         }
     }
     }
+    // dd($participatedExs);
   
-   //dd($participatedEx);
-    return view('ExhibitorPages/participatedExhibitions', ['participatedExs' => $participatedExs]);
+    return view('ExhibitorPages/participatedExhibitions', ['participatedExs' =>$participatedExs, 'participatedExhibitions' =>$participatedExhibitions]);
 }
 
 

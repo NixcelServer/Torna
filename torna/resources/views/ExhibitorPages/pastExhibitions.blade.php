@@ -202,11 +202,12 @@
                                                                     <span class="font-weight-bold">Date:</span>
                                                                 </div>
                                                                 <div>
-                                                                    <span>{{ $pastcomingEx->ex_from_date }}</span>
-                                                                    <span class="mx-2">-</span>
-                                                                    <span>{{ $pastcomingEx->ex_to_date }}</span>
+                                                                    <span>{{ \Carbon\Carbon::parse($pastcomingEx->ex_from_date)->format('d M Y') }}</span>
+                                                                    <span class="mx-1">-</span>
+                                                                    <span>{{ \Carbon\Carbon::parse($pastcomingEx->ex_to_date)->format('d M Y') }}</span>
                                                                 </div>
                                                             </div>
+                                                            
                                                             <div class="col-6">
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="fas fa-clock mr-2"></i>
@@ -274,18 +275,19 @@
                                                         <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
                                                             {{ $pastcomingEx->exhibition_name }}
                                                         </h5>
-                                                        <div class="row">
+                                                        <div class="row">                                                          
                                                             <div class="col-6">
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="fas fa-calendar-alt mr-2"></i>
                                                                     <span class="font-weight-bold">Date:</span>
                                                                 </div>
                                                                 <div>
-                                                                    <span>{{ $pastcomingEx->ex_from_date }}</span>
+                                                                    <span>{{ \Carbon\Carbon::parse($pastcomingEx->ex_from_date)->format('d M Y') }}</span>
                                                                     <span class="mx-2">-</span>
-                                                                    <span>{{ $pastcomingEx->ex_to_date }}</span>
+                                                                    <span>{{ \Carbon\Carbon::parse($pastcomingEx->ex_to_date)->format('d M Y') }}</span>
                                                                 </div>
                                                             </div>
+                                                            
                                                             <div class="col-6">
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="fas fa-clock mr-2"></i>

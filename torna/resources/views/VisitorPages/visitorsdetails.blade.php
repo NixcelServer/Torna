@@ -35,6 +35,70 @@
     <!-- Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+<style>
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left: 5px;
+    }
+</style>
+<style>
+    .navbar-brand {
+        font-weight: bold;
+    }
+
+    @media (max-width: 767px) {
+        .navbar-brand {
+            max-width: 100%;
+            text-align: center; /* Center the text on small screens */
+        }
+    }
+</style>
+
+<style>
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+    }
+
+    .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 4px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        width: 50px;
+        height: 50px;
+        -webkit-animation: spin 1s linear infinite;
+        animation: spin 1s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
 
 {{-- form validations scripts  --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -78,54 +142,39 @@
 </script>
 
 <body>
+    <div id="loader" class="overlay">
+        <div class="spinner"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar" style="background-color: #FFBE07; height: 63px;">
+    <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar" style="background-color: #FFBE07; height: 50px;">
         <div class="container">
             <div class="navbar-brand mx-auto" style="font-weight: bold;">Welcome To NixcelSoft !</div>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-                    aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="oi oi-menu"></span> Menu
-            </button>
         </div>
     </nav>
     
-    
-    
-    
 
-<style>
-    .required-field::after {
-        content: "*";
-        color: red;
-        margin-left: 5px;
-    }
-</style>
 
-<div class="card mb-3">
-    <div class="card-header text-center">
-        {{-- Featured --}}
-    </div>
-    <div class="card-body text-center">
-        <h5 class="card-title">Exhibition Details</h5>
-       
-        <p class="card-text">Exhibition Name: {{ $participatedEx->exDetails->exhibition_name }}</p>
-
+<div class="card mb-1">
+    <div class="card-body text-center"> 
+        <h5 class="card-text">Exhibition Name: {{ $participatedEx->exDetails->exhibition_name }}</h5>
         @if($participatedEx->exDetails->company_logo)
-    <img src="data:image/png;base64,{{ $participatedEx->exDetails->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 50%; height: 250px; object-fit: cover;">
-    @else
-        <p>No company logo available</p>
-    @endif    </div>
+        <img src="data:image/png;base64,{{ $participatedEx->exDetails->company_logo }}" class="card-img-top" alt="Company Logo" style="max-width: 300px; max-height: 200px; width: auto; height: auto; object-fit: contain;">
+        @else
+    <p>No company logo available</p>
+@endif
+ 
+</div>
     
 </div>
-
-<div class="container mt-5">
+<div class="container mt-2">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Visitor Registration Form</h4>
 
                 <div class="card-body">
-                    <form method="POST" action="/regvisitor">
+                    <form id="visitorForm" method="POST" action="/regvisitor">
                         @csrf
 
                         <div class="row">
@@ -163,7 +212,7 @@
 <br />
                         <div class="form-group row justify-content-center mb-2">
                             <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     Submit
                                 </button>
                             </div>
@@ -175,25 +224,45 @@
     </div>
 </div>
 
-
-
 <script>
     $(document).ready(function () {
-        $('.register-btn').popover({
-            html: true
+        $('#visitorForm').submit(function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // Show loader
+            $('#loader').show();
+
+            // AJAX form submission
+            $.ajax({
+                type: 'POST',
+                url: '/regvisitor',
+                data: $(this).serialize(),
+                success: function () {
+                    // Hide loader
+                    $('#loader').hide();
+
+                    // Show SweetAlert popup
+                    Swal.fire({
+                        title: 'Thank You!',
+                        text: 'Thank you for visiting!',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload(); // Reload the page after confirmation
+                        }
+                    });
+                },
+                error: function () {
+                    // Hide loader on error
+                    $('#loader').hide();
+                    alert('Error occurred while submitting the form. Please try again.');
+                }
+            });
         });
     });
 </script>
 <!-- END nav -->
-
-<!-- Loader -->
-{{-- <div id="ftco-loader" class="show fullscreen">
-    <svg class="circular" width="48px" height="48px">
-        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/>
-        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                stroke="#F96D00"/>
-    </svg>
-</div> --}}
 
 <script src="WebsiteAssets/js/jquery.min.js"></script>
 <script src="WebsiteAssets/js/jquery-migrate-3.0.1.min.js"></script>

@@ -344,7 +344,7 @@
                                     <br />
                                     <div class="form-group row justify-content-center mb-3">
                                         <div class="col-md-6 offset-md-4">
-                                            <button type="submit" class="btn btn-primary" <?= $approvedStatus === false ? 'disabled' : '' ?>>
+                                            <button type="submit" class="btn btn-success" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                                 Register
                                             </button>
                                         </div>

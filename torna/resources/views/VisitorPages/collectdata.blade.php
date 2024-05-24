@@ -297,7 +297,7 @@
                             <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <span style="color: black;">{{ $exhibition->exhibition_name }} Visitors List</span>
                                 <div class="dropdown">
-                                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Export Data
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">

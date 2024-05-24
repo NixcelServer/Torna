@@ -29,6 +29,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -182,7 +183,7 @@
                             <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Product/Services</span>
-                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
+                                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#addDepartmentModal">Add New Product/Services</button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -202,11 +203,17 @@
                                                 <td>{{ $product->product_name }}</td>
                                                 <td>
                                                     @if($product->assignedProdCount > 0)
-                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}" disabled title="Service is assigned to this document, so this service cannot be deleted" data-toggle="tooltip">Delete</button> <i class="bi bi-file-earmark-pdf" data-toggle="tooltip" title="Document attached"></i>
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}" disabled title="Document is attached to this product/services, so this service cannot be deleted" data-toggle="tooltip">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button> 
+                                                        <i class="bi bi-file-earmark-pdf" data-toggle="tooltip" title="Document attached"></i>
                                                     @else
-                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}">Delete</button>
+                                                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $product->encProductId }}">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                     @endif
                                                 </td>
+                                                
                                             </tr>
                                             @endforeach
                                         </tbody>

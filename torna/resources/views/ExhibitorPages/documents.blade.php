@@ -31,6 +31,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 
@@ -182,7 +183,7 @@
                             <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Documents</span>
-                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addDepartmentModal">Add New Document</button>
+                                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#addDepartmentModal">Add New Document</button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -225,8 +226,10 @@
                                                     <a href='/documents/assignproducts/{{ $document->encDocumentId }}' class="btn btn-sm btn-primary assign-btn">Assign Product/Services</a>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $document->encDocumentId }}">Delete</button>
-                                                </td>
+                                                    <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $document->encDocumentId }}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>                                                
                                             </tr>
                                             @endforeach
                                         </tbody>

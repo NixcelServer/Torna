@@ -205,9 +205,9 @@
                                                             <span class="font-weight-bold">Date:</span>
                                                         </div>
                                                         <div>
-                                                            <span>{{ $participatedEx->exDetails->ex_from_date }}</span>
-                                                            <span class="mx-2">-</span>
-                                                            <span>{{ $participatedEx->exDetails->ex_to_date }}</span>
+                                                            <span>{{ \Carbon\Carbon::parse($participatedEx->exDetails->ex_from_date)->format('d M Y') }}</span>
+                                                            <span class="mx-1">-</span>
+                                                            <span>{{ \Carbon\Carbon::parse($participatedEx->exDetails->ex_to_date)->format('d M Y') }}</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
@@ -260,12 +260,24 @@
                                                             <span class="font-weight-bold">Document:</span>
                                                         </div>
                                                         <div>
-                                                            <button class="btn btn-sm btn-primary view-document-btn" data-toggle="modal" data-target="#documentModalview" data-document="{{ $participatedEx->attach_document }}" >View Document</button>
-                                                        </div>                                                       
+                                                            <button class="btn btn-sm btn-success view-document-btn" data-toggle="modal" data-target="#documentModalview">View Document</button>
+                                                        </div>                                                                                                             
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="card-footer">
+                                                @if($participatedEx->emailServiceEnabled)
+                                                    <a href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-primary" target="_blank">Generate URL</a>
+                                                    <button class="btn btn-sm mb-1 btn-outline-secondary generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode(this)">Generate QR Code</button>
+                                                @else
+                                                    <button class="btn btn-sm mb-1 btn-outline-primary" disabled title="First_Select_Notification_Method!" data-toggle="tooltip">Generate URL</button>
+                                                    <button class="btn btn-sm mb-1 btn-outline-secondary" disabled title="First_Select_Notification_Method!" data-toggle="tooltip">Generate QR Code</button>
+                                                @endif
+                                                
+                                                <button class="btn btn-sm mb-1 btn-outline-info" onclick="openDocument('{{ $participatedEx->encExId }}', {{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
+                                                <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-warning">Collect Data</a>
+                                            </div>
+                                            {{-- <div class="card-footer">
                                                 @if($participatedEx->emailServiceEnabled)
                                                     <a href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-primary" target="_blank">Generate URL</a>
                                                     <button class="btn btn-sm mb-1 btn-outline-secondary generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode(this)">Generate QR Code</button>
@@ -277,7 +289,7 @@
                                                 
                                                 <button class="btn btn-sm mb-1 btn-outline-info" onclick="openDocument('{{ $participatedEx->encExId }}', {{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
                                                 <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-warning">Collect Data</a>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                     @endforeach
@@ -289,7 +301,9 @@
                 
             </div>
         </div>
-        
+        {{-- @foreach($participatedExhibitions as $keyEx => $participatedExhibition)
+    <!-- Your code here that uses $participatedExhibition -->
+        @endforeach --}}
         {{-- <div class="content-body">
             <div class="container-fluid mt-3">
                 <div class="row">
@@ -359,14 +373,14 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <!-- Embed the document content dynamically -->
-                        <embed id="documentEmbed" type="application/pdf" width="100%" height="500px" />
+                        <!-- Embed the document content from the preloaded data -->
+                        <embed src="data:application/pdf;base64,{{ $participatedEx->attach_document}}" type="application/pdf" width="100%" height="500px" />
                     </div>
                 </div>
             </div>
         </div>
         
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
         $(document).ready(function() {
             $('.view-document-btn').on('click', function() {
@@ -374,7 +388,7 @@
                 $('#documentEmbed').attr('src', 'data:application/pdf;base64,' + documentData);
             });
         });
-        </script>
+        </script> --}}
 
 
 
@@ -393,11 +407,11 @@
                             <body>
                                 <h3 class="mb-3">Select notification method:</h3>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailImmediateOption">
+                                    <input class="form-check-input" type="radio" name="notifyOption" value="email" id="emailImmediateOption">
                                     <label class="form-check-label" for="emailOption">Email (Immediate After Registration)</label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="emailAfter" id="emailAfterOption">
+                                    <input class="form-check-input" type="radio" name="notifyOption" value="emailAfter" id="emailAfterOption">
                                     <label class="form-check-label" for="emailOption">Email (After Exhibition)</label>
                                 </div>
                                 <div class="form-check mb-2">
@@ -494,34 +508,154 @@
                             <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
                             
 
-                            <script>
+                            {{-- <script>
                                 function generateQRCode(button) {
                                     // Get the data-id attribute from the button
                                     const exId = button.getAttribute('data-id');
                                     // Generate the QR code using qrcode-generator library
                                     const qr = qrcode(0, 'M');
-                                    qr.addData(`http://192.168.1.47:8000/visitordetails/${exId}`);
+                                    qr.addData(`http://192.168.1.38:8000/visitordetails/${exId}`);
                                     qr.make();
-                                    // Get the QR code SVG and convert it to a data URI
+                                    // Get the QR code SVG
                                     const svg = qr.createSvgTag();
                                     const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
                             
-                                    // Display the QR code in the iframe
-                                    const iframe = document.getElementById('qrCodeFrame');
-                                    iframe.src = dataUri;
-                                    iframe.style.display = 'block';
+                                    // Create a new tab
+                                    const newTab = window.open('', '_blank');
+                                    newTab.document.write(`
+                                        <html>
+                                            <head>
+                                                <title>QR Code</title>
+                                            </head>
+                                            <body>
+                                                <div style="text-align: center; margin-top: 50px;">
+                                                    <h1>QR Code</h1>
+                                                    <div>${svg}</div>
+                                                    <button id="download-btn" style="margin-top: 20px;">Download QR Code</button>
+                                                </div>
+                                            </body>
+                                        </html>
+                                    `);
+                            
+                                    // Add download functionality to the button in the new tab
+                                    newTab.document.getElementById('download-btn').addEventListener('click', function() {
+                                        // Create a temporary link element to trigger the download
+                                        const link = newTab.document.createElement('a');
+                                        link.href = 'data:image/svg+xml;base64,' + btoa(svg);
+                                        link.download = 'qr-code.svg';
+                                        link.click();
+                                    });
                                 }
+                            </script> --}}
+                            {{-- <script>
+                                function generateQRCode(button) {
+                                    // Get the data-id attribute from the button
+                                    const exId = button.getAttribute('data-id');
+                                    // Get the current host and port dynamically
+                                    const host = window.location.hostname;
+                                    const port = window.location.port ? `:${window.location.port}` : '';
+                                    const protocol = window.location.protocol;
                             
-                                // Function to download the QR code
-                                function downloadQRCode() {
-                                    const iframe = document.getElementById('qrCodeFrame');
-                                    const svg = iframe.contentDocument.querySelector('svg');
+                                    // Construct the dynamic URL
+                                    const dynamicUrl = `${protocol}//${host}${port}/visitordetails/${exId}`;
                             
-                                    // Create a temporary link element to trigger the download
-                                    const link = document.createElement('a');
-                                    link.href = 'data:image/svg+xml;base64,' + btoa(new XMLSerializer().serializeToString(svg));
-                                    link.download = 'qr-code.svg';
-                                    link.click();
+                                    // Generate the QR code using qrcode-generator library
+                                    const qr = qrcode(0, 'M');
+                                    qr.addData(dynamicUrl);
+                                    qr.make();
+                                    // Get the QR code SVG
+                                    const svg = qr.createSvgTag();
+                                    const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
+                            
+                                    // Create a new tab
+                                    const newTab = window.open('', '_blank');
+                                    newTab.document.write(`
+                                        <html>
+                                            <head>
+                                                <title>QR Code</title>
+                                            </head>
+                                            <body>
+                                                <div style="text-align: center; margin-top: 50px;">
+                                                    <h1>QR Code</h1>
+                                                    <div>${svg}</div>
+                                                    <button btn btn-primary id="download-btn" style="margin-top: 20px;">Download QR Code</button>
+                                                </div>
+                                            </body>
+                                        </html>
+                                    `);
+                            
+                                    // Add download functionality to the button in the new tab
+                                    newTab.document.getElementById('download-btn').addEventListener('click', function() {
+                                        // Create a temporary link element to trigger the download
+                                        const link = newTab.document.createElement('a');
+                                        link.href = 'data:image/svg+xml;base64,' + btoa(svg);
+                                        link.download = 'qr-code.svg';
+                                        link.click();
+                                    });
+                                }
+                            </script> --}}
+                            <script>
+                                function generateQRCode(button) {
+                                    // Get the data-id attribute from the button
+                                    const exId = button.getAttribute('data-id');
+                                    // Get the current host and port dynamically
+                                    const host = window.location.hostname;
+                                    const port = window.location.port ? `:${window.location.port}` : '';
+                                    const protocol = window.location.protocol;
+                            
+                                    // Construct the dynamic URL
+                                    const dynamicUrl = `${protocol}//${host}${port}/visitordetails/${exId}`;
+                            
+                                    // Generate the QR code using qrcode-generator library
+                                    const qr = qrcode(0, 'M');
+                                    qr.addData(dynamicUrl);
+                                    qr.make();
+                                    // Get the QR code SVG
+                                    const svg = qr.createSvgTag();
+                                    
+                                    // Adjust the SVG size
+                                    const parser = new DOMParser();
+                                    const svgDoc = parser.parseFromString(svg, "image/svg+xml");
+                                    const svgElement = svgDoc.querySelector("svg");
+                                    svgElement.setAttribute("width", "300");
+                                    svgElement.setAttribute("height", "300");
+                                    const updatedSvg = new XMLSerializer().serializeToString(svgElement);
+                            
+                                    // Create a new tab
+                                    const newTab = window.open('', '_blank');
+                                    newTab.document.write(`
+                                        <html>
+                                            <head>
+                                                <title>QR Code</title>
+                                                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+                                            </head>
+                                            <nav class="navbar navbar-expand-lg ftco_navbar ftco-navbar-light" id="ftco-navbar" style="background-color: #FFBE07; height: 53px;">
+                                             <div class="container">
+                                              <div class="navbar-brand mx-auto" style="font-weight: bold;">Welcome To NixcelSoft !</div>
+                                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                                                  aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                                                   <span class="oi oi-menu"></span> Menu
+                                               </button>
+                                              </div>
+                                            </nav>
+                                            <body>
+                                                <div class="container text-center" style="margin-top: 30px;">
+                                                    <h3>QR Code for {{ $participatedEx->exDetails->exhibition_name }}</h3>
+                                                    <div>${updatedSvg}</div>
+                                                    <button id="download-btn" class="btn btn-success" style="margin-top: 20px;">Download QR Code</button>
+                                                </div>
+                                            </body>
+                                        </html>
+                                    `);
+                            
+                                    // Add download functionality to the button in the new tab
+                                    newTab.document.getElementById('download-btn').addEventListener('click', function() {
+                                        // Create a temporary link element to trigger the download
+                                        const link = newTab.document.createElement('a');
+                                        link.href = 'data:image/svg+xml;base64,' + btoa(updatedSvg);
+                                        link.download = 'qr-code.svg';
+                                        link.click();
+                                    });
                                 }
                             </script>
                             

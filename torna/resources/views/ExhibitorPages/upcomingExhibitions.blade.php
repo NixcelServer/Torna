@@ -245,11 +245,12 @@
                                                     <span class="font-weight-bold">Date:</span>
                                                 </div>
                                                 <div>
-                                                    <span>{{ $upcomingEx->ex_from_date }}</span>
+                                                    <span>{{ \Carbon\Carbon::parse($upcomingEx->ex_from_date)->format('d M Y') }}</span>
                                                     <span class="mx-2">-</span>
-                                                    <span>{{ $upcomingEx->ex_to_date }}</span>
+                                                    <span>{{ \Carbon\Carbon::parse($upcomingEx->ex_to_date)->format('d M Y') }}</span>
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-6">
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-clock mr-2"></i>
@@ -300,7 +301,7 @@
                                                     <span class="font-weight-bold">Document:</span>
                                                 </div>
                                                 <div>
-                                                    <button class="btn btn-sm btn-primary view-document-btn" data-toggle="modal" data-target="#documentModal">View Document</button>
+                                                    <button class="btn btn-sm btn-success view-document-btn" data-toggle="modal" data-target="#documentModal">View Document</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -380,7 +381,7 @@
                 // console.log(encExId);
         
                 Swal.fire({
-                    title: 'Are you Exited to participate?',
+                    title: 'Are you excited to participate?',
                     text: "",
                     icon: 'question',
                     showCancelButton: true,
