@@ -280,6 +280,48 @@ class EmailHelper{
     return response()->json(['message' => 'Admin Email sent successfully'], 200);
 }
 
+public static function sendOrganizerEmail($user)
+{
+    // Fetch admin email from configuration or database
+    $adminEmail = 'abhitryai@gmail.com'; // Change this to your actual admin email address
+
+    // Create a new PHPMailer instance
+    $mail = new PHPMailer(true); // Enable exceptions
+
+    // Set SMTP server settings
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com'; // Change this to your SMTP host
+    $mail->Port = '587'; // Change this to your SMTP port
+    $mail->SMTPAuth = true;
+    $mail->Username = 'jagtapsaurabh74@gmail.com'; // Change this to your SMTP username
+    $mail->Password = 'isnvhwsotwkmdswm'; // Change this to your SMTP password
+
+    // You can also fetch SMTP settings from a database if needed
+
+    // Set sender and recipient
+    $mail->setFrom($mail->Username, 'Torna');
+    $mail->addAddress($adminEmail);
+    
+    
+    $subject = "New Exhibitor Participated in your Exhibition";
+    $message = "New Exhibitor Participated in your Exhibition:\n\n";
+   
+    
+    $mail->Subject = $subject;
+
+    
+    $message .= "Exhibitor Name: " . $user->first_name . "\n";
+    $message .= "Exhibitor Email: " . $user->email . "\n";
+    $message .= "Exhibitor Contact No: " . $user->contact_no . "\n";
+
+    $mail->isHTML(false); // Set email format to plain text
+    $mail->Body = $message;
+
+    $mail->send();
+
+    return response()->json(['message' => 'Organizer Email sent successfully'], 200);
+}
+
 public static function sendOtp($otp,$email)
 {
     // Fetch admin email from configuration or database

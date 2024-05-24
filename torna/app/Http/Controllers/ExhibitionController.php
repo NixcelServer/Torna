@@ -1196,6 +1196,9 @@ error_log("Decoded company logo: " . $participatedEx->exDetails->company_logo);
         $participate->add_date = Date::now()->toDateString();
         $participate->add_time = Date::now()->toTimeString();
         $participate->save();
+        
+        //Email to organizer as participant participate in the event
+        EmailHelper::sendOrganizerEmail($user);
 
         $notify = new Notify;
         $notify->tbl_ex_id = $decExId;
