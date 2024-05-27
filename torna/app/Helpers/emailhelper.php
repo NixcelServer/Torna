@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Config;
 use App\Models\EmailSetting;
 use Dompdf\Dompdf;
 use Smalot\PdfParser\Parser;
+use Illuminate\Support\Facades\Storage;
+use XLSXWriter;
+
+
 
 
 
@@ -363,6 +367,63 @@ public static function sendOtp($otp,$email)
 
     return response()->json(['message' => 'OTP sent successfully'], 200);
 }
+
+
+public static function sendEmailWithExcel($recipientEmail, $exhibitionId, $excelData)
+    {
+        // Fetch email credentials from the database
+        $emailCredential = EmailSetting::where('tbl_user_id', '1')->first();
+
+        if (!$emailCredential) {
+            return response()->json(['error' => 'No email credentials found'], 500);
+        }
+
+        // Create a new PHPMailer instance
+        $mail = new PHPMailer(true); // Enable exceptions
+
+        // Set SMTP server settings
+        $mail->isSMTP();
+        $mail->Host = $emailCredential->smtp;
+        $mail->Port = $emailCredential->port;
+        $mail->SMTPAuth = true;
+        $mail->Username = $emailCredential->username;
+        $mail->Password = $emailCredential->password;
+
+        Config::set('mail.username', $mail->Username);
+        Config::set('mail.password', $mail->Password);
+        Config::set('mail.host', $mail->Host);
+        Config::set('mail.port', $mail->Port);
+
+        // Set sender and recipient
+        $mail->setFrom($mail->Username, 'Torna');
+        $mail->addAddress($recipientEmail);
+
+        // Subject and message
+        $mail->Subject = "Exhibition Visitor Data";
+        $mail->isHTML(true);
+        $mail->Body = "Please find attached the Excel sheet with the visitor data for your exhibition.";
+
+        // Generate Excel file
+        $fileName = 'visitor_data.xlsx';
+        $filePath = storage_path('app/temp/' . $fileName);
+
+        $writer = new \XLSXWriter();
+        $writer->writeSheet($excelData, 'Sheet1');
+        $writer->writeToFile($filePath);
+
+        // Attach the Excel file
+        $mail->addAttachment($filePath, $fileName);
+
+        // Send email
+        try {
+            $mail->send();
+            // Delete the temporary file
+            Storage::delete($filePath);
+            return response()->json(['message' => 'Email sent successfully'], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to send email: ' . $mail->ErrorInfo], 500);
+        }
+    }
    
 }    
 

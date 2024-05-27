@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - Nixcel Exhibition</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #2DBE60;
+        }
+        .container {
+            display: flex;
+            width: 800px;
+            height: 450px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .form-container h1 {
+            margin: 0 0 20px;
+            font-size: 24px;
+        }
+        .form-container input[type="email"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-container button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2DBE60;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #28a753;
+        }
+        .illustration {
+            background-color: #00A82D;
+            width: 60%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .illustration img {
+            width: 80%;
+        }
+        .disclaimer {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #555;
+        }
+        .disclaimer a {
+            color: #2DBE60;
+            text-decoration: none;
+        }
+        .disclaimer a:hover {
+            text-decoration: underline;
+        }
+        .readonly-input {
+    background-color: #f5f5f5; /* Light gray background */
+    color: #555; /* Darker text color for readability */
+    cursor: not-allowed; /* Change cursor to indicate it's not editable */
+    pointer-events: none; /* Prevent any mouse events */
+}
+#emailMessage {
+    margin-top: 5px; /* Adjust the top margin to create space below the input */
+    display: block; /* Ensure the small message is displayed as a block element */
+}
+
+    </style>
+</head>
+<body>
+    {{-- <body>
+        <div class="container" id="registrationContainer">
+            <div class="form-container">
+                <h1>Change Email Address</h1>
+                <form class="form-containerb" id="registrationForm" action="/ChangeEmailEx" method="POST">
+                    @csrf
+                    <input type="email" name="email" id="emailInput" placeholder="Your email" required>
+                    <button type="submit" id="registerBtn">Submit</button>
+                </form>
+                <div class="disclaimer">
+                    By clicking "Register for free", you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. We'll occasionally send you account related emails.
+                </div>
+            </div>
+            <div class="illustration">
+                <img src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bG9naW4lMjBwYWdlfGVufDB8fDB8fHww" alt="Illustration">
+            </div>
+        </div> 
+    </body>    --}}
+    <body>
+        <div class="container" id="registrationContainer">
+            <div class="form-container">
+                <h1>Change Email Address</h1>
+                <form class="form-containerb" id="registrationForm" action="/ChangeEmailEx" method="POST">
+                    @csrf
+                    <!-- Hidden input for old email -->
+                    <input type="hidden" name="oldemail" value="{{ $email }}">
+                    
+                    <!-- Display the old email -->
+                    <div class="form-group">
+                        <label for="oldEmailInput">Old Email Address</label>
+                        <input type="email" id="oldEmailInput" value="{{ $email }}" class="form-control readonly-input" required readonly>
+                    </div>
+                    
+                    <!-- Input for new email -->
+                    <div class="form-group">
+                        <label for="emailInput">New Email Address</label>
+                        <input type="email" name="email" id="emailInput" placeholder="Your new email" required class="form-control">
+                        <small id="emailMessage" class="form-text text-muted">OTP will be sent to the new email</small>
+                    </div>
+                    <button type="submit" id="registerBtn" class="btn btn-primary">Submit</button>
+                </form>
+                <div class="disclaimer">
+                    By clicking "Submit", you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. We'll occasionally send you account-related emails.
+                </div>
+            </div>
+            <div class="illustration">
+                <img src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bG9naW4lMjBwYWdlfGVufDB8fDB8fHww" alt="Illustration">
+            </div>
+        </div> 
+    </body>
+    
+</body>
+</html>

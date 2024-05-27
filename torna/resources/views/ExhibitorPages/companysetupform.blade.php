@@ -244,8 +244,35 @@
                                         </div>
                                         <small id="contactError" class="text-danger"></small>
                                     </div>
-                                </div>                             
+                                </div> 
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="email" class="col-form-label text-md-right">Email ID</label>
+                                        <input id="email" name="email" type="email" value="{{ $company->email }}" class="form-control" required readonly>
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        <label class="col-form-label text-md-right">Industry</label>
+                                        <select name="industry_name" class="form-control" required>
+                                            <option value="">Select Industry</option>
+                                            @foreach($industries as $industry)
+                                                <option value="{{ $industry->industry_name }}" @if($industry->industry_name == $company->industry_name) selected @endif>{{ $industry->industry_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-md-6">
+                                        <a href="/changeemailadd" class="btn btn-sm btn-warning">Request to change email address</a>
+                                    </div>
+                                </div>
+                                {{-- <script>
+                                    function requestEmailChange() {
+                                        alert("To request an email change, please contact support at support@example.com.");
+                                        // You can replace this with logic to show a modal or redirect to a new page
+                                    }
+                                </script> --}}
+                                                                                            
+                                {{-- <div class="row">
                                     <div class="col-md-6">
                                         <label for="email" class="col-form-label text-md-right">Email ID</label>
                                         <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
@@ -259,8 +286,8 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                            </br>
+                                </div> --}}
+                            
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="logo" class="col-form-label text-md-right">Upload Company Logo</label>

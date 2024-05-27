@@ -1495,5 +1495,12 @@ public function updateExhibition(Request $request)
 }
 
 
-   
+public function sendEmailWithExcel(Request $request)
+{
+    $email = $request->input('email');
+    $exhibitionId = $request->input('exhibitionId');
+    $excelData = $request->input('data');
+
+    return EmailHelper::sendEmailWithExcel($email, $exhibitionId, $excelData);
+}
 }

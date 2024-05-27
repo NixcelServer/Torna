@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Date;
 use App\Helpers\EmailHelper;
 use App\Helpers\AuditLogHelper;
 use App\Models\AuditLogDetail;
+use App\Models\ExhibitorOtp;
 use Illuminate\Support\Facades\RateLimiter;
 
 
@@ -387,6 +388,17 @@ class AuthController extends Controller
     {
         return view('HomePages/RegistrationEx');
     }
+    public function ChangeEmailAdd()
+    {
+        // Get the user from the session
+    $user = session('user');
+
+    // Extract the email from the user attributes
+    $email = $user['email'];
+
+    // Pass the email to the view using an associative array
+    return view('ExhibitorPages/ChangeEmailAdd', ['email' => $email]);
+    }
 
     public function generateOTP()
 {
@@ -468,6 +480,75 @@ public function registerwithmailEx(Request $request)
     // Return the view for registration
    
 }
+public function ChangeEmailEx(Request $request)
+{
+    //dd($request);
+    // Validate the incoming request data
+    $validatedData = $request->validate([
+        'email' => 'required|email|unique:users,email',
+        'oldemail' => 'required|email',
+    ]);
+
+    // Fetch the user from the session
+   $user = session('user');
+
+// Check if user exists and has 'tbl_user_id'
+    $user->tbl_user_id;
+    // Store 'tbl_user_id' in $userId variable
+    $userId = $user->tbl_user_id;
+    
+    // Optionally, you can dump and die to check the value of $userId
+    //dd($userId);
+
+
+    // Generate OTP
+    $otp = $this->generateOTP();
+
+    // Create a new user record in the database
+    $user = new ExhibitorOtp();
+    $user->email = $validatedData['email'];
+    $user->old_email = $validatedData['oldemail'];
+    $user->otp = $otp; // Assuming you have an 'otp' column in your users table
+    $user->updated_by = $userId;
+    $user->expire_at = now()->addMinutes(3);
+    $user->save();
+
+    
+
+// Update User Email and add updated_by, updated_date, updated_time
+$userDetail = UserDetail::where('email', $validatedData['oldemail'])->first();
+//dd($userDetail);
+if ($userDetail) {
+    $userDetail->email = $validatedData['email'];
+    $userDetail->updated_by = $userId; // Use the user ID from the session
+    $userDetail->updated_date = now()->format('Y-m-d');
+    $userDetail->updated_time = now()->format('H:i:s');
+    $userDetail->save();
+}
+
+// Update Company Details Email and add updated_by, updated_date, updated_time
+$companyDetail = CompanyDetail::where('email', $validatedData['oldemail'])->first();
+if ($companyDetail) {
+    $companyDetail->email = $validatedData['email'];
+    $companyDetail->updated_by = $userId; // Use the user ID from the session
+    $companyDetail->updated_date = now()->format('Y-m-d');
+    $companyDetail->updated_time = now()->format('H:i:s');
+    $companyDetail->save();
+}
+
+
+
+    EmailHelper::sendOtp($otp,$request->email);
+    // return view('HomePages/VerifyOtp');
+    $encryptedId = EncryptionDecryptionHelper::encdecId($user->tbl_user_otp_id, 'encrypt');
+
+    return redirect()->route('verifyotpemailex');
+    // Debug output to check if OTP is generated and user is saved
+    //dd('User registered with email: ' . $user->email . ' and OTP: ' . $otp . ' Expiration At: ' .  $user->expire_at);
+
+    // Return the view for registration
+   
+}
 public function verifyOTP()
     {
         
@@ -492,6 +573,18 @@ public function verifyOTP()
 
         // Pass the email to the view
         return view('HomePages/VerifyOtpEx', ['email' => $email]);
+    }   
+    public function verifyotpemailex()
+    {
+        
+
+        // Retrieve the email based on the tbl_user_otp_id
+        $email = ExhibitorOtp::orderBy('tbl_user_otp_id', 'desc')->value('email');
+
+        //dd($email);
+
+        // Pass the email to the view
+        return view('ExhibitorPages/VerifyEmailOtpEx', ['email' => $email]);
     }    
 
 
@@ -567,6 +660,38 @@ public function verifyotppostEx(Request $request)
     if ($otpRecord && $inputOTP == $otpRecord->otp) {
         // OTP verification successful, redirect to organizer form
         return redirect('/exhibitorform');
+    } else {
+        // OTP verification failed
+        return redirect()->back()->withErrors(['otp' => 'Invalid OTP']);
+    }
+}
+
+
+public function verifyemailotppostEx(Request $request)
+{
+    //dd($request);
+    // Validate the OTP input
+    $validatedData = $request->validate([
+        'email' => 'required|email',
+        'otp' => 'required',
+    ]);
+
+    // Retrieve the email and OTP from the request
+    $inputEmail = $request->input('email');
+    $inputOTP = $request->input('otp');
+
+    // Fetch the OTP record from the database
+    $otpRecord = ExhibitorOtp::where('email', $inputEmail)->orderBy('created_at', 'desc')->first();
+
+    // Check if the OTP record exists and if the input OTP matches the stored OTP
+    if ($otpRecord && $inputOTP == $otpRecord->otp) {
+        // OTP verification successful
+        // Check the role_id in the session
+        if (session('user')->role_id == 2) {
+            return redirect('/companysetupform-O');
+        } else {
+            return redirect('/companysetupform');
+        }
     } else {
         // OTP verification failed
         return redirect()->back()->withErrors(['otp' => 'Invalid OTP']);

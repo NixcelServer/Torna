@@ -42,7 +42,11 @@ Route::post('/verifyotppostEx', [AuthController::class, 'verifyotppostEx']);
 Route::post('/registerwithmailEx', [AuthController::class, 'registerwithmailEx']);
 Route::get('/verifyotpex', [AuthController::class, 'verifyOTPEx'])->name('verifyotpex');
 
-
+//Request to change With Email Address
+Route::get('/changeemailadd', [AuthController::class, 'ChangeEmailAdd']);
+Route::post('/verifyemailotppostEx', [AuthController::class, 'verifyemailotppostEx']);
+Route::post('/ChangeEmailEx', [AuthController::class, 'ChangeEmailEx']);
+Route::get('/verifyotpemailex', [AuthController::class, 'verifyotpemailex'])->name('verifyotpemailex');
 
 
 Route::middleware(['validLogin','preventBackHistory'])->group(function () {
@@ -185,5 +189,8 @@ Route::get('/participatedExhibitions', [ExhibitionController::class, 'participat
 //Visitor Details Routes
 Route::post('/regvisitor',[ExhibitionController::class, 'regVisitor']  );
 Route::get('/visitordetails/{id}', [ExhibitionController::class, 'visitorsdetails'])->name('visitorsdetails');
+
+
+Route::post('/sendemailwithexcel', [ExhibitionController::class, 'sendEmailWithExcel']);
 
 ?>

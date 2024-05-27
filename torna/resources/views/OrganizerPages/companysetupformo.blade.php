@@ -334,15 +334,16 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="contact_no" class="col-form-label text-md-right">Contact Number</label>
-                                        <input id="contact_no" name="contact_no" type="text" value="{{ $company->contact_no }}"  class="form-control" required>
+                                        <input id="contact_no" name="contact_no" type="text" value="{{ $company->contact_no }}" class="form-control" required>
                                     </div>
                                 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 mb-3">
                                         <label for="email" class="col-form-label text-md-right">Email ID</label>
-                                        <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
+                                        <input id="email" name="email" type="email" value="{{ $company->email }}" class="form-control" required readonly>
+                                        <a href="/changeemailadd" class="btn btn-sm btn-warning mt-2">Request to change email address</a>
                                     </div>
-                                </div>
-                                <br />
+                                </div>                                
+                                
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="logo" class="col-form-label text-md-right">Upload Company Logo</label>
