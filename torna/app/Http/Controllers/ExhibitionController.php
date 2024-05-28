@@ -464,21 +464,48 @@ class ExhibitionController extends Controller
         return redirect()->route('upcomingExhibitions')->with('success', 'Exhibition created successfully!');
     }
 
+    // public function activeExhibitions()
+    // {
+    //     $user = session('user');
+    //     $activeExs = ExhibitionDetail::where('tbl_comp_id',$user->tbl_comp_id)->where('active_status', 'Active')->where('flag', 'show')->get();
+    //     //dd($activeExs);
+
+    //     //dd($activeExs);
+    //     foreach ($activeExs as $activeEx) {
+    //         $activeEx->encActiveExId = EncryptionDecryptionHelper::encdecId($activeEx->tbl_ex_id, 'encrypt');
+    //         $activeEx->attach_document = base64_encode($activeEx->attach_document);
+    //     }
+    //     //dd($activeEx);
+
+    //     return view('OrganizerPages/activeExhibitions', ['activeExs' => $activeExs]);
+    // }
     public function activeExhibitions()
     {
         $user = session('user');
-        $activeExs = ExhibitionDetail::where('tbl_comp_id',$user->tbl_comp_id)->where('active_status', 'Active')->where('flag', 'show')->get();
-        //dd($activeExs);
-
-        //dd($activeExs);
+        $activeExs = ExhibitionDetail::where('tbl_comp_id', $user->tbl_comp_id)
+            ->where('active_status', 'Active')
+            ->where('flag', 'show')
+            ->get();
+    
         foreach ($activeExs as $activeEx) {
             $activeEx->encActiveExId = EncryptionDecryptionHelper::encdecId($activeEx->tbl_ex_id, 'encrypt');
             $activeEx->attach_document = base64_encode($activeEx->attach_document);
+    
+            // Fetch all tbl_user_id who participated in this exhibition
+            $participantUserIds = Participate::where('tbl_ex_id', $activeEx->tbl_ex_id)->pluck('tbl_user_id')->toArray();
+            $activeEx->participants = $participantUserIds;
+            
+            // Fetch all UserDetail data against these tbl_user_id
+            $participantDetails = UserDetail::whereIn('tbl_user_id', $participantUserIds)->get();
+            $activeEx->participantDetails = $participantDetails;
+            //dd($activeEx->participantDetails);
         }
-        //dd($activeEx);
-
+    
         return view('OrganizerPages/activeExhibitions', ['activeExs' => $activeExs]);
     }
+    
+
+
 
     public function updateExStatus($id)
     {
