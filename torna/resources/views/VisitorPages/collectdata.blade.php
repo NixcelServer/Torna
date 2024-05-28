@@ -124,8 +124,11 @@
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
                                         <a class="dropdown-item" href="#" id="exportExcel" data-id="{{ $exhibition->encExId }}">Export to Excel</a>
                                         <a class="dropdown-item" href="#" id="exportCsv" data-id="{{ $exhibition->encExId }}">Export to CSV</a>
-                                        <a class="dropdown-item" href="#" id="sendEmail" data-id="{{ $exhibition->encExId }}">Send by Email</a>
-                                        <a class="dropdown-item" href="#" id="sendWhatsapp" data-id="{{ $exhibition->encExId }}">Send by WhatsApp</a>
+                                        <form action="/sendemailwithexcel" method="GET" id="sendEmailForm">
+                                            @csrf
+                                            <input type="hidden" name="exhibitionId" value="{{ $exhibition->encExId }}">
+                                            <button type="submit" class="dropdown-item" id="sendEmailButton">ok</button>
+                                        </form>
                                     </div>                                    
                                 </div>
                             </div>
@@ -169,6 +172,68 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+        
+        <script>
+            $(document).ready(function() {
+                $('#sendEmailButton').click(function(e) {
+                    e.preventDefault();
+        
+                    const exhibitionId = "{{ $exhibition->encExId }}";
+                    const exhibitionName = "{{ $exhibition->exhibition_name }}";
+        
+                    // Send AJAX request to fetch visitor data
+                    $.ajax({
+                        url: `/fetchvisitordata/${exhibitionId}`,
+                        method: 'GET',
+                        success: function(response) {
+                            if (response.success) {
+                                // Generate and download the Excel file
+                                const sheet = XLSX.utils.json_to_sheet(response.data);
+                                const wb = XLSX.utils.book_new();
+                                XLSX.utils.book_append_sheet(wb, sheet, 'Visitor Data');
+                                const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                                saveAsFile(excelBuffer, `${exhibitionName} Visitors Data.xlsx`);
+        
+                                // Submit the form to send the email
+                                $('#sendEmailForm').submit();
+                            } else {
+                                alert('Failed to fetch data.');
+                            }
+                        },
+                        error: function() {
+                            alert('Error occurred while fetching data.');
+                        }
+                    });
+                });
+        
+                function saveAsFile(buffer, fileName) {
+                    const blob = new Blob([buffer], { type: 'application/octet-stream' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                }
+            });
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 
         <script>
             $(document).ready(function() {
@@ -185,19 +250,6 @@
                     const exhibitionName = "{{ $exhibition->exhibition_name }}";
                     exportData('csv', exhibitionId, exhibitionName);
                 });
-
-                $('#sendEmail').click(function(e) {
-        e.preventDefault();
-        const exhibitionId = $(this).data('id');
-        const exhibitionName = "{{ $exhibition->exhibition_name }}";
-        sendEmailWithExcel(exhibitionId, exhibitionName);
-    });
-
-    $('#sendWhatsapp').click(function(e) {
-        e.preventDefault();
-        const exhibitionId = $(this).data('id');
-        sendData('whatsapp', exhibitionId);
-    });
             });
 
             function exportData(format, exhibitionId, exhibitionName) {
@@ -225,43 +277,6 @@
                     }
                 });
             }
-
-            function sendEmailWithExcel(exhibitionId, exhibitionName) {
-    $.ajax({
-        url: `/fetchvisitordata/${exhibitionId}`,
-        method: 'GET',
-        success: function(response) {
-            if (response.success) {
-                $.ajax({
-                    url: `/sendemailwithexcel`,
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        exhibitionId: exhibitionId,
-                        exhibitionName: exhibitionName,
-                        email: 'exhibitor@example.com', // replace with the actual email
-                        data: response.data
-                    }),
-                    success: function(response) {
-                        if (response.success) {
-                            alert('Excel file sent successfully via Email.');
-                        } else {
-                            alert('Failed to send email.');
-                        }
-                    },
-                    error: function() {
-                        alert('Error occurred while sending email.');
-                    }
-                });
-            } else {
-                alert('Failed to fetch data.');
-            }
-        },
-        error: function() {
-            alert('Error occurred while fetching data.');
-        }
-    });
-}
 
             function saveAsFile(buffer, fileName) {
                 const blob = new Blob([buffer], { type: 'application/octet-stream' });

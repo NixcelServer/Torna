@@ -26,7 +26,8 @@ use App\Helpers\AuditLogHelper;
 use App\Models\ExhibitionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExhibitionController extends Controller
 {
@@ -1495,12 +1496,13 @@ public function updateExhibition(Request $request)
 }
 
 
-public function sendEmailWithExcel(Request $request)
+public function sendEmailWithExcel()
 {
-    $email = $request->input('email');
-    $exhibitionId = $request->input('exhibitionId');
-    $excelData = $request->input('data');
-
-    return EmailHelper::sendEmailWithExcel($email, $exhibitionId, $excelData);
+    $user = session('user');
+    EmailHelper::sendCollectDataEmail($user);
+    return redirect()->back();  
 }
+
+
+
 }

@@ -368,63 +368,47 @@ public static function sendOtp($otp,$email)
     return response()->json(['message' => 'OTP sent successfully'], 200);
 }
 
+public static function sendCollectDataEmail($user)
+{
+    // Fetch admin email from configuration or database
+    $adminEmail = session('user')->email; // Adjust this to match the actual session structure
+//dd($adminEmail);
+    // Create a new PHPMailer instance
+    $mail = new PHPMailer(true); // Enable exceptions
 
-public static function sendEmailWithExcel($recipientEmail, $exhibitionId, $excelData)
-    {
-        // Fetch email credentials from the database
-        $emailCredential = EmailSetting::where('tbl_user_id', '1')->first();
+    // Set SMTP server settings
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com'; // Change this to your SMTP host
+    $mail->Port = '587'; // Change this to your SMTP port
+    $mail->SMTPAuth = true;
+    $mail->Username = 'jagtapsaurabh74@gmail.com'; // Change this to your SMTP username
+    $mail->Password = 'isnvhwsotwkmdswm'; // Change this to your SMTP password
 
-        if (!$emailCredential) {
-            return response()->json(['error' => 'No email credentials found'], 500);
-        }
+    // You can also fetch SMTP settings from a database if needed
 
-        // Create a new PHPMailer instance
-        $mail = new PHPMailer(true); // Enable exceptions
-
-        // Set SMTP server settings
-        $mail->isSMTP();
-        $mail->Host = $emailCredential->smtp;
-        $mail->Port = $emailCredential->port;
-        $mail->SMTPAuth = true;
-        $mail->Username = $emailCredential->username;
-        $mail->Password = $emailCredential->password;
-
-        Config::set('mail.username', $mail->Username);
-        Config::set('mail.password', $mail->Password);
-        Config::set('mail.host', $mail->Host);
-        Config::set('mail.port', $mail->Port);
-
-        // Set sender and recipient
-        $mail->setFrom($mail->Username, 'Torna');
-        $mail->addAddress($recipientEmail);
-
-        // Subject and message
-        $mail->Subject = "Exhibition Visitor Data";
-        $mail->isHTML(true);
-        $mail->Body = "Please find attached the Excel sheet with the visitor data for your exhibition.";
-
-        // Generate Excel file
-        $fileName = 'visitor_data.xlsx';
-        $filePath = storage_path('app/temp/' . $fileName);
-
-        $writer = new \XLSXWriter();
-        $writer->writeSheet($excelData, 'Sheet1');
-        $writer->writeToFile($filePath);
-
-        // Attach the Excel file
-        $mail->addAttachment($filePath, $fileName);
-
-        // Send email
-        try {
-            $mail->send();
-            // Delete the temporary file
-            Storage::delete($filePath);
-            return response()->json(['message' => 'Email sent successfully'], 200);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to send email: ' . $mail->ErrorInfo], 500);
-        }
-    }
+    // Set sender and recipient
+    $mail->setFrom($mail->Username, 'Torna');
+    $mail->addAddress($adminEmail);
+    
+    
+    $subject = "New Exhibitor Participated in your Exhibition";
+    $message = "New Exhibitor Participated in your Exhibition:\n\n";
    
+    
+    $mail->Subject = $subject;
+
+    
+    $message .= "Exhibitor Name: " . $user->first_name . "\n";
+    $message .= "Exhibitor Email: " . $user->email . "\n";
+    $message .= "Exhibitor Contact No: " . $user->contact_no . "\n";
+
+    $mail->isHTML(false); // Set email format to plain text
+    $mail->Body = $message;
+
+    $mail->send();
+
+    return response()->json(['message' => 'Organizer Email sent successfully'], 200);
+}
 }    
 
 ?>
