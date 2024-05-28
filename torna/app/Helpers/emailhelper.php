@@ -18,64 +18,8 @@ use XLSXWriter;
 
 
 class EmailHelper{
-
-    // public static function senEmail($company)
-    // {
-    //     //ini_set('max_execution_time', 120);
-    //     // try {
-    //         // Fetch email credentials from the database
-    //         // $emailCredential = EmailCredential::find($id);
-    //         //$emailCredentials = EmailCredential::skip(1)->take(1)->first();
-            
-    //         // Check if credentials are found
-    //         if (!$company) {
-    //             return response()->json(['error' => 'No email credentials found'], 500);
-    //         }
-            
-    //         // Create a new PHPMailer instance
-    //         $mail = new PHPMailer(true); // Enable exceptions
-
-    //         // Set SMTP server settings
-    //         $mail->isSMTP();
-    //         $mail->Host = 'smtp.gmail.com';
-    //         $mail->Port = '587';
-    //         $mail->SMTPAuth = true;
-    //         $mail->Username = 'jagtapsaurabh74@gmail.com';
-    //         $mail->Password = 'isnvhwsotwkmdswm';
-
-    //         Config::set('mail.username', $mail->Username);
-    //         Config::set('mail.password', $mail->Password);
-    //         Config::set('mail.host', $mail->Host);
-    //         Config::set('mail.port', $mail->Port);
-
-            
-    //         // Set sender and recipient
-    //         $mail->setFrom($mail->Username, 'Torna');
-           
-    //         $recipientEmail = $company->email;
-    //         $mail->addAddress($recipientEmail);
-           
-
-    //         $subject = "Torna Exhibitions";
-    //         $mail->Subject = $subject;
-
-    //         $message = "Congratulations! Your registration for ". $company->company_name ." is complete. Welcome aboard! 🎉 ";
-    //         $mail->isHTML(true); // Set email format to HTML
-    //         $mail->Body = $message;
-    
-    //         $mail->send();
-        
-           
-    //         return response()->json(['message' => 'Email sent successfully'], 200);
-    //     // } catch (Exception $e) {
-    //     //     return response()->json(['error' => 'Failed to send email: ' . $mail->ErrorInfo], 500);
-    //     // }
-    // }
-
     public static function sendEmail($recipientEmailId = null, $id = null, $documents = null,$company = null, $password = null)
     {
-        
-       //dd($id);
        if (is_null($documents) && !is_null($company)) {
         
         // Send email using default mail address
@@ -87,8 +31,6 @@ class EmailHelper{
 
         // Create a new PHPMailer instance
         $mail = new PHPMailer(true); // Enable exceptions
-
-        
 
         // Set SMTP server settings
          $mail->isSMTP();
@@ -127,12 +69,9 @@ class EmailHelper{
        
         return response()->json(['message' => 'Email sent successfully'], 200);
     }
-       
-        // try {
             // Fetch email credentials from the database
             $emailCredential = EmailSetting::where('tbl_comp_id',$id)->first();
-            //$emailCredentials = EmailCredential::skip(1)->take(1)->first();
-          //  dd($emailCredential);
+            
             // Check if credentials are found
             if (!$emailCredential) {
                 return response()->json(['error' => 'No email credentials found'], 500);
@@ -162,9 +101,7 @@ class EmailHelper{
             $message = "Thank You for visitin us ";
             $mail->isHTML(true); // Set email format to HTML
             $mail->Body = $message;
-           // dd($mail);
 
-          // $dompdf = new Dompdf();
             
             foreach ($documents as $document) {
                 $binaryData = $document->document_attachment;
@@ -187,50 +124,28 @@ class EmailHelper{
 
                 $mail->addAttachment($filePath, $fileName);
 
-
-
-                // Retrieve the binary data from the blob field (assuming $document represents the model instance for each document)
-        // Retrieve the binary data from the blob field (assuming $document represents the model instance for each document)
-        // $binaryData = $document->document_attachment;
-
-        // // Create a parser instance
-        // $parser = new Parser();
-    
-        // // Parse the binary data to extract text content
-        // $pdf = $parser->parseContent($binaryData);
-    
-        // // Get the text content from the PDF
-        // $textContent = $pdf->getText();
-    
-        // // Now you have the text content of the PDF, you can use it to generate HTML
-        // // For example, you can wrap the text content in HTML tags
-        // $htmlContent = "<html><body>{$textContent}</body></html>";
-    
-        // // Now you can load the HTML content into Dompdf
-        // $dompdf = new Dompdf();
-        // $dompdf->loadHtml($htmlContent);
-    
-        // // Render the PDF
-        // $dompdf->render();
-    
-        // // Get the PDF content as a string
-        // $pdfContent = $dompdf->output();
-    
-        // // Attach the PDF content to the email
-        // $mail->addStringAttachment($pdfContent, 'document_' . $document->id . '.pdf');
     }
+        // Send the email
+if ($mail->send()) {
+    // Clean up temporary files
+    foreach ($documents as $document) {
+        $fileName = 'document_' . $document->tbl_doc_id . '.pdf';
+        $filePath = $directoryPath . $fileName;
         
-            
-           
-            $mail->send();
-
-            // foreach ($documents as $document) {
-            //     $fileName = 'document_' . $document->tbl_doc_id . '.pdf';
-            //     $filePath = storage_path('app/tmp/' . $fileName);
-            //     unlink($filePath);
-            // }
-        
-           
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
+    
+    // Clean up logo path if necessary
+    if (isset($logoPath) && file_exists($logoPath)) {
+        unlink($logoPath);
+    }
+} else {
+    // Handle the error
+    echo 'Email could not be sent.';
+}
+            //$mail->send();        
             return response()->json(['message' => 'Email sent successfully'], 200);
         
     }
@@ -403,7 +318,7 @@ public static function sendCollectDataEmail($user, $excelFilePath)
 }
 
 
-public static function shareExhibitionEmail($emails, $user)
+public static function shareExhibitionEmail($emails, $user, $ExhibitionDetails, $exhibitionId)
 {
     $mail = new PHPMailer(true);
 
@@ -414,29 +329,78 @@ public static function shareExhibitionEmail($emails, $user)
     $mail->Username = 'jagtapsaurabh74@gmail.com';
     $mail->Password = 'isnvhwsotwkmdswm';
 
-    $mail->setFrom($mail->Username, 'Torna');
+    $mail->setFrom($mail->Username, 'Connexha');
 
     // Add all participant emails as recipients
     foreach ($emails as $email) {
         $mail->addAddress($email);
     }
 
-    $subject = "New Exhibitor Participated in your Exhibition";
-    $message = "New Exhibitor Participated in your Exhibition:\n\n";
-    
+    $subject = "Exciting News: New Upcoming Exhibition!";
     $mail->Subject = $subject;
-    $message .= "Exhibitor Name: " . $user->first_name . "\n";
-    $message .= "Exhibitor Email: " . $user->email . "\n";
-    $message .= "Exhibitor Contact No: " . $user->contact_no . "\n";
+
+    $message = "Hello Exhibitor,\n\n";
+    $message .= "We are thrilled to share the exciting news that a new exhibition is coming! All details are below, please do check!\n\n";
+
+    // Filter the exhibition details based on the provided exhibition ID
+    $relevantExhibition = $ExhibitionDetails->where('tbl_ex_id', $exhibitionId)->first();
+
+    if ($relevantExhibition) {
+        $message .= "Exhibition Name: " . $relevantExhibition->exhibition_name . "\n";
+        $message .= "Exhibition From date: " . $relevantExhibition->ex_from_date . "\n";
+        $message .= "Exhibition To date: " . $relevantExhibition->ex_to_date . "\n";
+        $message .= "Exhibition Start Time: " . $relevantExhibition->start_time . "\n";
+        $message .= "Exhibition End Time: " . $relevantExhibition->end_time . "\n";
+        $message .= "Exhibition Venue: " . $relevantExhibition->venue . "\n";
+        $message .= "Exhibition Website: " . $relevantExhibition->exhibition_website . "\n";
+        $message .= "Exhibition Register link: " . $relevantExhibition->registration_url . "\n\n";
+
+        $directoryPath = storage_path('app/tmp/');
+
+        if (!file_exists($directoryPath)) {
+            mkdir($directoryPath, 0777, true);
+        }
+
+        // Check if attachment document exists
+        if (!empty($relevantExhibition->attach_document)) {
+            $binaryData = $relevantExhibition->attach_document;
+            $fileName = 'Exhibition Document.pdf';
+            $filePath = $directoryPath . $fileName;
+            file_put_contents($filePath, base64_decode($binaryData));
+
+            $mail->addAttachment($filePath, $fileName);
+        }
+
+        // Check if company logo exists
+        if (!empty($relevantExhibition->company_logo)) {
+            $logoData = $relevantExhibition->company_logo;
+            $logoName = 'Exhibition Image.png';
+            $logoPath = $directoryPath . $logoName;
+            file_put_contents($logoPath, base64_decode($logoData));
+
+            $mail->addAttachment($logoPath, $logoName);
+        }
+    } else {
+        $message .= "No exhibition details found for the provided ID.\n\n";
+    }
+
+    $message .= "Exhibition is Coming soon, don't miss the opportunity to participate!\n";
+    $message .= "Best regards,\nConnexha Team";
 
     $mail->isHTML(false);
     $mail->Body = $message;
-
     $mail->send();
+
+    // Clean up temporary files
+    if (isset($filePath) && file_exists($filePath)) {
+        unlink($filePath);
+    }
+    if (isset($logoPath) && file_exists($logoPath)) {
+        unlink($logoPath);
+    }
 
     return response()->json(['message' => 'Organizer Email sent successfully'], 200);
 }
-
 
 }    
 
