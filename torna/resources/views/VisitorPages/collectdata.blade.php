@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <link href="/css/style.css" rel="stylesheet">
     <link href="/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -124,10 +125,10 @@
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exportDropdown">
                                         <a class="dropdown-item" href="#" id="exportExcel" data-id="{{ $exhibition->encExId }}">Export to Excel</a>
                                         <a class="dropdown-item" href="#" id="exportCsv" data-id="{{ $exhibition->encExId }}">Export to CSV</a>
-                                        <form action="/sendemailwithexcel" method="GET" id="sendEmailForm">
+                                        <form action="/sendemailwithexcel" method="POST" id="sendEmailForm">
                                             @csrf
                                             <input type="hidden" name="exhibitionId" value="{{ $exhibition->encExId }}">
-                                            <button type="submit" class="dropdown-item" id="sendEmailButton">ok</button>
+                                            <button type="submit" class="dropdown-item" id="sendEmailButton">Send by Email</button>
                                         </form>
                                     </div>                                    
                                 </div>
@@ -171,52 +172,102 @@
         </div>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-        
-        <script>
-            $(document).ready(function() {
-                $('#sendEmailButton').click(function(e) {
-                    e.preventDefault();
-        
-                    const exhibitionId = "{{ $exhibition->encExId }}";
-                    const exhibitionName = "{{ $exhibition->exhibition_name }}";
-        
-                    // Send AJAX request to fetch visitor data
-                    $.ajax({
-                        url: `/fetchvisitordata/${exhibitionId}`,
-                        method: 'GET',
-                        success: function(response) {
-                            if (response.success) {
-                                // Generate and download the Excel file
-                                const sheet = XLSX.utils.json_to_sheet(response.data);
-                                const wb = XLSX.utils.book_new();
-                                XLSX.utils.book_append_sheet(wb, sheet, 'Visitor Data');
-                                const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-                                saveAsFile(excelBuffer, `${exhibitionName} Visitors Data.xlsx`);
-        
-                                // Submit the form to send the email
-                                $('#sendEmailForm').submit();
-                            } else {
-                                alert('Failed to fetch data.');
-                            }
-                        },
-                        error: function() {
-                            alert('Error occurred while fetching data.');
-                        }
-                    });
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function() {
+        // Set up CSRF token for all AJAX requests
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('#sendEmailButton').click(function(e) {
+    e.preventDefault();
+
+    const exhibitionId = "{{ $exhibition->encExId }}";
+    const exhibitionName = "{{ $exhibition->exhibition_name }}";
+
+    // Show loader
+    Swal.fire({
+        title: 'Please wait...',
+        text: 'Sending email, please wait for a few seconds...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading()
+        }
+    });
+
+    $.ajax({
+        url: `/fetchvisitordata/${exhibitionId}`,
+        method: 'GET',
+        success: function(response) {
+            if (response.success) {
+                const sheet = XLSX.utils.json_to_sheet(response.data);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, sheet, 'Visitor Data');
+                const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+                const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+
+                const formData = new FormData();
+                formData.append('excelFile', blob, `Visitor Data - ${exhibitionName}.xlsx`);
+                formData.append('exhibitionName', exhibitionName);
+
+                $.ajax({
+                    url: '/sendemailwithexcel',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        // Close loader and show success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Mail sent!',
+                            text: 'Mail sent successfully to your registered email!',
+                            showConfirmButton: false,
+                            timer: 3000 // 3 seconds
+                        });
+                    },
+                    error: function() {
+                        // Close loader and show error message
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error occurred while sending email.',
+                            showConfirmButton: true
+                        });
+                    }
                 });
-        
-                function saveAsFile(buffer, fileName) {
-                    const blob = new Blob([buffer], { type: 'application/octet-stream' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileName;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                }
+            } else {
+                // Close loader and show error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Failed to fetch data.',
+                    showConfirmButton: true
+                });
+            }
+        },
+        error: function() {
+            // Close loader and show error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error occurred while fetching data.',
+                showConfirmButton: true
             });
-        </script>
+        }
+    });
+});
+
+    });
+</script>
+
+
+
+
 
 
 

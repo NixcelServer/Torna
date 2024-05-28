@@ -191,6 +191,6 @@ Route::post('/regvisitor',[ExhibitionController::class, 'regVisitor']  );
 Route::get('/visitordetails/{id}', [ExhibitionController::class, 'visitorsdetails'])->name('visitorsdetails');
 
 
-Route::get('/sendemailwithexcel', [ExhibitionController::class, 'sendEmailWithExcel']);
+Route::post('/sendemailwithexcel', [ExhibitionController::class, 'sendEmailWithExcel']);
 
 ?>

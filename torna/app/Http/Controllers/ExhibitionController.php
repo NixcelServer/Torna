@@ -20,7 +20,7 @@ use App\Models\AuditLogDetail;
 use Illuminate\Support\Facades\Date;
 use App\Helpers\EncryptionDecryptionHelper;
 use App\Helpers\EmailHelper;
-
+use Illuminate\Support\Facades\Storage;
 use App\Helpers\AuditLogHelper;
 
 use App\Models\ExhibitionDetail;
@@ -1496,12 +1496,23 @@ public function updateExhibition(Request $request)
 }
 
 
-public function sendEmailWithExcel()
+public function sendEmailWithExcel(Request $request)
 {
     $user = session('user');
-    EmailHelper::sendCollectDataEmail($user);
+    $exhibitionName = $request->input('exhibitionName'); // Assuming you're passing the exhibition name from the front-end
+    $filename = 'Visitor Data - ' . $exhibitionName . '.xlsx';
+
+    $excelFilePath = $request->file('excelFile')->storeAs('excel_files', $filename);
+
+    // Send email with attachment
+    EmailHelper::sendCollectDataEmail($user, $excelFilePath);
+
+    // Delete the file after sending the email
+    Storage::delete($excelFilePath);
+    
     return redirect()->back();  
 }
+
 
 
 
