@@ -402,6 +402,42 @@ public static function sendCollectDataEmail($user, $excelFilePath)
     return response()->json(['message' => 'Organizer Email sent successfully'], 200);
 }
 
+
+public static function shareExhibitionEmail($emails, $user)
+{
+    $mail = new PHPMailer(true);
+
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->Port = '587';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'jagtapsaurabh74@gmail.com';
+    $mail->Password = 'isnvhwsotwkmdswm';
+
+    $mail->setFrom($mail->Username, 'Torna');
+
+    // Add all participant emails as recipients
+    foreach ($emails as $email) {
+        $mail->addAddress($email);
+    }
+
+    $subject = "New Exhibitor Participated in your Exhibition";
+    $message = "New Exhibitor Participated in your Exhibition:\n\n";
+    
+    $mail->Subject = $subject;
+    $message .= "Exhibitor Name: " . $user->first_name . "\n";
+    $message .= "Exhibitor Email: " . $user->email . "\n";
+    $message .= "Exhibitor Contact No: " . $user->contact_no . "\n";
+
+    $mail->isHTML(false);
+    $mail->Body = $message;
+
+    $mail->send();
+
+    return response()->json(['message' => 'Organizer Email sent successfully'], 200);
+}
+
+
 }    
 
 ?>

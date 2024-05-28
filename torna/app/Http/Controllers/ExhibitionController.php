@@ -1443,6 +1443,33 @@ public function editExhibition($id)
     return view('OrganizerPages/editExhibition', ['industries' => $industries, 'exhibition' => $exhibition]);
 }
 
+
+public function shareExhibition($id)
+{
+    $user = session('user');
+    $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+    
+    // Fetch the tbl_comp_id for the logged-in user
+    $userDetail = UserDetail::where('tbl_user_id', $user->tbl_user_id)->first();
+    $tbl_comp_id = $userDetail->tbl_comp_id;
+
+    // Fetch all tbl_ex_id associated with that tbl_comp_id
+    $exhibitionIds = ExhibitionDetail::where('tbl_comp_id', $tbl_comp_id)->pluck('tbl_ex_id')->toArray();
+    //dd($exhibitionIds);
+    // Fetch all tbl_user_id who participated in these exhibitions
+    $participantUserIds = Participate::whereIn('tbl_ex_id', $exhibitionIds)->pluck('tbl_user_id')->toArray();
+
+    // Fetch the emails for these tbl_user_id
+    $participantEmails = UserDetail::whereIn('tbl_user_id', $participantUserIds)->pluck('email')->toArray();
+
+    //dd($participantEmails);
+    // Send email to all these emails
+    EmailHelper::shareExhibitionEmail($participantEmails, $user);
+
+    return redirect()->back();
+}
+
+
 public function updateExhibition(Request $request)
 {
     //dd($request);

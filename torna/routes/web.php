@@ -108,6 +108,10 @@ Route::middleware(['validLogin','preventBackHistory'])->group(function () {
         //Edit Exhibition Route 
         Route::get('/editExhibition/{id}', [ExhibitionController::class, 'editExhibition']);
         Route::post('/updateExhibition',[ExhibitionController::class,'updateExhibition']);
+
+        //Share Exhibition Route    
+        Route::get('/shareExhibition/{id}', [ExhibitionController::class, 'shareExhibition']);
+
     });
 
     Route::group(['middleware' => ['web', 'isExhibitor']], function(){
