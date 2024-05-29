@@ -498,14 +498,14 @@ class ExhibitionController extends Controller
             // Fetch all UserDetail data against these tbl_user_id
             $participantDetails = UserDetail::whereIn('tbl_user_id', $participantUserIds)->get();
             $activeEx->participantDetails = $participantDetails;
-            //dd($activeEx->participantDetails);
+
+            // Count the number of participants
+            $activeEx->participantCount = count($participantUserIds);
         }
-    
+            
         return view('OrganizerPages/activeExhibitions', ['activeExs' => $activeExs]);
     }
     
-
-
 
     public function updateExStatus($id)
     {

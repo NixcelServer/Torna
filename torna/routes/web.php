@@ -179,6 +179,8 @@ Route::get('/activeExhibitions', [ExhibitionController::class, 'activeExhibition
 Route::get('/InactiveExhibitions', [ExhibitionController::class, 'InactiveExhibitions']);
 
 
+
+
 //Route::post('/update-exhibition-status', [ExhibitionController::class, 'updateExStatus'])->name('updateExStatus');
 
 // Route::get('/assignproducts', [ExhibitionController::class, 'assignproducts'])->name('assignproducts');

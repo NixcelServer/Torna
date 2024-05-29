@@ -265,7 +265,7 @@
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <a class="btn btn-sm mb-1 btn-outline-primary view-document-btn" data-toggle="modal" data-target="#exhibitorsModal">Exhibitors Participated</a>
+                                        <a class="btn btn-sm mb-1 btn-outline-primary view-document-btn" data-toggle="modal" data-target="#exhibitorsModal">Exhibitors Participated ({{ $activeEx->participantCount }})</a>
                                         <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-success">Edit Exhibition</a>
                                         <a href="/shareExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-primary share-exhibition-btn" data-exhibition-id="{{ $activeEx->encActiveExId }}">Share Exhibition</a>
                                     </div>
@@ -338,7 +338,7 @@
         </div>
     </div> --}}
     
-    <div class="modal fade" id="exhibitorsModal" tabindex="-1" role="dialog" aria-labelledby="exhibitorsModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="exhibitorsModal" tabindex="-1" role="dialog" aria-labelledby="exhibitorsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -369,7 +369,44 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+
+    <div class="modal fade" id="exhibitorsModal" tabindex="-1" role="dialog" aria-labelledby="exhibitorsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exhibitorsModalLabel">Participated Exhibitors</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @foreach ($activeExs as $activeEx)
+                        <h6>{{ $activeEx->exhibition_name }} - {{ $activeEx->participantCount }} Participants</h6>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Exhibitor Name</th>
+                                    <th>Mail</th>
+                                    <th>Contact</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($activeEx->participantDetails as $participant)
+                                    <tr>
+                                        <td>{{ $participant->first_name }} {{ $participant->last_name }}</td>
+                                        <td>{{ $participant->email }}</td>
+                                        <td>{{ $participant->contact_no }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endforeach
+                </div>
+            </div>
+        </div>
     </div>
+    
     
     
     
