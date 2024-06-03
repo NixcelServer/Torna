@@ -5,11 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Pignose Calender -->
@@ -22,6 +20,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto&display=swap" rel="stylesheet">
     <style>                                    
         .compact-card {
             border-radius: 15px;
@@ -60,16 +59,10 @@
         .small-title {
     font-size: 1.2em;
     margin: 10px 0;
-}
-
-        
+}    
     </style>
-
 </head>
-
-
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -83,13 +76,10 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -99,20 +89,18 @@
                     <a href="/AdminDashboard">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
-                        </span>
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
+                        </span>                                              
                             <img src="" alt="">
                         </span>
                     </a>
                 </div>
             </div>
         </div>
-        
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
@@ -152,19 +140,14 @@
                             </li>
                         </ul>
                     </div>
-                    
-                </div>
-            
-        </div>
-        
+                </div> 
+        </div>  
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
-        ***********************************-->
-        
+        ***********************************--> 
         <div class="nk-sidebar" style="margin-top: -17px;"> 
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
@@ -172,19 +155,16 @@
                         <a href="/AdminDashboard" aria-expanded="false" >
                             <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
                         </a>
-                        
                     </li>
                     <li>
                         <a  href="/industrymaster" aria-expanded="false" >
                             <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
                         </a>
-                        
                     </li>
                     <li>
                         <a  href="/auditlog" aria-expanded="false" >
                             <i class="bi bi-card-list"></i><span class="nav-text">Audit Log</span>
                         </a>
-                        
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -237,7 +217,6 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
@@ -246,9 +225,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
-                                <div class="d-flex justify-content-between align-items-center">
-                                   
+                            <div class="card-header" style="background-color: #F8C471; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                                <div class="d-flex justify-content-between align-items-center">                        
                                 </div>
                             </div>
                             <div class="card-body">
@@ -296,8 +274,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
                                 <br />
                                 <div class="row justify-content-center">
                                     <div class="col-lg-4 col-md-6 col-sm-6">
@@ -343,9 +319,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
-                               
                             </div>
                         </div>
                     </div>
@@ -356,7 +329,6 @@
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
     <!--**********************************
         Scripts
     ***********************************-->
@@ -365,7 +337,6 @@
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -383,11 +354,6 @@
     <!-- ChartistJS -->
     <script src="./plugins/chartist/js/chartist.min.js"></script>
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="./js/dashboard/dashboard-1.js"></script>
-
 </body>
-
 </html>

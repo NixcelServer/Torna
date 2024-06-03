@@ -9,7 +9,7 @@
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
   
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -99,8 +99,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -213,7 +213,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mt-3">
                         <div class="card">
-                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                            <div class="card-header" style="background-color: #F8C471; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Email Setting Form</span>
                                 </div>
@@ -283,7 +283,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                            <div class="card-header" style="background-color: #F8C471; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Whatsapp Setting Form</span>
                                 </div>
@@ -324,7 +324,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                            <div class="card-header" style="background-color: #F8C471; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>SMS Setting Form</span>
                                 </div>

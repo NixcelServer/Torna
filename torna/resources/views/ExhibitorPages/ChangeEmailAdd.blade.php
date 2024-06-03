@@ -87,24 +87,6 @@
     </style>
 </head>
 <body>
-    {{-- <body>
-        <div class="container" id="registrationContainer">
-            <div class="form-container">
-                <h1>Change Email Address</h1>
-                <form class="form-containerb" id="registrationForm" action="/ChangeEmailEx" method="POST">
-                    @csrf
-                    <input type="email" name="email" id="emailInput" placeholder="Your email" required>
-                    <button type="submit" id="registerBtn">Submit</button>
-                </form>
-                <div class="disclaimer">
-                    By clicking "Register for free", you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. We'll occasionally send you account related emails.
-                </div>
-            </div>
-            <div class="illustration">
-                <img src="https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bG9naW4lMjBwYWdlfGVufDB8fDB8fHww" alt="Illustration">
-            </div>
-        </div> 
-    </body>    --}}
     <body>
         <div class="container" id="registrationContainer">
             <div class="form-container">
@@ -113,13 +95,11 @@
                     @csrf
                     <!-- Hidden input for old email -->
                     <input type="hidden" name="oldemail" value="{{ $email }}">
-                    
                     <!-- Display the old email -->
                     <div class="form-group">
                         <label for="oldEmailInput">Old Email Address</label>
                         <input type="email" id="oldEmailInput" value="{{ $email }}" class="form-control readonly-input" required readonly>
                     </div>
-                    
                     <!-- Input for new email -->
                     <div class="form-group">
                         <label for="emailInput">New Email Address</label>
@@ -137,6 +117,5 @@
             </div>
         </div> 
     </body>
-    
 </body>
 </html>

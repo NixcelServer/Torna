@@ -4,12 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    
+    <meta name="viewport" content="width=device-width,initial-scale=1"> 
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -32,9 +30,7 @@
         transform: scale(1.04); /* Scale the card up slightly on hover */
     }
 </style>
-
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -47,14 +43,11 @@
     </div>
     <!--*******************
         Preloader end
-    ********************-->
-
-    
+    ********************-->   
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -64,8 +57,8 @@
                     <a href="/OrgDashboard">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -76,7 +69,6 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
@@ -119,7 +111,6 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
         ***********************************-->
@@ -127,12 +118,10 @@
         <div class="nk-sidebar" style="margin-top: -17px;"> 
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
-                    {{-- <li class="nav-label">Dashboard</li> --}}
                     <li>
                         <a  href="/OrgDashboard" aria-expanded="false">
                             <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                        
+                        </a> 
                     </li>
                     <li>
                         <a  href="/companysetupform-O" aria-expanded="false">
@@ -143,9 +132,7 @@
                         <a  href="/industrymasterO" aria-expanded="false">
                             <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
                         </a>
-                    </li>
-            
-                    
+                    </li>       
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="bi bi-calendar-week"></i><span class="nav-text">Exhibitions</span>
@@ -174,7 +161,6 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
@@ -195,8 +181,6 @@
                                         <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
                                             {{ $activeEx->exhibition_name }}
                                         </h5>
-                                        
-                                        
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="d-flex align-items-center">
@@ -221,7 +205,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                        
                                         <div class="row mt-2">
                                             <div class="col-6">
                                                 <div class="d-flex align-items-center">
@@ -242,7 +225,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                        
                                         <div class="row mt-2">
                                             <div class="col-6">
                                                 <div class="d-flex align-items-center">
@@ -418,7 +400,6 @@
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -436,14 +417,6 @@
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
-
-
-    
-
 </body>
-
 </html>

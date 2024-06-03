@@ -53,7 +53,7 @@ class ExhibitionController extends Controller
             ->where('contact_no', $contactNo)
             ->update(['active_status' => $activeStatus]);
 
-            AuditLogHelper::logDetails('update exhibition status of '. $companyName .' to ' .$activeStatus. ' ', $userDetails->tbl_user_id);
+            AuditLogHelper::logDetails('Update exhibition status of '. $companyName .' to ' .$activeStatus. ' ', $userDetails->tbl_user_id);
 
         return response()->json(['message' => 'Status updated successfully'], 200);
     }
@@ -190,7 +190,7 @@ class ExhibitionController extends Controller
         $industry->flag = "show";
         $industry->save();
 
-        AuditLogHelper::logDetails('created '.$request->industryName . ' industry', $user->tbl_user_id);
+        AuditLogHelper::logDetails('Created '.$request->industryName . ' industry', $user->tbl_user_id);
 
 
         return redirect('/industrymaster');
@@ -215,7 +215,7 @@ class ExhibitionController extends Controller
         $industry->flag = "show";
         $industry->save();
 
-        AuditLogHelper::logDetails('created '.$request->industryName . ' industry', $user->tbl_user_id);
+        AuditLogHelper::logDetails('Created '.$request->industryName . ' industry', $user->tbl_user_id);
 
 
         return redirect('/industrymasterO');
@@ -243,7 +243,7 @@ class ExhibitionController extends Controller
         $industry->flag = "deleted";
         $industry->save();
 
-        AuditLogHelper::logDetails('deleted ' .$industry->industy_name. ' industry', $user_details->tbl_user_id);
+        AuditLogHelper::logDetails('Deleted ' .$industry->industy_name. ' industry', $user_details->tbl_user_id);
 
         return redirect('/industrymaster');
     }
@@ -269,7 +269,7 @@ class ExhibitionController extends Controller
         $industry->flag = "deleted";
         $industry->save();
 
-        AuditLogHelper::logDetails('deleted ' .$industry->industy_name. ' industry', $user_details->tbl_user_id);
+        AuditLogHelper::logDetails('Deleted ' .$industry->industy_name. ' industry', $user_details->tbl_user_id);
 
         return redirect('/industrymasterO');
     }
@@ -294,7 +294,7 @@ class ExhibitionController extends Controller
         $product->flag = "deleted";
 
         $product->save();
-        AuditLogHelper::logDetails('deleted ' .$product->product_name . 'product', $user_details->tbl_user_id);
+        AuditLogHelper::logDetails('Deleted ' .$product->product_name . 'product', $user_details->tbl_user_id);
         return redirect('/products');
     }
 
@@ -389,7 +389,7 @@ class ExhibitionController extends Controller
             dd($e->getMessage()); // Dump the error message for debugging
         }
 
-        AuditLogHelper::logDetails('created ' . $exhibition->exhibition_name . ' exhibition', $user->tbl_user_id);
+        AuditLogHelper::logDetails('Created ' . $exhibition->exhibition_name . ' exhibition', $user->tbl_user_id);
 
         return redirect()->route('activeExhibitions')->with('success', 'Exhibition created successfully!');
     }
@@ -459,7 +459,7 @@ class ExhibitionController extends Controller
             dd($e->getMessage()); // Dump the error message for debugging
         }
 
-        AuditLogHelper::logDetails('created ' . $exhibition->exhibition_name . ' exhibition', $user->tbl_user_id);
+        AuditLogHelper::logDetails('Created ' . $exhibition->exhibition_name . ' exhibition', $user->tbl_user_id);
 
         return redirect()->route('upcomingExhibitions')->with('success', 'Exhibition created successfully!');
     }
@@ -612,7 +612,7 @@ class ExhibitionController extends Controller
         // Save the product details
         $product->save();
 
-        AuditLogHelper::logDetails('created ' .$product->product_name . ' product', $userDetails->tbl_user_id);
+        AuditLogHelper::logDetails('Created ' .$product->product_name . ' product', $userDetails->tbl_user_id);
 
         // Redirect back to the products page
         return redirect('/products');
@@ -665,7 +665,7 @@ class ExhibitionController extends Controller
         //dd($document);
         try {
             $document->save();
-            AuditLogHelper::logDetails('created ' .$document->doc_name. 'document', $user->tbl_user_id);
+            AuditLogHelper::logDetails('Created ' .$document->doc_name. 'document', $user->tbl_user_id);
 
         } catch (\Illuminate\Database\QueryException $e) {
             // Handle the exception (e.g., log error, display message)
@@ -693,7 +693,7 @@ class ExhibitionController extends Controller
 
         
 
-         AuditLogHelper::logDetails('deleted ' .$doc->doc_name. ' document', $user->tbl_user_id);
+         AuditLogHelper::logDetails('Deleted ' .$doc->doc_name. ' document', $user->tbl_user_id);
 
          return redirect()->back();
 
@@ -966,7 +966,7 @@ public function companysetupformo()
     $assignProd->created_time = Date::now()->toTimeString();
     $assignProd->save();
 
-    AuditLogHelper::logDetails('assigned Product with prod ID ' .$assignProd->tbl_product_id . ' to Document ID'.$assignProd->tbl_doc_id.' ', $userDetails->tbl_user_id);
+    AuditLogHelper::logDetails('Assigned Product with prod ID ' .$assignProd->tbl_product_id . ' to Document ID'.$assignProd->tbl_doc_id.' ', $userDetails->tbl_user_id);
 
     
     return redirect()->back();
@@ -986,7 +986,7 @@ public function companysetupformo()
     $assignedProd->deleted_time = Date::now()->toTimeString();
     $assignedProd->save();
 
-    AuditLogHelper::logDetails('deleted assigned Product with ID ' .$decAssignedProdId . '', $userDetails->tbl_user_id);
+    AuditLogHelper::logDetails('Deleted assigned Product with ID ' .$decAssignedProdId . '', $userDetails->tbl_user_id);
     
     return redirect()->back();
     
@@ -1028,7 +1028,7 @@ public function companysetupformo()
         try {
             //dd($company);
             $company->save();
-            AuditLogHelper::logDetails('updated '.$company->company_name .' details with ID ' .$company->tbl_comp_id . ' product', $user->tbl_user_id);
+            AuditLogHelper::logDetails('Updated '.$company->company_name .' details with ID ' .$company->tbl_comp_id . ' product', $user->tbl_user_id);
             return redirect()->route('OrgDashboard')->with('success', 'Company details updated successfully.');
 
             
@@ -1075,7 +1075,7 @@ public function companysetupformo()
         try {
             //dd($company);
             $company->save();
-            AuditLogHelper::logDetails('updated '.$company->company_name .' details with ID ' .$company->tbl_comp_id . ' product', $user->tbl_user_id);
+            AuditLogHelper::logDetails('Updated '.$company->company_name .' details with ID ' .$company->tbl_comp_id . ' product', $user->tbl_user_id);
             return redirect()->route('ExDashboard')->with('success', 'Company details updated successfully.');
 
             
@@ -1252,7 +1252,7 @@ error_log("Decoded company logo: " . $participatedEx->exDetails->company_logo);
 
 
 
-        AuditLogHelper::logDetails(' user with user ID: '.$user->tbl_user_id. ' has participated in exhibition ID'. $decExId . '', $user->tbl_user_id);
+        AuditLogHelper::logDetails(' User with user ID: '.$user->tbl_user_id. ' has participated in exhibition ID'. $decExId . '', $user->tbl_user_id);
 
         //return redirect()->back();
         return redirect('/participatedExhibitions');
@@ -1547,7 +1547,7 @@ public function updateExhibition(Request $request)
     // try {
        //dd($exhibition);
         $exhibition->save();
-        AuditLogHelper::logDetails('updated ' . $exhibition->exhibition_name . ' details with ID ' . $exhibition->tbl_ex_id . ' exhibition', $user->tbl_user_id);
+        AuditLogHelper::logDetails('Updated ' . $exhibition->exhibition_name . ' details with ID ' . $exhibition->tbl_ex_id . ' exhibition', $user->tbl_user_id);
         return redirect()->route('activeExhibitions')->with('success', 'Exhibition details updated successfully.');
     // } catch (\Exception $e) {
     //     // Handle the exception (e.g., log error, display message)

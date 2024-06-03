@@ -4,12 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    
+    <meta name="viewport" content="width=device-width,initial-scale=1"> 
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -18,30 +16,24 @@
     <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
-    <link href="/css/style.css" rel="stylesheet">
-    
+    <link href="/css/style.css" rel="stylesheet">  
     <!-- Custom Stylesheet -->
     <link href="/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-
     <!-- Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
 </head>
 {{-- form validations scripts  --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <style>
     /* Hide the "No file chosen" text */
     input[type="file"] {
         color: transparent;
     }
-
     /* Show only the file name when a file is selected */
     input[type="file"]::file-selector-button::before {
         content: 'Upload Logo';
@@ -66,9 +58,7 @@
         });
     });
 </script>
-
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -81,14 +71,11 @@
     </div>
     <!--*******************
         Preloader end
-    ********************-->
-
-    
+    ********************-->  
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -98,8 +85,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -110,7 +97,6 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
@@ -203,7 +189,6 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
@@ -211,12 +196,10 @@
             <div class="row justify-content-center">
                 <div class="col-md-8 mt-4">
                     <div class="card">
-                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Company Setup Form</h4>
-        
+                        <h4 class="card-header text-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Company Setup Form</h4>
                         <div class="card-body">
                         <form method="POST" action="/updatecompanydetailsE" enctype="multipart/form-data">
                                 @csrf
-        
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="company_name" class="col-form-label text-md-right">Company Name</label>
@@ -227,7 +210,6 @@
                                         <label for="last_name" class="col-form-label text-md-right">Company Website</label>
                                         <input id="last_name" name="website" type="text" value="{{ $company->comp_website }}" class="form-control" name="last_name" required>
                                     </div>
-                                    
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -265,29 +247,6 @@
                                         <a href="/changeemailadd" class="btn btn-sm btn-warning">Request to change email address</a>
                                     </div>
                                 </div>
-                                {{-- <script>
-                                    function requestEmailChange() {
-                                        alert("To request an email change, please contact support at support@example.com.");
-                                        // You can replace this with logic to show a modal or redirect to a new page
-                                    }
-                                </script> --}}
-                                                                                            
-                                {{-- <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="email" class="col-form-label text-md-right">Email ID</label>
-                                        <input id="email" name="email" type="email" value="{{ $company->email }}"  class="form-control" required readonly>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="col-form-label text-md-right">Industry</label>
-                                        <select name="industry_name" class="form-control" required>
-                                            <option value="">Select Industry</option>
-                                            @foreach($industries as $industry)
-                                                <option value="{{ $industry->industry_name }}" @if($industry->industry_name == $company->industry_name) selected @endif>{{ $industry->industry_name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div> --}}
-                            
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="logo" class="col-form-label text-md-right">Upload Company Logo</label>
@@ -302,7 +261,7 @@
                                         @endif
                                     </div>
                                 </div>
-        <br />
+                                <br />
                                 <div class="form-group row justify-content-center mb-3">
                                     <div class="col-md-6 offset-md-4">
                                         <button type="submit" class="btn btn-success">
@@ -316,20 +275,7 @@
                 </div>
             </div>
         </div>
-
         </div>
-
-        
-       
-        
-    
-        
-       
-        
-        
-
-        
-
     <!--**********************************
         Main wrapper end
     ***********************************-->
@@ -358,7 +304,6 @@
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -376,21 +321,14 @@
     <!-- ChartistJS -->
     <script src="./plugins/chartist/js/chartist.min.js"></script>
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="./js/dashboard/dashboard-1.js"></script>
-
-
     <script src="plugins/common/common.min.js"></script>
     <script src="js/custom.min.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
-
     <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
     <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
-
 </html>

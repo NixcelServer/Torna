@@ -9,7 +9,7 @@
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
   
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="/image/png" sizes="16x16" href="images/favicon.png">
     <!-- Pignose Calender -->
@@ -33,7 +33,6 @@
 </head>
 
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -47,13 +46,10 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -63,8 +59,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -75,13 +71,11 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
         <div class="header" style="background-color: #ffbe07; height: 63px;">
             <div class="header-content clearfix">
-                
                 <div class="nav-control">
                     <div class="hamburger">
                         <span class="toggle-icon"><i class="icon-menu"></i></span>
@@ -89,12 +83,10 @@
                 </div>
                 <div class="header-left">
                     <div class="input-group icons">
-
                     </div>
                 </div>
                 <div class="header-right">
                     <ul class="clearfix">
-
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
@@ -119,7 +111,6 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
         ***********************************-->
@@ -177,7 +168,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-11">
                         <div class="card">
-                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                            <div class="card-header" style="background-color: #F8C471; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Product Details</span>
                                 </div>
@@ -215,16 +206,11 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
             <div class="container-fluid mt-0">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                            <div class="card-header" style="background-color: #F8C471; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Product/Services</span>
                                 </div>
@@ -235,24 +221,18 @@
                                         <thead>
                                             <tr>
                                                 <th>Sr No</th>
-
-
-                                                
                                                 <th>Assigned Product/Services</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
                                             @foreach($assignedProds as $key => $product)
                                             <tr>
                                                 <td>{{ $key + 1 }}</td>
                                                 <td>{{ $product->product_name }}</td>
                                                 <td>
-
                                                     <button class="btn btn-sm  btn-danger delete-btn" data-id="{{ $product->encAssignedProdId }}">Delete</button>
                                                 </td>
-                                                
                                             </tr>
                                             @endforeach 
                                         </tbody>
@@ -263,7 +243,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -291,7 +270,6 @@
                 </div>
             </div>
         </div>
-
         <script>
             document.addEventListener('DOMContentLoaded', function () {
     const deleteButtons = document.querySelectorAll('.delete-btn');
@@ -318,25 +296,14 @@
         });
     });
 });
-
         </script>   
-       
-        
-    
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-       
-        
-        
-
-        
-
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
     <!--**********************************
         Scripts
     ***********************************-->
@@ -345,7 +312,6 @@
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -358,24 +324,14 @@
     <script src="/plugins/raphael/raphael.min.js"></script>
     <script src="/plugins/morris/morris.min.js"></script>
     <!-- Pignose Calender -->
-
     <script src="/plugins/moment/moment.min.js"></script>
     <script src="/plugins/pg-calendar/js/pignose.calendar.min.js"></script>
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
-
-
-    
-
     <script src="/plugins/tables/js/jquery.dataTables.min.js"></script>
     <script src="/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
-
-
 </html>

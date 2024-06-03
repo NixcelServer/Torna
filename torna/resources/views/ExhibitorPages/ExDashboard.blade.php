@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <!-- theme meta -->
-    <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <meta name="theme-name" content="quixlab" /> 
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -19,11 +16,8 @@
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
-
 </head>
-
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -37,13 +31,10 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -53,8 +44,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -65,7 +56,6 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
@@ -108,7 +98,6 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
         ***********************************-->
@@ -155,20 +144,16 @@
                 </ul>
             </div>
         </div>
-        
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
-            
+        <div class="content-body">     
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
     <!--**********************************
         Scripts
     ***********************************-->
@@ -177,7 +162,6 @@
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -195,11 +179,6 @@
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
-
 </body>
-
 </html>

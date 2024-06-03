@@ -1,46 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="WebsiteAssets/css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="WebsiteAssets/css/animate.css">
-    
+    <link rel="stylesheet" href="WebsiteAssets/css/animate.css">   
     <link rel="stylesheet" href="WebsiteAssets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="WebsiteAssets/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="WebsiteAssets/css/magnific-popup.css">
-
     <link rel="stylesheet" href="WebsiteAssets/css/aos.css">
-
     <link rel="stylesheet" href="WebsiteAssets/css/ionicons.min.css">
-
     <link rel="stylesheet" href="WebsiteAssets/css/bootstrap-datepicker.css">
-    <link rel="stylesheet" href="WebsiteAssets/css/jquery.timepicker.css">
-
-    
+    <link rel="stylesheet" href="WebsiteAssets/css/jquery.timepicker.css"> 
     <link rel="stylesheet" href="WebsiteAssets/css/flaticon.css">
     <link rel="stylesheet" href="WebsiteAssets/css/icomoon.css">
     <link rel="stylesheet" href="WebsiteAssets/css/style.css">
-
-
-
-	<!-- Bootstrap CSS -->
-{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 <!-- Bootstrap JS -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
   </head>
-
   <style>
 	@media (max-width: 768px) {
   /* CSS styles for smaller screens */
@@ -98,8 +82,6 @@ $('a.nav-link').on('click', function (event) {
 });
 
 </style>
-
-
   <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-dark fixed-top" id="ftco-navbar">
 	    <div class="container">
@@ -107,7 +89,6 @@ $('a.nav-link').on('click', function (event) {
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
-
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item active"><a href="#home" class="nav-link">Home</a></li>

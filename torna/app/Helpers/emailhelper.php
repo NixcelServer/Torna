@@ -47,13 +47,13 @@ class EmailHelper{
 
         
         // Set sender and recipient
-        $mail->setFrom($mail->Username, 'Torna');
+        $mail->setFrom($mail->Username, 'ConneXha');
        
         $recipientEmail = $company->email;
         $mail->addAddress($recipientEmail);
        
 
-        $subject = "Torna Exhibitions";
+        $subject = "ConneXha";
         $mail->Subject = $subject;
 
         //$message = "Congratulations! Your registration for ". $company->company_name ." is complete. Welcome aboard! "." Your login credentials are:\nEmail: ". $company->email ."\nPassword: ". $password;
@@ -98,7 +98,7 @@ class EmailHelper{
             $subject = "Thank you";
             $mail->Subject = $subject;
 
-            $message = "Thank You for visitin us ";
+            $message = "Thank You for visiting us ";
             $mail->isHTML(true); // Set email format to HTML
             $mail->Body = $message;
 
@@ -155,23 +155,23 @@ if ($mail->send()) {
     public static function sendAdminEmail($company,$role=null)
 {
     // Fetch admin email from configuration or database
-    $adminEmail = 'abhitryai@gmail.com'; // Change this to your actual admin email address
+    $adminEmail = 'admin@connexha.com'; // Change this to your actual admin email address
 
     // Create a new PHPMailer instance
     $mail = new PHPMailer(true); // Enable exceptions
 
     // Set SMTP server settings
     $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com'; // Change this to your SMTP host
+    $mail->Host = 'smtp.connexha.com'; // Change this to your SMTP host
     $mail->Port = '587'; // Change this to your SMTP port
     $mail->SMTPAuth = true;
-    $mail->Username = 'jagtapsaurabh74@gmail.com'; // Change this to your SMTP username
-    $mail->Password = 'isnvhwsotwkmdswm'; // Change this to your SMTP password
+    $mail->Username = 'admin@connexha.com'; // Change this to your SMTP username
+    $mail->Password = 'AdminConnexha@torna2803'; // Change this to your SMTP password
 
     // You can also fetch SMTP settings from a database if needed
 
     // Set sender and recipient
-    $mail->setFrom($mail->Username, 'Torna');
+    $mail->setFrom($mail->Username, 'ConneXha');
     $mail->addAddress($adminEmail);
     
     if($role == '3'){
@@ -202,23 +202,23 @@ if ($mail->send()) {
 public static function sendOrganizerEmail($user)
 {
     // Fetch admin email from configuration or database
-    $adminEmail = 'abhitryai@gmail.com'; // Change this to your actual admin email address
+    $adminEmail = 'admin@connexha.com'; // Change this to your actual admin email address
 
     // Create a new PHPMailer instance
     $mail = new PHPMailer(true); // Enable exceptions
 
     // Set SMTP server settings
     $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com'; // Change this to your SMTP host
+    $mail->Host = 'smtp.connexha.com'; // Change this to your SMTP host
     $mail->Port = '587'; // Change this to your SMTP port
     $mail->SMTPAuth = true;
-    $mail->Username = 'jagtapsaurabh74@gmail.com'; // Change this to your SMTP username
-    $mail->Password = 'isnvhwsotwkmdswm'; // Change this to your SMTP password
+    $mail->Username = 'noreply@connexha.com'; // Change this to your SMTP username
+    $mail->Password = 'Connexha@torna2803'; // Change this to your SMTP password
 
     // You can also fetch SMTP settings from a database if needed
 
     // Set sender and recipient
-    $mail->setFrom($mail->Username, 'Torna');
+    $mail->setFrom($mail->Username, 'ConneXha');
     $mail->addAddress($adminEmail);
     
     
@@ -251,16 +251,16 @@ public static function sendOtp($otp,$email)
 
     // Set SMTP server settings
     $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com'; // Change this to your SMTP host
+    $mail->Host = 'smtp.connexha.com'; // Change this to your SMTP host
     $mail->Port = '587'; // Change this to your SMTP port
     $mail->SMTPAuth = true;
-    $mail->Username = 'jagtapsaurabh74@gmail.com'; // Change this to your SMTP username
-    $mail->Password = 'isnvhwsotwkmdswm'; // Change this to your SMTP password
+    $mail->Username = 'noreply@connexha.com'; // Change this to your SMTP username
+    $mail->Password = 'Connexha@torna2803'; // Change this to your SMTP password
 
     // You can also fetch SMTP settings from a database if needed
 
     // Set sender and recipient
-    $mail->setFrom($mail->Username, 'Torna');
+    $mail->setFrom($mail->Username, 'ConneXha');
     $mail->addAddress($email);
     
     
@@ -290,17 +290,17 @@ public static function sendCollectDataEmail($user, $excelFilePath)
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';
+    $mail->Host = 'smtp.connexha.com';
     $mail->Port = '587';
     $mail->SMTPAuth = true;
-    $mail->Username = 'jagtapsaurabh74@gmail.com';
-    $mail->Password = 'isnvhwsotwkmdswm';
+    $mail->Username = 'noreply@connexha.com';
+    $mail->Password = 'Connexha@torna2803';
 
-    $mail->setFrom($mail->Username, 'Torna');
+    $mail->setFrom($mail->Username, 'ConneXha');
     $mail->addAddress($adminEmail);
     
-    $subject = "New Exhibitor Participated in your Exhibition";
-    $message = "New Exhibitor Participated in your Exhibition:\n\n";
+    $subject = "Exhibitor Visitor Data";
+    $message = "Exhibitor Visitor Data Attached kindly find attachment \n\n";
     
     $mail->Subject = $subject;
     $message .= "Exhibitor Name: " . $user->first_name . "\n";
@@ -314,7 +314,7 @@ public static function sendCollectDataEmail($user, $excelFilePath)
 
     $mail->send();
 
-    return response()->json(['message' => 'Organizer Email sent successfully'], 200);
+    return response()->json(['message' => 'Visitor Data with Excel sheet on Email sent successfully'], 200);
 }
 
 
@@ -323,11 +323,11 @@ public static function shareExhibitionEmail($emails, $user, $ExhibitionDetails, 
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';
+    $mail->Host = 'smtp.connexha.com';
     $mail->Port = '587';
     $mail->SMTPAuth = true;
-    $mail->Username = 'jagtapsaurabh74@gmail.com';
-    $mail->Password = 'isnvhwsotwkmdswm';
+    $mail->Username = 'noreply@connexha.com';
+    $mail->Password = 'Connexha@torna2803';
 
     $mail->setFrom($mail->Username, 'Connexha');
 

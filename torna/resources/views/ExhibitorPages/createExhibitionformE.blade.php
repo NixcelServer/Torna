@@ -5,11 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -19,18 +17,12 @@
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
-
     <!-- Include Bootstrap CSS if not already included -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
 <!-- Include jQuery if not already included -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
 <!-- Include Bootstrap JS if not already included -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-
-
 </head>
 {{-- form validations scripts  --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -47,14 +39,12 @@
                 $(this).removeClass('is-invalid');
             }
         });
-
         // Function to validate URL format
         function isValidUrl(url) {
             var urlRegex = /^(https?:\/\/)?([\w\d-]+\.)*[\w\d-]+\.[\w\d]{2,}(\/.*)?$/i;
             return urlRegex.test(url);
         }
     });
-
 
     $(document).ready(function() {
         $('#registration_url').on('input', function() {
@@ -67,7 +57,6 @@
                 $(this).removeClass('is-invalid');
             }
         });
-
         // Function to validate URL format
         function isValidUrl(url) {
             var urlRegex = /^(https?:\/\/)?([\w\d-]+\.)*[\w\d-]+\.[\w\d]{2,}(\/.*)?$/i;
@@ -76,7 +65,6 @@
     });
 </script>
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -90,13 +78,10 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -106,8 +91,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -118,7 +103,6 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
@@ -161,7 +145,6 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
         ***********************************-->
@@ -211,23 +194,18 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
-            
-
+        <div class="content-body">          
             <div class="container mt-4">
                 <div class="row justify-content-center">
                     <div class="col-md-11">
                         <div class="card">
-                            <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Create Exhibition Form</h4>
-            
+                            <h4 class="card-header text-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Create Exhibition Form</h4>
                             <div class="card-body">
                                 <form method="POST" action="/createExhibitionE" enctype="multipart/form-data" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                     @csrf
-            
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="exhibition_name" class="col-form-label text-md-right">Exhibition Name <span style="color: red;">*</span></label>
@@ -240,12 +218,10 @@
                                             <label for="from_date" class="col-form-label text-md-right">From Date <span style="color: red;">*</span></label>
                                             <input id="from_date" name="from_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                         </div>
-            
                                         <div class="col-md-4">
                                             <label for="to_date" class="col-form-label text-md-right">To Date <span style="color: red;">*</span></label>
                                             <input id="to_date" name="to_date" type="date" class="form-control" min="{{ date('Y-m-d') }}" required <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                             <span id="date-error" style="color: red; display: none;">To date should not be less than from date.</span>
-
                                         </div>
                                         <script>
     document.getElementById('from_date').addEventListener('change', function() {
@@ -304,7 +280,6 @@
                                             <label for="registration_url" class="col-form-label text-md-right">Registration URL</label>
                                             <input id="registration_url" name="registration_url" type="text" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                             <small id="registrationUrlError" class="text-danger"></small>
-
                                         </div>
                                     </div>
                                     <div class="row">
@@ -312,7 +287,6 @@
                                             <label for="company_logo" class="col-form-label text-md-right">Upload Exhibition image</label>
                                             <input id="company_logo" name="company_logo" type="file" class="form-control" <?= $approvedStatus === false ? 'disabled' : '' ?>>
                                             <small class="form-text text-muted">Please upload an image in JPG or JPEG format.</small>
-
                                         </div>
                                         <div class="col-md-4">
                                             <label class="col-form-label text-md-right">Industry <span style="color: red;">*</span></label>
@@ -355,24 +329,10 @@
                     </div>
                 </div>
             </div>
-            
             <!-- #/ container -->
         </div>
         <!--**********************************
             Content body end
-        ***********************************-->
-        
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        {{-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
-            </div>
-        </div> --}}
-        <!--**********************************
-            Footer end
         ***********************************-->
     </div>
     <!--**********************************
@@ -409,7 +369,6 @@
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -427,9 +386,6 @@
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -441,7 +397,5 @@
         });
     });
 </script>
-
 </body>
-
 </html>

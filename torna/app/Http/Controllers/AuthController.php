@@ -119,7 +119,7 @@ class AuthController extends Controller
 
             Auth::login($user);
             Session::put('user', $user);
-            AuditLogHelper::logDetails('login', $user->tbl_user_id);
+            AuditLogHelper::logDetails('Login', $user->tbl_user_id);
 
             if ($user->role_id == '1') {
                 return redirect('/AdminDashboard');
@@ -147,7 +147,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user_details = session('user');
-        AuditLogHelper::logDetails('logout', $user_details->tbl_user_id);
+        AuditLogHelper::logDetails('Logout', $user_details->tbl_user_id);
         $request->session()->flush();
 
         Auth::logout();
@@ -219,7 +219,7 @@ class AuthController extends Controller
         // Save the user to the database
         $user->save();
         
-      AuditLogHelper::logDetails('registered as organizer', $user->tbl_user_id);
+      AuditLogHelper::logDetails('Registered as organizer', $user->tbl_user_id);
 
       //  return redirect()->route('Home')->with('success', 'Registration successful!');
 
@@ -288,7 +288,7 @@ class AuthController extends Controller
         $user->save();
         
 
-        AuditLogHelper::logDetails('registered as exhibitor', $user->tbl_user_id);
+        AuditLogHelper::logDetails('Registered as exhibitor', $user->tbl_user_id);
 
         //return redirect()->route('Home')->with('success', 'Registration successful!');
         return response()->json(['success' => true, 'message' => 'Registration successful'], 200);

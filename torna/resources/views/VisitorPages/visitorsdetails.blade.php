@@ -1,37 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-
     <link rel="stylesheet" href="WebsiteAssets/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="WebsiteAssets/css/animate.css">
-
     <link rel="stylesheet" href="WebsiteAssets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="WebsiteAssets/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="WebsiteAssets/css/magnific-popup.css">
-
     <link rel="stylesheet" href="WebsiteAssets/css/aos.css">
-
     <link rel="stylesheet" href="WebsiteAssets/css/ionicons.min.css">
-
     <link rel="stylesheet" href="WebsiteAssets/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="WebsiteAssets/css/jquery.timepicker.css">
-
-
     <link rel="stylesheet" href="WebsiteAssets/css/flaticon.css">
     <link rel="stylesheet" href="WebsiteAssets/css/icomoon.css">
     <link rel="stylesheet" href="WebsiteAssets/css/style.css">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <!-- Bootstrap JS -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
@@ -152,8 +143,6 @@
             <div class="navbar-brand mx-auto" style="font-weight: bold;">Welcome To NixcelSoft !</div>
         </div>
     </nav>
-    
-
 
 <div class="card mb-1">
     <div class="card-body text-center"> 
@@ -171,12 +160,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Visitor Registration Form</h4>
-
+                <h4 class="card-header text-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Visitor Registration Form</h4>
                 <div class="card-body">
                     <form id="visitorForm" method="POST" action="/regvisitor">
                         @csrf
-
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="visitor_name" class="col-form-label text-md-right required-field">Visitor Name</label>
@@ -184,21 +171,18 @@
                                 <input type="hidden" name= "encCompId" value="{{ $participatedEx->encCompId }}">
                                 <input type="hidden" name = "encExId" value="{{ $participatedEx->encExId }}">
                             </div>
-
                             <div class="col-md-6">
                                 <label for="contact_no" class="col-form-label text-md-right required-field">Visitor Contact No</label>
                                 <input id="contact_no" name="contact_no" type="text" class="form-control" required>
                                 <small id="contactError" class="text-danger"></small>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="email" class="col-form-label text-md-right required-field">Visitor Email Id</label>
                                 <input id="email" name="email" type="email" class="form-control" required>
                                 <small id="emailError" class="text-danger"></small>
                             </div>
-
                             <div class="col-md-6">
                                 <label for="services" class="col-form-label text-md-right required-field">Select Services</label>
                                 <select id="services" name="services" class="form-control" required>
@@ -209,7 +193,7 @@
                                 </select>
                             </div>
                         </div>
-<br />
+                        <br />
                         <div class="form-group row justify-content-center mb-2">
                             <div class="col-md-2">
                                 <button type="submit" class="btn btn-success">
@@ -223,7 +207,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
         $('#visitorForm').submit(function (e) {
@@ -263,7 +246,6 @@
     });
 </script>
 <!-- END nav -->
-
 <script src="WebsiteAssets/js/jquery.min.js"></script>
 <script src="WebsiteAssets/js/jquery-migrate-3.0.1.min.js"></script>
 <script src="WebsiteAssets/js/popper.min.js"></script>
@@ -281,6 +263,5 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script src="WebsiteAssets/js/google-map.js"></script>
 <script src="WebsiteAssets/js/main.js"></script>
-
 </body>
 </html>

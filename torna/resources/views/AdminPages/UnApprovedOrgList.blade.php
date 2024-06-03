@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    
+    <meta name="viewport" content="width=device-width,initial-scale=1">   
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Pignose Calender -->
@@ -19,22 +16,17 @@
     <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-    
     <!-- Custom Stylesheet -->
     <link href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
     <!-- Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
 <meta name="csrf-token" content="{{ csrf_token() }}">
-
 </head>
-
 <body>
 
     <!--*******************
@@ -50,13 +42,10 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -66,8 +55,8 @@
                     <a href="/AdminDashboard">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -78,7 +67,6 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
@@ -122,7 +110,6 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
         ***********************************-->
@@ -134,19 +121,16 @@
                         <a href="/AdminDashboard" aria-expanded="false" >
                             <i class="bi bi-house-door-fill"></i><span class="nav-text">Dashboard</span>
                         </a>
-                        
                     </li>
                     <li>
                         <a  href="/industrymaster" aria-expanded="false" >
                             <i class="bi bi-buildings-fill"></i><span class="nav-text">Industry</span>
                         </a>
-                        
                     </li>
                     <li>
                         <a  href="/auditlog" aria-expanded="false" >
                             <i class="bi bi-card-list"></i><span class="nav-text">Audit Log</span>
                         </a>
-                        
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -199,7 +183,6 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
@@ -209,7 +192,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Unapproved Organizer List</h4>
+                                <h4 class="card-header text-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Unapproved Organizer List</h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered zero-configuration">
                                         <thead>
@@ -256,7 +239,7 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- Modal for displaying document -->
         <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
             aria-hidden="true">
@@ -302,100 +285,7 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h5 class="modal-title w-100" id="documentModalLabel">Organizer Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row mb-4">
-                                <div class="col text-center">
-                                    <img id="companyLogo" src="" alt="Company Logo" style="width: 735px; height: 200px;">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p><strong>First Name:</strong> <span id="firstName"></span></p>
-                                            <p><strong>Last Name:</strong> <span id="lastName"></span></p>
-                                            <p><strong>Company Name:</strong> <span id="companyName"></span></p>
-                                            <p><strong>Email:</strong> <span id="email"></span></p>
-                                            <p><strong>Contact No:</strong> <span id="contactNo"></span></p>                                    
-                                            <p><strong><span style="color: white;">Company Id:</span></strong> <span id="compId" style="color: white;"></span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col text-center">
-                                    <button id="approveDocumentBtn" class="btn btn-success mx-2">Approve</button>
-                                    <button id="rejectDocumentBtn" class="btn btn-danger mx-2">Reject</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        {{-- <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h5 class="modal-title w-100" id="documentModalLabel">Organizer Details</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row mb-4">
-                                <div class="col text-center">
-                                    <img id="companyLogo" src="" alt="Company Logo" style="width: 735px; height: 200px;">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <p><strong>First Name:</strong> <span id="firstName">VIRAT</span></p>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <p><strong>Last Name:</strong> <span id="lastName">KOHLI</span></p>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <p><strong>Company Name:</strong> <span id="companyName">One8</span></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <p><strong>Email:</strong> <span id="email">virat@gmail.com</span></p>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <p><strong>Contact No:</strong> <span id="contactNo">1818181818</span></p>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col text-center">
-                                    <button id="approveDocumentBtn" class="btn btn-success mx-2">Approve</button>
-                                    <button id="rejectDocumentBtn" class="btn btn-danger mx-2">Reject</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-        
-
         <style>
-            
-
-
-
            .modal-content {
     border-radius: 10px;
     overflow: hidden;
@@ -422,11 +312,7 @@
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-
         </style>
-        
-    
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -508,7 +394,6 @@
                             console.log(companyName + ' ' + status);
                             $('#documentModal').modal('hide');
                             window.location.href = '/AdminDashboard'; // Redirect to AdminDashboard page
-
                         });
                     },
                     error: function (xhr, status, error) {
@@ -517,15 +402,9 @@
                 });
             }
         </script>
-        
-        
-
-        
-
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
     <!--**********************************
         Scripts
     ***********************************-->
@@ -534,7 +413,6 @@
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="./plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -552,21 +430,14 @@
     <!-- ChartistJS -->
     <script src="./plugins/chartist/js/chartist.min.js"></script>
     <script src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="./js/dashboard/dashboard-1.js"></script>
-
-
     <script src="plugins/common/common.min.js"></script>
     <script src="js/custom.min.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/gleek.js"></script>
     <script src="js/styleSwitcher.js"></script>
-
     <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
     <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
-
 </html>

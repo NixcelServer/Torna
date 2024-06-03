@@ -5,11 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -19,24 +17,19 @@
     <link rel="stylesheet" href="/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
-    
     <!-- Custom Stylesheet -->
     <link href="/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
-
     <!-- Bootstrap CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -50,13 +43,10 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -66,8 +56,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -116,12 +106,10 @@
         </div>
         <!--**********************************
             Header start
-        ***********************************-->
-        
+        ***********************************-->    
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
         ***********************************-->
@@ -171,7 +159,6 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
@@ -180,7 +167,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header" style="background-color: #c2c2c2; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                            <div class="card-header" style="background-color: #F8C471; color: black; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>Documents</span>
                                     <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#addDepartmentModal">Add New Document</button>
@@ -203,7 +190,6 @@
                                                 <td>{{ $document->doc_name }}</td>
                                                 <td>
                                                     <button class="btn btn-sm btn-primary view-document-btn" data-content="{{ $document->document_content }}" data-toggle="modal" data-target="#viewDocumentModal{{ $document->encDocumentId }}">View Document</button>
-            
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="viewDocumentModal{{ $document->encDocumentId }}" tabindex="-1" role="dialog" aria-labelledby="viewDocumentModalLabel{{ $document->encDocumentId }}" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -239,8 +225,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
+            </div>    
             <div class="modal" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -299,8 +284,6 @@
             </div>
         </div>
     </div>
-
-    
     <script>
         function openDocument(companyName, email, contactNo, compId ) {
             $('#companyName').text(companyName);
@@ -310,9 +293,6 @@
             $('#documentModal').modal('show');
         }
     </script>
-
-
-
 
         <iframe id="documentViewer" width="100%" height="500px" frameborder="0"></iframe>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -328,7 +308,6 @@
             });
         </script>
                 
-
                 <script>
                     $(document).ready(function() {
                         $('.view-document-btn').click(function() {
@@ -337,10 +316,6 @@
                         });
                     });
                 </script>
-
-
-
-
         <script>
             document.addEventListener('DOMContentLoaded', function () {
     const deleteButtons = document.querySelectorAll('.delete-btn');
@@ -367,22 +342,12 @@
 });
 
         </script>   
-       
-        
-    
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-       
-        
-        
-
-        
-
     <!--**********************************
         Main wrapper end
     ***********************************-->
-
     <!--**********************************
         Scripts
     ***********************************-->
@@ -391,7 +356,6 @@
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -409,13 +373,9 @@
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
     <script src="/plugins/tables/js/jquery.dataTables.min.js"></script>
     <script src="/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 </body>
-
 </html>

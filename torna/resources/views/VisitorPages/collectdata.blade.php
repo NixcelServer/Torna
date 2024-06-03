@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-name" content="quixlab">
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <link href="/plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/plugins/chartist/css/chartist.min.css">
@@ -15,9 +14,7 @@
     <link href="/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
-
 <body>
-
     <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
@@ -25,18 +22,18 @@
             </svg>
         </div>
     </div>
-
     <div id="main-wrapper">
         <div class="nav-header" style="background-color: #FFBE07; height: 63px;">
             <div class="brand-logo">
                 <a href="/upcomingExhibitions">
                     <b class="logo-abbr"><img src="images/logo.png" alt="Logo"></b>
                     <span class="logo-compact"><img src="images/logo-compact.png" alt="Compact Logo"></span>
-                    <span class="brand-title" style="color: white; font-weight: bold; font-size: 20px;">TORNA</span>
+                    <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                        Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
+                    </span>
                 </a>
             </div>
         </div>
-
         <div class="header" style="background-color: #FFBE07; height: 63px;">
             <div class="header-content clearfix">
                 <div class="nav-control">
@@ -67,7 +64,6 @@
                 </div>
             </div>
         </div>
-
         <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
@@ -110,13 +106,12 @@
                 </ul>
             </div>
         </div>
-
         <div class="content-body">
             <div class="container-fluid mt-3">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
+                            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">
                                 <span style="color: black;">{{ $exhibition->exhibition_name }} Visitors List</span>
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -170,7 +165,6 @@
                 </div>
             </div>
         </div>
-
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -182,13 +176,10 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $('#sendEmailButton').click(function(e) {
     e.preventDefault();
-
     const exhibitionId = "{{ $exhibition->encExId }}";
     const exhibitionName = "{{ $exhibition->exhibition_name }}";
-
     // Show loader
     Swal.fire({
         title: 'Please wait...',
@@ -198,7 +189,6 @@
             Swal.showLoading()
         }
     });
-
     $.ajax({
         url: `/fetchvisitordata/${exhibitionId}`,
         method: 'GET',
@@ -209,11 +199,9 @@
                 XLSX.utils.book_append_sheet(wb, sheet, 'Visitor Data');
                 const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
                 const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-
                 const formData = new FormData();
                 formData.append('excelFile', blob, `Visitor Data - ${exhibitionName}.xlsx`);
                 formData.append('exhibitionName', exhibitionName);
-
                 $.ajax({
                     url: '/sendemailwithexcel',
                     method: 'POST',
@@ -261,31 +249,10 @@
         }
     });
 });
-
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-
         <script>
             $(document).ready(function() {
                 $('#exportExcel').click(function(e) {
@@ -302,7 +269,6 @@
                     exportData('csv', exhibitionId, exhibitionName);
                 });
             });
-
             function exportData(format, exhibitionId, exhibitionName) {
                 $.ajax({
                     url: `/fetchvisitordata/${exhibitionId}`,
@@ -328,7 +294,6 @@
                     }
                 });
             }
-
             function saveAsFile(buffer, fileName) {
                 const blob = new Blob([buffer], { type: 'application/octet-stream' });
                 const url = URL.createObjectURL(blob);
@@ -338,7 +303,6 @@
                 a.click();
                 URL.revokeObjectURL(url);
             }
-
             function convertToCsv(data) {
                 const header = Object.keys(data[0]);
                 const csv = [header.join(',')];
@@ -349,7 +313,6 @@
                 return csv.join('\n');
             }
         </script>
-
         <script src="/plugins/common/common.min.js"></script>
         <script src="/js/custom.min.js"></script>
         <script src="/js/settings.js"></script>
@@ -371,6 +334,5 @@
         <script src="/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
         <script src="/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
     </div>
-
 </body>
 </html>

@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    
+    <meta name="viewport" content="width=device-width,initial-scale=1"> 
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -20,7 +17,6 @@
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
 <style>
     .cardE {
@@ -29,13 +25,11 @@
         background: #fff;
         transition: transform 0.3s ease-in-out;
     }
-
     .cardE:hover {
         transform: scale(1.04); /* Scale the card up slightly on hover */
     }
 </style>
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -49,13 +43,10 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -65,8 +56,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -77,7 +68,6 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
@@ -120,7 +110,6 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
         ***********************************-->
@@ -170,7 +159,6 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
@@ -180,7 +168,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Past Exhibitions List</h4>
+                                <h4 class="card-header text-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Past Exhibitions List</h4>
                                 <br/>
                                 <div class="row">
                                     @foreach($pastcomingExs as $key => $pastcomingEx)
@@ -194,7 +182,6 @@
                                                         <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
                                                             {{ $pastcomingEx->exhibition_name }}
                                                         </h5>
-                                                        
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <div class="d-flex align-items-center">
@@ -207,7 +194,6 @@
                                                                     <span>{{ \Carbon\Carbon::parse($pastcomingEx->ex_to_date)->format('d M Y') }}</span>
                                                                 </div>
                                                             </div>
-                                                            
                                                             <div class="col-6">
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="fas fa-clock mr-2"></i>
@@ -220,7 +206,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                        
                                                         <div class="row mt-2">
                                                             <div class="col-6">
                                                                 <div class="d-flex align-items-center">
@@ -241,7 +226,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                        
                                                         <div class="row mt-2">
                                                             <div class="col-6">
                                                                 <div class="d-flex align-items-center">
@@ -287,7 +271,6 @@
                                                                     <span>{{ \Carbon\Carbon::parse($pastcomingEx->ex_to_date)->format('d M Y') }}</span>
                                                                 </div>
                                                             </div>
-                                                            
                                                             <div class="col-6">
                                                                 <div class="d-flex align-items-center">
                                                                     <i class="fas fa-clock mr-2"></i>
@@ -321,40 +304,22 @@
                                                             </div>
                                                         </div>
                                                     </br>
-                                                    
                                                         <p class="text-center" style="color: black;">You did not participate in this exhibition.</p>
                                                         
                                                     </div>
-                                                    
                                                 </div>
                                             </div>
                                         @endif
                                     @endforeach
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        
         <!--**********************************
             Content body end
-        ***********************************-->
-        
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        {{-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
-            </div>
-        </div> --}}
-        <!--**********************************
-            Footer end
         ***********************************-->
     </div>
     <!--**********************************
@@ -371,7 +336,9 @@
                 </div>
                 <div class="modal-body">
                     <!-- Embed the document content from the preloaded data -->
+                    @foreach($pastcomingExs as $key => $pastcomingEx)
                     <embed src="data:application/pdf;base64,{{ $pastcomingEx->attach_document }}" type="application/pdf" width="100%" height="500px" />
+                    @endforeach    
                 </div>
             </div>
         </div>
@@ -379,69 +346,11 @@
     <!--**********************************
         Scripts
     ***********************************-->
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const changeStatusButtons = document.querySelectorAll('.change-status-btn');
-    
-            changeStatusButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const exhibitionId = this.getAttribute('data-exhibition-id');
-                    console.log("in function",exhibitionId);
-                    debugger;
-                    const updateUrl = this.getAttribute('data-update-url');
-                    console.log(updateUrl);
-                    const confirmation = confirm('Are you sure you want to change the status to Inactive?');
-    
-                    if (confirmation) {
-                        fetch(updateUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                id: exhibitionId,
-                                status: 'Inactive' // You can modify this based on your requirements
-                            })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            alert(data.message); // Show success message
-                            // You can update the UI or perform other actions as needed
-                        })
-                        .catch(error => {
-                            console.error('Error updating status:', error);
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
-
-
-
-
-
-
-
-
     <script src="/plugins/common/common.min.js"></script>
     <script src="/js/custom.min.js"></script>
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -459,11 +368,6 @@
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
-
 </body>
-
 </html>

@@ -9,7 +9,7 @@
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
   
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -65,8 +65,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -179,52 +179,9 @@
 
         <div class="content-body">
             <div class="container-fluid">
-                {{-- <div class="row">
-                    <div class="col-12">
-                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Upcoming Exhibitions List</h4>
-                        <br/>
-                        <div class="row">
-                            @foreach($upcomingExs as $key => $upcomingEx)
-                            <div class="col-lg-4 col-md-8 col-sm-12 mb-4">
-                                <div class="card">
-                                    @if($upcomingEx->company_logo)
-                                    <img src="data:image/png;base64,{{ $upcomingEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
-                                    @endif
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $upcomingEx->exhibition_name }}</h5>
-                                        <div>
-                                            <div class="mr-3">
-                                                <i class="fas fa-calendar-alt"></i>
-                                            </div>
-                                            <div>
-                                                <span class="font-weight-bold">Date:</span>
-                                                <span>{{ $upcomingEx->ex_from_date }}</span>
-                                                <span class="mx-2">-</span>
-                                                <span>{{ $upcomingEx->ex_to_date }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button class="btn mb-1 {{ $upcomingEx->participated ? 'btn-sm btn-success' : 'btn-sm btn-outline-primary' }}" 
-                                            {{ $upcomingEx->participated ? 'disabled title=Already_Participated! data-toggle=tooltip' : ($approvedStatus === false ? 'disabled' : '') }}
-                                            data-id="{{ $upcomingEx->encExId }}" 
-                                            onclick="confirmParticipation(event)">
-                                            @if($upcomingEx->participated)
-                                                Participated
-                                            @else
-                                                Participate
-                                            @endif
-                                        </button>                                                                                                                                             
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="row">
                     <div class="col-12">
-                        <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">Upcoming Exhibitions List</h4>
+                        <h4 class="card-header text-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">Upcoming Exhibitions List</h4>
                         <br/>
                         <div class="row">
                             @foreach($upcomingExs as $key => $upcomingEx)
@@ -237,7 +194,6 @@
                                         <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
                                             {{ $upcomingEx->exhibition_name }}
                                         </h5>
-                                        
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="d-flex align-items-center">
@@ -250,7 +206,6 @@
                                                     <span>{{ \Carbon\Carbon::parse($upcomingEx->ex_to_date)->format('d M Y') }}</span>
                                                 </div>
                                             </div>
-                                            
                                             <div class="col-6">
                                                 <div class="d-flex align-items-center">
                                                     <i class="fas fa-clock mr-2"></i>
@@ -263,7 +218,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                        
                                         <div class="row mt-2">
                                             <div class="col-6">
                                                 <div class="d-flex align-items-center">
@@ -284,7 +238,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                        
                                         <div class="row mt-2">
                                             <div class="col-6">
                                                 <div class="d-flex align-items-center">
@@ -323,12 +276,9 @@
                             @endforeach
                         </div>
                     </div>
-                </div>
-                
+                </div>      
             </div>
         </div>
-
-
         <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
@@ -345,7 +295,6 @@
                 </div>
             </div>
         </div>
-        
         <!--**********************************
             Content body end
         ***********************************-->
@@ -369,17 +318,12 @@
         });
     </script>
     <?php endif; ?>
-        
-
-        
-
         <script>
             function confirmParticipation(event) {
                 event.preventDefault();
                 const encExId = event.target.getAttribute('data-id');
                 // const encExId = this.getAttribute('data-id');
                 // console.log(encExId);
-        
                 Swal.fire({
                     title: 'Are you excited to participate?',
                     text: "",
@@ -391,11 +335,9 @@
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Handle participation logic here, e.g., submit a form or make an AJAX request
-                        
+                        // Handle participation logic here, e.g., submit a form or make an AJAX request   
                         //console.log(encExId);
                         window.location.href = "/participate/" + encExId;
-
                         //window.location.href = "/participatedExhibitions";
                         // Example AJAX request
                         // $.post('/participate', { exhibitionId: exhibitionId }, function(response) {
@@ -406,19 +348,6 @@
                 });
             }
         </script>
-        
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        {{-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
-            </div>
-        </div> --}}
-        <!--**********************************
-            Footer end
-        ***********************************-->
     </div>
     <!--**********************************
         Main wrapper end
@@ -449,69 +378,11 @@
     <!--**********************************
         Scripts
     ***********************************-->
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const changeStatusButtons = document.querySelectorAll('.change-status-btn');
-    
-            changeStatusButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const exhibitionId = this.getAttribute('data-exhibition-id');
-                    console.log("in function",exhibitionId);
-                    debugger;
-                    const updateUrl = this.getAttribute('data-update-url');
-                    console.log(updateUrl);
-                    const confirmation = confirm('Are you sure you want to change the status to Inactive?');
-    
-                    if (confirmation) {
-                        fetch(updateUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                id: exhibitionId,
-                                status: 'Inactive' // You can modify this based on your requirements
-                            })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            alert(data.message); // Show success message
-                            // You can update the UI or perform other actions as needed
-                        })
-                        .catch(error => {
-                            console.error('Error updating status:', error);
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
-
-
-
-
-
-
-
-
     <script src="/plugins/common/common.min.js"></script>
     <script src="/js/custom.min.js"></script>
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -529,11 +400,6 @@
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
-
 </body>
-
 </html>

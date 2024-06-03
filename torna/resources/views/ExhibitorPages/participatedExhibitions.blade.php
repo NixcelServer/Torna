@@ -6,11 +6,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
-    <title>Nixcel Exhibition</title>
+    <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
     <!-- Pignose Calender -->
@@ -21,8 +19,6 @@
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-
 </head>
 <style>
     .cardE {
@@ -31,13 +27,11 @@
         background: #fff;
         transition: transform 0.3s ease-in-out;
     }
-
     .cardE:hover {
         transform: scale(1.04); /* Scale the card up slightly on hover */
     }
 </style>
 <body>
-
     <!--*******************
         Preloader start
     ********************-->
@@ -50,14 +44,11 @@
     </div>
     <!--*******************
         Preloader end
-    ********************-->
-
-    
+    ********************-->   
     <!--**********************************
         Main wrapper start
     ***********************************-->
     <div id="main-wrapper">
-
         <!--**********************************
             Nav header start
         ***********************************-->
@@ -67,8 +58,8 @@
                     <a href="/upcomingExhibitions">
                         <b class="logo-abbr"><img src="" alt=""> </b>
                         <span class="logo-compact"><img src="" alt=""></span>
-                        <span class="brand-title" style="color: #ffffdb; font-weight: bold; font-size: 20px;">
-                            TORNA
+                        <span class="brand-title" style="color: #ffffdb; font-size: 20px; font-family: sans-serif;">
+                            Conne<span style="font-family: 'Bebas Neue', sans-serif; font-weight: 700; color: #ffbe07;">Xha.</span>
                         </span>
                             <img src="" alt="">
                         </span>
@@ -79,7 +70,6 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-
         <!--**********************************
             Header start
         ***********************************-->
@@ -122,7 +112,6 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
         <!--**********************************
             Sidebar start
         ***********************************-->
@@ -172,18 +161,16 @@
         <!--**********************************
             Sidebar end
         ***********************************-->
-
         <!--**********************************
             Content body start
         ***********************************-->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
         <div class="content-body">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">Participated Exhibitions List</h4>
+                            <h4 class="card-header text-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">Participated Exhibitions List</h4>
                             <div class="card-body">
                                 <br/>
                                 <div class="row">
@@ -277,19 +264,6 @@
                                                 <button class="btn btn-sm mb-1 btn-outline-info" onclick="openDocument('{{ $participatedEx->encExId }}', {{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
                                                 <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-warning">Collect Data</a>
                                             </div>
-                                            {{-- <div class="card-footer">
-                                                @if($participatedEx->emailServiceEnabled)
-                                                    <a href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-primary" target="_blank">Generate URL</a>
-                                                    <button class="btn btn-sm mb-1 btn-outline-secondary generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode(this)">Generate QR Code</button>
-                                                    <iframe id="qrCodeFrame" style="display: none;"></iframe>
-                                                @else
-                                                    <button class="btn btn-sm mb-1 btn-outline-primary" disabled title="First_Select_Notification_Method!" data-toggle="tooltip">Generate URL</button>
-                                                    <button class="btn btn-sm mb-1 btn-outline-secondary" disabled title="First_Select_Notification_Method!" data-toggle="tooltip">Generate QR Code</button>
-                                                @endif
-                                                
-                                                <button class="btn btn-sm mb-1 btn-outline-info" onclick="openDocument('{{ $participatedEx->encExId }}', {{ json_encode($participatedEx->selectedOptions ?? []) }})">Notify By</button>
-                                                <a href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}" class="btn btn-sm mb-1 btn-outline-warning">Collect Data</a>
-                                            </div> --}}
                                         </div>
                                     </div>
                                     @endforeach
@@ -298,71 +272,8 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
-        {{-- @foreach($participatedExhibitions as $keyEx => $participatedExhibition)
-    <!-- Your code here that uses $participatedExhibition -->
-        @endforeach --}}
-        {{-- <div class="content-body">
-            <div class="container-fluid mt-3">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-header text-center" style="background-color: #c2c2c2; font-family: Arial, sans-serif; font-size: 18px;  font-weight: bold;">Participated Exhibitions List</h4>
-                                <br/>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered zero-configuration">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Exhibition Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($participatedExs as $key => $participatedEx) 
-                                                <tr>
-                                                    <td>{{ (int)$key + 1 }}</td>
-                                                    <td>{{ $participatedEx->exDetails->exhibition_name }}</td>
-                                                    <td>
-                                                        @if($participatedEx->emailServiceEnabled)
-                                                            <!-- Enable Generate URL button -->
-                                                            <a class="btn btn-sm btn-info generate-url-btn" href="{{ route('visitorsdetails', ['id' => $participatedEx->encParticipationId]) }}" target="_blank">Generate URL</a>
-                                                            <!-- Enable Generate QR Code button -->
-                                                            <button class="btn btn-sm btn-info generate-qr-btn" data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
-                                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
-                                                             data-id="{{ $participatedEx->encParticipationId }}" onclick="generateQRCode()">Generate QR Code</button>
-                                                            <iframe id="qrCodeFrame" style="display: none;"></iframe>
-
-                                                        @else
-                                                            <!-- Disable Generate URL button -->
-                                                            <button class="btn btn-sm btn-info generate-url-btn" disabled>Generate URL</button>
-                                                            <!-- Disable Generate QR Code button -->
-                                                            <button class="btn btn-sm btn-info generate-qr-btn" disabled>Generate QR Code</button>
-                                                        @endif
-                                                        
-                                                        <button class="btn btn-sm btn-primary" onclick="openDocument('{{ $participatedEx->encExId }}',{{ json_encode($participatedEx->selectedOptions ?? []) }})">
-                                                            Notify By
-                                                        </button>
-                                                        <a class="btn btn-sm btn-success" href="{{ route('collectdata', ['id' => $participatedEx->encParticipationId]) }}">Collect Data</a>
-                                                    </td>                                                
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                        
-                                        
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-            
-            <!-- #/ container -->
-        </div> --}}
         <div class="modal fade" id="documentModalview" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
@@ -379,19 +290,6 @@
                 </div>
             </div>
         </div>
-        
-        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-        $(document).ready(function() {
-            $('.view-document-btn').on('click', function() {
-                var documentData = $(this).data('document');
-                $('#documentEmbed').attr('src', 'data:application/pdf;base64,' + documentData);
-            });
-        });
-        </script> --}}
-
-
-
         <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -425,10 +323,8 @@
                                 <div class="modal-body">
                 <!-- Hidden input fields to store user ID and company ID -->
                 <input type="hidden" id="encExId">
-
             </div>
                                 <button class="btn btn-primary" onclick="parent.submitNotifyOptions(getSelectedOptions())">Submit</button>
-                            
                                 <!-- Bootstrap JS and custom script to get selected options -->
                                 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
                                 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -443,9 +339,7 @@
                                         });
                                         return selectedOptions;
                                     }
-                            
                                     function submitNotifyOptions() {
-
                                         var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                                         // Get selected options when the button is clicked
@@ -506,94 +400,6 @@
                                 </script>
                             </body>
                             <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
-                            
-
-                            {{-- <script>
-                                function generateQRCode(button) {
-                                    // Get the data-id attribute from the button
-                                    const exId = button.getAttribute('data-id');
-                                    // Generate the QR code using qrcode-generator library
-                                    const qr = qrcode(0, 'M');
-                                    qr.addData(`http://192.168.1.38:8000/visitordetails/${exId}`);
-                                    qr.make();
-                                    // Get the QR code SVG
-                                    const svg = qr.createSvgTag();
-                                    const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
-                            
-                                    // Create a new tab
-                                    const newTab = window.open('', '_blank');
-                                    newTab.document.write(`
-                                        <html>
-                                            <head>
-                                                <title>QR Code</title>
-                                            </head>
-                                            <body>
-                                                <div style="text-align: center; margin-top: 50px;">
-                                                    <h1>QR Code</h1>
-                                                    <div>${svg}</div>
-                                                    <button id="download-btn" style="margin-top: 20px;">Download QR Code</button>
-                                                </div>
-                                            </body>
-                                        </html>
-                                    `);
-                            
-                                    // Add download functionality to the button in the new tab
-                                    newTab.document.getElementById('download-btn').addEventListener('click', function() {
-                                        // Create a temporary link element to trigger the download
-                                        const link = newTab.document.createElement('a');
-                                        link.href = 'data:image/svg+xml;base64,' + btoa(svg);
-                                        link.download = 'qr-code.svg';
-                                        link.click();
-                                    });
-                                }
-                            </script> --}}
-                            {{-- <script>
-                                function generateQRCode(button) {
-                                    // Get the data-id attribute from the button
-                                    const exId = button.getAttribute('data-id');
-                                    // Get the current host and port dynamically
-                                    const host = window.location.hostname;
-                                    const port = window.location.port ? `:${window.location.port}` : '';
-                                    const protocol = window.location.protocol;
-                            
-                                    // Construct the dynamic URL
-                                    const dynamicUrl = `${protocol}//${host}${port}/visitordetails/${exId}`;
-                            
-                                    // Generate the QR code using qrcode-generator library
-                                    const qr = qrcode(0, 'M');
-                                    qr.addData(dynamicUrl);
-                                    qr.make();
-                                    // Get the QR code SVG
-                                    const svg = qr.createSvgTag();
-                                    const dataUri = `data:image/svg+xml;base64,${btoa(svg)}`;
-                            
-                                    // Create a new tab
-                                    const newTab = window.open('', '_blank');
-                                    newTab.document.write(`
-                                        <html>
-                                            <head>
-                                                <title>QR Code</title>
-                                            </head>
-                                            <body>
-                                                <div style="text-align: center; margin-top: 50px;">
-                                                    <h1>QR Code</h1>
-                                                    <div>${svg}</div>
-                                                    <button btn btn-primary id="download-btn" style="margin-top: 20px;">Download QR Code</button>
-                                                </div>
-                                            </body>
-                                        </html>
-                                    `);
-                            
-                                    // Add download functionality to the button in the new tab
-                                    newTab.document.getElementById('download-btn').addEventListener('click', function() {
-                                        // Create a temporary link element to trigger the download
-                                        const link = newTab.document.createElement('a');
-                                        link.href = 'data:image/svg+xml;base64,' + btoa(svg);
-                                        link.download = 'qr-code.svg';
-                                        link.click();
-                                    });
-                                }
-                            </script> --}}
                             <script>
                                 function generateQRCode(button) {
                                     // Get the data-id attribute from the button
@@ -659,88 +465,6 @@
                                 }
                             </script>
                             
-
-
-                            {{-- <body>
-                                <h3 class="mb-3">Select notification method:</h3>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="email" id="emailOption">
-                                    <label class="form-check-label" for="emailOption">Email</label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="whatsapp" id="whatsappOption">
-                                    <label class="form-check-label" for="whatsappOption">WhatsApp</label>
-                                </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" name="notifyOption" value="sms" id="smsOption">
-                                    <label class="form-check-label" for="smsOption">SMS</label>
-                                </div>
-                                <button class="btn btn-primary" id="submitBtn">Submit</button>
-                            
-                                <!-- Bootstrap JS and custom script to get selected options -->
-                                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></s>
-                                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></scrip>
-                                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                                <!-- SweetAlert -->
-                                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                                <script>
-                                    $(document).ready(function() {
-                                        $('#submitBtn').click(function() {
-                                            const selectedOptions = getSelectedOptions();
-                                            console.log('Selected all options:', selectedOptions);
-                            
-                                            // Make an AJAX request to the backend endpoint
-                                            $.ajax({
-                                                url: '/selected-options-to-notify',
-                                                type: 'POST',
-                                                data: JSON.stringify({ options: selectedOptions }),
-                                                contentType: 'application/json',
-                                                success: function(response) {
-                                                    console.log('Backend response:', response);
-                                                    debugger;
-                                                    showSuccessPopup(); // Show success popup after successful backend call
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error('Error:', error);
-                                                    showErrorPopup(); // Show error popup if backend call fails
-                                                }
-                                            });
-                                        });
-                            
-                                        function getSelectedOptions() {
-                                            const selectedOptions = [];
-                                            document.querySelectorAll('input[name=notifyOption]:checked').forEach(option => {
-                                                selectedOptions.push(option.value);
-                                            });
-                                            return selectedOptions;
-                                        }
-                            
-                                        function showSuccessPopup() {
-                                            Swal.fire({
-                                                title: 'Submitted!',
-                                                text: 'Your notification methods have been successfully submitted.',
-                                                icon: 'success',
-                                                confirmButtonText: 'OK'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    // Redirect to the main page (replace 'main.html' with the actual page URL)
-                                                    window.location.href = '/participatedExhibitions';
-                                                }
-                                            });
-                                        }
-                            
-                                        function showErrorPopup() {
-                                            Swal.fire({
-                                                title: 'Error!',
-                                                text: 'There was an error submitting your notification methods.',
-                                                icon: 'error',
-                                                confirmButtonText: 'OK'
-                                            });
-                                        }
-                                    });
-                                </script>
-                            </body> --}}
-
                             <script>
                                 function generateURL() {
     // Get the data-id attribute from the button
@@ -752,11 +476,7 @@
     // Open the URL in a new tab
     window.open(url, '_blank');
 }
-
-                            </script>
-                            
-                            
-                            
+                            </script>  
                         </div>
                     </div>
                 </div>
@@ -767,8 +487,6 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
         <script>
             function openDocument(encExId,selectedOptions ) {
                 document.getElementById('encExId').value = encExId;
@@ -778,7 +496,6 @@
                 selectedOptions.forEach(option => {
             document.getElementById(option + 'Option').checked = true;
         });
-    
                 
                 $('#documentModal').modal('show');
             }
@@ -811,7 +528,7 @@
                     }
                 });
             });
-        
+
             $('#rejectDocumentBtn').on('click', function () {
                 verifyDocument(false);
             });
@@ -884,22 +601,6 @@
                 });
             }
         </script>
-        
-        
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        {{-- <div class="footer">
-            <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="">NixcelSoft</a> 2024</p>
-            </div>
-        </div> --}}
-        <!--**********************************
-            Footer end
-        ***********************************-->
-        
-
-        
     </div>
     <!--**********************************
         Main wrapper end
@@ -910,67 +611,11 @@
     ***********************************-->
 
     <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-
-    <!-- Add this script in your HTML file, preferably at the end before </body> tag -->
-
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const changeStatusButtons = document.querySelectorAll('.change-status-btn');
-    
-            changeStatusButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const exhibitionId = this.getAttribute('data-exhibition-id');
-                    console.log("in function",exhibitionId);
-                    debugger;
-                    const updateUrl = this.getAttribute('data-update-url');
-                    console.log(updateUrl);
-                    const confirmation = confirm('Are you sure you want to change the status to Inactive?');
-    
-                    if (confirmation) {
-                        fetch(updateUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                id: exhibitionId,
-                                status: 'Inactive' // You can modify this based on your requirements
-                            })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            alert(data.message); // Show success message
-                            // You can update the UI or perform other actions as needed
-                        })
-                        .catch(error => {
-                            console.error('Error updating status:', error);
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
-
-
-
-
-
-
-
-
     <script src="/plugins/common/common.min.js"></script>
     <script src="/js/custom.min.js"></script>
     <script src="/js/settings.js"></script>
     <script src="/js/gleek.js"></script>
     <script src="/js/styleSwitcher.js"></script>
-
     <!-- Chartjs -->
     <script src="/plugins/chart.js/Chart.bundle.min.js"></script>
     <!-- Circle progress -->
@@ -988,11 +633,6 @@
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
-
 </body>
-
 </html>
