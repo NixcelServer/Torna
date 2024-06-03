@@ -298,8 +298,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    @foreach($activeExs as $key => $activeEx)
                     <!-- Embed the document content from the preloaded data -->
                     <embed src="data:application/pdf;base64,{{ $activeEx->attach_document }}" type="application/pdf" width="100%" height="500px" />
+                    @endforeach
                 </div>
             </div>
         </div>
