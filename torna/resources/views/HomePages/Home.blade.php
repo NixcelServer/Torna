@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="WebsiteAssets/css/flaticon.css">
     <link rel="stylesheet" href="WebsiteAssets/css/icomoon.css">
     <link rel="stylesheet" href="WebsiteAssets/css/style.css">
+    
 </head>
 <style>
   .time-label {
@@ -38,6 +39,16 @@
     font-size: 14px;
     margin-right: 10px; /* Adjust the margin as needed */
   }
+  .card {
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 1, 1, 1);
+        background: #fff;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.04); /* Scale the card up slightly on hover */
+    }
 </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -140,6 +151,124 @@
       // Initial call to update the timer immediately
       updateTimer();
     </script>
+
+<div id="exhibition" class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="card-header text-center" style="background-color: #F8C471; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold;">Upcoming Exhibitions List</h4>
+                <br/>
+                <div class="row">
+                    @foreach($upcomingExs as $key => $upcomingEx)
+                    <div class="col-lg-4 col-md-7 col-sm-10 mb-4">
+                        <div class="card">
+                            @if($upcomingEx->company_logo)
+                            <img src="data:image/png;base64,{{ $upcomingEx->company_logo }}" class="card-img-top" alt="Company Logo" style="width: 100%; height: 150px; object-fit: cover;">
+                            @endif
+                            <div class="card-body">
+                                <h5 class="card-title" style="background-color: #FFBE07; padding: 0.2em 0.4em; border-radius: 4px; color: black;">
+                                    {{ $upcomingEx->exhibition_name }}
+                                </h5>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-calendar-alt mr-2"></i>
+                                            <span class="font-weight-bold">Date:</span>
+                                        </div>
+                                        <div>
+                                            <span>{{ \Carbon\Carbon::parse($upcomingEx->ex_from_date)->format('d M Y') }}</span>
+                                            <span class="mx-2">-</span>
+                                            <span>{{ \Carbon\Carbon::parse($upcomingEx->ex_to_date)->format('d M Y') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-clock mr-2"></i>
+                                            <span class="font-weight-bold">Time:</span>
+                                        </div>
+                                        <div>
+                                            <span>{{ $upcomingEx->start_time }}</span>
+                                            <span class="mx-2">-</span>
+                                            <span>{{ $upcomingEx->end_time }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-map-marker-alt mr-2"></i>
+                                            <span class="font-weight-bold">Venue:</span>
+                                        </div>
+                                        <div>
+                                            <span>{{ $upcomingEx->venue }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-globe mr-2"></i>
+                                            <span class="font-weight-bold">Website:</span>
+                                        </div>
+                                        <div>
+                                            <a href="{{ $upcomingEx->exhibition_website }}" target="_blank">{{ $upcomingEx->exhibition_website }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-external-link-alt mr-2"></i>
+                                            <span class="font-weight-bold">Register:</span>
+                                        </div>
+                                        <div>
+                                            <a href="{{ $upcomingEx->registration_url }}" target="_blank">{{ $upcomingEx->registration_url }}</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-file-alt mr-2"></i>
+                                            <span class="font-weight-bold">Document:</span>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-success view-document-btn" data-toggle="modal" data-target="#documentModal">View Document</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-warning mb-1" data-id="{{ $upcomingEx->encExId }}" onclick="confirmParticipation(event)">Participate</button>                                                                                                  
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>      
+    </div>
+</div>
+
+<div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentModalLabel">View Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Embed the document content from the preloaded data -->
+                <embed src="data:application/pdf;base64,{{ $upcomingEx->attach_document }}" type="application/pdf" width="100%" height="500px" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
     <footer id="contact" class="ftco-footer ftco-bg-dark ftco-section">
         <div class="container">
             <div class="row mb-5">

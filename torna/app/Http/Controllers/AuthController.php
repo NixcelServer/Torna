@@ -332,7 +332,12 @@ class AuthController extends Controller
 
     public function Home()
     {
-        return view('HomePages/Home');
+        $upcomingExs = ExhibitionDetail::where('active_status', 'Active')->where('flag', 'show')->get();
+
+        foreach ($upcomingExs as $upcomingEx) {
+            $upcomingEx->attach_document = base64_encode($upcomingEx->attach_document);
+        }
+        return view('HomePages/Home',['upcomingExs' => $upcomingExs]);
     }
 
     public function OrganizerRegistrationForm()
