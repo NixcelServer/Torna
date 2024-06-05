@@ -346,7 +346,7 @@
             Swal.fire({
                 title: 'You Cannot create exhibition! You are not approved !',
                 text: "",
-                icon: 'warning', // or 'info', 'success', 'error' as appropriate
+                icon: 'info', // or 'info', 'success', 'error' as appropriate
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
