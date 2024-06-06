@@ -185,6 +185,7 @@
         }
         .form-section {
             background-color: #f8f9fa;
+            padding: 20px;
         }
         .form-section .form-header {
             font-weight: bold;
@@ -261,6 +262,34 @@
         border-color: #FFBE07 !important;     /* Set border color to white on hover */
         color: #FFFFFF !important;            /* Set text color to #FFBE07 on hover */
     }
+
+    /* mobileview */
+@media (max-width: 768px) {
+    .info-section {
+        display: none; /* Hide the illustration for mobile view */
+    }
+    .containerinbody {
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 1, 1, 1);
+        background: #fff;
+        transition: transform 0.3s ease-in-out;
+    }
+}
+ /* Hide elements on mobile view */
+ @media (max-width: 991.98px) {
+    .d-lg-none {
+        display: block !important;
+    }
+    .d-none {
+        display: none !important;
+    }
+}
+/* Hide elements on desktop view */
+@media (min-width: 992px) {
+    .d-lg-block {
+        display: block !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -269,32 +298,35 @@
     <div class="loading-text">Registration Loading! Please wait a few seconds...</div>
 </div>
 
-<nav class="navbar navbar-expand-lg navbar-light ftco_navbar bg-light ftco-navbar-light" id="ftco-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light mb-3" id="ftco-navbar">
     <div class="container">
-        <a class="navbar-brand" href="/">Nixcel<span>Exhibition.</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
-                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/">Conne<span>Xha.</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="oi oi-menu"></span> Menu
         </button>
-
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="/" class="nav-link text-black">Home</a></li>
-                <li class="nav-item"><a href="/" class="nav-link text-black">About</a></li>
-                <li class="nav-item"><a href="/" class="nav-link text-black">Exhibitions</a></li>
-                <li class="nav-item"><a href="/" class="nav-link text-black">Schedule</a></li>
-                <li class="nav-item"><a href="/" class="nav-link text-black">Blog</a></li>
-                <li class="nav-item"><a href="/" class="nav-link text-black">Contact</a></li>
-                <li class="nav-item cta mr-md-2">
-                    <a href="#" class="nav-link register-btn" data-toggle="popover" data-placement="bottom"
-                       data-content='
-                            <a href="/organizerform" class="dropdown-item">As Organizer</a>
-                            <a href="/exhibitorform" class="dropdown-item">As Exhibitor</a>
-                        '>Register</a>
-                </li>
-                <li class="nav-item cta mr-md-2">
-                    <a href="/signin" class="nav-link">Sign In</a>
-                </li>
+                <li class="nav-item active"><a href="#" class="nav-link" style="color: white;">Home</a>                    </li>
+                <li class="nav-item"><a href="#exhibition" class="nav-link" style="color: white;">Exhibition</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link" style="color: white;">Contact</a></li>
+                <!-- For desktop view -->
+<li class="nav-item cta mr-md-2 d-none d-lg-block">
+<a href="#" class="nav-link register-btn" style="background-color: #FFBE07 !important; border-color: #FFBE07 !important; color: #fff !important;" data-toggle="popover" data-placement="bottom" data-content='<a href="/registration" class="dropdown-item">As Organizer</a> <a href="/registrationE" class="dropdown-item">As Exhibitor</a>'>Register</a>
+</li>
+<li class="nav-item cta mr-md-2 d-none d-lg-block">
+<a href="/signin" class="nav-link" style="background-color: #FFBE07 !important; border-color: #FFBE07 !important; color: #fff !important;" >Sign In</a>
+</li>
+
+<!-- For mobile view -->
+<li class="nav-item cta mr-md-2 d-lg-none">
+<a href="/registration" class="nav-link" style="background-color: #FFBE07 !important; border-color: #FFBE07 !important; color: #fff !important;"   data-content='<a href="/registration" class="dropdown-item">Register as Organizer</a>'>Register as Organizer</a>
+</li>
+<li class="nav-item cta mr-md-2 d-lg-none">
+<a href="/registrationE" class="nav-link" style="background-color: #FFBE07 !important; border-color: #FFBE07 !important; color: #fff !important;"  data-content='<a href="/registrationE" class="dropdown-item">Register as Exhibitor</a>'>Register as Exhibitor</a>
+</li>
+<li class="nav-item cta mr-md-2 d-lg-none">
+<a href="/signin" class="nav-link" style="background-color: #FFBE07 !important; border-color: #FFBE07 !important; color: #fff !important;">Sign In</a>
+</li>
             </ul>
         </div>
     </div>
@@ -311,7 +343,7 @@
             <a href="/signin" class="btn btn-dark">Have An Account</a>
         </div>
         <div class="form-section">
-            <div class="form-header">Organizer Registration Form</div>
+            <div class="form-header text-center">Organizer Registration Form</div>
             <form id="registrationForm" enctype="multipart/form-data" >
                 @csrf
                 <div class="form-group row">             
@@ -369,7 +401,7 @@
                     </div>
                 </div>
 <br />
-                <div class="form-group row justify-content-center mb-3">
+                <div class="form-group row justify-content-center mb-1">
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-success register-btnn">Register</button>
                     </div>
@@ -499,7 +531,26 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+       $('[data-toggle="popover"]').popover({
+           html: true,
+           trigger: 'click'
+       }).on('show.bs.popover', function (e) {
+           e.stopPropagation();
+           $('.navbar-collapse').collapse('hide'); // Manually close the navbar
+       });
 
+       $(document).on('click', function (e) {
+           $('[data-toggle="popover"]').each(function () {
+               if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                   $(this).popover('hide');
+               }
+           });
+       });
+   });
+
+</script>
 <!-- Loader -->
 <div id="ftco-loader" class="show fullscreen">
     <svg class="circular" width="48px" height="48px">
