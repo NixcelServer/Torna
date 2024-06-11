@@ -280,7 +280,9 @@
             </div>
             <div class="modal-body">
                 <!-- Embed the document content from the preloaded data -->
+                @foreach($upcomingExs as $key => $upcomingEx)
                 <embed src="data:application/pdf;base64,{{ $upcomingEx->attach_document }}" type="application/pdf" width="100%" height="500px" />
+                @endforeach    
             </div>
         </div>
     </div>

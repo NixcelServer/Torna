@@ -15,9 +15,7 @@ use App\Helpers\AuditLogHelper;
 use App\Models\AuditLogDetail;
 use App\Models\ExhibitorOtp;
 use Illuminate\Support\Facades\RateLimiter;
-
-
-
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Industry;
@@ -82,60 +80,74 @@ class AuthController extends Controller
     // }
 
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
 
-        // Check if user exists
-        $user = UserDetail::where('email', $request->email)->first();
+    // Check if user exists
+    $user = UserDetail::where('email', $request->email)->first();
 
-        // Check if user is found
-        if (!$user) {
-            return redirect()->back()->with('error', 'Invalid email. Please enter a valid email.');
-        }
-
-        $email = $request->email;
-        $password = $request->password;
-
-        $maxAttempts = 5; // Maximum number of attempts allowed
-        $decayMinutes = 1; // Lockout period in minutes
-
-        if (RateLimiter::tooManyAttempts($this->throttleKey($email), $maxAttempts)) {
-            $seconds = RateLimiter::availableIn($this->throttleKey($email));
-            return redirect()->back()->withErrors([
-                'error' => "Too many attempts. Please try again in $seconds seconds.",
-            ]);
-        }
-
-        // Encrypt the password
-        $encrypted_pass = EncryptionDecryptionHelper::encryptData($password);
-
-        // If user exists, validate password and redirect to respective page
-        if (strcmp($user->password, $encrypted_pass) === 0) {
-            // Clear rate limit attempts
-            RateLimiter::clear($this->throttleKey($email));
-
-            Auth::login($user);
-            Session::put('user', $user);
-            AuditLogHelper::logDetails('Login', $user->tbl_user_id);
-
-            if ($user->role_id == '1') {
-                return redirect('/AdminDashboard');
-            } elseif ($user->role_id == '2') {
-                return redirect('/activeExhibitions');
-            } else {
-                return redirect('/upcomingExhibitions');
-            }
-        } else {
-            // Increment the rate limit attempts
-            RateLimiter::hit($this->throttleKey($email), $decayMinutes * 60);
-
-            // If passwords do not match, display following message
-            return redirect()->back()->withInput()->with('error', 'Invalid password. Please enter a valid password.');
-        }
+    // Check if user is found
+    if (!$user) {
+        return redirect()->back()->with('error', 'Invalid email. Please enter a valid email.');
     }
+
+    $email = $request->email;
+    $password = $request->password;
+
+    $maxAttempts = 5; // Maximum number of attempts allowed
+    $decayMinutes = 1; // Lockout period in minutes
+
+    if (RateLimiter::tooManyAttempts($this->throttleKey($email), $maxAttempts)) {
+        $seconds = RateLimiter::availableIn($this->throttleKey($email));
+        return redirect()->back()->withErrors([
+            'error' => "Too many attempts. Please try again in $seconds seconds.",
+        ]);
+    }
+
+    // Encrypt the password
+    $encrypted_pass = EncryptionDecryptionHelper::encryptData($password);
+
+    // If user exists, validate password and redirect to respective page
+    if (strcmp($user->password, $encrypted_pass) === 0) {
+        // Clear rate limit attempts
+        RateLimiter::clear($this->throttleKey($email));
+
+        Auth::login($user);
+        Session::put('user', $user);
+        AuditLogHelper::logDetails('Login', $user->tbl_user_id);
+
+        if ($user->role_id == '1') {
+            // Update exhibition statuses for admin
+            $currentDate = Carbon::now()->format('Y-m-d');
+            $exhibitions = ExhibitionDetail::where('active_status', 'Active')->get();
+    
+            foreach($exhibitions as $exhibition) {
+                $exhibitionDate = Carbon::parse($exhibition->ex_to_date);
+        
+                if ($exhibitionDate->lessThan($currentDate)) {
+                    ExhibitionDetail::where('tbl_ex_id', $exhibition->tbl_ex_id)
+                        ->update(['active_status' => 'Past']);
+                }
+            }
+
+            return redirect('/AdminDashboard');
+        } elseif ($user->role_id == '2') {
+            return redirect('/activeExhibitions');
+        } else {
+            return redirect('/upcomingExhibitions');
+        }
+    } else {
+        // Increment the rate limit attempts
+        RateLimiter::hit($this->throttleKey($email), $decayMinutes * 60);
+
+        // If passwords do not match, display following message
+        return redirect()->back()->withInput()->with('error', 'Invalid password. Please enter a valid password.');
+    }
+}
+
 
     protected function throttleKey($email)
     {
