@@ -285,7 +285,9 @@
                     </div>
                     <div class="modal-body">
                         <!-- Embed the document content from the preloaded data -->
+                        @foreach($participatedExs as $key => $participatedEx)
                         <embed src="data:application/pdf;base64,{{ $participatedEx->attach_document}}" type="application/pdf" width="100%" height="500px" />
+                        @endforeach    
                     </div>
                 </div>
             </div>
@@ -446,7 +448,9 @@
                                             </nav>
                                             <body>
                                                 <div class="container text-center" style="margin-top: 30px;">
+                                                    @foreach($participatedExs as $key => $participatedEx)
                                                     <h3>QR Code for {{ $participatedEx->exDetails->exhibition_name }}</h3>
+                                                    @endforeach
                                                     <div>${updatedSvg}</div>
                                                     <button id="download-btn" class="btn btn-success" style="margin-top: 20px;">Download QR Code</button>
                                                 </div>

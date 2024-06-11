@@ -101,10 +101,8 @@ class ExhibitionController extends Controller
            
             $company->company_name = $companyDetails->company_name;
             $company->company_logo = $companyDetails->company_logo; // Assuming company_logo is stored as a base64 string
-            $company->registered_date = CompanyDetail::where('tbl_comp_id', $company->tbl_comp_id)->value('registered_date');
-
         }
-//dd($companies);
+
         return view('AdminPages/UnApprovedExList', ['companies' => $companies]);
     }
     public function rejectedorgcount()
@@ -503,7 +501,6 @@ class ExhibitionController extends Controller
 
             // Count the number of participants
             $activeEx->participantCount = count($participantUserIds);
-            
         }
             
         return view('OrganizerPages/activeExhibitions', ['activeExs' => $activeExs]);
@@ -1109,7 +1106,7 @@ public function companysetupformo()
                         ->where('active_status', 'active')
                         ->where('flag', 'show')
                         ->get();
-    //dd($participatedExs);                    
+                        //dd($participatedExs);
     $participatedExhibitions = Participate::where('tbl_user_id', $user->tbl_user_id)
                         ->where('active_status', 'active')
                         ->where('flag', 'show')
@@ -1125,12 +1122,11 @@ public function companysetupformo()
 
     foreach ($participatedExs as $participatedEx) {
         $participatedEx->exDetails = ExhibitionDetail::where('tbl_ex_id', $participatedEx->tbl_ex_id)->first();
-        //dd($participatedEx);
-
+        //dd(base64_encode($participatedEx->exDetails->attach_document));
         $participatedEx->attach_document = base64_encode($participatedEx->exDetails->attach_document);
         //dd($participatedEx);
         $participatedEx->notify = Notify::where('tbl_user_id', $user->tbl_user_id)->where('tbl_ex_id',$participatedEx->tbl_ex_id)->first();
-    //dd($participatedEx);
+    
         $encExhibitionID = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_ex_id, 'encrypt');
         $participatedEx->encExId = $encExhibitionID;
         $participatedEx->encParticipationId = EncryptionDecryptionHelper::encdecId($participatedEx->tbl_participation_id, 'encrypt');
@@ -1167,7 +1163,7 @@ public function companysetupformo()
         }
     }
     }
-    //dd($participatedEx);
+     //dd($participatedExs);
   
     return view('ExhibitorPages/participatedExhibitions', ['participatedExs' =>$participatedExs, 'participatedExhibitions' =>$participatedExhibitions]);
 }

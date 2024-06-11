@@ -168,6 +168,9 @@ Route::middleware(['validLogin','preventBackHistory'])->group(function () {
 
         Route::get('/updateExStatus/{id}', [ExhibitionController::class, 'updateExStatus'])->name('updateExStatus');
 
+        Route::post('/notification-settings/test-mail',[NotifyController::class,'testMail']);
+
+
 
     });
 
@@ -198,5 +201,7 @@ Route::get('/visitordetails/{id}', [ExhibitionController::class, 'visitorsdetail
 
 
 Route::post('/sendemailwithexcel', [ExhibitionController::class, 'sendEmailWithExcel']);
+
+
 
 ?>

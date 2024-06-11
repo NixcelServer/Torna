@@ -14,6 +14,9 @@ use App\Models\Visitor;
 use App\Models\ProductDetail;
 use App\Models\AssignProduct;
 use App\Models\Document;
+use PHPMailer\PHPMailer\PHPMailer;
+use Illuminate\Support\Facades\Validator;
+use PHPMailer\PHPMailer\Exception;
 
 
 use Illuminate\Support\Facades\Date;
@@ -174,5 +177,51 @@ public function sendMail($id)
     }
     EmailHelper::sendEmail($visitor->email,$visitor->tbl_comp_id,$documents,null);
     return redirect()->back();
+}
+
+public function testMail(Request $request)
+{
+    //dd($request);
+    $validator = Validator::make($request->all(), [
+        'smtp' => 'required|string',
+        'port' => 'required|numeric',
+        'username' => 'required|string',
+        'password' => 'required|string',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['success' => false, 'message' => 'Validation failed.'], 400);
+    }
+
+    $smtp = $request->input('smtp');
+    $port = $request->input('port');
+    $username = $request->input('username');
+    $password = $request->input('password');
+
+    $mail = new PHPMailer(true);
+    try {
+        //Server settings
+        $mail->isSMTP();
+        $mail->Host = $smtp;
+        $mail->SMTPAuth = true;
+        $mail->Username = $username;
+        $mail->Password = $password;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = $port;
+
+        //Recipients
+        $mail->setFrom($username, 'Test Mail');
+        $mail->addAddress($username); // Send to the same email address for testing
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Test Email';
+        $mail->Body    = 'This is a test email.';
+
+        $mail->send();
+        return response()->json(['success' => true, 'message' => 'Test mail sent successfully.']);
+    } catch (Exception $e) {
+        return response()->json(['success' => false, 'message' => "Failed to send test mail: {$mail->ErrorInfo}"], 500);
+    }
 }
 }

@@ -8,7 +8,8 @@
     
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
-  
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>ConneXha</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
@@ -223,15 +224,14 @@
                                     <form class="form-valide" action="/notification-settings/email" method="post">
                                         @csrf
                                         <!-- Existing form fields -->
-                                        <!-- Your new fields -->
                                         <div class="row">
                                             <label class="col-lg-4 col-form-label" for="smtp">SMTP <span class="text-danger">*</span></label>
                                             <div class="col-lg-4">
                                             @if ($emailDetails !== null)
                                                 <input type="text" class="form-control" id="smtp" name="smtp" value="{{ $emailDetails->smtp}}" placeholder="SMTP server address">
-                                                @else
+                                            @else
                                                 <input type="text" class="form-control" id="smtp" name="smtp"  placeholder="SMTP server address">
-                                                @endif
+                                            @endif
                                             </div>
                                         </div>
                                         <div class="row">
@@ -239,9 +239,9 @@
                                             <div class="col-lg-4">
                                             @if ($emailDetails !== null)
                                                 <input type="text" class="form-control" id="val-port" name="port" value="{{$emailDetails->port}}" placeholder="SMTP port number">
-                                                @else
+                                            @else
                                                 <input type="text" class="form-control" id="val-port" name="port"  placeholder="SMTP port number">
-                                                @endif
+                                            @endif
                                             </div>
                                         </div>
                                         <div class="row">
@@ -249,9 +249,9 @@
                                             <div class="col-lg-4">
                                             @if ($emailDetails !== null)
                                                 <input type="text" class="form-control" id="val-username-smtp" name="username" value="{{$emailDetails->username}}"placeholder="SMTP username">
-                                                @else
+                                            @else
                                                 <input type="text" class="form-control" id="val-username-smtp" name="username"  placeholder="SMTP username">
-                                                @endif
+                                            @endif
                                             </div>
                                         </div>
                                         <div class="row">
@@ -259,18 +259,18 @@
                                             <div class="col-lg-4">
                                             @if ($emailDetails !== null)
                                                 <input type="password" class="form-control" id="val-password-smtp" name="password" value="{{$emailDetails->password}}" placeholder="SMTP password">
-                                                @else
+                                            @else
                                                 <input type="password" class="form-control" id="val-password-smtp" name="password"  placeholder="SMTP password">
-                                                @endif
+                                            @endif
                                             </div>
                                         </div>                         
                                         <br/>
                                         <div class="form-group row">
                                             <div class="col-lg-8 ml-auto">
-                                                <button type="submit" class="btn btn-sm btn-success">Save Settings</button>
+                                                <button type="submit" class="btn btn-sm btn-success" id="save-settings" disabled title="First attempt test mail">Save Settings</button>
+                                                <button type="button" class="btn btn-sm btn-primary ml-2" onclick="testMail()">Test Mail</button>
                                             </div>
                                         </div>
-                                        <!-- End of new fields -->
                                     </form>
                                 </div>
                             </div>
@@ -278,6 +278,65 @@
                     </div>
                 </div>
             </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function testMail() {
+    const smtp = document.getElementById('smtp').value;
+    const port = document.getElementById('val-port').value;
+    const username = document.getElementById('val-username-smtp').value;
+    const password = document.getElementById('val-password-smtp').value;
+
+    Swal.fire({
+        title: 'Sending Test Mail',
+        text: 'Please wait for a moment...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading()
+        }
+    });
+
+    fetch('/notification-settings/test-mail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ smtp, port, username, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        Swal.close();
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: data.message,
+            });
+            document.getElementById('save-settings').disabled = false;
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.message,
+            });
+            document.getElementById('save-settings').disabled = true;
+        }
+    })
+    .catch(error => {
+        Swal.close();
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while sending the test mail.',
+        });
+        document.getElementById('save-settings').disabled = true;
+        console.error('Error:', error);
+    });
+}
+</script>
+
+            
             
             <div class="container-fluid">
                 <div class="row justify-content-center">
@@ -403,9 +462,6 @@
     <!-- ChartistJS -->
     <script src="/plugins/chartist/js/chartist.min.js"></script>
     <script src="/plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-
-
-
     <script src="/js/dashboard/dashboard-1.js"></script>
 
 </body>
