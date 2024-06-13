@@ -1474,6 +1474,35 @@ public function editExhibition($id)
     return view('OrganizerPages/editExhibition', ['industries' => $industries, 'exhibition' => $exhibition]);
 }
 
+public function participatedExhibitors($id)
+{
+    $user = session('user');
+    $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+
+    // Fetch the specific exhibition
+    $exhibition = ExhibitionDetail::where('tbl_comp_id', $user->tbl_comp_id)
+        ->where('tbl_ex_id', $decExId)
+        ->where('active_status', 'Active')
+        ->where('flag', 'show')
+        ->first();
+
+    if ($exhibition) {
+        $exhibition->encActiveExId = EncryptionDecryptionHelper::encdecId($exhibition->tbl_ex_id, 'encrypt');
+
+        // Fetch all tbl_user_id who participated in this exhibition
+        $participantUserIds = Participate::where('tbl_ex_id', $exhibition->tbl_ex_id)->pluck('tbl_user_id')->toArray();
+
+        // Fetch all UserDetail data against these tbl_user_id
+        $participantDetails = UserDetail::whereIn('tbl_user_id', $participantUserIds)->get();
+
+        $exhibition->participantDetails = $participantDetails;
+        $exhibition->participantCount = count($participantUserIds);
+    }
+
+    return view('OrganizerPages/participatedExhibitors', ['exhibition' => $exhibition]);
+}
+
+
 
 public function shareExhibition($id)
 {

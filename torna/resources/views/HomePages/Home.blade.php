@@ -129,8 +129,7 @@
     .d-lg-block {
         display: block !important;
     }
-}
-     
+}    
 </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light mb-3" id="ftco-navbar">
@@ -162,7 +161,6 @@
 <li class="nav-item cta mr-md-2 d-lg-none">
     <a href="/signin" class="nav-link" style="background-color: #FFBE07 !important; border-color: #FFBE07 !important; color: #fff !important;">Sign In</a>
 </li>
-
                 </ul>
             </div>
         </div>

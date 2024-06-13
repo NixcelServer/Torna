@@ -109,16 +109,15 @@ Route::middleware(['validLogin','preventBackHistory'])->group(function () {
         Route::get('/editExhibition/{id}', [ExhibitionController::class, 'editExhibition']);
         Route::post('/updateExhibition',[ExhibitionController::class,'updateExhibition']);
 
+        //Participated Exhibitors List
+        Route::get('/participatedExhibitors/{id}', [ExhibitionController::class, 'participatedExhibitors']);
+
         //Share Exhibition Route    
         Route::get('/shareExhibition/{id}', [ExhibitionController::class, 'shareExhibition']);
         Route::get('/shareExhibitionPage/{id}', [ExhibitionController::class, 'shareExhibitionPage']);
         Route::post('/send-mail/{id}', [ExhibitionController::class, 'sendMail']);
         // Route for sending selected emails
         Route::post('/send-selected-mails/{id}', [ExhibitionController::class, 'sendSelectedEmails']);
-
-
-
-        
 
     });
 
