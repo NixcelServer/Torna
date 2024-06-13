@@ -366,7 +366,7 @@ public static function shareExhibitionEmail($emails, $user, $ExhibitionDetails, 
             $binaryData = $relevantExhibition->attach_document;
             $fileName = 'Exhibition Document.pdf';
             $filePath = $directoryPath . $fileName;
-            file_put_contents($filePath, base64_decode($binaryData));
+            file_put_contents($filePath,$binaryData);
 
             $mail->addAttachment($filePath, $fileName);
         }
@@ -401,6 +401,94 @@ public static function shareExhibitionEmail($emails, $user, $ExhibitionDetails, 
 
     return response()->json(['message' => 'Organizer Email sent successfully'], 200);
 }
+
+
+public static function shareExhibitionSingleEmail($email, $user, $ExhibitionDetails, $exhibitionId)
+{
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.connexha.com';
+        $mail->Port = '587';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'noreply@connexha.com';
+        $mail->Password = 'Connexha@torna2803';
+
+        $mail->setFrom($mail->Username, 'Connexha');
+        $mail->addAddress($email);
+
+        $subject = "Exciting News: New Upcoming Exhibition!";
+        $mail->Subject = $subject;
+
+        $message = "Hello " . $user->name . ",\n\n";
+        $message .= "We are thrilled to share the exciting news that a new exhibition is coming! Stay tuned for more details.\n\n";
+
+        // Filter the exhibition details based on the provided exhibition ID
+        $relevantExhibition = $ExhibitionDetails->where('tbl_ex_id', $exhibitionId)->first();
+
+        if ($relevantExhibition) {
+            $message .= "Exhibition Name: " . $relevantExhibition->exhibition_name . "\n";
+            $message .= "Exhibition From date: " . $relevantExhibition->ex_from_date . "\n";
+            $message .= "Exhibition To date: " . $relevantExhibition->ex_to_date . "\n";
+            $message .= "Exhibition Start Time: " . $relevantExhibition->start_time . "\n";
+            $message .= "Exhibition End Time: " . $relevantExhibition->end_time . "\n";
+            $message .= "Exhibition Venue: " . $relevantExhibition->venue . "\n";
+            $message .= "Exhibition Website: " . $relevantExhibition->exhibition_website . "\n";
+            $message .= "Exhibition Register link: " . $relevantExhibition->registration_url . "\n\n";
+
+            $directoryPath = storage_path('app/tmp/');
+
+            if (!file_exists($directoryPath)) {
+                mkdir($directoryPath, 0777, true);
+            }
+
+            // Check if attachment document exists
+            if (!empty($relevantExhibition->attach_document)) {
+                $binaryData = $relevantExhibition->attach_document;
+                $fileName = 'Exhibition Document.pdf';
+                $filePath = $directoryPath . $fileName;
+                file_put_contents($filePath, $binaryData);
+
+                $mail->addAttachment($filePath, $fileName);
+            }
+
+            // Check if company logo exists
+            if (!empty($relevantExhibition->company_logo)) {
+                $logoData = $relevantExhibition->company_logo;
+                $logoName = 'Exhibition Image.png';
+                $logoPath = $directoryPath . $logoName;
+                file_put_contents($logoPath, base64_decode($logoData));
+
+                $mail->addAttachment($logoPath, $logoName);
+            }
+        } else {
+            $message .= "No exhibition details found for the provided ID.\n\n";
+        }
+
+        $message .= "Exhibition is coming soon, don't miss the opportunity to participate!\n";
+        $message .= "Best regards,\nConnexha Team";
+
+        $mail->isHTML(false);
+        $mail->Body = $message;
+        $mail->send();
+
+        // Clean up temporary files
+        if (isset($filePath) && file_exists($filePath)) {
+            unlink($filePath);
+        }
+        if (isset($logoPath) && file_exists($logoPath)) {
+            unlink($logoPath);
+        }
+
+        return redirect()->back()->with('success', 'Organizer Email sent successfully');
+    } catch (Exception $e) {
+        return redirect()->back()->with('error', 'Email could not be sent. Mailer Error: ' . $mail->ErrorInfo);
+    }
+}
+
+
+
 
 }    
 

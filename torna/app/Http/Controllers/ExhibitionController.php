@@ -14,7 +14,8 @@ use App\Models\Notify;
 use App\Models\EmailSetting;
 use App\Models\SMSSetting;
 use App\Models\AuditLogDetail;
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 
 use Illuminate\Support\Facades\Date;
@@ -502,7 +503,7 @@ class ExhibitionController extends Controller
             // Count the number of participants
             $activeEx->participantCount = count($participantUserIds);
         }
-            
+            //dd($activeExs);
         return view('OrganizerPages/activeExhibitions', ['activeExs' => $activeExs]);
     }
     
@@ -1498,12 +1499,140 @@ public function shareExhibition($id)
     // Specify the exhibition ID you want to share
     $exhibitionId = $decExId; // Assuming $decExId is the exhibition ID you want to share
 
+    // Check if there are any emails to send
+    if (empty($participantEmails)) {
+        // No emails found, redirect back to the previous page
+        return redirect()->back()->with('error', 'No participants found to share the exhibition.');
+    }
+
     // Send email to all these emails with the specified exhibition ID
     EmailHelper::shareExhibitionEmail($participantEmails, $user, $ExhibitionDetails, $exhibitionId);
 
-    return redirect()->back();
+    return redirect()->back()->with('success', 'Exhibition shared successfully.');
 }
 
+public function shareExhibitionPage($id){
+
+    $user = session('user');
+        $activeExs = ExhibitionDetail::where('tbl_comp_id', $user->tbl_comp_id)
+            ->where('active_status', 'Active')
+            ->where('flag', 'show')
+            ->get();
+    
+        foreach ($activeExs as $activeEx) {
+            $activeEx->encActiveExId = EncryptionDecryptionHelper::encdecId($activeEx->tbl_ex_id, 'encrypt');
+            $activeEx->attach_document = base64_encode($activeEx->attach_document);
+    
+            // Fetch all tbl_user_id who participated in this exhibition
+            $participantUserIds = Participate::where('tbl_ex_id', $activeEx->tbl_ex_id)->pluck('tbl_user_id')->toArray();
+            $activeEx->participants = $participantUserIds;
+            
+            // Fetch all UserDetail data against these tbl_user_id
+            $participantDetails = UserDetail::whereIn('tbl_user_id', $participantUserIds)->get();
+            $activeEx->participantDetails = $participantDetails;
+
+            // Count the number of participants
+            $activeEx->participantCount = count($participantUserIds);
+        }
+
+
+    
+    $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+    
+    // Fetch the tbl_comp_id for the logged-in user
+    $userDetail = UserDetail::where('tbl_user_id', $user->tbl_user_id)->first();
+    $tbl_comp_id = $userDetail->tbl_comp_id;
+
+    // Fetch all tbl_ex_id associated with that tbl_comp_id
+    $exhibitionIds = ExhibitionDetail::where('tbl_comp_id', $tbl_comp_id)->pluck('tbl_ex_id')->toArray();
+
+    // Fetch all tbl_user_id who participated in these exhibitions
+    $participantUserIds = Participate::whereIn('tbl_ex_id', $exhibitionIds)->pluck('tbl_user_id')->toArray();
+
+    // Fetch the emails for these tbl_user_id
+    $participantEmails = UserDetail::whereIn('tbl_user_id', $participantUserIds)->pluck('email')->toArray();
+    $participants = UserDetail::whereIn('tbl_user_id', $participantUserIds)->get();
+
+    // Fetch the details of the exhibitions
+    $ExhibitionDetails = ExhibitionDetail::whereIn('tbl_ex_id', $exhibitionIds)->get();
+
+    // Specify the exhibition ID you want to share
+    $exhibitionId = $decExId; // Assuming $decExId is the exhibition ID you want to share
+
+    // Check if there are any emails to send
+    if (empty($participantEmails)) {
+        // No emails found, redirect back to the previous page
+        return redirect()->back()->with('error', 'No participants found to share the exhibition.');
+    }
+    //dd($participants);
+    // Pass the $participantEmails to the view
+    return view('OrganizerPages/ShareExhibition', ['participantEmails' => $participantEmails,'activeExs' => $activeExs,'participants' => $participants]);
+}
+
+public function sendMail(Request $request,$id)
+{
+    //dd($request);
+    $user = session('user');
+    $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+    $email = $request->input('email');
+
+    // Fetch the tbl_comp_id for the logged-in user
+    $userDetail = UserDetail::where('tbl_user_id', $user->tbl_user_id)->first();
+    $tbl_comp_id = $userDetail->tbl_comp_id;
+    // Fetch all tbl_ex_id associated with that tbl_comp_id
+    $exhibitionIds = ExhibitionDetail::where('tbl_comp_id', $tbl_comp_id)->pluck('tbl_ex_id')->toArray();
+
+    // Fetch all tbl_user_id who participated in these exhibitions
+    $participantUserIds = Participate::whereIn('tbl_ex_id', $exhibitionIds)->pluck('tbl_user_id')->toArray();
+
+    // Fetch the emails for these tbl_user_id
+    $participantEmails = UserDetail::whereIn('tbl_user_id', $participantUserIds)->pluck('email')->toArray();
+
+    // Fetch the details of the exhibitions
+    $ExhibitionDetails = ExhibitionDetail::whereIn('tbl_ex_id', $exhibitionIds)->get();
+    
+    // Specify the exhibition ID you want to share
+    $exhibitionId = $decExId; // Assuming $decExId is the exhibition ID you want to share
+    
+    // Send email to all these emails with the specified exhibition ID
+    EmailHelper::shareExhibitionSingleEmail($email,$user, $ExhibitionDetails,$exhibitionId); 
+
+    // Redirect back with a success message
+    return redirect()->back()->with('success', 'Email sent successfully');
+}
+
+public function sendSelectedEmails(Request $request,$id)
+{
+    $decExId = EncryptionDecryptionHelper::encdecId($id, 'decrypt');
+
+    $user = session('user');
+    $userDetail = UserDetail::where('tbl_user_id', $user->tbl_user_id)->first();
+    $tbl_comp_id = $userDetail->tbl_comp_id;
+    //dd($request);
+    $selectedEmails = json_decode($request->input('selectedEmails'), true);
+
+    if (empty($selectedEmails)) {
+        return redirect()->back()->with('error', 'No emails selected.');
+    }
+
+    $user = session('user');
+
+    // Fetch relevant data needed for sending emails (similar to your sendMail method)
+    // ...
+
+    // Fetch all tbl_ex_id associated with that tbl_comp_id
+    $exhibitionIds = ExhibitionDetail::where('tbl_comp_id', $tbl_comp_id)->pluck('tbl_ex_id')->toArray();
+    // Fetch the details of the exhibitions
+    $ExhibitionDetails = ExhibitionDetail::whereIn('tbl_ex_id', $exhibitionIds)->get();
+    // Specify the exhibition ID you want to share
+    $exhibitionId = $decExId; // Assuming $decExId is the exhibition ID you want to share
+
+    foreach ($selectedEmails as $email) {
+        EmailHelper::shareExhibitionSingleEmail($email, $user, $ExhibitionDetails,$exhibitionId);
+    }
+
+    return redirect()->back()->with('success', 'Selected emails sent successfully');
+}
 
 
 public function updateExhibition(Request $request)

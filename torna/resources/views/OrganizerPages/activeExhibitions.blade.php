@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +17,12 @@
     <!-- Custom Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Include jQuery from CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Bootstrap JS Bundle (includes Popper.js) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
 <style>
     .card {
@@ -241,7 +246,7 @@
                                                     <span class="font-weight-bold">Document:</span>
                                                 </div>
                                                 <div>
-                                                    <button class="btn btn-sm btn-primary view-document-btn" data-toggle="modal" data-target="#documentModal">View Document</button>
+                                                    <button class="btn btn-sm btn-primary view-document-btn" data-toggle="modal" data-target="#documentModal" data-document="{{ $activeEx->attach_document }}">View Document</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -249,10 +254,12 @@
                                     <div class="card-footer">
                                         <a class="btn btn-sm mb-1 btn-outline-primary view-document-btn" data-toggle="modal" data-target="#exhibitorsModal">Exhibitors Participated ({{ $activeEx->participantCount }})</a>
                                         <a href="/editExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-success">Edit Exhibition</a>
-                                        <a href="/shareExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-primary share-exhibition-btn" data-exhibition-id="{{ $activeEx->encActiveExId }}">Share Exhibition</a>
+                                        {{-- <a href="/shareExhibition/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-primary share-exhibition-btn" data-exhibition-id="{{ $activeEx->encActiveExId }}">Share Exhibition</a> --}}
+                                        <a href="/shareExhibitionPage/{{ $activeEx->encActiveExId }}" class="btn btn-sm mb-1 btn-outline-primary share-exhibition-btn" data-exhibition-id="{{ $activeEx->encActiveExId }}">Share Exhibition</a>
                                     </div>
                                 </div>
                             </div>
+                            
                             @endforeach
                         </div>
                     </div>
@@ -280,14 +287,22 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @foreach($activeExs as $key => $activeEx)
-                    <!-- Embed the document content from the preloaded data -->
-                    <embed src="data:application/pdf;base64,{{ $activeEx->attach_document }}" type="application/pdf" width="100%" height="500px" />
-                    @endforeach
+                    <!-- Embed the document content dynamically -->
+                    <embed id="documentEmbed" type="application/pdf" width="100%" height="500px" />
                 </div>
             </div>
         </div>
     </div>
+    
+    <script>
+        $('#documentModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var documentData = button.data('document'); // Extract info from data-* attributes
+            var embed = $(this).find('#documentEmbed');
+            embed.attr('src', 'data:application/pdf;base64,' + documentData);
+        });
+    </script>
+    
 
     {{-- <div class="modal fade" id="exhibitorsModal" tabindex="-1" role="dialog" aria-labelledby="exhibitorsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
